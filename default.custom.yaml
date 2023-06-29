@@ -1,0 +1,11 @@
+customization:
+  distribution_code_name: Weasel
+  distribution_version: 0.14.3_dev_0.8
+  generator: "Rime::SwitcherSettings"
+  modified_time: "Wed May 24 10:27:36 2023"
+  rime_version: 1.8.5
+patch:
+  schema_list:
+    - schema: xmjd6
+  # "schema_list/+":
+  #   - {schema: xmjd6}

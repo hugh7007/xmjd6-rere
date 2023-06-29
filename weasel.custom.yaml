@@ -1,0 +1,19 @@
+customization:
+  distribution_code_name: Weasel
+  distribution_version: 0.14.3_dev_0.8
+  generator: "Weasel::UIStyleSettings"
+  modified_time: "Wed Mar  1 10:02:07 2023"
+  rime_version: 1.8.5
+patch:
+  "style/color_scheme": CatLight
+  "style/corner_radius": 4
+  "style/font_point": 14
+  "style/horizontal": false   # true 为横   false为竖 
+  "style/layout/border": 1
+  "style/layout/candidate_spacing": 5
+  "style/layout/hilite_padding": 4
+  "style/layout/hilite_spacing": 0
+  "style/layout/margin_x": 0
+  "style/layout/margin_y": 0
+  "style/layout/round_corner": 4
+  "style/layout/spacing": 5
