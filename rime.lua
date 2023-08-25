@@ -18,7 +18,7 @@ select_character = require("select_character")
 
 -- 各种快捷键操作 ↓↓↓↓↓↓↓↓↓→Control≈ctlr，semicolon≈;
 -- 汉译音
-local c2e = require("trigger")("Control+k", require("c2e"))
+local c2e = require("trigger")("Control+w", require("c2e"))
 c2e_translator = c2e.translator
 c2e_processor = c2e.processor
 -- 音译汉
@@ -26,7 +26,7 @@ local e2c = require("trigger")("Control+e", require("e2c"))
 e2c_translator = e2c.translator
 e2c_processor = e2c.processor
 -- 联想词语
-local lianxiang = require("trigger")("Control+l", require("lianxiang"))
+local lianxiang = require("trigger")("Control+j", require("lianxiang"))
 lianxiang_translator = lianxiang.translator
 lianxiang_processor = lianxiang.processor
 -- 打开网页

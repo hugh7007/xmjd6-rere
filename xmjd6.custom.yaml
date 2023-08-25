@@ -1,6 +1,6 @@
 #功能开关一键配置
 patch:
-  schema/name: 星猫键道6.2     #修改方案名称，显示在空格上的名字
+  schema/name: 🌟🐈   #修改方案名称，显示在空格上的名字
   speller/auto_select: false    #自动上屏开关，默认关
   translator/enable_completion: true   #提示词开关
   hint_text: ''    #顶功提示符

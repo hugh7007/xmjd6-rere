@@ -1,0 +1,353 @@
+# rime default style settings
+# encoding: utf-8
+
+config_version: "1.0"
+name: 音乐键盘 #方案名称
+author: 听风 #作者资讯
+
+#键盘高度等
+height:
+  1: &jpgd1 43.6 #符号键盘
+  2: &jpgd2 41.5 #主键盘
+  3: &jpgd3 41.5 #数字键盘
+  4: &jpgd4 16 #主键盘圆角
+  5: &jpgd5 32 #候选区高度
+  6: &jpgd6 0.5 #符号键盘行间距
+  7: &jpgd7 0.5 #符号键盘水平间距
+  8: &jpgd8 0.0 #符号键盘圆角
+  9: &jpgd9 11 #主键盘数字键盘行间距
+  10: &jpgd10 6 #主键盘数字键盘水平间距
+hide:
+  &hide true #false不显示候选窗或true显示候选窗
+
+style:
+  candidate_font: han.ttf #候选字型
+  candidate_padding: 20 #候选项内边距
+  candidate_spacing: 20 #候选间距
+  candidate_text_size: 20 #候选字号
+  candidate_use_cursor: true #高亮候选项
+  candidate_view_height: *jpgd5 #候选区高度
+  comment_height: 12 #编码提示区高度
+  comment_on_top: false #编码提示在上方或右侧
+  comment_text_size: 12 #编码提示字号
+  key_font: symbol.ttf #键盘字型
+  key_height: *jpgd2 #键高
+  key_long_text_size: 14 #长标签字号
+  key_text_size: 19 #键字号
+  key_width: 10.0 #键宽，占银幕宽的百分比
+  keyboards: [default, number, symbols, .symbols, english, .number] #键盘配置,所有跳转键盘都需要在这里配置，不然会出错
+  label_text_size: 22 #标签字号
+  preview_text_size: 40 #按键提示字号
+  show_candidate: *hide #显示候选区
+  show_comment: true #显示提示区
+  show_preview: false #按键提示
+  symbol_text_size: 10 #符号字号
+  text_size: 16 #编码区字号
+  round_corner: 6 #值为0的话默认 iphone为4，ipad为8
+  vertical_correction: -5
+  vertical_gap: *jpgd6 #键盘行距
+  color_scheme: wechat #主题
+
+preset_color_schemes:
+  wechat:
+    hilited_candidate_text_color: 0xffffff   # 颜色 - 首选候选词文字
+    hilited_candidate_back_color: 0x7ac6a8  # 首选候选词背景，浅绿
+    hilited_candidate_label_color: 0xffffff # 首选候选词序号
+    hilited_comment_text_color: 0xffffff     # 首选候选词提示编码
+
+
+#键盘布局
+preset_keyboards:
+  default:
+    ascii_mode: 0
+    author: "听风"
+    height: *jpgd2
+    horizontal_gap: *jpgd10
+    vertical_gap: *jpgd9
+    round_corner: *jpgd4
+    keys: 
+      - {click: q, swipe_up: commit1,  swipe_down: "一", sound: "do.caf"}
+      - {click: w, swipe_up: commit2,  swipe_down: "二", sound: "do.caf"}
+      - {click: e, swipe_up: commit3,  swipe_down: "三", sound: "so.caf"}
+      - {click: r, swipe_up: commit4,  swipe_down: "四", sound: "so.caf"}
+      - {click: t, swipe_up: commit5,  swipe_down: "五", sound: "la.caf"}
+      - {click: y, swipe_up: commit6,  swipe_down: "六", sound: "la.caf"}
+      - {click: u, swipe_up: commit7,  swipe_down: "七", sound: "so.caf"}
+      - {click: i, swipe_up: commit8,  swipe_down: "八", sound: "fa.caf"}
+      - {click: o, swipe_up: commit9,  swipe_down: "九", sound: "fa.caf"}
+      - {click: p, swipe_up: commit0,  swipe_down: "〇", sound: "me.caf"}
+
+      - {width: 5}
+      - {click: a, swipe_up: commit～, swipe_down: "~", sound: "me.caf"}
+      - {click: s, swipe_up: commitgan, swipe_down: "/", sound: "re.caf"}
+      - {click: d, swipe_up: commit：, swipe_down: ":", sound: "re.caf"}
+      - {click: f, swipe_up: commit；, swipe_down: ";", sound: "do.caf"}
+      - {click: g, swipe_up: bracket2, swipe_down: "[", sound: "so.caf"}
+      - {click: h, swipe_up: commit）, swipe_down: "]", sound: "so.caf"}
+      - {click: j, swipe_up: commit@,  swipe_down: "&", sound: "fa.caf"}
+      - {click: k, swipe_up: quotationMarkFull2,  swipe_down: '"', sound: "fa.caf"}
+      - {click: l, swipe_up: commit”,  swipe_down: "'", sound: "me.caf"}
+      - {width: 5}
+
+      - {click: Shift, width: 14}
+      - {width: 1}
+      - {click: z, swipe_up: commit-,  swipe_down: "-", sound: "do.caf"}
+      - {click: x, swipe_up: commit_,  swipe_down: "_", sound: "re.caf"}
+      - {click: c, swipe_up: commitJin,  swipe_down: "*", sound: "me.caf"}
+      - {click: v, swipe_up: commit？,  swipe_down: "?", sound: "fa.caf"}
+      - {click: b, swipe_up: commit！,  swipe_down: "!", sound: "so.caf"}
+      - {click: n, swipe_up: "，",  swipe_down: commaHalf, sound: "la.caf"}
+      - {click: m, swipe_up: "。",  swipe_down: periodHalf, sound: "xi.caf"}
+      - {width: 1}
+      - {click: BackSpace, width: 14}
+
+      - {click: number, width: 13}
+      - {click: english, width: 12}
+      - {click: space, width: 50}
+      - {click: Return, width: 25}
+
+    name: "默认26鍵"
+    width: 10
+
+  english:
+    ascii_mode: 1
+    author: "听风"
+    height: *jpgd2
+    horizontal_gap: *jpgd10
+    vertical_gap: *jpgd9
+    round_corner: *jpgd4
+    keys: 
+      - {click: q, swipe_up: "1",  swipe_down: "一", sound: "do.caf"}
+      - {click: w, swipe_up: "2",  swipe_down: "二", sound: "do.caf"}
+      - {click: e, swipe_up: "3",  swipe_down: "三", sound: "so.caf"}
+      - {click: r, swipe_up: "4",  swipe_down: "四", sound: "so.caf"}
+      - {click: t, swipe_up: "5",  swipe_down: "五", sound: "la.caf"}
+      - {click: y, swipe_up: "6",  swipe_down: "六", sound: "la.caf"}
+      - {click: u, swipe_up: "7",  swipe_down: "七", sound: "so.caf"}
+      - {click: i, swipe_up: "8",  swipe_down: "八", sound: "fa.caf"}
+      - {click: o, swipe_up: "9",  swipe_down: "九", sound: "fa.caf"}
+      - {click: p, swipe_up: "0",  swipe_down: "〇", sound: "me.caf"}
+
+      - {width: 5}
+      - {click: a, swipe_up: "~", swipe_down: "~", sound: "me.caf"}
+      - {click: s, swipe_up: "/", swipe_down: "/", sound: "re.caf"}
+      - {click: d, swipe_up: ":", swipe_down: ":", sound: "re.caf"}
+      - {click: f, swipe_up: ";", swipe_down: ";", sound: "do.caf"}
+      - {click: g, swipe_up: bracket2, swipe_down: "(", sound: "so.caf"}
+      - {click: h, swipe_up: ")", swipe_down: ")", sound: "so.caf"}
+      - {click: j, swipe_up: "@",  swipe_down: "@", sound: "fa.caf"}
+      - {click: k, swipe_up: quotationMarkHalf2,  swipe_down: '"', sound: "fa.caf"}
+      - {click: l, swipe_up: "”",  swipe_down: "'", sound: "me.caf"}
+      - {width: 5}
+
+      - {click: Shift, width: 14}
+      - {width: 1}
+      - {click: z, swipe_up: "-",  swipe_down: "-", sound: "do.caf"}
+      - {click: x, swipe_up: "_",  swipe_down: "_", sound: "re.caf"}
+      - {click: c, swipe_up: "#",  swipe_down: "#", sound: "me.caf"}
+      - {click: v, swipe_up: "?",  swipe_down: "?", sound: "fa.caf"}
+      - {click: b, swipe_up: "!",  swipe_down: "!", sound: "so.caf"}
+      - {click: n, swipe_up: ",",  swipe_down: ",", sound: "la.caf"}
+      - {click: m, swipe_up: ".",  swipe_down: ".", sound: "xi.caf"}
+      - {width: 1}
+      - {click: BackSpace, width: 14}
+
+      - {click: number, width: 13}
+      - {click: DefaultKeyboard2, width: 12}
+      - {click: Enspace, width: 50}
+      - {click: Return, width: 25}
+
+    name: "英文键盘"
+    width: 10
+
+  number:
+    ascii_mode: 0
+    author: "听风"
+    height: *jpgd2
+    horizontal_gap: *jpgd10
+    vertical_gap: *jpgd9
+    round_corner: *jpgd4
+    keys: 
+      - {click: 1, sound: "do.caf"}
+      - {click: 2, sound: "re.caf"}
+      - {click: 3, sound: "me.caf"}
+      - {click: 4, sound: "fa.caf"}
+      - {click: 5, sound: "so.caf"}
+      - {click: 6, sound: "la.caf"}
+      - {click: 7, sound: "xi.caf"}
+      - {click: 8, sound: "do.caf"}
+      - {click: 9, sound: "re.caf"}
+      - {click: 0, sound: "me.caf"}
+
+      - {click: "-", sound: "do.caf"}
+      - {click: "/", sound: "do.caf"}
+      - {click: ":", sound: "so.caf"}
+      - {click: semicolon, sound: "so.caf"}
+      - {click: bracket, sound: "la.caf"}
+      - {click: bracket1, sound: "la.caf"}
+      - {click: "#", sound: "so.caf"}
+      - {click: at1, sound: "fa.caf"}
+      - {click: quotationMarkFull, sound: "fa.caf"}
+      - {click: quotationMarkFull1, sound: "me.caf"}
+
+      - {click: symbols, width: 14,}
+      - {width: 3}
+      - {click: periodFull, width: 11, sound: "me.caf"}
+      - {click: commaHalf, width: 11, sound: "re.caf"}
+      - {click: dunHalf, width: 11, sound: "re.caf"}
+      - {click: questionMark, width: 11, sound: "do.caf"}
+      - {click: point, width: 11, sound: "so.caf"}
+      - {click: commit., width: 11, sound: "so.caf"}
+      - {width: 3}
+      - {click: BackSpace, width: 14}
+
+      - {click: DefaultKeyboard2, width: 13}
+      - {click: english, width: 12}
+      - {click: space, width: 50}
+      - {click: Return, width: 25}
+
+    name: "数字键盘"
+    width: 10
+
+  symbols:
+    ascii_mode: 0
+    author: "flypy.com"
+    height: *jpgd2
+    horizontal_gap: *jpgd10
+    vertical_gap: *jpgd9
+    round_corner: *jpgd4
+    keys: 
+      - {click: symbol1, sound: "do.caf"}
+      - {click: symbol2, sound: "do.caf"}
+      - {click: symbol3, sound: "so.caf"}
+      - {click: symbol4, sound: "so.caf"}
+      - {click: symbol5, sound: "la.caf"}
+      - {click: symbol6, sound: "la.caf"}
+      - {click: symbol7, sound: "so.caf"}
+      - {click: symbol8, sound: "fa.caf"}
+      - {click: symbol9, sound: "fa.caf"}
+      - {click: symbol10, sound: "me.caf"}
+
+      - {click: symbol11, sound: "me.caf"}
+      - {click: symbol12, sound: "re.caf"}
+      - {click: symbol13, sound: "re.caf"}
+      - {click: symbol14, sound: "do.caf"}
+      - {click: "~", sound: "so.caf"}
+      - {click: symbol15, sound: "so.caf"}
+      - {click: symbol16, sound: "fa.caf"}
+      - {click: "$", sound: "fa.caf"}
+      - {click: symbol17, sound: "me.caf"}
+      - {click: symbol18, sound: "do.caf"}
+
+      - {click: number, width: 14}
+      - {width: 3}
+      - {click: "…", width: 11, sound: "re.caf"}
+      - {click: symbol19, width: 11, sound: "me.caf"}
+      - {click: symbol20, width: 11, sound: "fa.caf"}
+      - {click: symbol21, width: 11, sound: "so.caf"}
+      - {click: symbol22, width: 11, sound: "la.caf"}
+      - {click: symbol23, width: 11, sound: "xi.caf"}
+      - {width: 3}
+      - {click: BackSpace, width: 14}
+
+      - {click: DefaultKeyboard2, width: 13}
+      - {click: english, width: 12}
+      - {click: space, width: 50}
+      - {click: Return, width: 25}
+
+    name: "符号键盘"
+    width: 10
+
+preset_keys:
+  # 键盘类型需要在这里跳转，目前只支持下面的配置。
+  # 只支持 Shift Return BackSpace  space 特殊键盘配置
+  # 现在text的命令只支持:
+  #   1,Left(光标向左移动一格);
+  #   2,Right(光标向右移动一格)
+  #   3,跳转到指定键盘;
+  #   其它暂时不支持,具体看事例;
+  # 现在支持commit命令,直接上屏指定字符
+
+  # 编辑
+  Shift: {label: Shift, send: Shift_L, sound: "me.caf"}
+  BackSpace: {send: BackSpace, sound: "re.caf"}
+  Return: {label: Enter, functional: false, send: Return, sound: "xi.caf"}
+  space: {label: "微微风簇浪", send: space, sound: "la.caf"}
+  Enspace: {label: "散作满河星",  send: space, sound: "so.caf"}
+
+  number: {label: "数", send: Eisu_toggle, select: number, sound: "do.caf"}
+  english: {label: "西", send: Eisu_toggle, select: english, sound: "me.caf"}
+  symbols: {label: "符", send: Eisu_toggle, select: symbols, sound: "fa.caf"}
+  DefaultKeyboard2: {label: "国", send: Eisu_toggle, select: default, sound: "re.caf"}
+
+  .symbols: {label: "号", send: Eisu_toggle, select: .symbols}
+  .number: {label: "算", send: Eisu_toggle, select: .number}
+  DefaultKeyboard: {label: "听", send: Eisu_toggle, select: default}
+
+  semicolon: {label: "；", text: ";{DefaultKeyboard}"} #先上屏；再跳转到default键盘
+  bracket: {label: "(", text: "(){Left}{DefaultKeyboard}"} #先上屏()光标往左移动一格再跳转到default键盘
+  bracket1: {label: ")", text: "){DefaultKeyboard}"} 
+  bracket2: {label: "(", text: "(){Left}"} #先上屏()光标往左移动一格
+  at1: {label: "@", text: "@{DefaultKeyboard}"} 
+  quotationMarkFull: {label: "〝", text: "〝〞{Left}{DefaultKeyboard}"} 
+  quotationMarkFull1: {label: "〞", text: "〞＂{DefaultKeyboard}"}     
+  quotationMarkFull2: {label: "〝", text: "〝〞{Left}"} 
+  quotationMarkHalf１: {label: "\"", text: "\"{DefaultKeyboard}"} 
+  quotationMarkHalf2: {label: "\"", text: "“”{Left}"} 
+  periodFull: {label: "。", text: "。{DefaultKeyboard}"} #上屏全角句号再跳转到default键盘
+  periodHalf: {label: ".", commit: "."} #直接上屏半角句号
+  commaHalf: {label: ",", commit: ","}
+  commaFull: {label: "，", text: "，{DefaultKeyboard}"}
+  dunHalf: {label: "、", text: "、{DefaultKeyboard}"}
+  questionMark: {label: "？", text: "？{DefaultKeyboard}"}
+  point: {label: "！", text: "！{DefaultKeyboard}"}
+  commit.: {label: ".", commit: "."}
+
+  symbol1: {label: "【", text: "【{DefaultKeyboard}"}
+  symbol2: {label: "】", text: "】{DefaultKeyboard}"}
+  symbol3: {label: "{", text: "{{DefaultKeyboard}"}
+  symbol4: {label: "}", text: "}{DefaultKeyboard}"}
+  symbol5: {label: "#", text: "#{DefaultKeyboard}"}
+  symbol6: {label: "%", text: "%{DefaultKeyboard}"}
+  symbol7: {label: "^", text: "^{DefaultKeyboard}"}
+  symbol8: {label: "*", text: "*{DefaultKeyboard}"}
+  symbol9: {label: "+", text: "+{DefaultKeyboard}"}
+  symbol10: {label: "=", text: "={DefaultKeyboard}"}
+  symbol11: {label: "_", text: "_{DefaultKeyboard}"}
+  symbol12: {label: "-", text: "-{DefaultKeyboard}"}
+  symbol13: {label: "\\", text: "\\{DefaultKeyboard}"}
+  symbol14: {label: "|", text: "|{DefaultKeyboard}"}
+  symbol15: {label: "《", text: "《{DefaultKeyboard}"}
+  symbol16: {label: "》", text: "》{DefaultKeyboard}"}
+  symbol17: {label: "&", text: "&{DefaultKeyboard}"}
+  symbol18: {label: "·", text: "·{DefaultKeyboard}"}
+  symbol19: {label: "，", text: "，{DefaultKeyboard}"}
+  symbol20: {label: "^_^", text: "^_^{DefaultKeyboard}"}
+  symbol21: {label: "?", text: "?{DefaultKeyboard}"}
+  symbol22: {label: "!", text: "!{DefaultKeyboard}"}
+  symbol23: {label: "´", text: "´{DefaultKeyboard}"}
+
+  commit1: {label: "1", commit: "1"}
+  commit2: {label: "2", commit: "2"}
+  commit3: {label: "3", commit: "3"}
+  commit4: {label: "4", commit: "4"}
+  commit5: {label: "5", commit: "5"}
+  commit6: {label: "6", commit: "6"}
+  commit7: {label: "7", commit: "7"}
+  commit8: {label: "8", commit: "8"}
+  commit9: {label: "9", commit: "9"}
+  commit0: {label: "0", commit: "0"}
+  commit～: {label: "～", commit: "～"}
+  commitgan: {label: "/", commit: "/"}
+  commit：: {label: "：", commit: "："}
+  commit；: {label: "；", commit: "；"}
+  commit）: {label: "）", commit: "）"}
+  commit@: {label: "@", commit: "@"}
+  commit-: {label: "-", commit: "-"}
+  commit_: {label: "_", commit: "_"}
+  commitJin: {label: "#", commit: "#"}
+  commit？: {label: "？", commit: "？"}
+  commit！: {label: "！", commit: "！"}
+  commit，: {label: "，", commit: "，"}
+  commit。: {label: "。", commit: "。"}
+  commit”: {label: "”", commit: "”"}

@@ -1,12 +1,16 @@
-#### 本方案PC+手机通用！本方案已被授权！
+# 本方案PC+手机通用！
 
-#### 方案详细说明：根据原星空键道6.2进行的功能拓展版本-一百三十万词库
-#### 方案名为：星猫键道
+# 本方案已被授权！
 
-# 个人飞书笔记地址：https://hu0w1jn4xq.feishu.cn/docx/ZgQ8deGPlozhWCxOyeucBvHJnPe?from=from_copylink
+# 方案提供来源：Proud丶Cat  热热佬  一梦浮生
 
-#### 原星空键道6链接：https://github.com/xkinput/Rime_JD 作者：吅吅大山
-#### 简易教程及方案下载：https://github.com/wzxmer/xkjd6-rime
+# 方案反馈邮箱：wzxmer@outlook.com 
+# 方案详细说明：根据原星空键道6.2进行的功能拓展版本
+
+# 方案名为：星猫键道
+
+# 原星空键道6链接：https://github.com/xkinput/Rime_JD 作者：吅吅大山
+## 简易教程及方案下载：https://github.com/wzxmer/xkjd6-rime
 
 ### 					想使用流式，想关闭emoji表情，想关闭提示词，都请查看xmjd6.custom.yaml功能开关配置文件，有注释提示
 
@@ -15,7 +19,6 @@
 #### 630			630个与原词库不冲突的简词（原生自带）
 
 #### 以下为拓展功能：
-####            增加了一百三十万的外挂词库。
 
 #### 			流式			可以打句子，有词汇自动调频
 

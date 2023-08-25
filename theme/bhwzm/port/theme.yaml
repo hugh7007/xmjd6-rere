@@ -1,0 +1,281 @@
+# Trime default style settings
+# encoding: utf-8
+
+config_version: "0.9" #最终版
+name: 笔画字根版 #方案名称 
+author: 一梦浮生#作者资讯
+
+#键盘高度等  原数据
+# height:
+#   1: &jpgd1 43 #符号键盘
+#   2: &jpgd2 43 #主键盘
+#   3: &jpgd3 43 #数字键盘
+#   4: &jpgd4 12 #主键盘圆角
+#   5: &jpgd5 30 #候选区高度
+#   6: &jpgd6 0.5 #符号键盘行间距
+#   7: &jpgd7 0.5 #符号键盘水平间距
+#   8: &jpgd8 0.0 #符号键盘圆角
+#   9: &jpgd9 11 #主键盘行间距
+#   10: &jpgd10 6 #主键盘间距
+
+height:
+  1: &jpgd1 38 #符号键盘
+  2: &jpgd2 38 #主键盘
+  3: &jpgd3 38 #数字键盘
+  5: &jpgd5 30 #候选区高度
+  6: &jpgd6 0.5 #符号键盘行间距
+  7: &jpgd7 0.5 #符号键盘水平间距
+  9: &jpgd9 10 #主键盘行间距
+  10: &jpgd10 3 #主键盘列间距
+
+style:
+  key_height: *jpgd2 #键高
+  round_corner: 5 #圆角 值为0的话默认 iphone为4，ipad为8
+  keyboards: [default, number, .symbols, english, .number] #键盘配置,所有跳转键盘都需要在这里配置，不然会出错
+  #text_size: 12 #编码字体大小 默认值为：12
+  text_height: 0 #编码框高度 默认值为：20
+  key_text_size: 24  #按键字体
+  candidate_text_size: 18 #候选字体大小 默认值为：24
+  candidate_view_height: *jpgd5 #候选高度 默认值为：44
+  candidate_padding: 14 #候选间距 默认值为：14
+  comment_text_size: 18 #逐码字体大小 默认值为：14
+  comment_height: 14 #逐码高度 默认值为：16
+  show_preview: false #是否显示气泡 默认显示
+  candidate_use_cursor: true #高亮候选项
+  color_scheme: ink #配色方案
+  preview_text_size: 24
+
+#键盘布局
+preset_keyboards:
+  default:
+    ascii_mode: 0
+    author: "一梦浮生"
+    height: *jpgd2
+    horizontal_gap: *jpgd10
+    vertical_gap: *jpgd9
+    
+#现在只支持配置click,swipe_up,swipe_down键盘
+    keys: 
+      - {click: q, label: ""}
+      - {click: w, label: ""}
+      - {click: e, label: ""}
+      - {click: r, label: ""}
+      - {click: t, label: ""}
+      - {click: y, label: ""}
+      - {click: u, label: 丿, swipe_up: "月"}
+      - {click: i, label: 丨, swipe_up: "亻"}
+      - {click: o, label: 丶, swipe_up: "口"}
+      - {click: p, label: ""}
+      - {width: 5}
+      - {click: a, label: 乛, swipe_up: "氵"}
+      - {click: s, label: ""}
+      - {click: d, label: ""}
+      - {click: f, label: ""}
+      - {click: g, label: ""}
+      - {click: h, label: ""}
+      - {click: j, label: "", swipe_up: ";"}
+      - {click: k, label: ""}
+      - {click: l, label: ""}
+      - {width: 5}
+      - {click: Shift, width: 13}
+      - {width: 2}
+      - {click: z, label: "", swipe_up: '`'} #
+      - {click: x, label: ""}
+      - {click: c, label: ""}
+      - {click: v, label: 一, swipe_up: "木"}
+      - {click: b, label: ""}
+      - {click: n, label: "", swipe_up: "，"}
+      - {click: m, label: ""}
+      - {width: 2}
+      - {click: BackSpace, width: 13}
+      - {click: symbols, width: 13}
+      - {click: english, width: 12}
+      - {click: space, width: 50}
+      - {click: Return, width: 25}
+    name: "默认键盘"
+    width: 10
+
+  english:
+    ascii_mode: 1
+    author: "一梦浮生"
+    height: *jpgd2
+    horizontal_gap: *jpgd10
+    vertical_gap: *jpgd9
+    keys: 
+      - {click: q}
+      - {click: w}
+      - {click: e}
+      - {click: r}
+      - {click: t}
+      - {click: y}
+      - {click: u}
+      - {click: i}
+      - {click: o}
+      - {click: p}
+      - {width: 5}
+      - {click: a, swipe_up: "@"}
+      - {click: s}
+      - {click: d}
+      - {click: f}
+      - {click: g}
+      - {click: h}
+      - {click: j}
+      - {click: k}
+      - {click: l}
+      - {width: 5}
+      - {click: Shift, width: 13}
+      - {width: 2}
+      - {click: z}
+      - {click: x}
+      - {click: c}
+      - {click: v, swipe_up: "/"}
+      - {click: b}
+      - {click: n}
+      - {click: m}
+      - {width: 2}
+      - {click: BackSpace, width: 13}
+      - {click: symbols, width: 13}
+      - {click: DefaultKeyboard2, width: 12}
+      - {click: Enspace, width: 40}
+      - {click: ., swipe_up: ",", width: 10}
+      - {click: Return, width: 25}
+    name: "英文键盘"
+    width: 10
+
+
+  number:
+    ascii_mode: 0
+    author: "一梦浮生"
+    height: *jpgd2
+    horizontal_gap: *jpgd10
+    vertical_gap: *jpgd9
+    keys: 
+      - {click: 1}
+      - {click: 2}
+      - {click: 3}
+      - {click: 4}
+      - {click: 5}
+      - {click: 6}
+      - {click: 7}
+      - {click: 8}
+      - {click: 9}
+      - {click: 0}
+      - {click: "-"}
+      - {click: commitgan}
+      - {click: ":"}
+      - {click: semicolon}
+      - {click: bracket}
+      - {click: bracket1}
+      - {click: "¥"}
+      - {click: "@"}
+      - {click: quotationMarkFull}
+      - {click: quotationMarkFull1}
+      - {click: .symbols1, width: 13}
+      - {width: 1}
+      - {click: periodFull, width: 12}
+      - {click: commaFull, width: 12}
+      - {click: dunHalf, width: 12}
+      - {click: questionMark, width: 12}
+      - {click: point, width: 12}
+      - {click: periodHalf, width: 12}
+      - {width: 1}
+      - {click: BackSpace, width: 13}
+      - {click: DefaultKeyboard, width: 25}
+      - {click: space, width: 50}
+      - {click: Return, width: 25}
+    name: "苹果符号键盘"
+    width: 10
+
+preset_color_schemes:
+#   default:
+#     back_color: 0xeeeeec
+  ink:
+    name: 墨池／Ink
+    author: 佛振 <chen.sst@gmail.com>
+    text_color: 0x323232
+    back_color: 0xf6f6f6
+    border_color: 0x323232
+    hilited_text_color: 0x323232
+    hilited_back_color: 0xdddddd
+    hilited_candidate_text_color: 0xf6f6f6
+    hilited_candidate_back_color: 0x75b100
+    
+    # text_color: 0xffffff
+    # back_color: 0x323232
+    # hilited_text_color: 0xffffff
+    # hilited_candidate_text_color: 0xffffff
+    # candidate_text_color: 0xffffff
+
+preset_keys:
+  # 键盘类型需要在这里跳转，目前只支持下面的配置。
+  # 只支持 Shift Return BackSpace  space 特殊键盘配置
+  # 现在text的命令只支持:
+  #   1,Left(光标向左移动一格);
+  #   2,Right(光标向右移动一格)
+  #   3,跳转到指定键盘;
+  #   其它暂时不支持,具体看事例;
+  # 现在支持commit命令,直接上屏指定字符
+  #
+  Shift: {label: Shift, send: Shift_L}
+  Return: {label: Enter, send: Return}
+  BackSpace: {send: BackSpace}
+  space: {label: "空格", send: space}
+  Enspace: {label: "English",  send: space}
+  number: {label: 123, send: Eisu_toggle, select: number}
+  english: {label: "En", send: Eisu_toggle, select: english}
+  symbols: {label: "123", send: Eisu_toggle, select: number}
+  .symbols: {label: "符", send: Eisu_toggle, select: .symbols} #默认的符号键盘
+  .symbols1: {label: "符", text: "{.symbols}{DefaultKeyboard}"} #默认的符号键盘
+  .number: {label: 123, send: Eisu_toggle, select: .number} #默认的9宫格数据键盘
+  DefaultKeyboard: {label: 中, send: Eisu_toggle, select: default}
+  DefaultKeyboard2: {label: 中, send: Eisu_toggle, select: default}
+  periodHalf: {label: ".", commit: "."} #直接上屏半角句号
+  periodFull: {label: "。", text: "。{DefaultKeyboard}"} #上屏全角句号再跳转到default键盘
+  commaHalf: {label: ",", commit: ","}
+  commaFull: {label: "，", text: "，{DefaultKeyboard}"}
+  dunHalf: {label: "、", text: "、{DefaultKeyboard}"}
+  questionMark: {label: "？", text: "？{DefaultKeyboard}"}
+  point: {label: "！", text: "！{DefaultKeyboard}"}
+  semicolon: {label: "；", text: ";{DefaultKeyboard}"} #先上屏；再跳转到default键盘
+  bracket: {label: "(", text: "(){Left}{DefaultKeyboard}"} #先上屏()光标往左移动一格再跳转到default键盘
+  bracket2: {label: "(", text: "(){Left}"} #先上屏()光标往左移动一格
+  bracket1: {label: ")", text: "){DefaultKeyboard}"} #先上屏)再跳转到default键盘
+  wb98key10: {label: "《》", text: "《》{Left}"}
+  wb98key11: {label: "「」", text: "「」{Left}"}
+  wb98key12: {label: "〔〕", text: "〔〕{Left}"}
+  wb98key13: {label: "()", text: "(){Left}"}
+  wb98key14: {label: "“”", text: "“”{Left}"}
+  wb98key15: {label: "[]", text: "[]{Left}"}
+  wb98key16: {label: "{}", commit: "{}"}
+  wb98key17: {label: "『』", text: "『』{Left}"}
+  wb98key18: {label: "〖〗", text: "〖〗{Left}"}
+  quotationMarkFull: {label: "“", text: "“”{Left}{DefaultKeyboard}"} 
+  quotationMarkFull1: {label: "”", text: "“”{Left}{DefaultKeyboard}"}
+  #quotationMarkFull2: {label: "〝", text: "〝〞{Left}"} 
+  #quotationMarkHalf１: {label: "\"", text: "\"{DefaultKeyboard}"} 
+  #quotationMarkHalf2: {label: "\"", text: "“”{Left}"} 
+  #quotationMarkFull１: {label: "\"", text: "＂{DefaultKeyboard}"} 
+  commit1: {label: "1", commit: "1"}
+  commit2: {label: "2", commit: "2"}
+  commit3: {label: "3", commit: "3"}
+  commit4: {label: "4", commit: "4"}
+  commit5: {label: "5", commit: "5"}
+  commit6: {label: "6", commit: "6"}
+  commit7: {label: "7", commit: "7"}
+  commit8: {label: "8", commit: "8"}
+  commit9: {label: "9", commit: "9"}
+  commit0: {label: "0", commit: "0"}
+  commit～: {label: "～", commit: "～"}
+  commitgan: {label: "/", commit: "/"}
+  commit：: {label: "：", commit: "："}
+  commit；: {label: "；", commit: "；"}
+  commit）: {label: "）", commit: "）"}
+  commit@: {label: "@", commit: "@"}
+  commit-: {label: "-", commit: "-"}
+  commit_: {label: "_", commit: "_"}
+  commitJin: {label: "#", commit: "#"}
+  commit？: {label: "？", commit: "？"}
+  commit！: {label: "！", commit: "！"}
+  commit，: {label: "，", commit: "，"}
+  commit。: {label: "。", commit: "。"}
+  commit”: {label: "”", commit: "”"}

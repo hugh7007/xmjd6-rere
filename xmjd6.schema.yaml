@@ -18,7 +18,7 @@
 # 			想使用流式，想打开emoji表情，想关闭辅助码，都请查看xmjd6.schema.yaml功能开关，有注释提示
 schema:
   schema_id: xmjd6
-  name: 星猫键道6.3
+  name: 星猫键道6
   version: "1"
   dependencies:
     - xmjd6.cx
