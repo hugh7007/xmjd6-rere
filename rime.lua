@@ -16,6 +16,9 @@ xmjdshijian = require("xmjdshijian")
 -- 可在 default.yaml key_binder 下配置快捷键，默认为左右中括号 [ ]
 select_character = require("select_character")
 
+--内嵌脚本
+embeded_cands = require("embeded_cands")
+
 -- 各种快捷键操作 ↓↓↓↓↓↓↓↓↓→Control≈ctlr，semicolon≈;
 -- 汉译音
 local c2e = require("trigger")("Control+w", require("c2e"))

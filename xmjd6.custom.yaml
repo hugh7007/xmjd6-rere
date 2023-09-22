@@ -10,6 +10,7 @@ patch:
   switches/@2/reset: 0     #[ 简体, 繁體 ]
   switches/@4/reset: 1     #[ 关闭表情, 开启表情 ]
   switches/@5/reset: 1     #[ 关闭表情,关闭630提示, 开启630提示  ]
+  switches/@6/reset: 0     #[ 正常候选, 内嵌候选  ]
 
 
   #流式功能配置，想使用流式请取消以下注释，取消注释删掉 # 即可

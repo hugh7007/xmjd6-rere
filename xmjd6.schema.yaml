@@ -66,7 +66,10 @@ switches:
     states: [ 关闭表情,开启表情  ]
   - name: sbb_hint
     reset: 1
-    states: [ 关闭630提示,开启630提示  ]
+    states: [ 关闭630提示, 开启630提示  ]
+  - name: embeded_cands
+    reset: 0
+    states: [普通, 嵌入候选]
 
   # - name: full_shape
   #   states: [ 半角, 全角 ]
@@ -189,6 +192,7 @@ engine:
     - simplifier@ascii_punct
     - simplifier@mars #火星文
     - lua_filter@xmjd6_filter
+    - lua_filter@embeded_cands #嵌入候选
     - uniquifier
 
 speller:
@@ -345,8 +349,17 @@ xmjd6_user:
 #    - xform|~||
   initial_quality: -1
 
-
-
+# 嵌入候選的顯示配置
+# 默認顯示效果爲:
+# 宇[浩¹]iwl ~淍² ~泃³
+embeded_cands:
+  option_name: embeded_cands                               # 嵌入候選開關
+  index_indicators: [ ¹, ², ³, ⁴, ⁵, ⁶, ⁷, ⁸, ⁹, ⁰ ]       # 嵌入候選的序號顯示格式
+  first_format: "${Stash}[${候選}${Seq}]${Code}${Comment}" # 首選的渲染格式
+  next_format: "${Stash}${候選}${Seq}${Comment}"           # 非首選的渲染格式
+  separator: " "                                           # 候選之間的分隔符
+  stash_placeholder: "~" 
+  
 # punctuator:
 #   import_preset: default
 #   half_shape:
