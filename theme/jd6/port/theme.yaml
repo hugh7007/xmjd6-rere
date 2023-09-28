@@ -77,7 +77,7 @@ preset_keyboards:
       - { click: f, label: f, swipe_up: "；", swipe_down: commit； }
       - { click: g, label: g, swipe_up: bracket2, swipe_down: commit（ }
       - { click: h, label: h, swipe_up: "）", swipe_down: commit） }
-      - { click: j, label: j, swipe_up: "＃", swipe_down: commitJin→ }
+      - { click: j, label: j, swipe_up: "＃", swipe_down: → }
       - { click: k, label: k, swipe_up: quotationMarkFull2, swipe_down: commit” }
       - { click: l, label: l, swipe_up: "”", swipe_down: commit‘ }
       - { width: 5 }
