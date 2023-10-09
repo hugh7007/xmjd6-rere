@@ -18,7 +18,7 @@
 # 			想使用流式，想打开emoji表情，想关闭辅助码，都请查看xmjd6.schema.yaml功能开关，有注释提示
 schema:
   schema_id: xmjd6
-  name: 星猫键道6
+  name:  🌟🐈
   version: "1"
   dependencies:
     - xmjd6.cx
@@ -59,17 +59,16 @@ switches:
   - name: mars
     reset: 0
     states: [ 地球文, 火星文 ] #火星文
-  - options: [_key_']
-    states: [造词]
   - name: emoji_cn   #Emoji开关
     reset: 1              # 1为默认开启
     states: [ 关闭表情,开启表情  ]
-  - name: sbb_hint
-    reset: 1
-    states: [ 关闭630提示, 开启630提示  ]
   - name: embeded_cands
     reset: 0
     states: [普通, 嵌入候选]
+  - name: sbb_hint
+    reset: 1
+    states: [ 关闭630提示, 开启630提示  ]
+
 
   # - name: full_shape
   #   states: [ 半角, 全角 ]

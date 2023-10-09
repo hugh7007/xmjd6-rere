@@ -6,6 +6,10 @@
 xmjd6_filter = require("xmjd6_filter")
 -- 顶功处理器
 xmjdtopup_processor = require("xmjdfor_topup")
+
+--内嵌脚本
+embeded_cands = require("embeded_cands")
+
 -- 用 ' 作为次选键
 xmjdsmart_2 = require("xmjdsmart_2")
 xmjdshuzi = require("xmjdshuzi")
@@ -16,25 +20,6 @@ xmjdshijian = require("xmjdshijian")
 -- 可在 default.yaml key_binder 下配置快捷键，默认为左右中括号 [ ]
 select_character = require("select_character")
 
---内嵌脚本
-embeded_cands = require("embeded_cands")
 
--- 各种快捷键操作 ↓↓↓↓↓↓↓↓↓→Control≈ctlr，semicolon≈;
--- 汉译音
-local c2e = require("trigger")("Control+w", require("c2e"))
-c2e_translator = c2e.translator
-c2e_processor = c2e.processor
--- 音译汉
-local e2c = require("trigger")("Control+e", require("e2c"))
-e2c_translator = e2c.translator
-e2c_processor = e2c.processor
--- 联想词语
-local lianxiang = require("trigger")("Control+j", require("lianxiang"))
-lianxiang_translator = lianxiang.translator
-lianxiang_processor = lianxiang.processor
--- 打开网页
-local search = require("trigger")("Control+semicolon", require("search"))
-search_translator = search.translator
-search_processor = search.processor
 
--- 各种快捷键操作 ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+-- ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
