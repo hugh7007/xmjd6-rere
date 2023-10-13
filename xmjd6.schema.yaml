@@ -18,7 +18,7 @@
 # 			想使用流式，想打开emoji表情，想关闭辅助码，都请查看xmjd6.schema.yaml功能开关，有注释提示
 schema:
   schema_id: xmjd6
-  name:  🌟🐈
+  name: 星猫键道6
   version: "1"
   dependencies:
     - xmjd6.cx
@@ -59,6 +59,8 @@ switches:
   - name: mars
     reset: 0
     states: [ 地球文, 火星文 ] #火星文
+  - options: [_key_']
+    states: [造词]
   - name: emoji_cn   #Emoji开关
     reset: 1              # 1为默认开启
     states: [ 关闭表情,开启表情  ]
@@ -169,6 +171,7 @@ engine:
   translators:
     - lua_translator@xmjdjisuanqi
     - lua_translator@xmjdshijian
+    - lua_translator@zimu_translator
     - punct_translator
     - table_translator
     - reverse_lookup_translator
@@ -372,13 +375,17 @@ key_binder:
     - { when: always, accept: "Control+period", toggle: ascii_punct }
     - {accept: minus, send: Page_Up, when: has_menu}
     - {accept: equal, send: Page_Down, when: has_menu}
+    - {accept: semicolon, send: 2, when: has_menu} #分号次选
+    - {accept: apostrophe, send: 3, when: has_menu} #撇号三选
     # - {accept: comma, send: Page_Up, when: has_menu}     #<,>翻页功能
     # - {accept: period, send: Page_Down, when: has_menu}   #<。>翻页功能
     # - {accept: bracketleft, send: Page_Up, when: has_menu} # [上翻页
     # - {accept: bracketright, send: Page_Down, when: has_menu} # ]下翻页
     - { when: always, accept: F6, select: .next }
     - { when: always, accept: F7, toggle: jffh }
-    - { when: has_menu, accept: "&", toggle: emoji_cn}
+    - { when: always, accept: "Control+backslash", toggle: emoji_cn }  #快捷电脑的快捷
+    - { when: has_menu, accept: "&", toggle: emoji_cn }	#手机快捷切换表情
+    - { when: has_menu, accept: "%", toggle: mars } #手机快捷火星文切换
     - {accept: KP_0, send: 0, when: composing}
     - {accept: KP_1, send: 1, when: composing}
     - {accept: KP_2, send: 2, when: composing}
@@ -394,7 +401,8 @@ key_binder:
     - {accept: KP_Multiply, send: "*", when: has_menu}
     - {accept: KP_Add, send: +, when: has_menu}
     - {accept: KP_Decimal, send: ".", when: has_menu}
-      
+
+
 recognizer:
   import_preset: default
   patterns:
@@ -405,6 +413,7 @@ recognizer:
     quanpinerfen: "^v[a-z']*'?$"
     xmjd6en: "^i[a-z]*?$"
     jsq: "^=[^;']+$"
+    zhuan: "^-.*$" # 
 #        xmjdWXYZ: "^'['/a-z][a-z0-9,./:?!']*'?$"
 
 topup:
@@ -414,3 +423,7 @@ topup:
   auto_clear: true
   min_length_danzi: 2
   topup_command: true
+# menu:     #如果想要修改候选直接反注释这四行内容
+#   page_size: 6 #候选项数
+# style:
+#   horizontal: false #竖排为false

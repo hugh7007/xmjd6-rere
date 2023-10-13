@@ -20,6 +20,7 @@ xmjdshijian = require("xmjdshijian")
 -- 可在 default.yaml key_binder 下配置快捷键，默认为左右中括号 [ ]
 select_character = require("select_character")
 
-
+-- 数字字母转换
+zimu_translator = require("zimu")
 
 -- ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
