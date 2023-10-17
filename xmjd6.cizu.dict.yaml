@@ -5626,7 +5626,7 @@ sort: original
 备存	bwcw
 不稳定	bwd
 背对	bwdb
-北调	bwdc
+北调	bwdci
 北斗	bwdd
 倍的	bwde
 博闻多识	bwdeu
@@ -8031,7 +8031,6 @@ sort: original
 存储卡	cjk
 粗口	cjkd
 粗看	cjkf
-苍井空	cjki
 粗框	cjkm
 粗糠	cjkp
 粗坑	cjkr
@@ -22531,11 +22530,11 @@ sort: original
 省府	erfji
 升幅	erfju
 生父	erfjuu
-升值	erfk
 圣旨	erfka
 省直	erfki
-生殖	erfku
-升职	erfkuv
+生殖	erfkuv
+升职	erfk
+升值	erfku
 升擢	erfl
 圣佛	erfla
 盛装	erfm
@@ -28095,7 +28094,7 @@ sort: original
 返老还童	flht
 风凉话	flhu
 佛号	flhz
-法律界	flj
+法律界	fljaui
 桌巾	fljb
 佛教	fljc
 佛戒	fljd
@@ -45337,7 +45336,8 @@ sort: original
 号为	hzwwo
 号床	hzwx
 好吵	hzwz
-黄宗羲	hzx
+很仔细	hzx
+黄宗羲	hzxvoo
 好心	hzxb
 好笑	hzxc
 好小	hzxca
@@ -46935,7 +46935,7 @@ sort: original
 绝对可以	jdkya
 姐控	jdkyai
 解控	jdkyu
-键道6	jdl
+键道𝟲	jdl
 姐弟恋	jdla
 借楼	jdld
 加大力度	jdlda
@@ -64130,7 +64130,10 @@ sort: original
 雷霆	lwtg
 擂台	lwthi
 轮胎	lwth
-莱瓦汀	lwti
+瞭望台	lwtioa
+瞭望塔	lwtio
+螺纹铁	lwti
+莱瓦汀	lwtiv
 论题	lwtk
 论天	lwtm
 类问题	lwto
@@ -72499,7 +72502,10 @@ sort: original
 那与	nsyl
 那样	nsyp
 哪样	nsypo
-那怨	nsyt
+拿远	nsyt
+那圆	nsyta
+那远	nsytav
+那怨	nsytau
 那用	nsyy
 那要	nsyz
 您所在	nsz
@@ -80204,7 +80210,7 @@ sort: original
 去轰	qlhy
 区号	qlhz
 取号	qlhzv
-主力军	qlj
+主力军	qljoao
 强力胶	qlja
 汽轮机	qljav
 趋近	qljb
@@ -82927,8 +82933,8 @@ sort: original
 全要	qtyz
 正体字	qtz
 全走	qtzd
-权责	qtze
-全责	qtzei
+权责	qtzev
+全责	qtze
 全在	qtzh
 劝阻	qtzj
 全组	qtzji
@@ -83777,7 +83783,10 @@ sort: original
 跫音	qyyb
 占有一席之地	qyyd
 猪一样的	qyydu
-其言也善	qyye
+其原因是	qyye
+其言也善	qyyev
+住院医生	qyyei
+住院医师	qyyeia
 琼筵	qyyf
 穷于应付	qyyfo
 这样一种	qyyfov
@@ -84873,8 +84882,8 @@ sort: original
 儒者	rjfei
 入犯	rjff
 如附	rjfj
-乳汁	rjfk
-入职	rjfku
+乳汁	rjfka
+入职	rjfk
 乳状	rjfm
 乳粉	rjfn
 乳房	rjfp
@@ -94965,7 +94974,8 @@ sort: original
 垂暮	wbmj
 为避免	wbmo
 我不能	wbn
-垂念	wbnm
+我比你们	wbnm
+垂念	wbnmu
 吹牛	wbnq
 吃不胖	wbp
 垂盼	wbpf

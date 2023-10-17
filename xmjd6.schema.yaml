@@ -386,6 +386,7 @@ key_binder:
     - { when: always, accept: "Control+backslash", toggle: emoji_cn }  #快捷电脑的快捷
     - { when: has_menu, accept: "&", toggle: emoji_cn }	#手机快捷切换表情
     - { when: has_menu, accept: "%", toggle: mars } #手机快捷火星文切换
+    - { when: has_menu, accept: "*", toggle: jffh } #手机快捷简繁切换
     - {accept: KP_0, send: 0, when: composing}
     - {accept: KP_1, send: 1, when: composing}
     - {accept: KP_2, send: 2, when: composing}
