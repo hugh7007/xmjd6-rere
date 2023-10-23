@@ -8,14 +8,15 @@ patch:
   switches/@0/reset: 0     #[ 中文, 西文 ]
   switches/@1/reset: 0     #[ 全角, 半角 ]
   switches/@2/reset: 0     #[ 简体, 繁體 ]
+  switches/@3/reset: 0     #[ 地球文, 火星文 ]
   switches/@4/reset: 1     #[ 关闭表情, 开启表情 ]
-  switches/@5/reset: 1     #[ 关闭表情,关闭630提示, 开启630提示  ]
-  switches/@6/reset: 0     #[ 正常候选, 内嵌候选  ]
+  switches/@5/reset: 0     #[ 正常候选, 内嵌候选  ]
+  switches/@6/reset: 1     #[ 关闭表情,关闭630提示 ]
 
 
   #流式功能配置，想使用流式请取消以下注释，取消注释删掉 # 即可
   
-  # engine/processors/@3: null
   # engine/processors/@4: null
+  # engine/processors/@5: null
   # translator/enable_sentence: true 
   # translator/enable_user_dict: true
