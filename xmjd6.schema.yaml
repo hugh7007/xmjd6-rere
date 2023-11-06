@@ -232,8 +232,9 @@ emoji_cn:
   opencc_config: xmjd6.emoji.json
   option_name: emoji_cn
   comment_format:
-    - xform/.*/ /
-  tips: all
+  #  - xform/.*//   #不会有透明的文字显示
+    - xform/.*/ /  #原始的后面会有长度显示
+  # tips: all  #不显示表情备注
 
 jffh:
   opencc_config: s2tw.json
@@ -347,7 +348,7 @@ xmjd6_user:
   comment_format:
     - xform/[0-9]//  #无数字
 #    - xform|~||
-  initial_quality: -1
+  initial_quality: -1  #原始的 -1<关>/999999<开>修改这个会影响自造词是否会变成第一位
 
 # 嵌入候選的顯示配置
 # 默認顯示效果爲:
@@ -412,7 +413,8 @@ recognizer:
     quanpinerfen: "^v[a-z']*'?$"
     xmjd6en: "^i[a-z]*?$"
     jsq: "^=[^;']+$"
-    zhuan: "^-.*$" # 
+    zhuan: "^\\\\.*$" # 不加这句后面不能跟数字
+    zhuanxiao: "^\\+.*$" # 不加这句后面不能跟数字
 #        xmjdWXYZ: "^'['/a-z][a-z0-9,./:?!']*'?$"
 
 topup:
