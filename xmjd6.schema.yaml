@@ -73,84 +73,15 @@ switches:
   # - name: full_shape
   #   states: [ 半角, 全角 ]
   #提示词开关在下方，请根据注释查找
-punctuator:
-  import_preset: symbols
-  full_shape:
-    ' ' : { commit: '　' }
-    ',' : { commit: ， }
-    '.' : { commit: 。 }
-    '<' : [ 《, 〈, «, ‹ ]
-    '>' : [ 》, 〉, », › ]
-    '?' : { commit: ？ }
-    ';' : { commit: ； }
-    ':' : { commit: ： }
-    '''' : { pair: [ '‘', '’' ] }
-    '"' : { pair: [ '“', '”' ] }
-    # '/' : { commit: / }
-    '\' : [ 、, ＼ ]
-    '|' : [ ·, ｜, '§', '¦' ]
-    '`' : ｀
-    '~' : ～
-    '!' : { commit: ！ }
-    '@' : [ ＠, ☯ ]
-    '#' : [ ＃, ⌘ ]
-    '%' : [ ％, '°', '℃' ]
-    '$' : [ ￥, '$', '€', '£', '¥', '¢', '¤' ]
-    '^' : { commit: …… }
-    '&' : ＆
-    '*' : [ ＊, ·, ・, ×, ※, ❂ ]
-    '(' : （
-    ')' : ）
-    '-' : －
-    '_' : ——
-    '+' : ＋
-    '=' : [ '=' ]
-    '[' : [ 「, 【, 〔, ［ ]
-    ']' : [ 」, 】, 〕, ］ ]
-    '{' : [ 『, 〖, ｛ ]
-    '}' : [ 』, 〗, ｝ ]
-  half_shape:
-    ',' : { commit: ， }
-    '.' : { commit: 。 }
-    '<' : [ 《, 〈, «, ‹ ]
-    '>' : [ 》, 〉, », › ]
-    # '/' : { commit: / }
-    '?' : { commit: ？ }
-    ';' : { commit: ； }
-    ':' : { commit: ： }
-    '''' : { pair: [ '‘', '’' ] }
-    '"' : { pair: [ '“', '”' ] }
-    '\' : [ 、, '\', ＼ ]
-    '|' : [ ·, '|', ｜, '§', '¦' ]
-    '`' : '`'
-    '~' : [ '~', ～ ]
-    '!' : { commit: ！ }
-    '@' : '@'
-    '#' : '#'
-    '%' : [ '%', ％, '°', '℃' ]
-    '$' : [ ￥, '$', '€', '£', '¥', '¢', '¤' ]
-    '^' : { commit: …… }
-    '&' : '&'
-    '*' : [ '*', ＊, ·, ・, ×, ※, ❂ ]
-    '(' : （
-    ')' : ）
-    '-' : '-'
-    '_' : ——
-    '+' : '+'
-    '=' : [ '=' ]
-    '[' : [ 「, 【, 〔, ［ ]
-    ']' : [ 」, 】, 〕,  ］ ]
-    '{' : [ 『, 〖, ｛ ]
-    '}' : [ 』, 〗, ｝ ]
 
 engine:
   processors:
-    - lua_processor@select_character  # 以词定字
+    - lua_processor@*xmjd6/xmjd6_select_character  # 以词定字
     - ascii_composer
     - recognizer
     - key_binder    
-    - lua_processor@xmjdsmart_2    #这个注释后不会顶功，使用流式请注释这两行
-    - lua_processor@xmjdtopup_processor   #这个注释后不会顶功，使用流式请注释这两行
+    - lua_processor@*xmjd6/xmjd6_smart_2    #这个注释后不会顶功，使用流式请注释这两行
+    - lua_processor@*xmjd6/xmjd6_topup_processor   #这个注释后不会顶功，使用流式请注释这两行
     - speller
     - punctuator
     - selector
@@ -167,9 +98,10 @@ engine:
     - punct_segmentor
     - fallback_segmentor
   translators:
-    - lua_translator@xmjdjisuanqi
-    - lua_translator@xmjdshijian
-    - lua_translator@zimu_translator
+    - lua_translator@*xmjd6/xmjd6_jisuanqi
+    - lua_translator@*xmjd6/xmjd6_shijian
+    - lua_translator@*xmjd6/xmjd6_zimu_translator
+    - lua_translator@*xmjd6/xmjd6_shuzi    
     - punct_translator
     - table_translator
     - reverse_lookup_translator
@@ -191,10 +123,13 @@ engine:
     - simplifier@jffh
     - simplifier@ascii_punct
     - simplifier@mars #火星文
-    - lua_filter@xmjd6_filter
-    - lua_filter@embeded_cands #嵌入候选
+    - lua_filter@*xmjd6/xmjd6_filter
+    - lua_filter@*xmjd6/xmjd6_embeded_cands@embeded_cands #嵌入候选
     - uniquifier
 
+#导入符号
+punctuator:
+  import_preset: xmjd6.symbols
 speller:
   auto_select: false
   alphabet: "zyxwvutsrqponmlkjihgfedcba;'"
@@ -404,8 +339,12 @@ key_binder:
 
 
 recognizer:
-  import_preset: default
+  #import_preset: default
   patterns:
+    email: "^[A-Za-z][-_.0-9A-Za-z]*@.*$"
+    uppercase: "[A-Z][-_+.'0-9A-Za-z]*$"
+    url: "^(www[.]|https?:|ftp[.:]|mailto:|file:).*$|^[a-z]+[.].+$"
+
     reverse_lookup: "[a-z`]*`+[a-z`]*"
     punct: "^/([0-9]0?|[a-z]+)$"
     xmjdWXYZ: "^a['/a-z][a-z,./:?!']*'?$"

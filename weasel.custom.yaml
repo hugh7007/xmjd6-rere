@@ -1,19 +1,308 @@
 customization:
   distribution_code_name: Weasel
-  distribution_version: 0.14.3_dev_0.8
+  distribution_version: 0.15.0.0
   generator: "Weasel::UIStyleSettings"
-  modified_time: "Wed Mar  1 10:02:07 2023"
-  rime_version: 1.8.5
+  modified_time: "Mon Oct 23 08:36:12 2023"
+  rime_version: 1.9.0
 patch:
-  "style/color_scheme": CatLight
-  "style/corner_radius": 4
-  "style/font_point": 14
-  "style/horizontal": false   # true 为横   false为竖 
-  "style/layout/border": 1
-  "style/layout/candidate_spacing": 5
-  "style/layout/hilite_padding": 4
-  "style/layout/hilite_spacing": 0
-  "style/layout/margin_x": 0
-  "style/layout/margin_y": 0
-  "style/layout/round_corner": 4
-  "style/layout/spacing": 5
+  app_options:
+    excel.exe: {ascii_mode: false}
+    msedge.exe: {ascii_mode: false}
+    qq.exe: {ascii_mode: false}
+    wechat.exe: {ascii_mode: false}
+    #chrome.exe: {ascii_mode: false}
+    telegram.exe: {ascii_mode: false}
+  ascii_composer: # 英文模式配置
+    good_old_caps_lock: false # 用`Caps Lock`切换英文模式时，是否激活大写锁定（默认关闭）
+    switch_key: # 英文模式切换键配置
+      Shift_L: commit_text # 按下左`Shift`时（默认上屏候选项）
+      Shift_R: commit_text # 按下右`Shift`时（默认上屏候选项）
+      Control_L: commit_code # 按下左`Control`时（默认上屏编码）
+      Control_R: commit_code # 按下右`Control`时（默认上屏编码）
+      Caps_Lock: inline_ascii # 按下`Caps Lock`时（默认保留输入区）
+      Eisu_toggle: clear # 按下英数键（日文键盘）时（默认清空输入区）
+  "preset_color_schemes/apathy":
+    back_color: 0xFFFFFF
+    candidate_format: "%c %@ "
+    comment_text_color: 0x999999
+    hilited_candidate_back_color: 0xFFF0E4
+    hilited_candidate_text_color: 0xEE6E00
+    inline_preedit: true
+    name: "冷漠"
+    text_color: 0x424242
+  "preset_color_schemes/appsored":
+    author: "Astrian Zheng"
+    back_color: 0x2824C8
+    candidate_format: "%c. %@ "
+    candidate_text_color: 0xC5C3F2
+    comment_text_color: 0xFFFFFF
+    hilited_candidate_back_color: 0x2824C8
+    hilited_candidate_label_color: 0xFFFFFF
+    hilited_candidate_text_color: 0xFFFFFF
+    hilited_text_color: 0xFFFFFF
+    label_color: 0xC5C3F2
+    name: "AppSo 红"
+    text_color: 0xC5C3F2
+  "preset_color_schemes/white":
+    name: 白色/white
+    #悬浮窗口
+    border_color: 0x40444444                   #候选区边框色
+    label_color: 0x444444                    #其余序号字色
+    # text_color: 0xFFFFFF                      #输入编码字色
+    # text_back_color: 0xFFFFFF                #编码区背景（仅当  layout/background 设置失效时才会起作用）
+    # hilited_back_color: 0xFFFFFF              #高亮输入编码背景色
+    # preedit_back_color: 0xFFFFFF              #鍵入碼區底色
+    #候选项
+    back_color: 0xededed                      #候选区背景
+    hilited_label_color: 0xededed     #首选序号的颜色
+    hilited_candidate_back_color: 0x444444    #首选背景色
+    hilited_candidate_text_color: 0xededed      #首选文本字色
+    hilited_text_color: 0x000000              #首选编码字色
+    hilited_comment_text_color: 0xededed      #首选注释字色
+    comment_text_color: 0x444444              #候选项注释字色
+    #candidate_back_color: 0xededed            #非高亮候选文本底色
+    candidate_text_color: 0x444444            #候选文本字色
+    #阴影 数值，从00到100，透明效果从低到高
+    hilited_shadow_color: 0x60444444            #输入编码阴影
+    hilited_candidate_shadow_color: 0x60444444   #首选候选阴影
+    candidate_shadow_color: 0x60444444          #其余候选阴影
+    shadow_color: 0x60444444                    #外框阴影c39379  9c9cb5
+  "preset_color_schemes/ayaya":
+    author: "Lufs <i@isteed.cc>"
+    back_color: 0xFFFFFF
+    border_color: 0xECE4FC
+    border_height: 0
+    border_width: 0
+    candidate_format: "%c %@"
+    candidate_text_color: 0x121212
+    comment_text_color: 0x8E8E8E
+    hilited_candidate_back_color: 0xECE4FC
+    hilited_candidate_label_color: 0xB18FF4
+    hilited_candidate_text_color: 0x7A40EC
+    label_color: 0x888785
+    name: "文文／Ayaya"
+    text_color: 0x8100EB
+  "preset_color_schemes/ifanrblack":
+    author: "Astrian Zheng"
+    back_color: 0x000000
+    candidate_format: "%c. %@ "
+    candidate_text_color: 0x2824C8
+    comment_text_color: 0xFFFFFF
+    hilited_candidate_back_color: 0x000000
+    hilited_candidate_label_color: 0xFFFFFF
+    hilited_candidate_text_color: 0xFFFFFF
+    hilited_text_color: 0xFFFFFF
+    label_color: 0x2824C8
+    name: "爱范儿黑"
+    text_color: 0x2824C8
+  "preset_color_schemes/mac_blue":
+    back_color: 0xFFFFFF
+    border_color: 0xFFFFFF
+    candidate_format: "%c %@ "
+    candidate_text_color: 0x3c3c3c
+    comment_text_color: 0x999999
+    hilited_back_color: 0xF8AA4D
+    hilited_candidate_label_color: 0xFFFFFF
+    hilited_candidate_text_color: 0xFFFFFF
+    hilited_comment_text_color: 0x999999
+    hilited_text_color: 0x999999
+    label_color: 0x999999
+    name: "Mac浅蓝"
+    text_color: 0x424242
+  "preset_color_schemes/mac_dark":
+    back_color: 0x252a2e
+    border_color: 0x050505
+    candidate_format: "%c %@ "
+    candidate_text_color: 0xe9e9ea
+    comment_text_color: 0x999999
+    hilited_back_color: 0xD75A00
+    hilited_candidate_label_color: 0xFFFFFF
+    hilited_candidate_text_color: 0xFFFFFF
+    hilited_comment_text_color: 0x999999
+    hilited_text_color: 0x999999
+    label_color: 0x999999
+    name: "Mac深色"
+    text_color: 0x424242
+  "preset_color_schemes/mac_green":
+    back_color: 0xFFFFFF
+    border_color: 0xFFFFFF
+    candidate_format: "%c %@ "
+    candidate_text_color: 0x3c3c3c
+    comment_text_color: 0x999999
+    hilited_candidate_back_color: 0x32A14C
+    hilited_candidate_label_color: 0xFFFFFF
+    hilited_candidate_text_color: 0xFFFFFF
+    hilited_comment_text_color: 0x999999
+    hilited_text_color: 0x999999
+    label_color: 0x999999
+    name: "Mac绿"
+    text_color: 0x424242
+  "preset_color_schemes/mac_light":
+    back_color: 0xFFFFFF
+    border_color: 0xFFFFFF
+    candidate_format: "%c %@ "
+    candidate_text_color: 0x3c3c3c
+    comment_text_color: 0x999999
+    hilited_back_color: 0xD75A00
+    hilited_candidate_label_color: 0xFFFFFF
+    hilited_candidate_text_color: 0xFFFFFF
+    hilited_comment_text_color: 0x999999
+    hilited_text_color: 0x999999
+    label_color: 0x999999
+    name: "Mac浅色"
+    text_color: 0x424242
+  "preset_color_schemes/mac_orange":
+    back_color: 0xFFFFFF
+    border_color: 0xFFFFFF
+    candidate_format: "%c %@ "
+    candidate_text_color: 0x3c3c3c
+    comment_text_color: 0x999999
+    hilited_candidate_back_color: 0x0E6BD8
+    hilited_candidate_label_color: 0xFFFFFF
+    hilited_candidate_text_color: 0xFFFFFF
+    hilited_comment_text_color: 0x999999
+    hilited_text_color: 0x999999
+    label_color: 0x999999
+    name: "Mac橙"
+    text_color: 0x424242
+  "preset_color_schemes/metro":
+    author: flypy.com
+    back_color: 0xffffff
+    border_color: 0xe89f00
+    comment_text_color: 0x666666
+    hilited_back_color: 0xffffff
+    hilited_candidate_back_color: 0xe89f00
+    hilited_candidate_text_color: 0xffffff
+    hilited_comment_text_color: 0x666666
+    hilited_text_color: 0x000000
+    label_color: 0x666666
+    name: metro
+    text_color: 0x000000
+  "preset_color_schemes/milan":
+    back_color: 0xFFFFFF
+    candidate_format: "%c %@ "
+    comment_text_color: 0x999999
+    hilited_candidate_back_color: 0xF5803B
+    hilited_candidate_text_color: 0xFFFFFF
+    name: "米兰"
+    text_color: 0x424242
+  "preset_color_schemes/nord_dark":
+    back_color: 0x473A33
+    border_color: 0x473A33
+    candidate_format: "%c %@ "
+    candidate_text_color: 0xF5D887
+    comment_text_color: 0xE6B687
+    hilited_back_color: 0x473A33
+    hilited_candidate_back_color: 0x5D4C43
+    hilited_candidate_text_color: 0xC0E077
+    hilited_text_color: 0x6EC8F5
+    name: "北方深色"
+    text_color: 0x78E8F0
+  "preset_color_schemes/nord_light":
+    back_color: 0xF4EFEC
+    border_color: 0xF4EFEC
+    candidate_format: "%c %@ "
+    candidate_text_color: 0xC1A181
+    comment_text_color: 0xD0C088
+    hilited_back_color: 0xF0E9E5
+    hilited_candidate_back_color: 0xE9DED8
+    hilited_candidate_text_color: 0xAC815E
+    hilited_text_color: 0xAD8EB4
+    name: "北方浅色"
+    text_color: 0x7087D0
+  "preset_color_schemes/psionics":
+    back_color: 0x444444
+    candidate_format: "%c %@ "
+    candidate_text_color: 0xeeeeee
+    comment_text_color: 0x808080
+    hilited_back_color: 0x444444
+    hilited_candidate_back_color: 0xd4bc00
+    hilited_candidate_label_color: 0xfafafa
+    hilited_candidate_text_color: 0xfafafa
+    hilited_comment_text_color: 0x444444
+    hilited_text_color: 0xeeeeee
+    name: "幽能"
+    text_color: 0xc2c2c2
+  "preset_color_schemes/purity":
+    back_color: 0x444444
+    candidate_format: "%c %@ "
+    candidate_text_color: 0xeeeeee
+    comment_text_color: 0x808080
+    hilited_back_color: 0x444444
+    hilited_candidate_back_color: 0xfafafa
+    hilited_candidate_text_color: 0x000000
+    hilited_text_color: 0xeeeeee
+    name: "纯洁"
+    text_color: 0xc2c2c2
+  "preset_color_schemes/solarized_dark":
+    back_color: 0xf0352A0A
+    border_color: 0xf02A1F00
+    candidate_format: "%c %@ "
+    candidate_text_color: 0x989F52
+    comment_text_color: 0x289989
+    hilited_back_color: 0x444444
+    hilited_candidate_back_color: 0xD7E8ED
+    hilited_candidate_label_color: 0x2566C6
+    hilited_candidate_text_color: 0x3942CB
+    hilited_comment_text_color: 0x8144C2
+    hilited_text_color: 0x2C8BAE
+    label_color: 0xCC8947
+    name: "夜光石"
+    text_color: 0xA1A095
+  "preset_color_schemes/solarized_rock":
+    back_color: 0x362b00
+    candidate_format: "%c %@ "
+    candidate_text_color: 0x969483
+    comment_text_color: 0xc098a12a
+    hilited_back_color: 0x444444
+    hilited_candidate_back_color: 0x8236d3
+    hilited_candidate_label_color: 0xfafafa
+    hilited_candidate_text_color: 0xffffff
+    hilited_comment_text_color: 0x362b00
+    hilited_text_color: 0x98a12a
+    name: "日光石"
+    text_color: 0x8236d3
+  "preset_color_schemes/wechat_dark":
+    back_color: 0x2e2925
+    candidate_format: "%c %@ "
+    candidate_text_color: 0xe9e9ea
+    comment_text_color: 0x999999
+    hilited_candidate_back_color: 0x75B100
+    hilited_candidate_text_color: 0xFFFFFF
+    inline_preedit: true
+    label_color: 0x999999
+    name: "微信键盘深色"
+    text_color: 0x424242
+  "preset_color_schemes/wechat_light":
+    back_color: 0xFFFFFF
+    border_height: 0
+    border_width: 8
+    candidate_format: "%c %@ "
+    comment_text_color: 0x999999
+    hilited_candidate_back_color: 0x75B100
+    hilited_candidate_text_color: 0xFFFFFF
+    inline_preedit: true
+    name: "微信键盘浅色"
+    text_color: 0x424242
+  "style/color_scheme": mac_light  
+#  style/color_scheme_dark: mac_dark # 深色主题
+  "style/color_font": true
+  "style/comment_font_point": 12
+  "style/font_face": "霞鹜新晰黑, Segoe UI, Segoe UI Emoji:1f000:1f09f, Noto Color Emoji SVG:80, Microsoft Yahei, 全宋体-1, 全宋体-2, 全宋体-3, 全宋体-F, 全宋体-X, 全宋体(调和), 全宋体(等宽)"
+  "style/font_point": 13
+  "style/horizontal": true
+  "style/inline_preedit": true
+  "style/label_font_face": "霞鹜新晰黑, Segoe UI, Noto Color Emoji SVG:80 , Microsoft Yahei"
+  "style/label_font_point": 10
+  "style/layout/border": 0
+  "style/layout/candidate_spacing": 4
+  "style/layout/corner_radius": 5
+  "style/layout/hilite_padding": 9
+  "style/layout/hilite_spacing": 4
+  "style/layout/margin_x": 12
+  "style/layout/margin_y": 12
+  "style/layout/round_corner": 5
+  "style/layout/shadow_offset_x": 2
+  "style/layout/shadow_offset_y": 2
+  "style/layout/shadow_radius": 5
+  "style/layout/spacing": 12
