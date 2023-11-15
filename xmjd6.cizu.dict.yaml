@@ -5025,7 +5025,6 @@ sort: original
 别这样	bqyo
 闭着眼	bqyooi
 秉烛夜谈	bqyt
-八爪鱼	bqyu
 不注意	bqyv
 不这样	bqyvo
 不情愿	bqyvov
@@ -7912,6 +7911,7 @@ sort: original
 才按	chxf
 才行	chxg
 才学	chxh
+采血	chxhv
 采耳	chxj
 猜贰	chxju
 菜系	chxk
@@ -8906,6 +8906,7 @@ sort: original
 曾荣获	crh
 曾和	crhe
 曾获	crhl
+噌吰	crhy
 蹭车	crje
 曾经	crjg
 层出	crjj
@@ -9044,7 +9045,7 @@ sort: original
 藏头诗	cte
 攒射	ctee
 篡弑	ctek
-蹿升	cter
+窜升	cter
 从图中	ctf
 窜犯	ctff
 爨妇	ctfj
@@ -9054,7 +9055,7 @@ sort: original
 篡国	ctgl
 攒盒	cthe
 蹿火	cthl
-蹿红	cthy
+窜红	cthy
 草薙京	ctj
 窜进	ctjb
 窜出	ctjj
@@ -9085,7 +9086,7 @@ sort: original
 篡位	ctww
 攒心	ctxb
 从天而降	ctxj
-蹿稀	ctxk
+窜稀	ctxk
 窜下	ctxs
 侧投影	cty
 曾提议	ctyo
@@ -10834,6 +10835,7 @@ sort: original
 读书笔记	debj
 德比	debk
 滴水不漏	debl
+的本	debn
 德邦	debp
 的吧	debs
 大事不糊涂	debt
@@ -10975,6 +10977,7 @@ sort: original
 得来	delh
 的路	delj
 电视连续剧	delji
+的卢	delju
 得力	delk
 得利	delku
 德里	delkui
@@ -11147,7 +11150,7 @@ sort: original
 但从	dfcyi
 单槽	dfcz
 大幅度	dfd
-对跖点	dfda
+对蹠点	dfda
 但对	dfdb
 单调	dfdc
 单碟	dfdd
@@ -12749,7 +12752,6 @@ sort: original
 底部	dkbjo
 抵拨	dkblii
 底边	dkbm
-的本	dkbn
 地磅	dkbp
 第八	dkbs
 堤坝	dkbsv
@@ -12979,7 +12981,6 @@ sort: original
 抵赖	dklh
 抵抗力	dkli
 地炉	dklj
-的卢	dklju
 地理	dklk
 地里	dklkv
 地利	dklkvu
@@ -16868,7 +16869,7 @@ sort: original
 到晚	dzwf
 道外	dzwh
 到无	dzwj
-捯饬	dzwk
+倒饬	dzwk
 到我	dzwl
 道床	dzwm
 祷文	dzwn
@@ -19439,7 +19440,7 @@ sort: original
 水晶宫	ejgao
 双截棍	ejgau
 书柜	ejgb
-竖钩	ejgd
+竖勾	ejgd
 世界各地	ejgdv
 数个	ejge
 树干	ejgf
@@ -26051,8 +26052,7 @@ sort: original
 中顾委	fgwi
 丰功伟绩	fgwj
 风光无两	fgwl
-转文	fgwn
-拽文	fgwnv
+拽文	fgwn
 这跟我	fgwo
 这个问题	fgwt
 中国传统	fgwti
@@ -26982,7 +26982,7 @@ sort: original
 复眼	fjyfu
 赴宴	fjyfv
 妇婴	fjyg
-浮盈	fjyga
+浮赢	fjyga
 赴约	fjyh
 指甲油	fjyi
 中成药	fjyiv
@@ -29281,7 +29281,6 @@ sort: original
 芳心	fpxbi
 仿效	fpxc
 放些	fpxd
-放血	fpxdo
 仿写	fpxdi
 访俄	fpxe
 中篇小说	fpxei
@@ -29291,6 +29290,7 @@ sort: original
 放学	fpxh
 妨碍	fpxha
 防癌	fpxhao
+放血	fpxho
 方儿	fpxj
 防线	fpxm
 防锈	fpxq
@@ -35790,7 +35790,6 @@ sort: original
 光宅	gmfh
 光伏	gmfj
 光复	gmfji
-广府	gmfjo
 光治	gmfk
 广丰	gmfr
 广发	gmfs
@@ -36615,6 +36614,7 @@ sort: original
 高枕无忧	gqwy
 观其行	gqx
 港珠澳	gqxa
+港珠奥	gqxav
 挂心	gqxb
 刮削	gqxc
 挂鞋	gqxd
@@ -36628,6 +36628,7 @@ sort: original
 寡恩	gqxn
 高清晰	gqxo
 港珠澳大桥	gqxq
+港珠奥大桥	gqxqa
 挂下	gqxs
 感情线	gqxv
 挂相	gqxx
@@ -42867,7 +42868,6 @@ sort: original
 画风	hqfr
 话锋	hqfro
 画法	hqfs
-花札	hqfsiv
 划转	hqft
 花费	hqfw
 化肥	hqfwi
@@ -42997,6 +42997,7 @@ sort: original
 话路	hqlj
 华丽	hqlk
 华里	hqlki
+花札	hqlkiv
 画里	hqlkv
 滑落	hqll
 花落	hqlli
@@ -43759,11 +43760,11 @@ sort: original
 欢笑	htxc
 换鞋	htxd
 欢天喜地	htxda
-换血	htxdv
 唤醒	htxg
 缓刑	htxga
 缓行	htxgau
 环形	htxgv
+换血	htxh
 欢爱	htxha
 黑天鹅	htxi
 患儿	htxj
@@ -48959,7 +48960,7 @@ sort: original
 诀要	jhyz
 柴窑	jhyzi
 叫花子	jhz
-噘嘴	jhzb
+撅嘴	jhzb
 抉择	jhze
 绝赞	jhzf
 觉哉	jhzh
@@ -49580,7 +49581,6 @@ sort: original
 出新	jjxba
 初小	jjxc
 出些	jjxd
-出血	jjxda
 除恶	jjxe
 经济形势	jjxea
 见机行事	jjxei
@@ -49591,6 +49591,7 @@ sort: original
 雏形	jjxgu
 处刑	jjxguv
 初学	jjxh
+出血	jjxha
 初雪	jjxho
 警戒线	jjxi
 尝尝鲜	jjxii
@@ -53057,7 +53058,6 @@ sort: original
 橙黄	jrhx
 城隍	jrhxv
 橙红	jrhy
-噌吰	jrhyo
 称号	jrhz
 乘号	jrhzu
 金融界	jrj
@@ -56341,7 +56341,6 @@ sort: original
 颗心	kexbi
 可笑	kexc
 科协	kexd
-咳血	kexdo
 可写	kexdv
 可按	kexf
 口是心非	kexfo
@@ -56349,6 +56348,7 @@ sort: original
 颗星	kexgi
 克星	kexgu
 科学	kexh
+咳血	kexho
 可爱	kexhv
 科二	kexj
 科尔	kexju
@@ -61513,7 +61513,6 @@ sort: original
 礼法	lkfsoa
 篱栅	lkfsu
 历法	lkfsv
-立传	lkft
 李庄	lkfx
 粒状	lkfxo
 立中	lkfy
@@ -61789,6 +61788,7 @@ sort: original
 利差	lkws
 离差	lkwso
 理查	lkwsv
+立传	lkwt
 立委	lkww
 立为	lkwwo
 力创	lkwx
@@ -70188,8 +70188,8 @@ sort: original
 鸟网	ncwp
 尿床	ncwx
 鸟巢	ncwz
-尿血	ncxd
 尿性	ncxg
+尿血	ncxh
 鸟儿	ncxj
 怒从心头起	ncxq
 尿液	ncye
@@ -77625,7 +77625,7 @@ sort: original
 这种时候	qfeh
 气壮山河	qfehu
 政治生活	qfehv
-钱锺书	qfei
+钱钟书	qfei
 战术	qfej
 战士	qfeki
 展示	qfek
@@ -79999,6 +79999,7 @@ sort: original
 奇效	qkxc
 气消	qkxcu
 起效	qkxcv
+气血	qkxd
 器械	qkxdo
 企鹅	qkxe
 凄暗	qkxf
@@ -80787,7 +80788,7 @@ sort: original
 乾隆	qmly
 钱老	qmlz
 真面目	qmm
-钱镠	qmmc
+钱缪	qmmc
 钱某	qmmd
 迁灭	qmmdu
 签名	qmmg
@@ -91500,7 +91501,7 @@ sort: original
 抬升	ther
 胎生	theru
 太傻	thes
-蹚浑水	thev
+趟浑水	thev
 泰顺	thew
 太爽	thex
 太少	thez
@@ -97028,7 +97029,7 @@ sort: original
 无名	wjmg
 无明	wjmgv
 雾霾	wjmh
-唔姆	wjmj
+唔呣	wjmj
 钨钼	wjmji
 望尘莫及	wjmjo
 五米	wjmk
@@ -102802,6 +102803,7 @@ sort: original
 写到	xddzo
 邪道	xddzv
 行动上	xde
+血水	xdeb
 携手	xded
 写手	xdedo
 相对湿度	xdedv
@@ -103093,6 +103095,7 @@ sort: original
 想到这里	xdqlv
 写真	xdqn
 谐振	xdqno
+血球	xdqq
 欧证	xdqr
 协洽	xdqs
 霰弹枪	xdqv
@@ -103254,6 +103257,7 @@ sort: original
 下大雨	xdyvv
 叶韵	xdyw
 携运	xdywi
+血晕	xdywu
 新的一页	xdyy
 泻药	xdyz
 谢邀	xdyzo
@@ -104942,7 +104946,6 @@ sort: original
 安魂曲	xhqov
 学长	xhqp
 哀求	xhqq
-血球	xhqqu
 雪球	xhqqv
 癌症	xhqr
 爱犬	xhqt
@@ -105141,7 +105144,6 @@ sort: original
 雪原	xhytv
 相呼应	xhyv
 爱晕	xhyw
-血晕	xhywu
 小鹤音形	xhyx
 新婚燕尔	xhyxo
 相互影响	xhyxv
@@ -112561,6 +112563,7 @@ sort: original
 沿岸	yfxfa
 言行	yfxg
 严刑	yfxgv
+验血	yfxh
 厌学	yfxhv
 研学	yfxhvo
 眼儿	yfxj
@@ -116027,7 +116030,6 @@ sort: original
 仰躺	yptpi
 阳童	ypty
 杨涛	yptz
-阳桃	yptza
 杨桃	yptzv
 一篇文	ypw
 洋车	ypwea
