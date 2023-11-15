@@ -7,6 +7,8 @@ customization:
 patch:
   app_options:
     excel.exe: {ascii_mode: false}
+    cmd.exe: {ascii_mode: true}
+    conhost.exe: {ascii_mode: true}
     msedge.exe: {ascii_mode: false}
     qq.exe: {ascii_mode: false}
     wechat.exe: {ascii_mode: false}
@@ -284,25 +286,77 @@ patch:
     inline_preedit: true
     name: "微信键盘浅色"
     text_color: 0x424242
-  "style/color_scheme": mac_light  
-#  style/color_scheme_dark: mac_dark # 深色主题
-  "style/color_font": true
-  "style/comment_font_point": 12
-  "style/font_face": "霞鹜新晰黑, Segoe UI, Segoe UI Emoji:1f000:1f09f, Noto Color Emoji SVG:80, Microsoft Yahei, 全宋体-1, 全宋体-2, 全宋体-3, 全宋体-F, 全宋体-X, 全宋体(调和), 全宋体(等宽)"
-  "style/font_point": 13
-  "style/horizontal": true
-  "style/inline_preedit": true
-  "style/label_font_face": "霞鹜新晰黑, Segoe UI, Noto Color Emoji SVG:80 , Microsoft Yahei"
-  "style/label_font_point": 10
+  "preset_color_schemes/CatLight":
+    name: Cat光明/CatLight
+    author: ProudCat
+    text_color: 0x000000                          #默认文字颜色
+    back_color: 0xf3f3f3                          #候选窗背景色
+    shadow_color: 0x00000000                      #候选窗阴影色，默认全透明（无阴影）
+    border_color: 0x00e0e0e0                        #候选窗边框颜色
+    hilited_text_color: 0x000000                  #编码文字颜色
+    hilited_back_color: 0x00d4d4d4                  #编码背景颜色
+    hilited_shadow_color: 0x00000000              #编码背景块阴影颜色
+    hilited_candidate_text_color: 0xffffff        #高亮候选文字颜色
+    hilited_candidate_back_color: 0xff571f        #高亮候选背景颜色
+    hilited_candidate_shadow_color: 0x00000000    #高亮候选背景块阴影颜色
+    candidate_text_color: 0x4b4b4b                #非高亮候选文字颜色
+    candidate_back_color: 0xf3f3f3                #非高亮候选背景颜色
+    candidate_shadow_color: 0x00000000            #非高亮候选背景块阴影颜色
+    comment_text_color: 0x4b4b4b                  #非高亮编码提示文字颜色
+    hilited_comment_text_color: 0xc5c5c5          #高亮候选编码提示文字颜色d
+    label_color: 0x4b4b4b                         #非高亮候选数字颜色
+    hilited_label_color: 0xc5c5c5                 #高亮候选数字颜色
+  "preset_color_schemes/CatDark":
+    name: Cat暗黑/CatDark
+    author: ProudCat
+    text_color: 0xe5ffffff                          #默认文字颜色
+    back_color: 0x242424                          #候选窗背景色
+    shadow_color: 0x00000000                      #候选窗阴影色，默认全透明（无阴影）
+    border_color: 0x00e0e0e0                        #候选窗边框颜色
+    hilited_text_color: 0x000000                  #编码文字颜色
+    hilited_back_color: 0x00d4d4d4                  #编码背景颜色
+    hilited_shadow_color: 0x00000000              #编码背景块阴影颜色
+    hilited_candidate_text_color: 0xe5ffffff        #高亮候选文字颜色
+    hilited_candidate_back_color: 0xfa3a0a        #高亮候选背景颜色
+    hilited_candidate_shadow_color: 0x00000000    #高亮候选背景块阴影颜色
+    candidate_text_color: 0x99ffffff                #非高亮候选文字颜色
+    candidate_back_color: 0x242424                #非高亮候选背景颜色
+    candidate_shadow_color: 0x00000000            #非高亮候选背景块阴影颜色
+    comment_text_color: 0x55ffffff                  #非高亮编码提示文字颜色
+    hilited_comment_text_color: 0xc5c5c5          #高亮候选编码提示文字颜色
+    label_color: 0x85ffffff                         #非高亮候选数字颜色
+    hilited_label_color: 0xe5ffffff                 #高亮候选数字颜色
+  "style/color_scheme": CatLight  #主题色
+  "style/color_scheme_dark": CatDark # 深色主题
+  "style/color_font": true #★在Windows 8.1以上系统上使用彩色字体，支持彩色Emoji。如系统版本低于8.1则自动false
+  "style/comment_font_point": 12 #★注释字号，小于等于候选字号
+  "style/capture_type": none # (none/highlighted/candidates可选)，可以在提交候选时复制 无/高亮选项/整个候选窗口 的截图到剪贴板
+  "style/font_face": "霞鹜新晰黑, Segoe UI, Segoe UI Emoji:1f000:1f09f, Noto Color Emoji SVG:80, Microsoft Yahei, 全宋体-1, 全宋体-2, 全宋体-3, 全宋体-F, 全宋体-X, 全宋体(调和), 全宋体(等宽)" #候选字体
+  "style/font_point": 14 #候选字号
+  "style/horizontal": false #水平布局，true时横屏幕，false时竖直布局
+  "style/fullscreen": false #全屏
+  "style/inline_preedit": true #嵌入式面编码输入
+  "style/comment_font_face": "霞鹜新晰黑, Segoe UI, Segoe UI Emoji:1f000:1f09f, Noto Color Emoji SVG:80, Microsoft Yahei, 全宋体-1, 全宋体-2, 全宋体-3, 全宋体-F, 全宋体-X, 全宋体(调和), 全宋体(等宽)"     #★注释字体
+  "style/label_font_face": "霞鹜新晰黑, Segoe UI, Noto Color Emoji SVG:80 , Microsoft Yahei" #★序号字体
+  "style/label_font_point": 14 #★序号字号，小于等于候选字号
+  "style/hide_candidates_when_single": false      #★preedit_inline时，只有一个候选时隐藏候选框不绘制
+  "style/preedit_type": composition #隐藏候选窗(margin_x或margin_y为负数，负数即可)+ style/preedit_type: preview_all
+  "style/display_tray_icon": false  #显示托盘图标
+  "style/label_format": "%s." #编号规则
+  "style/layout/align_type": bottom #★文字偏置，主要影响label和comment居上/居中/居下布置，尤其是label和comment字体比候选字小的时候，bottom/center/top, 
+  "style/layout/min_width": 0  #候选栏最小宽度
+  "style/layout/min_height": 0 #候选栏最小高度
+  "style/layout/border_width": 0 #边框宽度，同border_width
+  "style/layout/margin_x": 0 #候选框位置偏移X
+  "style/layout/margin_y": 0 #候选框位置偏移Y
+  "style/layout/spacing": 0  #非嵌入式输入时，编码框和候选框的间距
+  "style/layout/candidate_spacing": 0  #相邻候选间距
+  "style/layout/hilite_spacing": 5 #候选框间距
+  "style/layout/hilite_padding": 5 #候选内边距
+  "style/layout/round_corner": 8   #别名 hilited_corner_radius
+  "style/layout/corner_radius": 8
+  "style/layout/shadow_radius": 0
+  "style/layout/shadow_offset_x": 4
+  "style/layout/shadow_offset_y": 4
+  "style/layout/style/layout/min_width": 30  
   "style/layout/border": 0
-  "style/layout/candidate_spacing": 4
-  "style/layout/corner_radius": 5
-  "style/layout/hilite_padding": 9
-  "style/layout/hilite_spacing": 4
-  "style/layout/margin_x": 12
-  "style/layout/margin_y": 12
-  "style/layout/round_corner": 5
-  "style/layout/shadow_offset_x": 2
-  "style/layout/shadow_offset_y": 2
-  "style/layout/shadow_radius": 5
-  "style/layout/spacing": 12
