@@ -9,6 +9,9 @@ patch:
     excel.exe: {ascii_mode: false}
     cmd.exe: {ascii_mode: true}
     conhost.exe: {ascii_mode: true}
+    WindowsTerminal.exe: {ascii_mode: true}
+    powershell.exe: {ascii_mode: true}
+    pwsh.exe: {ascii_mode: true}
     msedge.exe: {ascii_mode: false}
     qq.exe: {ascii_mode: false}
     wechat.exe: {ascii_mode: false}
