@@ -22,7 +22,7 @@ jobs:
       run: zip -r xmjd6.zip . -x "*.git*" -x "*.github*"
       
     - name: Zip main branch files excluding .git, .github, weasel files and squirrel files
-      run: zip -r xmjd6-Hamster.zip . -x "*.git*" -x "*.github*" -x "*weasel.*" -x "*squirrel.*"
+      run: zip -r xmjd6-Hamster.zip . -x "*.git*" -x "*.github*" -x "*weasel.*" -x "*squirrel.*" -x "xmjd6.zip"
       
     - name: Create Release
       id: create_release
