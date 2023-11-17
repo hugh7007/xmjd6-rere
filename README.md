@@ -46,6 +46,8 @@
 ## 如何查看学习及相关链接
 1. **飞书笔记链接：** [飞书笔记 - 🐈星猫键道6](https://hu0w1jn4xq.feishu.cn/docx/ZgQ8deGPlozhWCxOyeucBvHJnPe)
 2. **GitHub链接：** [🐈星猫键道6 - GitHub](https://github.com/hugh7007/xmjd6-rere)
+3. **天行键git链接：**[📖天行键 - GitHub](https://github.com/wzxmer/rime-txjx)
+4. **星空键道git链接：**[📖星空键道6 - GitHub](https://github.com/xkinput/Rime_JD)
 
 ## 细节补充
 - **主方案文件：** `xmjd6.schema.yaml`  
