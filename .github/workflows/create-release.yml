@@ -19,17 +19,7 @@ jobs:
         ref: 'main'
 
     - name: Zip main branch files excluding .git and .github
-      run: |
-        zip -r xmjd6.zip . -x "*.git*" -x "*.github*"
-
-    - name: Checkout legacy branch
-      uses: actions/checkout@v3
-      with:
-        ref: 'legacy'
-
-    - name: Zip legacy branch files excluding .git and .github
-      run: |
-        zip -r xmjd-legacy.zip . -x "*.git*" -x "*.github*"
+      run: zip -r xmjd6.zip . -x "*.git*" -x "*.github*"
 
     - name: Create Release
       id: create_release
@@ -41,21 +31,11 @@ jobs:
         release_name: ${{ env.RELEASE_TITLE }}
         body: |
           ## Release Notes
-          - **xmjd6-legacy**: 适合使用老版本librime的客户端，比如iRime、中文输入法。
-          - **xmjd6**: 适合大多数其他情况下使用。
+          - xmjd6-legacy: 适合使用老版本librime的客户端，比如iRime、中文输入法。
+          - xmjd6: 适合大多数其他情况下使用。
         draft: false
         prerelease: false
 
-    - name: Upload xmjd-legacy.zip to Release
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./xmjd-legacy.zip
-        asset_name: xmjd-legacy.zip
-        asset_content_type: application/zip
-        
     - name: Upload xmjd6.zip to Release
       uses: actions/upload-release-asset@v1
       env:
@@ -66,4 +46,20 @@ jobs:
         asset_name: xmjd6.zip
         asset_content_type: application/zip
 
+    - name: Checkout legacy branch
+      uses: actions/checkout@v3
+      with:
+        ref: 'legacy'
 
+    - name: Zip legacy branch files excluding .git and .github
+      run: zip -r xmjd-legacy.zip . -x "*.git*" -x "*.github*"
+
+    - name: Upload xmjd-legacy.zip to Release
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./xmjd-legacy.zip
+        asset_name: xmjd-legacy.zip
+        asset_content_type: application/zip
