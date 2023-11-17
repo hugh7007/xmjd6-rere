@@ -1,0 +1,25 @@
+name: Package Legacy Branch
+
+on:
+  push:
+    branches:
+      - legacy
+  pull_request:
+    branches:
+      - legacy
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Zip the project for legacy
+      run: |
+        zip -r xmjd6-legacy.zip .
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: xmjd6-legacy
+        path: xmjd6-legacy.zip
