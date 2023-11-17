@@ -32,7 +32,7 @@ jobs:
 
     - name: Create Release
       id: create_release
-      uses: actions/create-release@v3
+      uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -46,7 +46,7 @@ jobs:
         prerelease: false
 
     - name: Upload xmjd6.zip to Release
-      uses: actions/upload-release-asset@v3
+      uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -56,7 +56,7 @@ jobs:
         asset_content_type: application/zip
 
     - name: Upload xmjd-legacy.zip to Release
-      uses: actions/upload-release-asset@v3
+      uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
