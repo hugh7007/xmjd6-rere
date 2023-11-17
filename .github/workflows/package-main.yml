@@ -14,12 +14,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-
-    - name: Zip the project for main
-      run: |
-        zip -r xmjd6.zip . -x "*.git*" -x "*.github*"
-
+    
     - uses: actions/upload-artifact@v2
       with:
         name: xmjd6
-        path: xmjd6.zip
+        path: |
+          **/*
+          !.git/**
+          !.github/
