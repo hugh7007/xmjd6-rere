@@ -44,37 +44,37 @@ patch:
     wechat_dark: {back_color: 0x2e2925, candidate_format: "%c %@ ", candidate_text_color: 0xe9e9ea, comment_text_color: 0x999999, hilited_candidate_back_color: 0x75B100, hilited_candidate_text_color: 0xFFFFFF, inline_preedit: true, label_color: 0x999999, name: "微信键盘深色", text_color: 0x424242}
     wechat_light: {back_color: 0xFFFFFF, border_height: 0, border_width: 8, candidate_format: "%c %@ ", comment_text_color: 0x999999, hilited_candidate_back_color: 0x75B100, hilited_candidate_text_color: 0xFFFFFF, inline_preedit: true, name: "微信键盘浅色", text_color: 0x424242}
     white: {back_color: 0xededed, border_color: 0x40444444, candidate_shadow_color: 0x60444444, candidate_text_color: 0x444444, comment_text_color: 0x444444, hilited_candidate_back_color: 0x444444, hilited_candidate_shadow_color: 0x60444444, hilited_candidate_text_color: 0xededed, hilited_comment_text_color: 0xededed, hilited_label_color: 0xededed, hilited_shadow_color: 0x60444444, hilited_text_color: 0x000000, label_color: 0x444444, name: "白色/white", shadow_color: 0x60444444}
-  style/capture_type: none
-  style/color_font: true
-  style/color_scheme: CatLight
-  style/color_scheme_dark: CatDark
-  style/comment_font_face: "霞鹜新晰黑, Segoe UI, Segoe UI Emoji:1f000:1f09f, Noto Color Emoji SVG:80, Microsoft Yahei, 全宋体-1, 全宋体-2, 全宋体-3, 全宋体-F, 全宋体-X, 全宋体(调和), 全宋体(等宽)"
-  style/comment_font_point: 12
-  style/display_tray_icon: false
-  style/font_face: "霞鹜新晰黑, Segoe UI, Segoe UI Emoji:1f000:1f09f, Noto Color Emoji SVG:80, Microsoft Yahei, 全宋体-1, 全宋体-2, 全宋体-3, 全宋体-F, 全宋体-X, 全宋体(调和), 全宋体(等宽)"
-  style/font_point: 14
-  style/fullscreen: false
-  style/hide_candidates_when_single: false
-  style/horizontal: false
-  style/inline_preedit: true
-  style/label_font_face: "霞鹜新晰黑, Segoe UI, Noto Color Emoji SVG:80 , Microsoft Yahei"
-  style/label_font_point: 14
-  style/label_format: "%s."
-  style/layout/align_type: bottom
-  style/layout/border: 0
-  style/layout/border_width: 0
-  style/layout/candidate_spacing: 0
+  style/color_scheme: CatLight  #主题色
+  style/color_scheme_dark: CatDark # 深色主题
+  style/color_font: true #★在Windows 8.1以上系统上使用彩色字体，支持彩色Emoji。如系统版本低于8.1则自动false
+  style/comment_font_point: 12 #★注释字号，小于等于候选字号
+  style/capture_type: none # (none/highlighted/candidates可选)，可以在提交候选时复制 无/高亮选项/整个候选窗口 的截图到剪贴板
+  style/font_face: "霞鹜新晰黑, Segoe UI, Segoe UI Emoji:1f000:1f09f, Noto Color Emoji SVG:80, Microsoft Yahei, 全宋体-1, 全宋体-2, 全宋体-3, 全宋体-F, 全宋体-X, 全宋体(调和), 全宋体(等宽)" #候选字体
+  style/font_point: 14 #候选字号
+  style/horizontal: false #水平布局，true时横屏幕，false时竖直布局
+  style/fullscreen: false #全屏
+  style/inline_preedit: true #嵌入式面编码输入
+  style/comment_font_face: "霞鹜新晰黑, Segoe UI, Segoe UI Emoji:1f000:1f09f, Noto Color Emoji SVG:80, Microsoft Yahei, 全宋体-1, 全宋体-2, 全宋体-3, 全宋体-F, 全宋体-X, 全宋体(调和), 全宋体(等宽)"     #★注释字体
+  style/label_font_face: "霞鹜新晰黑, Segoe UI, Noto Color Emoji SVG:80 , Microsoft Yahei" #★序号字体
+  style/label_font_point: 14 #★序号字号，小于等于候选字号
+  style/hide_candidates_when_single: false      #★preedit_inline时，只有一个候选时隐藏候选框不绘制
+  style/preedit_type: composition #隐藏候选窗(margin_x或margin_y为负数，负数即可)+ style/preedit_type: preview_all
+  style/display_tray_icon: false  #显示托盘图标
+  style/label_format: "%s." #编号规则
+  style/layout/align_type: bottom #★文字偏置，主要影响label和comment居上/居中/居下布置，尤其是label和comment字体比候选字小的时候，bottom/center/top, 
+  style/layout/min_width: 0  #候选栏最小宽度
+  style/layout/min_height: 0 #候选栏最小高度
+  style/layout/border_width: 0 #边框宽度，同border_width
+  style/layout/margin_x: 0 #候选框位置偏移X
+  style/layout/margin_y: 0 #候选框位置偏移Y
+  style/layout/spacing: 0  #非嵌入式输入时，编码框和候选框的间距
+  style/layout/candidate_spacing: 0  #相邻候选间距
+  style/layout/hilite_spacing: 5 #候选框间距
+  style/layout/hilite_padding: 5 #候选内边距
+  style/layout/round_corner: 8   #别名 hilited_corner_radius
   style/layout/corner_radius: 8
-  style/layout/hilite_padding: 5
-  style/layout/hilite_spacing: 5
-  style/layout/margin_x: 0
-  style/layout/margin_y: 0
-  style/layout/min_height: 0
-  style/layout/min_width: 0
-  style/layout/round_corner: 8
+  style/layout/shadow_radius: 0
   style/layout/shadow_offset_x: 4
   style/layout/shadow_offset_y: 4
-  style/layout/shadow_radius: 0
-  style/layout/spacing: 0
-  style/layout/style/layout/min_width: 30
-  style/preedit_type: composition
+  style/layout/style/layout/min_width: 30  
+  style/layout/border: 0
