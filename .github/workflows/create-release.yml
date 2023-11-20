@@ -52,7 +52,7 @@ jobs:
         ref: 'legacy'
 
     - name: Zip legacy branch files excluding .git and .github
-      run: zip -r xmjd-legacy.zip . -x "*.git*" -x "*.github*"
+      run: zip -r xmjd6-legacy.zip . -x "*.git*" -x "*.github*"
 
     - name: Upload xmjd-legacy.zip to Release
       uses: shogo82148/actions-upload-release-asset@v1
@@ -60,6 +60,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./xmjd-legacy.zip
-        asset_name: xmjd-legacy.zip
+        asset_path: ./xmjd6-legacy.zip
+        asset_name: xmjd6-legacy.zip
         asset_content_type: application/zip
