@@ -19,7 +19,7 @@ jobs:
         ref: 'main'
 
     - name: Zip main branch files excluding .git and .github
-      run: zip -r xmjd6.zip . -x "*.git*" -x "*.github*"
+      run: zip -r xmjd6.zip . -x "*.git*" -x "*.github*" -x "热键.yaml"
       
     - name: Zip main branch files excluding .git, .github, weasel files and squirrel files
       run: zip -r xmjd6-Hamster.zip . -x "*.git*" -x "*.github*" -x "*weasel.*" -x "*squirrel.*" -x "xmjd6.zip"
