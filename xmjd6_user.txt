@@ -1,5 +1,0 @@
-# Rime table
-#@/db_name	xmjd6_user
-#@/db_type	tabledb
-#@/rime_version	1.8.5
-#@/tick	0
