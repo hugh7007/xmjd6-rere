@@ -19,10 +19,7 @@ jobs:
         ref: 'main'
 
     - name: Zip main branch files excluding .git and .github
-      run: zip -r xmjd6.zip . -x "*.git*" -x "*.github*" -x "热键.yaml"
-      
-    - name: Zip main branch files excluding .git, .github, weasel files and squirrel files
-      run: zip -r xmjd6-Hamster.zip . -x "*.git*" -x "*.github*" -x "*weasel.*" -x "*squirrel.*" -x "xmjd6.zip"
+      run: zip -r xmjd6.zip . -x "*.git*" -x "*.github*"
       
     - name: Create Release
       id: create_release
@@ -34,9 +31,8 @@ jobs:
         release_name: ${{ env.RELEASE_TITLE }}
         body: |
           ## Release Notes
-          - xmjd6-legacy: 适合使用老版本librime的客户端，比如iRime、中文输入法。
-          - xmjd6-Hamster: 适合仓输入法使用。
-          - xmjd6: 适合大多数其他情况下使用。
+          - xmjd6: 适合新版本librime的客户端使用。
+          - xmjd6-legacy: 只适合使用老版本librime的客户端，比如iRime、中文输入法。
         draft: false
         prerelease: false
 
@@ -48,16 +44,6 @@ jobs:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./xmjd6.zip
         asset_name: xmjd6.zip
-        asset_content_type: application/zip
-
-    - name: Upload xmjd6-Hamster.zip to Release
-      uses: shogo82148/actions-upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./xmjd6-Hamster.zip
-        asset_name: xmjd6-Hamster.zip
         asset_content_type: application/zip
 
     - name: Checkout legacy branch
