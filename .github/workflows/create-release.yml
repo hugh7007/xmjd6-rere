@@ -54,7 +54,7 @@ jobs:
     - name: Zip legacy branch files excluding .git and .github
       run: zip -r xmjd6-legacy.zip . -x "*.git*" -x "*.github*"
 
-    - name: Upload xmjd-legacy.zip to Release
+    - name: Upload xmjd6-legacy.zip to Release
       uses: shogo82148/actions-upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
