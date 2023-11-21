@@ -19,7 +19,7 @@ jobs:
         ref: 'main'
 
     - name: Zip main branch files excluding .git and .github
-      run: zip -r xmjd6.zip . -x "*.git*" -x "*.github*" -x "theme"
+      run: zip -r xmjd6.zip . -x "*.git*" -x "*.github*"
       
     - name: Create Release
       id: create_release
