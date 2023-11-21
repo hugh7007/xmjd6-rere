@@ -314,7 +314,9 @@ patch:
             - action: none
               width: available
             - action: backspace
-              width: percentage(0.13)
+              width:
+                portrait: percentage(0.12)
+                landscape: percentage(0.13)
         - keys:
             - action: keyboardType(custom(123))
               width:
@@ -327,10 +329,13 @@ patch:
                   display: true
                   processByRIME: true
                   direction: up
+                - action: shortCommand(#RimeSwitcher)
+                  label: 菜
+                  display: true
+                  processByRIME: true
+                  direction: down
             - action: space
-              width:
-                portrait: percentage(0.55)
-                landscape: available
+              width: available
               swipe:
                 - action: shortCommand(#次选上屏)
                   label: ²
@@ -546,16 +551,38 @@ patch:
                   display: true
                   processByRIME: true
                   direction: up
+                - action: shortCommand(#RimeSwitcher)
+                  display: true
+                  processByRIME: true
+                  direction: down
             - action: character(,)
               processByRIME: false
               width: percentage(0.1)
             - action: space
               processByRIME: false
               width: percentage(0.4)
+              swipe:
+                - action: shortCommand(#次选上屏)
+                  display: true
+                  processByRIME: true
+                  direction: up
+                - action: shortCommand(#三选上屏)
+                  display: true
+                  processByRIME: true
+                  direction: down
             - action: character(.)
               processByRIME: false
               width: percentage(0.1)
             - action: enter
               processByRIME: false
               width: percentage(0.2)
+              swipe:
+                - action: shortCommand(#换行)
+                  display: true
+                  processByRIME: true
+                  direction: up
+                - action: keyboardType(emojis)
+                  display: true
+                  processByRIME: true
+                  direction: down
       buttonInsets: left(3),bottom(4),top(8),right(3)
