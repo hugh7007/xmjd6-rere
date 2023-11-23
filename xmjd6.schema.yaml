@@ -164,7 +164,7 @@ repeat_history2:
   initial_quality: 10000
 
 emoji_cn:
-  opencc_config: xmjd6.emoji.json
+  opencc_config: xmjd6/xmjd6_emoji.json
   option_name: emoji_cn
   comment_format:
   #  - xform/.*//   #不会有透明的文字显示
@@ -172,11 +172,11 @@ emoji_cn:
   # tips: all  #不显示表情备注
 
 jffh:
-  opencc_config: s2tw.json
+  opencc_config: xmjd6/xmjd6_s2tw.json
   option_name: jffh
 
 mars:
-  opencc_config: mars.json 
+  opencc_config: xmjd6/xmjd6_martian.json 
   option_name: mars
 
 ascii_punct:
