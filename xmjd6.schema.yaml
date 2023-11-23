@@ -1,24 +1,20 @@
 ﻿# Rime schema settingsjffh
 # encoding: utf-8
-# 方案提供来源：Proud丶Cat  热热佬  一梦浮生
-# 方案反馈邮箱：wzxmer@outlook.com 
-# 方案详细说明：根据原星空键道6.2进行的功能拓展版本
-# 原星空键道6链接：https://github.com/xkinput/Rime_JD 作者：吅吅大山
-# 教程链接及方案下载：https://github.com/wzxmer/xmjd6-rime
-# 功能有：
-# 630			630个与原词库不冲突的简词（原生自带）
-# 以下为拓展功能：
-# 			流式			可以打句子，有词汇自动调频
-#  			A键			自造词
-#  			U键			开启全拼反查功能<拼音查全码，新增笔画提示>	
-#  			i键			开启英文联想输入	
-#  			V键			开启二分反查功能<拼音拆分文字可查全码>
-#  			O键			超级繁体(词库的扩展，依旧是键道规则)
-#  		  注意：默认为顶功开启，流式关闭
-# 			想使用流式，想打开emoji表情，想关闭辅助码，都请查看xmjd6.schema.yaml功能开关，有注释提示
+# 方案维护者：Proud丶Cat、热热佬、千年蟲
+# 方案溯源：星空键道6.2 →  🐈星猫键道6.3
+# 教程链接：https://hu0w1jn4xq.feishu.cn/docx/ZgQ8deGPlozhWCxOyeucBvHJnPe?from=from_copylink
+# 方案git： https://github.com/hugh7007/xmjd6-rere
+# 本方案特色：
+#  增加百万词语，优化打字体验。
+#  O键超级繁体(全字集)，让繁体字特殊字不再属于形码专利。
+#  V键开启二分反查功能<拼音拆分文字可打全字集>。遇到不会读的字也可以随时随地打出全字集。
+#  U键开启全拼反查功能拼音查全码，新增笔画提示>
+#  i键开启英文单词联想输入模式。
+#  a键开启连打模式，自造词模式。
+
 schema:
   schema_id: xmjd6
-  name: 星猫键道6
+  name: 星🐈键道
   version: "1"
   dependencies:
     - xmjd6.cx
@@ -164,7 +160,7 @@ repeat_history2:
   initial_quality: 10000
 
 emoji_cn:
-  opencc_config: xmjd6/xmjd6_emoji.json
+  opencc_config: xmjd6.emoji.json
   option_name: emoji_cn
   comment_format:
   #  - xform/.*//   #不会有透明的文字显示
@@ -172,11 +168,11 @@ emoji_cn:
   # tips: all  #不显示表情备注
 
 jffh:
-  opencc_config: xmjd6/xmjd6_s2tw.json
+  opencc_config: s2tw.json
   option_name: jffh
 
 mars:
-  opencc_config: xmjd6/xmjd6_martian.json 
+  opencc_config: mars.json 
   option_name: mars
 
 ascii_punct:
