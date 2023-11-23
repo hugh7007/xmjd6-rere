@@ -1181,11 +1181,12 @@ sort: original
 斑龙	bfly
 巴伐利亚	bflya
 半老	bflz
-不知名	bfm
+不知名	bfmv
+不这么	bfm
 半秒	bfmc
 半殖民地	bfmd
 半满	bfmf
-班名	bfmg
+班名	bfmgvu
 半亩	bfmj
 半殖民地半封建	bfmjo
 半米	bfmk
@@ -2460,8 +2461,8 @@ sort: original
 不受	bjedv
 不收	bjedva
 不守	bjedvo
-不设	bjee
-不舍	bjeev
+不设	bjeev
+不舍	bjee
 布设	bjeevo
 不善	bjef
 不擅	bjefv
@@ -2571,7 +2572,8 @@ sort: original
 不解之缘	bjfyvu
 比较重要	bjfyvv
 不着	bjfz
-比较高	bjg
+不经过	bjg
+比较高	bjgvvo
 不贵	bjgb
 不归	bjgbv
 不轨	bjgbvv
@@ -3616,9 +3618,9 @@ sort: original
 必吃	bkwko
 必持	bkwkoi
 币池	bkwku
-比我	bkwl
-笔握	bkwlu
-逼我	bkwlv
+比我	bkwlv
+笔握	bkwlui
+逼我	bkwl
 鼻疮	bkwm
 逼问	bkwn
 必亡	bkwp
@@ -7644,7 +7646,7 @@ sort: original
 才说	chel
 才爽	chem
 财神	chen
-财商	chep
+财商	chepa
 踩上	chepo
 从何说起	cheq
 才剩	cher
@@ -11588,7 +11590,7 @@ sort: original
 顶拜	dgbh
 顶部	dgbj
 定比	dgbk
-碇泊	dgbl
+碇泊	dgblv
 定编	dgbm
 丁苯	dgbn
 顶棒	dgbp
@@ -13456,7 +13458,7 @@ sort: original
 多忙	dlmp
 多梦	dlmr
 多吗	dlms
-多枚	dlmw
+多枚	dlmwu
 多毛	dlmz
 多尿	dlnc
 多难	dlnf
@@ -15361,9 +15363,9 @@ sort: original
 大兴	dsxgv
 大幸	dsxgvv
 大学	dsxh
-大碍	dsxhv
+大碍	dsxhvv
 大爱	dsxhvu
-大雪	dsxhvv
+大雪	dsxhv
 大二	dsxj
 大耳	dsxjv
 大喜	dsxk
@@ -16106,7 +16108,7 @@ sort: original
 东白	dybh
 东部	dybj
 动笔	dybk
-东波	dybl
+东波	dyblva
 大尾巴狼	dyblv
 东边	dybm
 懂吧	dybs
@@ -17967,11 +17969,11 @@ sort: original
 硕大无朋	edwpv
 手串	edwt
 寿川	edwtvu
-首位	edww
-收尾	edwwa
+收尾	edww
 手尾	edwwi
 守卫	edwwo
 首尾	edwwoa
+首位	edwwoi
 首创	edwx
 手创	edwxi
 受创	edwxu
@@ -20065,8 +20067,8 @@ sort: original
 失守	ekedu
 施舍	ekee
 试射	ekeeo
-狮山	ekef
-屎山	ekefa
+狮山	ekefu
+屎山	ekef
 上课时	ekei
 实属	ekej
 史书	ekeji
@@ -21761,8 +21763,8 @@ sort: original
 是哪位	enwo
 神往	enwp
 身亡	enwpu
-审查	enws
-深挖	enwsa
+审查	enwso
+深挖	enws
 身穿	enwt
 身为	enww
 深为	enwwa
@@ -22844,8 +22846,8 @@ sort: original
 升息	erxku
 声息	erxkv
 升序	erxl
-圣贤	erxm
-生鲜	erxmu
+圣贤	erxma
+生鲜	erxm
 声线	erxmv
 圣恩	erxn
 生锈	erxq
@@ -22928,9 +22930,9 @@ sort: original
 沙雕	esdca
 傻掉	esdci
 傻屌	esdcia
-杀跌	esdd
+杀跌	esdduo
 瘦死的骆驼比马大	esddo
-啥都	esddou
+啥都	esdd
 啥的	esde
 杀得	esdeu
 傻蛋	esdf
@@ -24425,7 +24427,7 @@ sort: original
 发标人	fbr
 赘肉	fbrd
 坠入	fbrj
-追认	fbrn
+追认	fbrnu
 福布斯	fbs
 追随	fbsb
 锥塞	fbsh
@@ -27989,8 +27991,8 @@ sort: original
 之最	fkzb
 之罪	fkzbo
 直走	fkzd
-职责	fkze
-指责	fkzei
+职责	fkzev
+指责	fkze
 只在	fkzh
 之灾	fkzho
 旨在	fkzhu
@@ -36686,7 +36688,7 @@ sort: original
 更次	grck
 狗日的	grd
 更迭	grdd
-贵人多忘事	grde
+贵人多忘事	grdeii
 更定	grdg
 更低	grdk
 耕地	grdkv
@@ -40928,7 +40930,7 @@ sort: original
 海航	hhhp
 海花	hhhq
 呼和浩特	hhht
-海魂	hhhw
+海魂	hhhwa
 海虹	hhhy
 还好	hhhz
 海禁	hhjb
@@ -41157,8 +41159,8 @@ sort: original
 海员	hhyt
 后悔药	hhyu
 海运	hhyw
-哈哈一笑	hhyx
-嘿嘿一笑	hhyxo
+哈哈一笑	hhyxo
+嘿嘿一笑	hhyxoo
 还用	hhyy
 花好月圆	hhyyi
 还要	hhyz
@@ -43029,10 +43031,10 @@ sort: original
 花梁	hqlx
 花龙	hqly
 话痨	hqlz
-花钱买	hqm
+花钱买	hqmi
 化民	hqmb
 画满	hqmf
-化名	hqmg
+化名	hqmgiu
 花名	hqmgi
 滑脉	hqmh
 花木	hqmj
@@ -51114,7 +51116,7 @@ sort: original
 见底	jmdkio
 渐多	jmdl
 见多	jmdli
-检点	jmdm
+检点	jmdmv
 建党	jmdp
 减等	jmdr
 简答	jmds
@@ -59173,9 +59175,9 @@ sort: original
 考研	kzyfu
 靠约	kzyh
 靠椅	kzyk
-靠与	kzyl
+靠与	kzyluv
 看在眼里	kzyli
-烤鱼	kzylo
+烤鱼	kzyl
 烤羊	kzyp
 烤鸭	kzys
 靠嘴	kzzb
@@ -71639,7 +71641,7 @@ sort: original
 年版	nmbfuu
 年半	nmbfu
 念白	nmbhi
-你妈逼	nmbi
+
 年辈	nmbw
 纳米比亚	nmby
 年报	nmbz
@@ -72344,10 +72346,10 @@ sort: original
 那首	nseda
 哪首	nsedo
 那扇	nsef
-那是	nsek
+那是	nsekao
 那时	nseka
 那事	nsekav
-哪是	nseko
+哪是	nsek
 那双	nsem
 拿上	nsep
 纳声	nser
@@ -87211,8 +87213,8 @@ sort: original
 三里	sflk
 三立	sflkv
 散落	sfll
-三联	sflm
-三连	sflmv
+三联	sflmv
+三连	sflm
 三郎	sflp
 三流	sflq
 三棱	sflr
@@ -93120,8 +93122,8 @@ sort: original
 天恩	tmxn
 天下	tmxs
 天啊	tmxsv
-天旋	tmxt
-天选	tmxtv
+天旋	tmxtv
+天选	tmxt
 天象	tmxx
 天香	tmxxv
 天相	tmxxvv
@@ -93780,7 +93782,7 @@ sort: original
 特色鲜明	tsxmu
 它下	tsxs
 他想	tsxx
-他乡	tsxxi
+他乡	tsxxia
 它想	tsxxo
 碳酸盐	tsy
 拓印	tsyb
@@ -96663,8 +96665,8 @@ sort: original
 无处藏身	wjcev
 午餐	wjcf
 五彩	wjch
-五次	wjck
-无此	wjckv
+五次	wjckv
+无此	wjckvi
 无措	wjclv
 外交辞令	wjclu
 无错	wjcl
@@ -98246,7 +98248,7 @@ sort: original
 床弩	wmnj
 窗内	wmnw
 无码片	wmp
-创评	wmpg
+创评	wmpgi
 床铺	wmpj
 窗旁	wmpp
 充满着	wmqo
@@ -99927,8 +99929,8 @@ sort: original
 唯我独尊	wwdzo
 未到	wwdzv
 往往是	wwe
-未睡	wweb
-为谁	wwebo
+未睡	wwebv
+为谁	wweb
 为首	wwed
 威慑	wwee
 未设	wweev
@@ -100962,8 +100964,8 @@ sort: original
 虫胶	wyjc
 我也觉得	wyjd
 崇杰	wyjdi
-冲车	wyje
-文艺出版社	wyjeo
+冲车	wyjeo
+文艺出版社	wyjeoi
 憧憬	wyjg
 崇敬	wyjgi
 冲决	wyjh
@@ -101120,7 +101122,7 @@ sort: original
 无以为报	wywb
 创业未半而中道崩殂	wywc
 无用武之地	wywd
-冲车	wywe
+冲车	wyweov
 重玩	wywf
 无缘无故	wywg
 无怨无悔	wywh
@@ -109108,7 +109110,7 @@ sort: original
 相见	xxjm
 乡间	xxjma
 详见	xxjmo
-香肩	xxjmu
+香肩	xxjmuo
 相减	xxjmv
 想见	xxjmvi
 相间	xxjmvo
@@ -109890,7 +109892,7 @@ sort: original
 凹版	xzbf
 鏖兵	xzbg
 鳌拜	xzbh
-信噪比	xzbi
+信噪比	xzbio
 奥比	xzbk
 奥博	xzbl
 心脏病	xzbo
@@ -110046,12 +110048,12 @@ sort: original
 孝子贤孙	xzxsu
 翱翔	xzxx
 嗷嗷	xzxz
-而在于	xzy
+想怎样	xzy
+而在于	xzyvvv
 凹印	xzyb
 先走一步	xzybu
 遨游	xzydv
 熬夜	xzye
-现在有事	xzyevv
 艾叶	xzyei
 雄姿英发	xzyf
 现在已经	xzyj
@@ -110060,7 +110062,6 @@ sort: original
 媪妪	xzyl
 写作业	xzyo
 澳元	xzyt
-想怎样	xzyv
 奥运	xzyw
 熬药	xzyz
 喜滋滋	xzz
@@ -115111,7 +115112,7 @@ sort: original
 浴缸	ylgp
 渔港	ylgpa
 鱼缸	ylgpu
-鱼贯	ylgt
+鱼贯	ylgtu
 一两个	ylgvv
 与狼共舞	ylgw
 余光	ylgx
@@ -115628,7 +115629,7 @@ sort: original
 英明神武	ymew
 一秒钟	ymf
 一面之词	ymfc
-一梦浮生	ymfe
+一梦浮生	ymfev
 英美法	ymfi
 一面之交	ymfj
 也没这么	ymfm
@@ -115643,7 +115644,8 @@ sort: original
 玉门关	ymgv
 雁门关	ymgvo
 也没关系	ymgx
-幽默画	ymh
+越模糊	ymh
+幽默画	ymhii
 妖魔化	ymha
 以命换命	ymhm
 鱼目混珠	ymhq
@@ -117421,9 +117423,10 @@ sort: original
 蕴养	ywypi
 晕晕	ywyw
 耀武扬威	ywywi
-杳无音信	ywyx
-野无遗贤	ywyxi
-一吹一吸	ywyxv
+杳无音信	ywyxvv
+野无遗贤	ywyxiv
+越吃越香	ywyxv
+一吹一吸	ywyxvo
 运用	ywyy
 颜文字	ywz
 运走	ywzd
@@ -117697,10 +117700,10 @@ sort: original
 有一定	yyd
 用大	yyds
 𝒀𝒀𝑫𝑺	yyds
-预言帝	yyda
+预言帝	yydaoo
 以一抵百	yydba
 用掉	yydc
-抑扬顿挫	yydci
+抑扬顿挫	yydcii
 勇斗	yydd
 以一敌三	yydsa
 有一定的	yyddv
@@ -118330,9 +118333,9 @@ sort: original
 要少	yzez
 有组织	yzf
 腰椎	yzfb
-夭折	yzfe
+夭折	yzfeu
 摇着	yzfei
-咬着	yzfeo
+咬着	yzfe
 有字之书	yzfev
 要犯	yzff
 要饭	yzffv
