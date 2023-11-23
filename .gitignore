@@ -7,7 +7,7 @@ sync/
 *.userdb/
 installation.yaml
 user.yaml
-xmjd6_user.txt
+*user.txt
 *private*
 
 rime_console
