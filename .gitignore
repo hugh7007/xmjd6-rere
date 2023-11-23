@@ -1,0 +1,15 @@
+.DS_Store
+**/.idea/
+.vscode/
+
+build/
+sync/
+*.userdb/
+installation.yaml
+user.yaml
+xmjd6_user.txt
+*private*
+
+rime_console
+rime_deployer
+rime_patch
