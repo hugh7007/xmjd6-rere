@@ -1,0 +1,285 @@
+﻿---
+name: xmjd6.fuhao
+version: "Q1"
+sort: original
+...
+# 特殊
+*#06#	xjlji
+# 标点
+;	;
+:	;;
+!	;a
+%	;b
+←	;c
+↑	;ce
+↓	;cx
+、	;d 
+[	;e
+#;f被用做了重复，i键也是
+<	;g
+>	;h
+|	;i
+·	;o
+“	;t
+(	;k
+)	;l
+《	;m
+》	;n
+——	;p
+~	;q
+]	;r
+……	;s
+ctrl+z	;u
+=	;v
+?	;w
+→	;x
+”	;y
+```	;z
+
+# !	oa
+# ?	oW
+# ……	os
+# 、	od
+# (	ok
+# )	ol
+# ``	of
+# <	og
+# >	oh
+# [	oe
+# ]	or
+# “	ot
+# ”	oy
+# 《	oi
+# 》	oo
+# →	ox 
+# ←	oc
+# ↑	oce
+# ↓	ocx
+# %	ob
+# {	on 
+# }	om
+
+
+# windows QQ表情
+# /am	oqam
+# /aiq	oqaq
+# /bq	oqbq
+# /bs	oqbu
+# /bb	oqbb
+# /baiy	oqby
+# /bz	oqbz
+# /cy	oqcy
+# /ch	oqch
+# /cd	oqcd
+# /db	oqdb
+# /dg	oqdg
+# /dk	oqdk
+# /dx	oqdx
+# /dy	oqdy
+# /fw	oqfw
+# /fd	oqfd
+# /fendou	oqfd
+# /fan	oqfj
+# /fn	oqfn
+# /gg	oqgg
+# /gz	oqgv
+# /gy	oqgy
+# /hanx	oqhx
+# /huaix	oqhx
+# /hq	oqhq
+# /hx	oqhx
+# /ht	oqht
+# /hsh	oqhu
+# /zhh	oqhh
+# /yhh	oqhh
+# /cj	oqij
+# /jie	oqje
+# /xjj	oqjj
+# /jk	oqjk
+# /jy	oqjy
+# /jd	oqjd
+# /jw	oqjw
+# /kb	oqkb
+# /ka	oqka
+# /kf	oqkf
+# /kt	oqkt
+# /kel	oqkl
+# /kl	oqkl
+# /kuk	oqku
+# /kun	oqky
+# /lh	oqlh
+# /lengh	oqlh
+# /ll	oqll
+# /lw	oqlw
+# /mg	oqmg
+# /no	oqno
+# /ng	oqng
+# /ok	oqok
+# /oh	oqoh
+# /tuu	oqot
+# /pz	oqpz
+# /qiang	oqql
+# /qt	oqqt
+# /qq	oqqb
+# /qiao	oqqd
+# /qd	oqqq
+# /ruo	oqro
+# /se	oqse
+# /tx	oqtx
+# /tiao	oqtn
+# /tp	oqtp
+# /ts	oqts
+# /ty	oqty
+# /shl	oqul
+# /shuai	oquk
+# /shui	oquv
+# /zk	oqvk
+# /zhem	oqvm
+# /zhm	oqvm
+# /zhq	oqvq
+# /zhd	oqvd
+# /zt	oqvt
+# /wx	oqwx
+# /ws	oqwu
+# /wq	oqwq
+# /xk	oqxk
+# /xs	oqxs
+# /xia	oqxx
+# /xig	oqxg
+# /xu...	oqxu
+# /xyx	oqxy
+# /xw	oqxw
+# /yiw	oqyw
+# /yx	oqyx
+# /yb	oqyb
+# /youl	oqyl
+# /yun	oqyy
+# /zj	oqzj
+# /wzm	oqzm
+# /sr	oqsr
+# /jx	oqjx
+# /px	oqpx
+# /mm	oqmm
+# /wn	oqwn
+# /lb	oqlb
+# /zyj	oqvy
+# /kk	oqkk
+# /aini	oqan
+# /bp	oqbp
+# /bt	oqbt
+# /tl	oqtl
+# /dz	oqdz
+# /wl	oqwl
+# /chi	oqii
+# /kg	oqkg
+# /cp	oqip
+# /hb	oqhb
+# /yao	oqyc
+# /hn	oqhn
+# # 微信表情
+# 	owxk
+# [微笑]	owwx
+# [撇嘴]	owpz
+# [色]	owse
+# [发呆]	owfd
+# [得意]	owdy
+# [流泪]	owll
+# [害羞]	owhx
+# [闭嘴]	owbz
+# [睡]	oweb
+# [大哭]	owdk
+# [尴尬]	owgg
+# [发怒]	owfn
+# [调皮]	owtp
+# [呲牙]	owcy
+# [惊讶]	owjy
+# [难过]	owng
+# [囧]	owjy
+# [抓狂]	owfk
+# [吐]	owtj
+# [偷笑]	owtx
+# [愉快]	owyk
+# [白眼]	owby
+# [傲慢]	owxm
+# [困]	owkw
+# [惊恐]	owjk
+# [流汗]	owlh
+# [憨笑]	owhx
+# [悠闲]	owyx
+# [奋斗]	owfd
+# [咒骂]	owfm
+# [疑问]	owyw
+# [嘘]	owxl
+# [晕]	owyw
+# [衰]	oweg
+# [骷髅]	owkl
+# [敲打]	owqd
+# [再见]	owzj
+# [擦汗]	owch
+# [抠鼻]	owkb
+# [鼓掌]	owgq
+# [坏笑]	owhx
+# [左哼哼]	owhh
+# [右哼哼]	owhh
+# [哈欠]	owhq
+# [鄙视]	owbe
+# [委屈]	owwq
+# [快哭了]	owkk
+# [阴险]	owyx
+# [亲亲]	owqq
+# [可怜]	owkl
+# [菜刀]	owcd
+# [西瓜]	owxg
+# [啤酒]	owpj
+# [咖啡]	owkf
+# [猪头]	owqt
+# [玫瑰]	owmg
+# [凋谢]	owdx
+# [嘴唇]	owzj
+# [爱心]	owxx
+# [心碎]	owxs
+# [蛋糕]	owdg
+# [炸弹]	owfd
+# [便便]	owbb
+# [月亮]	owyl
+# [太阳]	owty
+# [拥抱]	owyb
+# [强]	owqx
+# [弱]	owrl
+# [握手]	owwe
+# [胜利]	owel
+# [抱拳]	owbq
+# [勾引]	owgy
+# [拳头]	owqt
+# [OK]	owok
+# [跳跳]	owtt
+# [发抖]	owfd
+# [怄火]	owxh
+# [转圈]	owfq
+# [嘿哈]	owhh
+# [捂脸]	owwl
+# [奸笑]	owjx
+# [机智]	owjf
+# [皱眉]	owfm
+# [耶]	owye
+# [吃瓜]	owwg
+# [加油]	owjy
+# [汗]	owhf
+# [天啊]	owtx
+# [Emm]	owem
+# [社会社会]	oweh
+# [旺柴]	owwj
+# [打脸]	owdl
+# [加油加油]	owjy
+# [哇]	owws
+# [红包]	owhb
+# [發]	owfs
+# [福]	owfj
+# [翻白眼]	owby
+# [666]	ow66
+# [让我看看]	owkk
+# [叹气]	owtq
+# [苦涩]	owks
+# [裂开]	owlk
+
+

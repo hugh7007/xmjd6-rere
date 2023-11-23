@@ -1,0 +1,21 @@
+---
+name: xmjd6.Z
+version: "Q1"
+sort: original
+import_tables:
+  - xmjd6.danzi
+  - xmjd6.extended
+columns:
+  - text
+  - code
+  - stem
+  - weight
+encoder:
+  rules:
+    - length_equal: 2
+      formula: "AaAbBaBbAcBc"
+    - length_equal: 3
+      formula: "AaBaCaAcBcCc"
+    - length_in_range: [4, 99]
+      formula: "AaBaCaZaAcBc"
+...

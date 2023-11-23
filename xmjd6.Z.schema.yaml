@@ -40,7 +40,7 @@ speller:
     - xform/[a-z]+//
 
 translator:
-  dictionary: xmjd6.Z
+  dictionary: dicts/xmjd6/xmjd6.Z
   enable_charset_filter: false
   enable_completion: false
   enable_encoder: false

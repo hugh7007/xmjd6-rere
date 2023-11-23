@@ -49,7 +49,7 @@ speller:
   delimiter: " ;'"
 
 translator:
-  dictionary: xmjd6.en
+  dictionary: dicts/xmjd6/xmjd6.en
 
 
 punctuator:

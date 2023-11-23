@@ -33,40 +33,40 @@ import_tables:
 # ---------------------------------------
 # 扩展：单字
   - xmjd6.user   #为了词频拿到上面来了
-  - xmjd6.danzi
+  - dicts/xmjd6/xmjd6.danzi
 # ---------------------------------------
 # 扩展：词组
-  - xmjd6.cizu
-  - xmjd6.zidingyi
+  - dicts/xmjd6/xmjd6.cizu
+  - dicts/xmjd6/xmjd6.zidingyi
 # ---------------------------------------
 # 扩展：符号
-  - xmjd6.fuhao
+  - dicts/xmjd6/xmjd6.fuhao
 # ---------------------------------------
 # 扩展：补充码表
-  - xmjd6.buchong
+  - dicts/xmjd6/xmjd6.buchong
 # ---------------------------------------
 # 扩展：链接等
-  - xmjd6.lianjie
+  - dicts/xmjd6/xmjd6.lianjie
 # ---------------------------------------
 # 扩展：英文词库
-  - xmjd6.yingwen
+  - dicts/xmjd6/xmjd6.yingwen
 # ---------------------------------------
 # 扩展：超级字词
-  - xmjd6.chaojizici
+  - dicts/xmjd6/xmjd6.chaojizici
 # ---------------------------------------
 ## 扩展：630词组
-  - xmjd6.wxw
+  - dicts/xmjd6/xmjd6.wxw
 # ---------------------------------------
 ## 扩展：用户词库
-  # - xmjd6.user   #词频改到上面去了，所以临时注释了
+  # - dicts/xmjd6/xmjd6.user   #词频改到上面去了，所以临时注释了
 # ---------------------------------------
 ## 扩展：附加词语----猫兰佬提供
-  - xmjd6.fjcy
+  - dicts/xmjd6/xmjd6.fjcy
 # ---------------------------------------
 # =======================================
 
 ## 自定义词库：自己做的词库，自己维护
-  - xmjd6.gbk
+  - dicts/xmjd6/xmjd6.gbk
   # - jdl_Z
 
 # =======================================
@@ -76,36 +76,36 @@ import_tables:
 # *：放入后重新部署即可
 # ---------------------------------------
 ## 扩展：超级字词+外挂版本@吅吅大山
-#  - xmjd6.chaojizicijia
+#  - dicts/xmjd6/xmjd6.chaojizicijia
 # ~~~~~~~~~~~~~~~~~~
 # * u键引导
 # ---------------------------------------
 ## 扩展：诗词词库+外挂版本@别打脸脸
-#  - xmjd6.iboot
+#  - dicts/xmjd6/xmjd6.iboot
 # ~~~~~~~~~~~~~~~~~~
 # * i键引导
 # ---------------------------------------
 ## 扩展：声笔笔单字@msc802
-#  - xmjd6.wxwdanzi
+#  - dicts/xmjd6/xmjd6.wxwdanzi
 # ~~~~~~~~~~~~~~~~~~
 # * 开启，请禁用内置词库中：
-# * - xmjd6.wxw
+# * - dicts/xmjd6/xmjd6.wxw
 # ---------------------------------------
 ## 扩展：繁体码表@岳飞丫飞
-#  - xmjd6_tc.danzi
-#  - xmjd6_tc.cizu
-#  - xmjd6_tc.wxw
+#  - dicts/xmjd6/xmjd6_tc.danzi
+#  - dicts/xmjd6/xmjd6_tc.cizu
+#  - dicts/xmjd6/xmjd6_tc.wxw
 # ~~~~~~~~~~~~~~~~~~
 # * 开启，请禁用内置词库中：
-# *  - xmjd6.danzi
-# *  - xmjd6.cizu
-# *  - xmjd6.wxw
+# *  - dicts/xmjd6/xmjd6.danzi
+# *  - dicts/xmjd6/xmjd6.cizu
+# *  - dicts/xmjd6/xmjd6.wxw
 # ---------------------------------------
 ## 扩展：声韵声@塔里
-#  - xmjd6.sys
+#  - dicts/xmjd6/xmjd6.sys
 # ---------------------------------------
 ## 扩展：东方词库@DRGICEAKE
-#  - xmjd6.touhou
+#  - dicts/xmjd6/xmjd6.touhou
 # ~~~~~~~~~~~~~~~~~~
 # * o键引导
 # ---------------------------------------
