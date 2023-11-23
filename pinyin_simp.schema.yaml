@@ -60,7 +60,7 @@ speller:
     - derive/([iu])a(o|ng?)$/a$1$2/
 
 translator:
-  dictionary: dicts/xmjd6/pinyin_simp
+  dictionary: pinyin_simp
   preedit_format:
     - xform/([nl])v/$1ü/
     - xform/([nl])ue/$1üe/

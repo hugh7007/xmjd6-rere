@@ -53,7 +53,7 @@ speller:
     - abbrev/^([a-z]).+$/$1/
 
 translator:
-  dictionary: dicts/xmjd6/liangfen
+  dictionary: liangfen
   spelling_hints: 4
   preedit_format:
     - "xlit|v|ü|"
