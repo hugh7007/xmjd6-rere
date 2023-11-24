@@ -160,7 +160,7 @@ repeat_history2:
   initial_quality: 10000
 
 emoji_cn:
-  opencc_config: xmjd6/xmjd6.emoji.json
+  opencc_config: xmjd6/xmjd6_emoji.json
   option_name: emoji_cn
   comment_format:
   #  - xform/.*//   #不会有透明的文字显示
