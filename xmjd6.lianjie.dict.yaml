@@ -3,14 +3,14 @@ name: xmjd6.lianjie
 version: "Q1"
 sort: original
 ...
-http://	http
+
 # HTTP头
 # rime小小地址
-@gmail.com	;ag
+@gmail.com	;pg
 # Gmail邮箱
-@outlook.com	;ao
+@outlook.com	;po
 # Outlook邮箱
-@qq.com	;aq
+@qq.com	;pq
 # QQ邮箱
-@163.com	;aw
+@163.com	;pw
 # 网易邮箱
