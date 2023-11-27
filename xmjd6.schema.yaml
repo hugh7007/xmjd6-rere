@@ -21,6 +21,7 @@ schema:
     - pinyin_simp
     - liangfen
     - xmjd6.en
+    - xmjd6.gbk
 
 
 # Layout config
@@ -90,6 +91,7 @@ engine:
     - affix_segmentor@xmjd6en
     - affix_segmentor@quanpinerfen
     - affix_segmentor@xmjdWXYZ
+    - affix_segmentor@xmjd6gbk
     - abc_segmentor
     - punct_segmentor
     - fallback_segmentor
@@ -111,10 +113,13 @@ engine:
     - script_translator@quanpinerfen
     - script_translator@pinyin_simp
     - table_translator@xmjd6en
+    - script_translator@xmjd6gbk
   filters:
     - simplifier
     - reverse_lookup_filter@pinyin_simp_lookup
     - reverse_lookup_filter@quanpinerfen_lookup
+    - reverse_lookup_filter@gbk_lookup
+    - lua_filter@*xmjd6/xmjd6_single_char #候选单字优先
     - simplifier@emoji_cn
     - simplifier@jffh
     - simplifier@ascii_punct
@@ -151,12 +156,12 @@ translator:
 
 repeat_history:
   input: i #重复上次上屏内容
-  size: 1
+  size: 3
   initial_quality: 10000
 
 repeat_history2:
   input: ;f #重复上次上屏内容
-  size: 1
+  size: 3
   initial_quality: 10000
 
 emoji_cn:
@@ -207,6 +212,23 @@ xmjd6en:
     - xform/.*//
   prefix: "i"
   tips: "〔单词〕"
+
+xmjd6gbk:
+  tag: xmjd6gbk
+  dictionary: xmjd6.gbk
+  enable_sentence: true
+  enable_completion: true
+  enable_user_dict: false
+  comment_format:
+    - xform/.*//
+  prefix: "o"
+  tips: "〔GBK字集〕"
+
+#↓gbk反查方案
+gbk_lookup:
+  tags: [gbk]
+  dictionary: xmjd6.cx #反查其码
+  overwrite_comment: true
 
 #↓二分反查方案
 quanpinerfen_lookup:
@@ -347,6 +369,7 @@ recognizer:
     pinyin_simp: "^u[a-z']*'?$"
     quanpinerfen: "^v[a-z']*'?$"
     xmjd6en: "^i[a-z]*?$"
+    xmjd6gbk: "^o[a-z]*?$"
     jsq: "^=[^;']+$"
     zhuan: "^\\\\.*$" # 不加这句后面不能跟数字
     zhuanxiao: "^\\+.*$" # 不加这句后面不能跟数字
