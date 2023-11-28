@@ -3936,11 +3936,11 @@ sort: original
 玻璃门	blmv
 不礼貌	blmvo
 博美	blmw
-百灵鸟	bln
+百灵鸟	blnva
 驳难	blnf
 渤泥	blnk
 波尼	blnka
-布朗尼	blnv
+布朗尼	blnvo
 拨弄	blny
 舶来品	blp
 步履蹒跚	blpe
@@ -14075,7 +14075,7 @@ sort: original
 当掉	dpdc
 挡掉	dpdci
 当爹	dpdd
-党的	dpde
+党的	dpdei
 当代	dpdh
 当地	dpdk
 荡涤	dpdki
@@ -15118,7 +15118,7 @@ sort: original
 大老	dslzvu
 第三名	dsm
 大岷	dsmb
-大苗	dsmc
+大苗	dsmcvi
 达咩	dsmd
 大谋	dsmdv
 打满	dsmf
@@ -15145,8 +15145,8 @@ sort: original
 大码	dsmsvv
 第四名	dsmu
 大媒	dsmw
-大毛	dsmz
-大猫	dsmzv
+大毛	dsmzvu
+大猫	dsmz
 迪斯尼	dsn
 大鸟	dsnc
 大呢	dsne
@@ -19795,7 +19795,7 @@ sort: original
 蜀通	ejtyi
 数通	ejtyo
 书套	ejtz
-省纪委	ejw
+省纪委	ejwiau
 数万	ejwf
 世界卫生组织	ejwfv
 世界文化	ejwh
@@ -30031,7 +30031,7 @@ sort: original
 扎实	fseki
 诈尸	fseko
 阀室	fsekoo
-法硕	fsel
+法硕	fsela
 法身	fsen
 发瘆	fsena
 炸伤	fsep
@@ -53558,7 +53558,7 @@ sort: original
 假钞	jsjz
 加速卡	jsk
 尖酸刻薄	jskb
-假扣	jskd
+假扣	jskdi
 夹克	jske
 加壳	jskea
 假砍	jskf
@@ -63216,9 +63216,9 @@ sort: original
 流线	lqxm
 刘秀	lqxq
 两强相争	lqxqv
-留下	lqxs
-流下	lqxsa
-刘璇	lqxt
+留下	lqxsu
+流下	lqxs
+刘璇	lqxtov
 林青霞	lqxv
 六旬	lqxw
 流向	lqxx
@@ -71710,7 +71710,7 @@ sort: original
 碾坊	nmfp
 年方	nmfpu
 年丰	nmfr
-念法	nmfsi
+念法	nmfs
 年费	nmfw
 碾庄	nmfx
 年终	nmfy
@@ -72368,7 +72368,6 @@ sort: original
 哪知	nsfk
 那只	nsfka
 那支	nsfkau
-念法	nsfs
 那份	nsfn
 哪份	nsfno
 哪方	nsfp
@@ -72940,7 +72939,7 @@ sort: original
 你希望	nxw
 哪些问题	nxwt
 脑下垂体	nxwtu
-娘儿	nxxj
+娘儿	nxxjau
 农学院	nxy
 你想要	nxyi
 娘姨	nxyk
@@ -100535,8 +100534,8 @@ sort: original
 为在	wwzh
 围在	wwzhi
 未在	wwzhv
-维族	wwzj
-五味杂陈	wwzjv
+维族	wwzja
+五味杂陈	wwzj
 位子	wwzk
 为做	wwzl
 围坐	wwzli
@@ -109025,8 +109024,8 @@ sort: original
 香锅	xxglu
 相国	xxglv
 形销骨立	xxglvi
-洗心革面	xxgm
-想逛	xxgmv
+洗心革面	xxgma
+想逛	xxgm
 想跟	xxgn
 吸血鬼	xxgou
 显像管	xxgoi
@@ -114079,7 +114078,7 @@ sort: original
 义肢	ykfkou
 译制	ykfkou
 移植	ykfku
-一致	ykfkvs
+一致	ykfkv
 医治	ykfkva
 一指	ykfkvi
 一只	ykfkvo
@@ -120160,7 +120159,7 @@ sort: original
 坐久了	zjliu
 阻路	zjlj
 阻力	zjlk
-祖率	zjll
+祖率	zjlloo
 足联	zjlm
 总教练	zjlo
 总产量	zjloo
