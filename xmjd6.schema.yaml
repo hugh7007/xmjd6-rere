@@ -58,16 +58,16 @@ switches:
     states: [ 地球文, 火星文 ] #火星文
   - name: emoji_cn   #Emoji开关 # custom.yaml的开关4
     reset: 1              # 1为默认开启
-    states: [ 开表情,关表情  ]
+    states: [ 表情关闭,表情启用  ]
   - name: embeded_cands # custom.yaml的开关5
     reset: 0
     states: [普通, 嵌入候选]
   - name: sbb_hint # custom.yaml的开关6
     reset: 1
-    states: [ 开630提示, 关630提示 ]
+    states: [ 630提示关闭, 630提示启用 ]
   - name: completion
     reset: 1
-    states: [ 提示词开, 提示词关 ]
+    states: [ 提示词关闭, 提示词启用 ]
 
 
 
