@@ -44,27 +44,31 @@ layout:
     special: "^(?:;?[avuio])[a-z]{0,}"
 
 switches:
-  - name: ascii_mode
+  - name: ascii_mode  # custom.yaml的开关0
     reset: 0
     states: [ 中文, 西文 ]
-  - name: ascii_punct
+  - name: ascii_punct  # custom.yaml的开关1
     reset: 0
     states: [ 全角, 半角 ]
-  - name: jffh
+  - name: jffh  # custom.yaml的开关2
     reset: 0
     states: [ 简体, 繁體 ]
-  - name: mars
+  - name: mars # custom.yaml的开关3
     reset: 0
     states: [ 地球文, 火星文 ] #火星文
-  - name: emoji_cn   #Emoji开关
+  - name: emoji_cn   #Emoji开关 # custom.yaml的开关4
     reset: 1              # 1为默认开启
-    states: [ 关闭表情,开启表情  ]
-  - name: embeded_cands
+    states: [ 开表情,关表情  ]
+  - name: embeded_cands # custom.yaml的开关5
     reset: 0
     states: [普通, 嵌入候选]
-  - name: sbb_hint
+  - name: sbb_hint # custom.yaml的开关6
     reset: 1
-    states: [ 关闭630提示, 开启630提示  ]
+    states: [ 开630提示, 关630提示 ]
+  - name: completion
+    reset: 1
+    states: [ 提示词开, 提示词关 ]
+
 
 
   # - name: full_shape

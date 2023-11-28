@@ -1,62 +1,101 @@
+--[[
+    https://github.com/xkjd27/rime_jd27c/blob/e38a8c5d010d5a3933e6d6d8265c0cf7b56bfcca/rime/lua/jd27_hint.lua
+    by TsFreddie
+    - 简码 630 提示
+    - 单字模式
+--]]
+
 local function startswith(str, start)
     return string.sub(str, 1, string.len(start)) == start
 end
 
-local function hint(cand, context, reverse)
-    if utf8.len(cand.text) < 2 then
-        return false
+local function hint(cand, input, env)
+    -- 简码提示
+    if utf8.len(cand.text) <= 1 then
+        return 0
     end
-    
+    local reverse = env.reverse
+    local s = env.s
+    local b = env.b
+
     local lookup = " " .. reverse:lookup(cand.text) .. " "
-    local short = string.match(lookup, " ([bcdefghjklmnpqrstwxyz][auiov]+) ") or 
-                  string.match(lookup, " ([bcdefghjklmnpqrstwxyz][bcdefghjklmnpqrstwxyz]) ")
-    local input = context.input 
-    if short and utf8.len(input) > utf8.len(short) and not startswith(short, input) then
-        -- cand:get_genuine().comment = cand.comment .. "〔" .. short .. "〕"
-        cand:get_genuine().comment = cand.comment .. " = " .. short
-        return true
+    local sbb = string.match(lookup, " (["..s.."]["..b.."]+) ")
+    local short = string.match(lookup, " (["..s.."]["..s.."]) ")
+    
+    if string.len(input) > 1 then
+        if sbb and not startswith(sbb, input) then
+            cand:get_genuine().comment = cand.comment .. "〔" .. sbb .. "〕"
+            -- cand:get_genuine().comment = cand.comment .. "≈" .. sbb .. ""
+            return 1
+        end
+
+        if short and not startswith(short, input) then
+            cand:get_genuine().comment = cand.comment .. "〔" .. short .. "" .. "〕"
+            -- cand:get_genuine().comment = cand.comment .. "≈" .. short .. ""
+            return 2
+        end
     end
 
-    return false
+    return 0
 end
 
-local function danzi(cand)
-    if utf8.len(cand.text) < 2 then
-        return true
-    end
-    return false
+local function commit_hint(cand)
+    -- 顶功提示
+    cand:get_genuine().comment = '' .. cand.comment
 end
 
-local function commit_hint(cand, hint_text)
-    cand:get_genuine().comment = hint_text .. cand.comment
-    -- cand:get_genuine().comment = cand.comment
+local function is_danzi(cand)
+    return utf8.len(cand.text) == 1
 end
 
 local function filter(input, env)
-    local is_danzi = env.engine.context:get_option('danzi_mode')
-    local is_on = env.engine.context:get_option('sbb_hint')
-    local hint_text = env.engine.schema.config:get_string('hint_text') or '🚫'
+    local context = env.engine.context
+    local is_hint_on = context:get_option('wxw_hint') or context:get_option('sbb_hint')
+    local is_completion_on = context:get_option('completion')
+    local is_danzi_on = context:get_option('danzi_mode')
+    local input_text = context.input
+    local no_commit = string.len(input_text) < 4 and string.match(input_text, "^["..env.s.."]+$")
+    local has_table = false
     local first = true
-    local input_text = env.engine.context.input
-    local no_commit = (input_text:len() < 4 and input_text:match("^[bcdefghjklmnpqrstwxyz]+$")) or (input_text:match("^[avuio]+$"))
+
     for cand in input:iter() do
-        -- if first and no_commit and cand.type ~= 'completion' then
-        if first and no_commit then
-            commit_hint(cand, hint_text)
+        if no_commit and first then
+            commit_hint(cand)
         end
-       
         first = false
-        if not is_danzi or danzi(cand) then
-            if is_on then
-            hint(cand, env.engine.context, env.reverse)
+        if cand.type == 'table' then
+            if is_hint_on then
+                hint(cand, input_text, env)
             end
+
+            yield(cand)
+            has_table = true
+        elseif cand.type == 'completion' then
+            if is_completion_on then
+                if not is_danzi_on or is_danzi(cand) then
+                    yield(cand)
+                end
+            elseif not has_table then
+                if not is_danzi_on or is_danzi(cand) then
+                    yield(cand)
+                    return
+                end
+            else
+                return
+            end
+        else
             yield(cand)
         end
     end
 end
 
 local function init(env)
-    env.reverse = ReverseDb("build/xmjd6.extended.reverse.bin")
+    local config = env.engine.schema.config
+    local dict_name = config:get_string("translator/dictionary")
+
+    env.b = config:get_string("topup/topup_with")
+    env.s = config:get_string("topup/topup_this")
+    env.reverse = ReverseDb("build/".. dict_name .. ".reverse.bin")
 end
 
 return { init = init, func = filter }
