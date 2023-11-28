@@ -9,7 +9,7 @@ installation.yaml
 user.yaml
 *user.txt
 *private*
-
+*user.dict.yaml
 rime_console
 rime_deployer
 rime_patch
