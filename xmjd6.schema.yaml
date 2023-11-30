@@ -1,4 +1,4 @@
-﻿# Rime schema settingsjffh
+# Rime schema settingsjffh
 # encoding: utf-8
 # 方案维护者：Proud丶Cat、热热佬、千年蟲
 # 方案溯源：星空键道6.2 →  🐈星猫键道6.3
@@ -58,16 +58,16 @@ switches:
     states: [ 地球文, 火星文 ] #火星文
   - name: emoji_cn   #Emoji开关 # custom.yaml的开关4
     reset: 1              # 1为默认开启
-    states: [ 表情关闭,表情启用  ]
+    states: [ 简约, 表情展示 ]
   - name: embeded_cands # custom.yaml的开关5
     reset: 0
     states: [普通, 嵌入候选]
   - name: sbb_hint # custom.yaml的开关6
     reset: 1
-    states: [ 630提示关闭, 630提示启用 ]
+    states: [ 简约, 630提示 ]
   - name: completion
     reset: 1
-    states: [ 提示词关闭, 提示词启用 ]
+    states: [ 简约, 逐码展示 ]
 
 
 
