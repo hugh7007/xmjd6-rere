@@ -100,7 +100,7 @@ keyboards:
                 direction: up
               - action: character(（)
                 display: true
-                processByRIME: true
+                processByRIME: false
                 direction: down
           - action: character(p)
             width: percentage(0.1)
@@ -111,7 +111,7 @@ keyboards:
                 direction: up
               - action: character(）)
                 display: true
-                processByRIME: true
+                processByRIME: false
                 direction: down
       - keys:
           - action: none
@@ -314,12 +314,29 @@ keyboards:
             width: available
           - action: backspace
             width:
-              portrait: percentage(0.12)
+              portrait: percentage(0.14)
               landscape: percentage(0.13)
+            swipe:
+              - action: shortCommand(#重输)
+                display: true
+                processByRIME: true
+                direction: up
+              - action: shortCommand(#重输)
+                display: true
+                processByRIME: true
+                direction: down
+              - action: shortCommand(#重输)
+                display: true
+                processByRIME: true
+                direction: left
+              - action: shortCommand(#重输)
+                display: true
+                processByRIME: true
+                direction: right
       - keys:
           - action: keyboardType(custom(123))
             width:
-              portrait: percentage(0.21)
+              portrait: percentage(0.17)
               landscape: percentage(0.1)
             label: "123"
             swipe:
@@ -348,7 +365,7 @@ keyboards:
                 direction: down
           - action: enter
             width:
-              portrait: percentage(0.24)
+              portrait: percentage(0.25)
               landscape: percentage(0.1)
             swipe:
               - action: shortCommand(#换行)
@@ -360,6 +377,10 @@ keyboards:
                 display: true
                 processByRIME: false
                 direction: down
+              - action: shortCommand(#重输)
+                display: true
+                processByRIME: true
+                direction: left
     buttonInsets: "2"
   - name: "123"
     rows:
@@ -376,6 +397,23 @@ keyboards:
             width: percentage(0.2)
           - action: backspace
             width: percentage(0.2)
+            swipe:
+              - action: shortCommand(#重输)
+                display: true
+                processByRIME: true
+                direction: up
+              - action: shortCommand(#重输)
+                display: true
+                processByRIME: true
+                direction: down
+              - action: shortCommand(#重输)
+                display: true
+                processByRIME: true
+                direction: left
+              - action: shortCommand(#重输)
+                display: true
+                processByRIME: true
+                direction: right
       - keys:
           - action: character(*)
             width: percentage(0.1)
@@ -437,7 +475,7 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: up
-    buttonInsets: left(3),bottom(4),top(8),right(3)
+    buttonInsets: "3"
   - name: en
     rows:
       - keys:
@@ -539,6 +577,23 @@ keyboards:
           - action: backspace
             processByRIME: false
             width: percentage(0.13)
+            swipe:
+              - action: shortCommand(#重输)
+                display: true
+                processByRIME: true
+                direction: up
+              - action: shortCommand(#重输)
+                display: true
+                processByRIME: true
+                direction: down
+              - action: shortCommand(#重输)
+                display: true
+                processByRIME: true
+                direction: left
+              - action: shortCommand(#重输)
+                display: true
+                processByRIME: true
+                direction: right
       - keys:
           - action: keyboardType(custom(123))
             processByRIME: false
@@ -559,7 +614,9 @@ keyboards:
             width: percentage(0.1)
           - action: space
             processByRIME: false
-            width: percentage(0.4)
+            width:
+              portrait: percentage(0.38)
+              landscape: percentage(0.4)
             swipe:
               - action: shortCommand(#次选上屏)
                 display: true
@@ -574,7 +631,9 @@ keyboards:
             width: percentage(0.1)
           - action: enter
             processByRIME: false
-            width: percentage(0.2)
+            width:
+              portrait: percentage(0.22)
+              landscape: percentage(0.2)
             swipe:
               - action: shortCommand(#换行)
                 display: true
@@ -584,4 +643,8 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: down
-    buttonInsets: left(3),bottom(4),top(8),right(3)
+              - action: shortCommand(#重输)
+                display: true
+                processByRIME: true
+                direction: left
+    buttonInsets: "2"
