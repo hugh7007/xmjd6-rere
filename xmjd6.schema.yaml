@@ -1,4 +1,4 @@
-# Rime schema settingsjffh
+﻿# Rime schema settingsjffh
 # encoding: utf-8
 # 方案维护者：Proud丶Cat、热热佬、千年蟲
 # 方案溯源：星空键道6.2 →  🐈星猫键道6.3
@@ -187,6 +187,23 @@ mars:
 ascii_punct:
   option_name: ascii_punct
 
+#↓gbk反查方案
+gbk_lookup:
+  tags: [xmjd6gbk]
+  dictionary: xmjd6.cx #反查其码
+  overwrite_comment: true
+
+xmjd6gbk:
+  tag: xmjd6gbk
+  dictionary: xmjd6.gbk
+  enable_sentence: true
+  enable_completion: true
+  enable_user_dict: false
+  # comment_format:
+  #   - xform/.*//
+  prefix: "o"
+  tips: "〔GBK字集〕"
+
 pinyin_simp_lookup:
   tags: [pinyin_simp]
   dictionary: xmjd6.cx #反查其码
@@ -216,23 +233,6 @@ xmjd6en:
     - xform/.*//
   prefix: "i"
   tips: "〔单词〕"
-
-xmjd6gbk:
-  tag: xmjd6gbk
-  dictionary: xmjd6.gbk
-  enable_sentence: true
-  enable_completion: true
-  enable_user_dict: false
-  comment_format:
-    - xform/.*//
-  prefix: "o"
-  tips: "〔GBK字集〕"
-
-#↓gbk反查方案
-gbk_lookup:
-  tags: [gbk]
-  dictionary: xmjd6.cx #反查其码
-  overwrite_comment: true
 
 #↓二分反查方案
 quanpinerfen_lookup:
@@ -388,5 +388,5 @@ topup:
   topup_command: true
 # menu:     #如果想要修改候选直接反注释这四行内容
 #   page_size: 6 #候选项数
-# style:
-#   horizontal: false #竖排为false
+style:
+   horizontal: true #竖排为false
