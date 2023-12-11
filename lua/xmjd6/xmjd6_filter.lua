@@ -20,28 +20,30 @@ local function hint(cand, input, env)
 
     local lookup = " " .. reverse:lookup(cand.text) .. " "
     local sbb = string.match(lookup, " (["..s.."]["..b.."]+) ")
-    local short = string.match(lookup, " (["..s.."]["..s.."]) ")
-    
+    local short = string.match(lookup, " (["..s.."]["..s.."]) ") or
+                string.match(lookup, " (["..s.."]["..s.."]["..b.."]) ") or
+                string.match(lookup, " (["..b.."]["..b.."]["..b.."]) ") or
+                string.match(lookup, " (["..b.."]["..b.."]) ")
+
     if string.len(input) > 1 then
         if sbb and not startswith(sbb, input) then
-            cand:get_genuine().comment = cand.comment .. "〔" .. sbb .. "〕"
-            -- cand:get_genuine().comment = cand.comment .. "≈" .. sbb .. ""
+            cand:get_genuine().comment = cand.comment .. "= " .. sbb .. ""
             return 1
         end
 
         if short and not startswith(short, input) then
-            cand:get_genuine().comment = cand.comment .. "〔" .. short .. "" .. "〕"
-            -- cand:get_genuine().comment = cand.comment .. "≈" .. short .. ""
+            cand:get_genuine().comment = cand.comment .. "= " .. short .. ""
             return 2
         end
+
     end
 
     return 0
 end
 
-local function commit_hint(cand)
+local function commit_hint(cand, hint_text)
     -- 顶功提示
-    cand:get_genuine().comment = '' .. cand.comment
+    cand:get_genuine().comment = hint_text .. cand.comment
 end
 
 local function is_danzi(cand)
@@ -49,7 +51,8 @@ local function is_danzi(cand)
 end
 
 local function filter(input, env)
-    local context = env.engine.context
+    local context = env.engine.context    
+    local hint_text = env.engine.schema.config:get_string('hint_text') or '🚫'
     local is_hint_on = context:get_option('wxw_hint') or context:get_option('sbb_hint')
     local is_completion_on = context:get_option('completion')
     local is_danzi_on = context:get_option('danzi_mode')
@@ -60,7 +63,7 @@ local function filter(input, env)
 
     for cand in input:iter() do
         if no_commit and first then
-            commit_hint(cand)
+            commit_hint(cand, hint_text)
         end
         first = false
         if cand.type == 'table' then
