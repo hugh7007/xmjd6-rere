@@ -58,7 +58,7 @@ patch:
   "style/antialias_mode": default
   "style/capture_type": none
   "style/color_font": true
-  "style/color_scheme": win10_MDL_ayaya
+  "style/color_scheme": CatLight
   "style/color_scheme_dark": CatDark
   "style/comment_font_face": "霞鹜新晰黑, Segoe UI, Segoe UI Emoji:1f000:1f09f, Noto Color Emoji SVG:80, Microsoft Yahei, 全宋体-1, 全宋体-2, 全宋体-3, 全宋体-F, 全宋体-X, 全宋体(调和), 全宋体(等宽)"
   "style/comment_font_point": 12
