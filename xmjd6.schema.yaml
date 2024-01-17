@@ -388,5 +388,3 @@ topup:
   topup_command: true
 # menu:     #如果想要修改候选直接反注释这四行内容
 #   page_size: 6 #候选项数
-style:
-   horizontal: true #竖排为false
