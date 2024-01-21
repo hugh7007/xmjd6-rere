@@ -15,7 +15,6 @@ max_phrase_length: 7
 min_phrase_weight: 100
 ...
 
-
 一	hr
 丁	hryk
 丂	hryk
@@ -17097,6 +17096,7 @@ min_phrase_weight: 100
 遜	zdsw
 遝	zdsk
 遞	zdhj
+𰻞	zdxb
 遟	zdxb
 遠	zdyt
 遡	zdel

@@ -1,4 +1,3 @@
-customKeyStyles: {}
 keyboards:
   - name: 🌟
     isPrimary: false
@@ -354,6 +353,7 @@ keyboards:
             width: available
       - keys:
           - action: shift
+            processByRIME: false
             width:
               percentage: 0.13
             swipe:
@@ -362,6 +362,10 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: up
+              - action: shift
+                display: true
+                processByRIME: true
+                direction: down
           - action: none
             width: available
           - action:
@@ -390,14 +394,16 @@ keyboards:
               - action:
                   character:
                     char: ？
+                label: ？
                 display: true
                 processByRIME: false
                 direction: up
               - action:
-                  shortcutCommand: "#剪切"
-                label: ✂
+                  character:
+                    char: "?"
+                label: "?"
                 display: true
-                processByRIME: true
+                processByRIME: false
                 direction: down
           - action:
               character:
@@ -409,13 +415,14 @@ keyboards:
                   character:
                     char: ，
                 display: true
-                processByRIME: false
+                processByRIME: true
                 direction: up
               - action:
-                  shortcutCommand: "#复制"
-                label: 📘
+                  character:
+                    char: ","
+                label: ","
                 display: true
-                processByRIME: true
+                processByRIME: false
                 direction: down
           - action:
               character:
@@ -430,10 +437,11 @@ keyboards:
                 processByRIME: true
                 direction: up
               - action:
-                  shortcutCommand: "#粘贴"
-                label: 📚
+                  character:
+                    char: .
+                label: .
                 display: true
-                processByRIME: true
+                processByRIME: false
                 direction: down
           - action:
               character:
@@ -1052,8 +1060,8 @@ keyboards:
                 direction: up
               - action:
                   character:
-                    char: "@"
-                label: "@"
+                    char: $
+                label: $
                 display: true
                 processByRIME: true
                 direction: down
