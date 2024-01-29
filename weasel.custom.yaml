@@ -42,6 +42,9 @@ patch:
     purity: {back_color: 0x444444, candidate_format: "%c %@ ", candidate_text_color: 0xeeeeee, comment_text_color: 0x808080, hilited_back_color: 0x444444, hilited_candidate_back_color: 0xfafafa, hilited_candidate_text_color: 0x000000, hilited_text_color: 0xeeeeee, name: "纯洁", text_color: 0xc2c2c2}
     solarized_dark: {back_color: 0xf0352A0A, border_color: 0xf02A1F00, candidate_format: "%c %@ ", candidate_text_color: 0x989F52, comment_text_color: 0x289989, hilited_back_color: 0x444444, hilited_candidate_back_color: 0xD7E8ED, hilited_candidate_label_color: 0x2566C6, hilited_candidate_text_color: 0x3942CB, hilited_comment_text_color: 0x8144C2, hilited_text_color: 0x2C8BAE, label_color: 0xCC8947, name: "夜光石", text_color: 0xA1A095}
     solarized_rock: {back_color: 0x362b00, candidate_format: "%c %@ ", candidate_text_color: 0x969483, comment_text_color: 0xc098a12a, hilited_back_color: 0x444444, hilited_candidate_back_color: 0x8236d3, hilited_candidate_label_color: 0xfafafa, hilited_candidate_text_color: 0xffffff, hilited_comment_text_color: 0x362b00, hilited_text_color: 0x98a12a, name: "日光石", text_color: 0x8236d3}
+    MacRoseo: {author: KyleBing, back_color: 0xFFFFFF, border_color: 0x33000000, candidate_back_color: 0xFFFFFF, candidate_border_color: 0x00000000, candidate_shadow_color: 0x00000000, candidate_text_color: 0x000000, comment_text_color: 0xBBCC27, creat_time: "2021-07-26", hilited_back_color: 0xEDEDF9, hilited_candidate_back_color: 0x004F11FA, hilited_candidate_border_color: 0x004F11FA, hilited_candidate_shadow_color: 0x004F11FA, hilited_candidate_text_color: 0x4F11FA, hilited_label_color: 0x884F11FA, hilited_mark_color: 0x000000, hilited_shadow_color: 0xcccccc, hilited_text_color: 0x000000, label_color: 0x999999, name: "玫红 / MacRoseo", nextpage_color: 0x000000, prevpage_color: 0x000000, shadow_color: 0x44000000, text_color: 0x000000}
+    MacRoseoAlt: {author: KyleBing, back_color: 0xFFFFFF, border_color: 0xD6D6D6, candidate_text_color: 0x000000, comment_text_color: 0xBBCC27, creat_time: "2021-07-26", hilited_back_color: 0xFFFFFF, hilited_candidate_back_color: 0x4F11FA, hilited_candidate_text_color: 0xFFFFFF, hilited_text_color: 0x000000, name: MacRoseo, text_color: 0x000000}
+    WhiteAqua: {author: KyleBing, back_color: 0xFFFFFF, border_color: 0xD6D6D6, candidate_text_color: 0x000000, comment_text_color: 0xBBCC27, creat_time: "2021-07-26", hilited_back_color: 0xFFFFFF, hilited_candidate_back_color: 0x9BAD23, hilited_candidate_text_color: 0xFFFFFF, hilited_text_color: 0x000000, name: WhiteAqua, text_color: 0x000000}
     wechat_dark: {back_color: 0x2e2925, candidate_format: "%c %@ ", candidate_text_color: 0xe9e9ea, comment_text_color: 0x999999, hilited_candidate_back_color: 0x75B100, hilited_candidate_text_color: 0xFFFFFF, inline_preedit: true, label_color: 0x999999, name: "微信键盘深色", text_color: 0x424242}
     wechat_light: {back_color: 0xFFFFFF, border_height: 0, border_width: 8, candidate_format: "%c %@ ", comment_text_color: 0x999999, hilited_candidate_back_color: 0x75B100, hilited_candidate_text_color: 0xFFFFFF, inline_preedit: true, name: "微信键盘浅色", text_color: 0x424242}
     white: {back_color: 0xededed, border_color: 0x40444444, candidate_shadow_color: 0x60444444, candidate_text_color: 0x444444, comment_text_color: 0x444444, hilited_candidate_back_color: 0x444444, hilited_candidate_shadow_color: 0x60444444, hilited_candidate_text_color: 0xededed, hilited_comment_text_color: 0xededed, hilited_label_color: 0xededed, hilited_shadow_color: 0x60444444, hilited_text_color: 0x000000, label_color: 0x444444, name: "白色/white", shadow_color: 0x60444444}
@@ -58,8 +61,8 @@ patch:
   "style/antialias_mode": default
   "style/capture_type": none
   "style/color_font": true
-  "style/color_scheme": CatLight
-  "style/color_scheme_dark": CatDark
+  "style/color_scheme": CatLight # 日间模式主题
+  "style/color_scheme_dark": CatDark # 夜间模式主题
   "style/comment_font_face": "霞鹜新晰黑, Segoe UI, Segoe UI Emoji:1f000:1f09f, Noto Color Emoji SVG:80, Microsoft Yahei, 全宋体-1, 全宋体-2, 全宋体-3, 全宋体-F, 全宋体-X, 全宋体(调和), 全宋体(等宽)"
   "style/comment_font_point": 12
   "style/display_tray_icon": false
