@@ -63,16 +63,16 @@ patch:
   "style/color_font": true
   "style/color_scheme": CatLight # 日间模式主题
   "style/color_scheme_dark": CatDark # 夜间模式主题
-  "style/comment_font_face": "霞鹜新晰黑, Segoe UI, Segoe UI Emoji:1f000:1f09f, Noto Color Emoji SVG:80, Microsoft Yahei, 全宋体-1, 全宋体-2, 全宋体-3, 全宋体-F, 全宋体-X, 全宋体(调和), 全宋体(等宽)"
+  "style/comment_font_face": "霞鹜新晰黑, Segoe UI, Segoe UI Emoji:1f000:1f09f, Noto Color Emoji SVG:80, Microsoft Yahei, 全宋体-1, 全宋体-2, 全宋体-3, 全宋体-F, 全宋体-X, 全宋体(调和), 全宋体(等宽), TH-Tshyn-P0, TH-Tshyn-P1"
   "style/comment_font_point": 12
   "style/display_tray_icon": false
-  "style/font_face": "霞鹜新晰黑, Segoe UI, Segoe UI Emoji:1f000:1f09f, Noto Color Emoji SVG:80, Microsoft Yahei, 全宋体-1, 全宋体-2, 全宋体-3, 全宋体-F, 全宋体-X, 全宋体(调和), 全宋体(等宽)"
+  "style/font_face": "霞鹜新晰黑, Segoe UI, Segoe UI Emoji:1f000:1f09f, Noto Color Emoji SVG:80, Microsoft Yahei, 全宋体-1, 全宋体-2, 全宋体-3, 全宋体-F, 全宋体-X, 全宋体(调和), 全宋体(等宽), TH-Tshyn-P0, TH-Tshyn-P1"
   "style/font_point": 14
   "style/fullscreen": false
   "style/hide_candidates_when_single": false
   "style/horizontal": false
   "style/inline_preedit": true
-  "style/label_font_face": "霞鹜新晰黑, Segoe UI, Noto Color Emoji SVG:80 , Microsoft Yahei"
+  "style/label_font_face": "霞鹜新晰黑, Segoe UI, Noto Color Emoji SVG:80 , Microsoft Yahei, TH-Tshyn-P0, TH-Tshyn-P1"
   "style/label_font_point": 14
   "style/label_format": "%s."
   "style/layout/align_type": bottom
