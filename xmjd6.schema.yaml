@@ -202,7 +202,7 @@ xmjd6gbk:
   # comment_format:
   #   - xform/.*//
   prefix: "o"
-  tips: "〔GBK字集〕"
+  # tips: "〔GBK字集〕"
 
 pinyin_simp_lookup:
   tags: [pinyin_simp]
@@ -343,6 +343,7 @@ key_binder:
     - { when: has_menu, accept: "&", toggle: emoji_cn }	#手机快捷切换表情
     - { when: has_menu, accept: "%", toggle: mars } #手机快捷火星文切换
     - { when: has_menu, accept: "*", toggle: jffh } #手机快捷简繁切换
+    - { when: has_menu, accept: "$", toggle: embeded_cands } #手机快捷切换内嵌
     - {accept: KP_0, send: 0, when: composing}
     - {accept: KP_1, send: 1, when: composing}
     - {accept: KP_2, send: 2, when: composing}
@@ -387,4 +388,6 @@ topup:
   min_length_danzi: 2
   topup_command: true
 # menu:     #如果想要修改候选直接反注释这四行内容
-#   page_size: 6 #候选项数
+#   page_size: 6 #候选项数 请的到default.custom.yaml去修改
+style:
+   horizontal: true #竖排为false横排为true
