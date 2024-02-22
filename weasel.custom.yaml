@@ -93,3 +93,4 @@ patch:
   "style/layout/spacing": 0
   "style/layout/style/layout/min_width": 30
   "style/preedit_type": composition
+  "style/vertical_auto_reverse": false
