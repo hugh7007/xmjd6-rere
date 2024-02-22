@@ -1,5 +1,6 @@
+customKeyStyles: {}
 keyboards:
-  - name: 🌟
+  - name: 中
     isPrimary: false
     rows:
       - keys:
@@ -353,7 +354,6 @@ keyboards:
             width: available
       - keys:
           - action: shift
-            processByRIME: false
             width:
               percentage: 0.13
             swipe:
@@ -364,7 +364,7 @@ keyboards:
                 direction: up
               - action: shift
                 display: true
-                processByRIME: true
+                processByRIME: false
                 direction: down
           - action: none
             width: available
@@ -530,20 +530,19 @@ keyboards:
               keyboardType: "123"
             width:
               portrait:
-                percentage: 0.17
+                percentage: 0.15
               landscape:
                 percentage: 0.1
             label: "123"
             swipe:
               - action:
-                  keyboardType: en
-                label: 中英
+                  shortcutCommand: "#左手模式"
+                label: ↙
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   shortcutCommand: "#RimeSwitcher"
-                label: 菜
                 display: true
                 processByRIME: true
                 direction: down
@@ -555,9 +554,31 @@ keyboards:
                 direction: left
               - action:
                   shortcutCommand: "#右手模式"
+                label: ↘
                 display: true
                 processByRIME: true
                 direction: right
+          - action:
+              keyboardType: abc
+            processByRIME: false
+            width:
+              percentage: 0.1
+            label: abc
+            swipe:
+              - action:
+                  character:
+                    char: ","
+                label: ","
+                display: true
+                processByRIME: false
+                direction: up
+              - action:
+                  character:
+                    char: .
+                label: .
+                display: true
+                processByRIME: false
+                direction: down
           - action: space
             width: available
             swipe:
@@ -603,32 +624,95 @@ keyboards:
       - keys:
           - action:
               character:
-                char: +
+                char: (
             width:
-              percentage: 0.1
+              portrait:
+                percentage: 0.16
+              landscape:
+                percentage: 0.1
+            label: (
+            swipe:
+              - action:
+                  character:
+                    char: ""
+                label: (
+                display: true
+                processByRIME: true
+                direction: up
+              - action:
+                  character:
+                    char: <
+                label: <
+                display: true
+                processByRIME: true
+                direction: down
           - action:
               character:
-                char: "-"
+                char: +
             width:
-              percentage: 0.1
+              portrait: available
+              landscape:
+                percentage: 0.1
           - action:
               character:
                 char: "1"
             width:
-              percentage: 0.2
+              portrait:
+                percentage: 0.18
+              landscape:
+                percentage: 0.2
+            swipe:
+              - action:
+                  character:
+                    char: 一
+                label: 一
+                display: true
+                processByRIME: true
+                direction: up
+              - action:
+                  character:
+                    char: ""
+                display: true
+                processByRIME: true
+                direction: down
           - action:
               character:
                 char: "2"
             width:
-              percentage: 0.2
+              portrait:
+                percentage: 0.18
+              landscape:
+                percentage: 0.2
+            swipe:
+              - action:
+                  character:
+                    char: 二
+                label: 二
+                display: true
+                processByRIME: true
+                direction: up
           - action:
               character:
                 char: "3"
             width:
-              percentage: 0.2
+              portrait:
+                percentage: 0.18
+              landscape:
+                percentage: 0.2
+            swipe:
+              - action:
+                  character:
+                    char: 三
+                label: 三
+                display: true
+                processByRIME: true
+                direction: up
           - action: backspace
             width:
-              percentage: 0.2
+              portrait:
+                percentage: 0.18
+              landscape:
+                percentage: 0.2
             swipe:
               - action:
                   shortcutCommand: "#重输"
@@ -653,94 +737,211 @@ keyboards:
       - keys:
           - action:
               character:
-                char: "*"
+                char: ）
             width:
-              percentage: 0.1
-            label: ×
-          - action:
-              character:
-                char: /
-            width:
-              percentage: 0.1
-            label: ÷
-          - action:
-              character:
-                char: "4"
-            width:
-              percentage: 0.2
-          - action:
-              character:
-                char: "5"
-            width:
-              percentage: 0.2
-          - action:
-              character:
-                char: "6"
-            width:
-              percentage: 0.2
-          - action:
-              character:
-                char: =
-            width:
-              percentage: 0.2
-      - keys:
-          - action:
-              character:
-                char: (
-            width:
-              percentage: 0.1
-          - action:
-              character:
-                char: )
-            width:
-              percentage: 0.1
-          - action:
-              character:
-                char: "7"
-            width:
-              percentage: 0.2
-          - action:
-              character:
-                char: "8"
-            width:
-              percentage: 0.2
-          - action:
-              character:
-                char: "9"
-            width:
-              percentage: 0.2
-          - action:
-              character:
-                char: .
-            processByRIME: false
-            width:
-              percentage: 0.2
+              portrait:
+                percentage: 0.16
+              landscape:
+                percentage: 0.1
+            label: ）
             swipe:
               - action:
                   character:
-                    char: ;
+                    char: )
+                label: )
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   character:
-                    char: 。
+                    char: ">"
+                label: ">"
+                display: true
+                processByRIME: true
+                direction: down
+          - action:
+              character:
+                char: "-"
+            width:
+              portrait: available
+              landscape:
+                percentage: 0.1
+          - action:
+              character:
+                char: "4"
+            width:
+              portrait:
+                percentage: 0.18
+              landscape:
+                percentage: 0.2
+            swipe:
+              - action:
+                  character:
+                    char: 四
+                label: 四
+                display: true
+                processByRIME: true
+                direction: up
+          - action:
+              character:
+                char: "5"
+            width:
+              portrait:
+                percentage: 0.18
+              landscape:
+                percentage: 0.2
+            swipe:
+              - action:
+                  character:
+                    char: 五
+                label: 五
+                display: true
+                processByRIME: true
+                direction: up
+          - action:
+              character:
+                char: "6"
+            width:
+              portrait:
+                percentage: 0.18
+              landscape:
+                percentage: 0.2
+            swipe:
+              - action:
+                  character:
+                    char: 六
+                label: 六
+                display: true
+                processByRIME: true
+                direction: up
+          - action:
+              character:
+                char: =
+            width:
+              portrait:
+                percentage: 0.18
+              landscape:
+                percentage: 0.2
+            swipe:
+              - action:
+                  character:
+                    char: ^
+                label: ^
+                display: true
+                processByRIME: true
+                direction: up
+      - keys:
+          - action:
+              keyboardType: classifySymbolic
+            width:
+              portrait:
+                percentage: 0.16
+              landscape:
+                percentage: 0.1
+            label: 更多
+          - action:
+              character:
+                char: "*"
+            width:
+              portrait: available
+              landscape:
+                percentage: 0.1
+            label: ×
+          - action:
+              character:
+                char: "7"
+            width:
+              portrait:
+                percentage: 0.18
+              landscape:
+                percentage: 0.2
+            swipe:
+              - action:
+                  character:
+                    char: 七
+                label: 七
+                display: true
+                processByRIME: true
+                direction: up
+          - action:
+              character:
+                char: "8"
+            width:
+              portrait:
+                percentage: 0.18
+              landscape:
+                percentage: 0.2
+            swipe:
+              - action:
+                  character:
+                    char: 八
+                label: 八
+                display: true
+                processByRIME: true
+                direction: up
+          - action:
+              character:
+                char: "9"
+            width:
+              portrait:
+                percentage: 0.18
+              landscape:
+                percentage: 0.2
+            swipe:
+              - action:
+                  character:
+                    char: 九
+                label: 九
+                display: true
+                processByRIME: true
+                direction: up
+          - action:
+              character:
+                char: "%"
+            processByRIME: false
+            width:
+              portrait:
+                percentage: 0.18
+              landscape:
+                percentage: 0.2
+            label: "%"
+            swipe:
+              - action:
+                  character:
+                    char: "%"
+                label: "%"
+                display: true
+                processByRIME: true
+                direction: up
+              - action:
+                  character:
+                    char: ℃
+                label: ℃
                 display: true
                 processByRIME: true
                 direction: down
       - keys:
           - action:
-              keyboardType: 🌟
+              keyboardType: 中
             width:
-              percentage: 0.2
+              portrait:
+                percentage: 0.16
+              landscape:
+                percentage: 0.2
             label: 中
             swipe:
               - action:
-                  keyboardType: en
+                  keyboardType: abc
                 label: 英
                 display: true
                 processByRIME: true
                 direction: up
+              - action:
+                  character:
+                    char: ""
+                display: true
+                processByRIME: true
+                direction: down
               - action:
                   shortcutCommand: "#左手模式"
                 label: ↙
@@ -754,17 +955,64 @@ keyboards:
                 direction: right
           - action:
               character:
-                char: "0"
-            width:
-              percentage: 0.2
-          - action: space
+                char: /
             width:
               portrait: available
+              landscape:
+                percentage: 0.1
+            label: ÷
+          - action:
+              character:
+                char: .
+            width:
+              portrait:
+                percentage: 0.18
+              landscape:
+                percentage: 0.2
+            label: .
+            swipe:
+              - action:
+                  character:
+                    char: ","
+                label: ","
+                display: true
+                processByRIME: true
+                direction: up
+              - action:
+                  character:
+                    char: ;
+                label: ;
+                display: true
+                processByRIME: true
+                direction: down
+          - action:
+              character:
+                char: "0"
+            width:
+              portrait:
+                percentage: 0.18
+              landscape:
+                percentage: 0.2
+            swipe:
+              - action:
+                  character:
+                    char: 零
+                label: 零
+                display: true
+                processByRIME: true
+                direction: up
+          - action: space
+            width:
+              portrait:
+                percentage: 0.18
               landscape:
                 percentage: 0.2
           - action: enter
             width:
-              percentage: 0.2
+              portrait:
+                percentage: 0.18
+              landscape:
+                percentage: 0.2
             swipe:
               - action:
                   shortcutCommand: "#换行"
@@ -772,7 +1020,7 @@ keyboards:
                 processByRIME: true
                 direction: up
     buttonInsets: 3
-  - name: en
+  - name: abc
     isPrimary: false
     rows:
       - keys:
@@ -782,60 +1030,140 @@ keyboards:
             processByRIME: false
             width:
               percentage: 0.1
+            swipe:
+              - action:
+                  character:
+                    char: "1"
+                label: "1"
+                display: true
+                processByRIME: true
+                direction: up
           - action:
               character:
                 char: w
             processByRIME: false
             width:
               percentage: 0.1
+            swipe:
+              - action:
+                  character:
+                    char: "2"
+                label: "2"
+                display: true
+                processByRIME: true
+                direction: up
           - action:
               character:
                 char: e
             processByRIME: false
             width:
               percentage: 0.1
+            swipe:
+              - action:
+                  character:
+                    char: "3"
+                label: "3"
+                display: true
+                processByRIME: true
+                direction: up
           - action:
               character:
                 char: r
             processByRIME: false
             width:
               percentage: 0.1
+            swipe:
+              - action:
+                  character:
+                    char: "4"
+                label: "4"
+                display: true
+                processByRIME: true
+                direction: up
           - action:
               character:
                 char: t
             processByRIME: false
             width:
               percentage: 0.1
+            swipe:
+              - action:
+                  character:
+                    char: "5"
+                label: "5"
+                display: true
+                processByRIME: true
+                direction: up
           - action:
               character:
                 char: y
             processByRIME: false
             width:
               percentage: 0.1
+            swipe:
+              - action:
+                  character:
+                    char: "6"
+                label: "6"
+                display: true
+                processByRIME: true
+                direction: up
           - action:
               character:
                 char: u
             processByRIME: false
             width:
               percentage: 0.1
+            swipe:
+              - action:
+                  character:
+                    char: "7"
+                label: "7"
+                display: true
+                processByRIME: true
+                direction: up
           - action:
               character:
                 char: i
             processByRIME: false
             width:
               percentage: 0.1
+            swipe:
+              - action:
+                  character:
+                    char: "8"
+                label: "8"
+                display: true
+                processByRIME: true
+                direction: up
           - action:
               character:
                 char: o
             processByRIME: false
             width:
               percentage: 0.1
+            swipe:
+              - action:
+                  character:
+                    char: "9"
+                label: "9"
+                display: true
+                processByRIME: true
+                direction: up
           - action:
               character:
                 char: p
             processByRIME: false
             width:
               percentage: 0.1
+            swipe:
+              - action:
+                  character:
+                    char: "0"
+                label: "0"
+                display: true
+                processByRIME: true
+                direction: up
       - keys:
           - action: none
             processByRIME: false
@@ -846,6 +1174,13 @@ keyboards:
             processByRIME: false
             width:
               percentage: 0.1
+            swipe:
+              - action:
+                  character:
+                    char: ""
+                display: true
+                processByRIME: true
+                direction: up
           - action:
               character:
                 char: s
@@ -951,9 +1286,11 @@ keyboards:
             processByRIME: false
             width: available
           - action: backspace
-            processByRIME: false
             width:
-              percentage: 0.13
+              portrait:
+                percentage: 0.14
+              landscape:
+                percentage: 0.13
             swipe:
               - action:
                   shortcutCommand: "#重输"
@@ -978,19 +1315,22 @@ keyboards:
       - keys:
           - action:
               keyboardType: "123"
-            processByRIME: false
             width:
-              percentage: 0.2
+              portrait:
+                percentage: 0.15
+              landscape:
+                percentage: 0.1
             label: "123"
             swipe:
               - action:
-                  keyboardType: 🌟
-                label: 中英
+                  shortcutCommand: "#左手模式"
+                label: ↙
                 display: true
                 processByRIME: true
                 direction: up
               - action:
-                  shortcutCommand: "#RimeSwitcher"
+                  shortcutCommand: "#右手模式"
+                label: ↘
                 display: true
                 processByRIME: true
                 direction: down
@@ -1002,86 +1342,63 @@ keyboards:
                 direction: left
               - action:
                   shortcutCommand: "#右手模式"
+                label: ↘
                 display: true
                 processByRIME: true
                 direction: right
           - action:
-              character:
-                char: ","
+              keyboardType: 中
             processByRIME: false
             width:
               percentage: 0.1
+            label: 中
             swipe:
               - action:
                   character:
-                    char: "'"
-                label: "'"
+                    char: .
+                label: .
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   character:
-                    char: ‘
-                label: ‘
+                    char: ","
+                label: ","
                 display: true
                 processByRIME: true
                 direction: down
           - action: space
-            processByRIME: false
-            width:
-              portrait:
-                percentage: 0.38
-              landscape:
-                percentage: 0.4
+            width: available
             swipe:
               - action:
                   shortcutCommand: "#次选上屏"
+                label: ²
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   shortcutCommand: "#三选上屏"
-                display: true
-                processByRIME: true
-                direction: down
-          - action:
-              character:
-                char: .
-            processByRIME: false
-            width:
-              percentage: 0.1
-            swipe:
-              - action:
-                  character:
-                    char: "@"
-                label: "@"
-                display: true
-                processByRIME: true
-                direction: up
-              - action:
-                  character:
-                    char: $
-                label: $
+                label: ³
                 display: true
                 processByRIME: true
                 direction: down
           - action: enter
-            processByRIME: false
             width:
               portrait:
-                percentage: 0.22
+                percentage: 0.25
               landscape:
-                percentage: 0.2
+                percentage: 0.1
             swipe:
               - action:
                   shortcutCommand: "#换行"
+                label: ↵
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   keyboardType: emojis
                 display: true
-                processByRIME: true
+                processByRIME: false
                 direction: down
               - action:
                   shortcutCommand: "#重输"
