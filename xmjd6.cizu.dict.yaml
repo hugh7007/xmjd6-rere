@@ -263,7 +263,7 @@ sort: original
 裱糊	bchj
 卑辞厚礼	bchl
 裱花	bchq
-包藏祸心	bchx
+包藏祸心	bchxu
 标红	bchy
 标号	bchz
 彼此间	bcj
@@ -288,7 +288,7 @@ sort: original
 病从口入	bckr
 标况	bckx
 标了	bcle
-标兰	bclf
+标兰	bclfv
 标领	bclg
 表露	bclj
 表里	bclk
@@ -2102,9 +2102,8 @@ sort: original
 白兰	bhlfu
 白领	bhlg
 百灵	bhlgv
-悲欢离合	bhlh
-八荒六合	bhlhu
-白来	bhlhuv
+悲欢离合	bhlhia
+八荒六合	bhlhui
 白露	bhlj
 败露	bhlja
 白鹿	bhlju
@@ -2614,7 +2613,7 @@ sort: original
 白驹过隙	bjgxu
 不公	bjgy
 不恭	bjgyv
-不高	bjgz
+不高	bjgzv
 布告	bjgzvu
 比较好	bjh
 不会	bjhb
@@ -4204,7 +4203,7 @@ sort: original
 变诈	bmfso
 编撰	bmft
 变砖	bmfto
-白魔法	bmfu
+白魔法	bmfuoa
 百忙中	bmfv
 变肥	bmfw
 便装	bmfx
@@ -11006,8 +11005,8 @@ sort: original
 德里	delkui
 得理	delkuv
 电闪雷鸣	delm
-得啦	dels
-德拉	delsu
+得啦	delsu
+德拉	delsui
 德隆	dely
 大沙漠	dem
 得名	demg
@@ -17530,7 +17529,7 @@ sort: original
 首都	eddj
 首度	eddjo
 受敌	eddku
-首夺	eddl
+首夺	eddlo
 手电	eddm
 说的对	eddo
 说到底	eddov
@@ -18669,7 +18668,7 @@ sort: original
 山景	efjg
 省直机关	efjgi
 市直机关	efjgo
-上飞机	efji
+上飞机	efjia
 舒肤佳	efjiu
 删除	efjj
 闪出	efjjo
@@ -20124,7 +20123,7 @@ sort: original
 事事	ekekvv
 世事	ekekvv
 世世	ekekvv
-实说	ekel
+实说	ekeloo
 师说	ekeli
 失神	eken
 尸身	ekena
@@ -20673,7 +20672,6 @@ sort: original
 师团	ektti
 视同	ekty
 是同	ektyo
-是为	ekw
 实锤	ekwb
 世仇	ekwd
 试车	ekwe
@@ -20706,9 +20704,9 @@ sort: original
 失察	ekwsu
 失传	ekwt
 试穿	ekwto
-视为	ekww
+视为	ekwwo
 侍卫	ekwwi
-市委	ekwwo
+市委	ekwwou
 实为	ekwwoo
 示威	ekwwv
 式微	ekwwvu
@@ -20787,6 +20785,7 @@ sort: original
 师友	ekydiv
 室友	ekydo
 是由	ekydoi
+是有	ekydov
 时有	ekydov
 事由	ekydv
 事业	ekye
@@ -22132,7 +22131,7 @@ sort: original
 双皮奶	epn
 上呢	epne
 尚难	epnf
-商拟	epnk
+商拟	epnko
 商女	epnl
 上年	epnm
 尚能	epnr
@@ -29177,9 +29176,9 @@ sort: original
 放开	fpkh
 方框	fpkm
 富婆快乐球	fpkq
-放宽	fpkt
-房款	fpkto
-放款	fpktov
+放宽	fpkto
+房款	fpktov
+放款	fpkt
 方框	fpkx
 防空	fpky
 防控	fpkya
@@ -32078,7 +32077,7 @@ sort: original
 重症	fyqru
 重拳	fyqt
 重权	fyqtu
-服役期	fyqu
+服役期	fyquu
 志愿者	fyqv
 副院长	fyqva
 专用章	fyqvu
@@ -38556,8 +38555,8 @@ sort: original
 高贵	gzgb
 搞鬼	gzgbi
 敢作敢当	gzgd
-高歌	gzge
-高个	gzgeo
+高歌	gzgeo
+高个	gzgeoi
 故作高深	gzgeu
 高干	gzgf
 搞怪	gzgg
@@ -38943,7 +38942,7 @@ sort: original
 回答	hbds
 还不到	hbdv
 祸不单行	hbdx
-挥动	hbdy
+挥动	hbdyi
 毫不动摇	hbdyo
 回到	hbdz
 回道	hbdzi
@@ -39330,7 +39329,7 @@ sort: original
 回传	hbwt
 回味	hbww
 蛔虫	hbwy
-候补委员	hbwyi
+候补委员	hbwyio
 毫不迟疑	hbwyo
 回潮	hbwz
 很不幸	hbx
@@ -40855,8 +40854,8 @@ sort: original
 还都	hhdd
 浩浩荡荡	hhdda
 浑浑沌沌	hhddaa
-害得	hhde
-呼呼大睡	hhdeo
+害得	hhdeo
+呼呼大睡	hhdeoo
 海胆	hhdf
 还定	hhdg
 海带	hhdh
@@ -44918,7 +44917,7 @@ sort: original
 黑衣人	hyri
 鸿儒	hyrj
 红日	hyrk
-红人	hyrn
+红人	hyrna
 轰嚷	hyrp
 红壤	hyrpa
 火影忍者	hyrq
@@ -56793,8 +56792,8 @@ sort: original
 客观规律	kgglo
 块根	kggn
 跨国公司	kggs
-快滚	kggw
-快给	kggwo
+快滚	kggwo
+快给	kggw
 快攻	kggy
 快稿	kggz
 客观化	kgh
@@ -59415,7 +59414,7 @@ sort: original
 联邦政府	lbqfv
 临清	lbqg
 林寨	lbqh
-拎起	lbqk
+拎起	lbqki
 临去	lbql
 林区	lbqlv
 临阵	lbqn
@@ -67043,7 +67042,7 @@ sort: original
 母牛	mjnq
 木呐	mjns
 墓内	mjnw
-枚金牌	mjp
+枚金牌	mjpv
 母盘	mjpf
 牟平	mjpg
 木牌	mjph
@@ -73778,8 +73777,8 @@ sort: original
 庖丁解牛	pdjn
 盆底肌	pdju
 跑得快	pdk
-剖开	pdkh
-撇开	pdkhi
+剖开	pdkho
+撇开	pdkh
 判断力	pdl
 潘多拉	pdla
 瞥了	pdle
@@ -75073,7 +75072,7 @@ sort: original
 破烂	pllf
 迫令	pllg
 泼赖	pllh
-坡路	pllj
+坡路	plljv
 魄力	pllk
 破例	pllkv
 破落	plll
@@ -76685,7 +76684,8 @@ sort: original
 琴趣	qbql
 站不起来	qbqlo
 亲笔签名	qbqm
-郑板桥	qbqo
+准不准	qbqo
+郑板桥	qbqovv
 主办者	qbqoa
 准备着	qbqou
 这笔钱	qbqoui
@@ -78314,7 +78314,7 @@ sort: original
 轻触	qgjjv
 请寄	qgjk
 情急	qgjko
-全国纪录	qgjl
+全国纪录	qgjli
 清规戒律	qgjla
 请柬	qgjm
 请见	qgjmo
@@ -78779,7 +78779,7 @@ sort: original
 摘桂	qhgb
 缺钙	qhgh
 确固	qhgj
-债国	qhgl
+债国	qhglii
 却更	qhgr
 缺管	qhgt
 却给	qhgw
@@ -79464,7 +79464,7 @@ sort: original
 正成为	qjw
 轻举妄动	qjwd
 逐臭	qjwdv
-浙江卫视	qjwe
+浙江卫视	qjweaa
 欺君罔上	qjwev
 迄今为止	qjwf
 驻外	qjwh
@@ -80729,9 +80729,9 @@ sort: original
 纤夫	qmfja
 前夫	qmfjo
 前赴	qmfjov
-潜质	qmfk
+潜质	qmfka
 钳制	qmfki
-前置	qmfko
+前置	qmfk
 迁至	qmfku
 牵制	qmfkv
 犬马之劳	qmfl
@@ -91805,7 +91805,7 @@ sort: original
 泰坦	thtf
 太太	thth
 太土	thtj
-胎体	thtk
+胎体	thtkui
 太甜	thtm
 太疼	thtr
 太痛	thty
@@ -91855,7 +91855,7 @@ sort: original
 太爷	thye
 太严	thyf
 抬眼	thyfi
-铁画银钩	thyg
+铁画银钩	thygi
 头昏眼花	thyh
 太医	thyk
 太乙	thykv
@@ -95291,7 +95291,7 @@ sort: original
 瞅着	wdfe
 无的放矢	wdfev
 重蹈覆辙	wdff
-丑妇	wdfj
+丑妇	wdfja
 抽纸	wdfk
 抽脂	wdfki
 吃豆腐	wdfo
@@ -96132,7 +96132,6 @@ sort: original
 玩索	wfsl
 炒房团	wft
 万条	wftc
-万头	wftd
 惋叹	wftf
 烷烃	wftg
 晚听	wftgo
@@ -97008,7 +97007,7 @@ sort: original
 无常	wjjpv
 五常	wjjpvi
 武昌	wjjpvo
-无产阶级专政	wjjq
+无产阶级专政	wjjqvo
 五成	wjjr
 无成	wjjrv
 物价	wjjs
@@ -101051,7 +101050,7 @@ sort: original
 冲减	wyjmoo
 重见	wyjmu
 宠臣	wyjn
-问一句	wyjo
+问一句	wyjov
 文艺界	wyjoi
 重唱	wyjp
 重九	wyjq
@@ -101072,7 +101071,7 @@ sort: original
 无药可救	wykj
 冲扩	wykl
 冲垮	wykq
-冲孔	wyky
+冲孔	wykyo
 重考	wykz
 扯远了	wyl
 无与伦比	wylb
@@ -102764,8 +102763,8 @@ sort: original
 枭雄	xcxyu
 笑傲	xcxz
 二次元	xcy
-小阴	xcyb
-消音	xcyba
+小阴	xcybi
+消音	xcyb
 校友	xcydv
 小有	xcydi
 小菜一碟	xcydii
@@ -104951,8 +104950,8 @@ sort: original
 艾伦	xhlw
 血泪	xhlwu
 血轮	xhlwuv
-雪亮	xhlx
-血量	xhlxu
+雪亮	xhlxvo
+血量	xhlx
 相互联系	xhlxv
 艾老	xhlz
 薛老	xhlzi
@@ -107462,7 +107461,7 @@ sort: original
 修改	xqgh
 小气鬼	xqgi
 修正稿	xqgiv
-行政管理	xqgl
+行政管理	xqglu
 性器官	xqgo
 休耕	xqgr
 袖管	xqgt
@@ -107944,7 +107943,7 @@ sort: original
 夏耕	xsgr
 下官	xsgt
 下关	xsgtv
-黠棍	xsgw
+黠棍	xsgwiv
 霞光	xsgx
 阿光	xsgxa
 阿公	xsgya
@@ -108014,7 +108013,7 @@ sort: original
 夏桑菊	xsjv
 下唇	xsjw
 学思践悟	xsjwo
-下降	xsjxv
+下降	xsjx
 瞎讲	xsjxi
 瞎吵	xsjz
 夏朝	xsjzv
@@ -109255,7 +109254,7 @@ sort: original
 消消乐	xxlaa
 相邻	xxlb
 乡邻	xxlba
-香料	xxlc
+香料	xxlcu
 详列	xxld
 阿修罗道	xxlda
 心安理得	xxldo
@@ -111658,7 +111657,7 @@ sort: original
 也比	yebk
 一时半刻	yebkv
 一声不吭	yebkvv
-耶博	yebl
+耶博	yeblvu
 页边	yebm
 夜奔	yebn
 掩饰不住	yebq
@@ -112939,7 +112938,7 @@ sort: original
 鹰爪	ygfzou
 一个个	ygg
 有关规定	yggd
-应感	yggf
+应感	yggfo
 应该	yggh
 圆滚滚	yggi
 硬骨	yggj
@@ -115634,8 +115633,8 @@ sort: original
 越来越高	ylyg
 用了一个	ylygu
 御营	ylygui
-越来越好	ylyh
-预约	ylyha
+越来越好	ylyhv
+预约	ylyh
 逾越	ylyhi
 愉悦	ylyho
 鱼跃	ylyhu
@@ -119701,7 +119700,7 @@ sort: original
 子宫内膜	zgnm
 钻过去	zgq
 资格证书	zgqe
-最高权力	zgql
+最高权力	zgqlo
 最高气温	zgqw
 在个人	zgr
 祖国人民	zgrm
@@ -119765,8 +119764,8 @@ sort: original
 再度	zhdj
 在读	zhdjv
 再读	zhdjvo
-在第	zhdk
-在地	zhdkv
+在第	zhdkv
+在地	zhdkvv
 再多	zhdl
 再当	zhdp
 再等	zhdr
