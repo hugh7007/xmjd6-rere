@@ -52,10 +52,20 @@ jobs:
       run: |
         mkdir -p Rabbit
         unzip rabbit-${{ env.RELEASE_TAG }}.zip -d Rabbit
-        
+
+    - name: Clean SharedSupport
+      run: |
+        mkdir -p /tmp/Rabbit_backup
+        cp Rabbit/SharedSupport/punctuation.yaml /tmp/Rabbit_backup/
+        cp Rabbit/SharedSupport/key_bindings.yaml /tmp/Rabbit_backup/
+        cp Rabbit/SharedSupport/default.yaml /tmp/Rabbit_backup/
+        rm -rf Rabbit/SharedSupport/*
+        cp /tmp/Rabbit_backup/* Rabbit/SharedSupport/
+        rm -rf /tmp/Rabbit_backup
+
     - name: Merge Rime into Rabbit
       run: |
-        cp -r Rime/ Rabbit/
+        cp -r Rime/. Rabbit/SharedSupport
         zip -r Rabbit-xmjd6.zip Rabbit/
         
     - name: Create Release
