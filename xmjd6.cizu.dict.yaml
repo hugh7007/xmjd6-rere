@@ -98,8 +98,7 @@ sort: original
 宾客	bbke
 必不可少	bbkeo
 比不了	bbl
-巴比伦	bbla
-办不了	bblav
+巴比伦	bblav
 濒临	bblb
 白白浪费	bblf
 步步莲花	bblh
@@ -351,7 +350,7 @@ sort: original
 标叉	bcws
 标船	bcwt
 表尾	bcwwva
-不曾想	bcx
+不曾想	bcxv
 飙信	bcxb
 不辞而别	bcxbv
 表谢	bcxd
@@ -6851,7 +6850,7 @@ sort: original
 宝腾	bztr
 宝塔	bzts
 抱团	bztt
-报童	bzty
+报童	bztyio
 不作为	bzw
 报仇	bzwdi
 报酬	bzwd
@@ -10499,8 +10498,8 @@ sort: original
 抖抖豁豁	ddhhi
 党代会	ddhi
 都护	ddhj
-打电话来	ddhl
-抖豁	ddhli
+打电话来	ddhli
+抖豁	ddhlio
 都很	ddhn
 叠化	ddhq
 豆花	ddhqv
@@ -12247,7 +12246,7 @@ sort: original
 大会堂	dhtvi
 带通	dhty
 带套	dhtz
-电话网	dhw
+电话网	dhwio
 呆愁	dhwd
 带车	dhwe
 代湾	dhwf
@@ -20605,7 +20604,7 @@ sort: original
 诗人	ekrn
 使人	ekrni
 食人	ekrnii
-时人	ekrno
+时人	ekrnoi
 时任	ekrnoi
 失认	ekrnu
 世人	ekrnv
@@ -23585,8 +23584,8 @@ sort: original
 十二指肠	exfju
 爽直	exfk
 善恶分明	exfm
-双酚	exfn
-双份	exfna
+双酚	exfna
+双份	exfn
 双方	exfp
 双峰	exfr
 爽发	exfs
@@ -23916,7 +23915,7 @@ sort: original
 双一流	eyla
 收益率	eylao
 剩余劳动	eyld
-使用率	eyliuo
+使用率	eyliu
 首义路	eylo
 声韵母	eym
 是一名	eymo
@@ -25056,7 +25055,7 @@ sort: original
 知识化	fehuo
 反射弧	fehuu
 腹式呼吸	fehx
-折好	fehz
+折好	fehzi
 副书记	fejva
 发神经	feja
 发射机	fejau
@@ -34092,7 +34091,7 @@ sort: original
 感佩	gfpw
 赶跑	gfpz
 高峰期	gfq
-干亲	gfqb
+干亲	gfqbv
 赶巧	gfqc
 甘蔗	gfqe
 赶着	gfqev
@@ -38466,9 +38465,9 @@ sort: original
 高度	gzdj
 高低	gzdk
 高地	gzdko
-糕点	gzdm
-搞点	gzdmi
-搞掂	gzdmii
+糕点	gzdmoi
+搞点	gzdm
+搞掂	gzdmi
 高点	gzdmo
 高档	gzdp
 搞丢	gzdq
@@ -45039,8 +45038,8 @@ sort: original
 好兵	hzbg
 好白	hzbh
 号百	hzbho
-毫不	hzbj
-好不	hzbja
+毫不	hzbjo
+好不	hzbj
 好比	hzbk
 好啵	hzbl
 好拨	hzbla
@@ -72216,7 +72215,7 @@ sort: original
 牛王	nqwp
 牛蛙	nqws
 牛叉	nqwsu
-怒气冲天	nqwt
+怒气冲天	nqwta
 牛尾	nqww
 怒气冲冲	nqwwa
 闹情绪	nqx
@@ -73040,7 +73039,8 @@ sort: original
 那一点	nydav
 弄对	nydb
 弄掉	nydc
-弄得	nyde
+弄的	nyde
+弄得	nydev
 浓淡	nydf
 农贷	nydh
 那样的话	nydha
@@ -79552,7 +79552,7 @@ sort: original
 主义	qjykoo
 逐一	qjykv
 主语	qjyl
-茱萸	qjyli
+茱萸	qjylii
 青出于蓝	qjylv
 青出于蓝而胜于蓝	qjylva
 珠玉	qjylvv
@@ -79984,10 +79984,10 @@ sort: original
 七情	qkqgv
 奇缺	qkqh
 砌筑	qkqj
-齐齐	qkqk
+齐齐	qkqko
 漆器	qkqka
-其妻	qkqkv
 戚戚	qkqkvv
+其妻	qkqkv
 崎岖	qkql
 七千	qkqm
 奇珍	qkqn
@@ -88985,7 +88985,7 @@ sort: original
 算草	stcz
 司汤达	std
 酸豆	stdd
-酸的	stde
+酸的	stdev
 算定	stdg
 酸度	stdj
 三天打鱼	stdy
@@ -93562,7 +93562,9 @@ sort: original
 藤蔓	trmf
 腾挪	trnl
 藤牌	trph
-天然气	trq
+太认真	trq
+天燃气	trqv
+天然气	trqvu
 誊清	trqg
 体弱者	trqi
 腾起	trqk
@@ -101914,7 +101916,7 @@ sort: original
 新城	xbjr
 新成	xbjro
 二八佳人	xbjrv
-新家	xbjs
+新家	xbjso
 相比较	xbjv
 下半场	xbjvo
 想不出	xbjvv
@@ -102586,9 +102588,9 @@ sort: original
 小品	xcpb
 小票	xcpc
 小盘	xcpf
-小平	xcpg
+小平	xcpgiv
 小瓶	xcpgi
-小屏	xcpgia
+小屏	xcpg
 小牌	xcph
 小铺	xcpj
 小批	xcpk
@@ -106937,7 +106939,7 @@ sort: original
 现况	xmkx
 闲空	xmky
 先考	xmkz
-欧姆龙	xml
+欧姆龙	xmlva
 咸临	xmlb
 闲聊	xmlc
 馅料	xmlcu
@@ -107495,7 +107497,7 @@ sort: original
 行政机构	xqjgu
 嗅觉	xqjh
 小汽车	xqji
-嗅出	xqjj
+嗅出	xqjjo
 小泉纯一郎	xqjl
 修建	xqjm
 修剪	xqjmi
@@ -120810,9 +120812,9 @@ sort: original
 自赞	zkzf
 自在	zkzh
 自足	zkzj
-孜孜	zkzk
+孜孜	zkzkaa
 姊姊	zkzka
-字字	zkzko
+字字	zkzk
 自作	zkzl
 再苦再累	zkzlv
 自增	zkzr

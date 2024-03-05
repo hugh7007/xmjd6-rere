@@ -1,8 +1,10 @@
 #功能开关一键配置
 patch:
   schema/name: 🌟🐈   #修改方案名称，显示在空格上的名字
-  speller/auto_select: false    #自动上屏开关，默认关
-  hint_text: ''    #顶功提示符
+  speller/auto_select: false    #自动上屏开关，默认关false开true
+  hint_text: ''    #顶功提示符→在两个<''>中间添加符号，例如hint_text: '🔞'
+  style/horizontal: true  #竖排为false横排为true
+  menu/page_size: 5   #候选项数
   #                         0选择第一个,1选择第二个
   switches/@0/reset: 0     #[ 中文, 西文 ]
   switches/@1/reset: 0     #[ 全角, 半角 ]
@@ -13,11 +15,44 @@ patch:
   switches/@6/reset: 1     #[ 简约, 630提示 
   switches/@7/reset: 1     #[ 简约, 逐码展示 ]
 
-
   #流式功能配置，想使用流式请取消以下注释，取消注释删掉 # 即可
   # engine/filters//@4: null  #如果只需要使用a自造词功能,不需要流式就只开这一个
   # engine/processors/@4: null
   # engine/processors/@5: null
-  # translator/enable_sentence: true 
+  # translator/enable_sentence: true
   # translator/enable_user_dict: true
+
+  menu:
+  ascii_composer/switch_key:
+    Caps_Lock: clear   #切换大小写，clear是不上屏切换大写，使用commit_code会先上屏小写然后再输入是大写
+    Control_L: noop    #ctrl
+    Control_R: noop    #ctrl
+    Shift_L: commit_code    #先上屏后继续输入，反注释后，shift会失效
+    Shift_R: commit_code    # Mac 系统上的鼠鬚管不能区分左、右，因此只有对 Shift_L, Control_L 的设定起作用
+    # Eisu_toggle: clear   #模拟映射
+
+
+  "switcher/save_options/+":    #开关记忆 → switches本地持久化
+    - ascii_punct  #全角, 半角
+    - jffh  #简体, 繁體
+    - mars  #地球文, 火星文 
+    - emoji_cn    #表情展示
+    - embeded_cands  #嵌入候选
+    - sbb_hint   #630提示
+    - completion  #逐码展示
+
+ #switches本地持久化，不会随着部署重置开关，而会保持部署前的设置
+ #原因:每次导入词库到输入法，一部署开关就变回去了，如果需要每次重新设置就反注释
+ #每次部署开关不会重置了， 你当前保存的是啥样的配置就是啥样的配置
+
+ # 已输入编码时按切换键，可以进一步设定输入法中西文切换的形式。 
+ # 可选的临时切换策略有三： 
+ # inline_ascii 在输入法的临时西文编辑区内输入字母、数字、符号、空格等，回车上屏后自动复位到中文 
+ # commit_text 已输入的候选文字上屏並切换至西文输入模式 
+ # commit_code 已输入的编码字符上屏並切换至西文输入模式 
+ # 设为 noop，屏蔽该切换键 
+ # 如果要把 Caps Lock 设爲只改变字母的大小写而不做中西文切换，可将 Caps_Lock 对应的切换方式设为 noop 
+ # 如果要以 Caps Lock 切换到西文模式，默认输出小写字母，请至 ascii_composer/good_old_caps_lock: false 
+
+
 

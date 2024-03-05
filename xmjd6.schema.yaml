@@ -357,7 +357,7 @@ key_binder:
     - {accept: KP_Subtract, send: -, when: composing}
     - {accept: KP_Divide, send: /, when: composing}
     - {accept: KP_Multiply, send: "*", when: has_menu}
-    - {accept: KP_Add, send: +, when: has_menu}
+    - {accept: KP_Add, send: +, when: has_menu}  #原始 → KP_Add
     - {accept: KP_Decimal, send: ".", when: has_menu}
 
 
@@ -387,7 +387,7 @@ topup:
   auto_clear: true
   min_length_danzi: 2
   topup_command: true
-# menu:     #如果想要修改候选直接反注释这四行内容
-#   page_size: 6 #候选项数 请的到default.custom.yaml去修改
+menu:
+  page_size: 5 #请的到xmjd6.custom.yaml去修改
 style:
-   horizontal: false #竖排为false横排为true
+   horizontal: true  #请的到xmjd6.custom.yaml去修改

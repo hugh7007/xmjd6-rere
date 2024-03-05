@@ -6,11 +6,11 @@ sort: original
 
 # HTTP头
 # rime小小地址
-@gmail.com	;pg
+# @gmail.com ;pg
 # Gmail邮箱
-@outlook.com	;po
+# @outlook.com ;po
 # Outlook邮箱
-@qq.com	;pq
+# @qq.com ;pq
 # QQ邮箱
-@163.com	;pw
+# @163.com ;pw
 # 网易邮箱
