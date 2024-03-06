@@ -1,7 +1,7 @@
 ## 🐈星猫键道溯源⭐➡🐱：
 **授权信息：** 本方案已获得正式授权。它是基于吅吅大山老师开发的星空键道6.2版本进行的修改和改进。此方案适用于PC和手机。
 
-** 主要修改：** 
+**主要修改：** 
 1. 增加百万词库，让输入法从单字回归打词。>双简 > 三简词  > 四简词 。
 2. 可以输入更多的单字。在临时有需要繁体或者生僻字时使用o键，即可输入繁体。例如：omp茻   ompu狵  oly隴 。
 3. 如果遇到不会读的字，使用 v+全拼 键。  例：烎 vkaihuo  ，  𨽕 verting   鋩 vjinmang  竝 vlili
@@ -50,9 +50,9 @@
 
 ## 如何查看学习及相关链接
 1. **飞书笔记链接：** [飞书笔记 - 🐈星猫键道6](https://hu0w1jn4xq.feishu.cn/docx/ZgQ8deGPlozhWCxOyeucBvHJnPe)
-2. **GitHub链接：** [🐈星猫键道6 - GitHub](https://github.com/hugh7007/xmjd6-rere)
-3. **天行键git链接：**[📖天行键 - GitHub](https://github.com/wzxmer/rime-txjx)
-4. **星空键道git链接：**[📖星空键道6 - GitHub](https://github.com/xkinput/Rime_JD)
+2. **GitHub 仓库链接：** [🐈星猫键道6 - GitHub](https://github.com/hugh7007/xmjd6-rere)
+3. **天行键 GitHub 仓库链接：**[📖天行键 - GitHub](https://github.com/wzxmer/rime-txjx)
+4. **星空键道 GitHub 仓库链接：**[📖星空键道6 - GitHub](https://github.com/xkinput/Rime_JD)
 
 ## 细节补充
 - **主方案文件：** `xmjd6.schema.yaml`  
@@ -67,7 +67,7 @@
 - **个人高权限词库：** `xmjd6.user.dict.yaml`（权重最高，请谨慎添加）
 
 **注意事项：**
-- 关于流式输入、关闭emoji表情、关闭提示词等功能，请查看`xmjd6.custom.yaml`配置文件，其中包含详细的注释说明。
+- 关于流式输入、关闭emoji表情、关闭提示词、候选框横竖排、候选项数等功能，请查看`xmjd6.custom.yaml`配置文件，其中包含详细的注释说明。
 
 #### 拓展功能一览：
 - **流式输入：** 支持连续句子输入，自动调频。

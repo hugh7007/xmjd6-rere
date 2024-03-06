@@ -3,7 +3,7 @@
 # 方案维护者：Proud丶Cat、热热佬、千年蟲
 # 方案溯源：星空键道6.2 →  🐈星猫键道6.3
 # 教程链接：https://hu0w1jn4xq.feishu.cn/docx/ZgQ8deGPlozhWCxOyeucBvHJnPe?from=from_copylink
-# 方案git： https://github.com/hugh7007/xmjd6-rere
+# 方案 GitHub 仓库：https://github.com/hugh7007/xmjd6-rere
 # 本方案特色：
 #  增加百万词语，优化打字体验。
 #  O键超级繁体(全字集)，让繁体字特殊字不再属于形码专利。
@@ -15,6 +15,17 @@
 schema:
   schema_id: xmjd6
   name: 星🐈键道
+  author:
+    - 方案维护者：Proud丶Cat、热热佬、千年蟲
+  description: |
+    方案溯源：星空键道6.2 →  🐈星猫键道6.3
+    本方案特色：
+    增加百万词语，优化打字体验。
+    O键超级繁体(全字集)，让繁体字特殊字不再属于形码专利。
+    V键开启二分反查功能<拼音拆分文字可打全字集>。遇到不会读的字也可以随时随地打出全字集。
+    U键开启全拼反查功能拼音查全码，新增笔画提示>
+    i键开启英文单词联想输入模式。
+    a键开启连打模式，自造词模式。
   version: "1"
   dependencies:
     - xmjd6.cx
