@@ -1,5 +1,5 @@
 patch:
   schema_list:
     - schema: xmjd6
-  style/horizontal: false  #默认设置，竖排为false横排为true，星猫键道的此项修改需要去xmjd6.custom.yaml
-  menu/page_size: 5   #默认设置，候选项数，星猫键道的此项修改需要去xmjd6.custom.yaml
+  # style/horizontal: false  #默认设置，竖排为false横排为true，星猫键道的此项修改需要去xmjd6.custom.yaml
+  # menu/page_size: 5   #默认设置，候选项数，星猫键道的此项修改需要去xmjd6.custom.yaml
