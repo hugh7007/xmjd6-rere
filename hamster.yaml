@@ -1,4 +1,3 @@
-customKeyStyles: {}
 keyboards:
   - name: 中
     isPrimary: false
@@ -233,6 +232,7 @@ keyboards:
               - action:
                   character:
                     char: /
+                label: 、
                 display: true
                 processByRIME: true
                 direction: up
@@ -309,10 +309,11 @@ keyboards:
                 processByRIME: true
                 direction: up
               - action:
-                  character:
-                    char: ·
+                  symbol:
+                    char: 、
+                label: 、
                 display: true
-                processByRIME: true
+                processByRIME: false
                 direction: down
           - action:
               character:
@@ -400,8 +401,8 @@ keyboards:
                 direction: up
               - action:
                   character:
-                    char: "?"
-                label: "?"
+                    char: ·
+                label: ·
                 display: true
                 processByRIME: false
                 direction: down
@@ -415,7 +416,7 @@ keyboards:
                   character:
                     char: ，
                 display: true
-                processByRIME: true
+                processByRIME: false
                 direction: up
               - action:
                   character:
@@ -434,7 +435,7 @@ keyboards:
                   character:
                     char: 。
                 display: true
-                processByRIME: true
+                processByRIME: false
                 direction: up
               - action:
                   character:
@@ -960,7 +961,7 @@ keyboards:
               portrait: available
               landscape:
                 percentage: 0.1
-            label: ÷
+            label: /
           - action:
               character:
                 char: .
@@ -1193,6 +1194,21 @@ keyboards:
             processByRIME: false
             width:
               percentage: 0.1
+            swipe:
+              - action:
+                  character:
+                    char: /
+                label: /
+                display: true
+                processByRIME: false
+                direction: up
+              - action:
+                  character:
+                    char: 、
+                label: 、
+                display: true
+                processByRIME: false
+                direction: down
           - action:
               character:
                 char: f

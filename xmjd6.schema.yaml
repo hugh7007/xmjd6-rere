@@ -399,6 +399,6 @@ topup:
   min_length_danzi: 2
   topup_command: true
 menu:
-  page_size: 5 #请的到xmjd6.custom.yaml去修改
+  page_size: 5 #请到xmjd6.custom.yaml去修改
 style:
-   horizontal: true  #请的到xmjd6.custom.yaml去修改
+   horizontal: true  #请到xmjd6.custom.yaml去修改
