@@ -2,7 +2,7 @@
 # encoding: utf-8
 # 方案维护者：Proud丶Cat、热热佬、千年蟲
 # 方案溯源：星空键道6.2 →  🐈星猫键道6.3
-# 教程链接：https://hu0w1jn4xq.feishu.cn/docx/ZgQ8deGPlozhWCxOyeucBvHJnPe?from=from_copylink
+# 教程链接：https://hu0w1jn4xq.feishu.cn/docx/ZgQ8deGPlozhWCxOyeucBvHJnPe
 # 方案 GitHub 仓库：https://github.com/hugh7007/xmjd6-rere
 # 本方案特色：
 #  增加百万词语，优化打字体验。
@@ -15,6 +15,7 @@
 schema:
   schema_id: xmjd6
   name: 星🐈键道
+  icon: "xmjd6.ico"
   author:
     - 方案维护者：Proud丶Cat、热热佬、千年蟲
   description: |
