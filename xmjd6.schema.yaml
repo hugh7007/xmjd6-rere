@@ -343,6 +343,8 @@ key_binder:
     - { when: always, accept: "Control+period", toggle: ascii_punct }
     - {accept: minus, send: Page_Up, when: has_menu}
     - {accept: equal, send: Page_Down, when: has_menu}
+    # - { when: has_menu, accept: Tab, send: 1 } # tab 首选
+    - { when: has_menu, accept: Tab, send: 2 } # tab 次选
     - {accept: semicolon, send: 2, when: has_menu} #分号次选
     - {accept: apostrophe, send: 3, when: has_menu} #撇号三选
     # - {accept: comma, send: Page_Up, when: has_menu}     #<,>翻页功能

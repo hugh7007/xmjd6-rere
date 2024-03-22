@@ -30,6 +30,7 @@ patch:
     Control_R: noop    #ctrl
     Shift_L: commit_code    #先上屏后继续输入，反注释后，shift会失效
     Shift_R: commit_code    # Mac 系统上的鼠鬚管不能区分左、右，因此只有对 Shift_L, Control_L 的设定起作用
+    # tab: clear   # 会使按tab后，直接选择下一个
     # Eisu_toggle: clear   #模拟映射
 
 
