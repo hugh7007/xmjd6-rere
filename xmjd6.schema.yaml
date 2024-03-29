@@ -149,7 +149,7 @@ punctuator:
   import_preset: xmjd6.symbols
 speller:
   auto_select: false
-  alphabet: "zyxwvutsrqponmlkjihgfedcba;'"
+  alphabet: "zyxwvutsrqponmlkjihgfedcba;'" # 【"zyxwvutsrqponmlkjihgfedcba;'"】 修改为【"zyxwvutsrqponmlkjihgfedcba"】会直接上屏，但无法使用；+字母打快符。记得修改348、349行
   initials: "abcdefghijklmnopqrstuvwxyz;'"
   delimiter: " '"
   algebra: 
@@ -345,8 +345,8 @@ key_binder:
     - {accept: equal, send: Page_Down, when: has_menu}
     # - { when: has_menu, accept: Tab, send: 1 } # tab 首选
     - { when: has_menu, accept: Tab, send: 2 } # tab 次选
-    - {accept: semicolon, send: 2, when: has_menu} #分号次选
-    - {accept: apostrophe, send: 3, when: has_menu} #撇号三选
+    - {accept: semicolon, send: 2, when: has_menu} #分号次选   # 需要；符号顶直接顶注释本行，并修改第152行
+    - {accept: apostrophe, send: 3, when: has_menu} #撇号三选   # 如果注释348次选，请也注释349，可以使【’】变为选择次选
     # - {accept: comma, send: Page_Up, when: has_menu}     #<,>翻页功能
     # - {accept: period, send: Page_Down, when: has_menu}   #<。>翻页功能
     # - {accept: bracketleft, send: Page_Up, when: has_menu} # [上翻页
@@ -373,6 +373,7 @@ key_binder:
     - {accept: KP_Multiply, send: "*", when: has_menu}
     - {accept: KP_Add, send: +, when: has_menu}  #原始 → KP_Add
     - {accept: KP_Decimal, send: ".", when: has_menu}
+
 
 
 recognizer:
@@ -404,4 +405,4 @@ topup:
 menu:
   page_size: 5 #请到xmjd6.custom.yaml去修改
 style:
-   horizontal: true  #请到xmjd6.custom.yaml去修改
+   horizontal: false  #请到xmjd6.custom.yaml去修改

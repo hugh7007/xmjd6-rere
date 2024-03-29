@@ -5,7 +5,8 @@ patch:
   hint_text: ''    #顶功提示符→在两个<''>中间添加符号，例如hint_text: '🔞'
   style/horizontal: false  #竖排为false横排为true
   menu/page_size: 5   #候选项数
-	
+
+
   #                         0选择第一个,1选择第二个
   switches/@0/reset: 0     #[ 中文, 西文 ]
   switches/@1/reset: 0     #[ 全角, 半角 ]
