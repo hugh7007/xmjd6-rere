@@ -85,7 +85,7 @@ jobs:
               - [鼠须管输入法](https://github.com/groverlynn/squirrel/releases/latest)
               - [小企鹅输入法 macOS 版【中州韵版】](https://github.com/fcitx-contrib/fcitx5-macos-installer/blob/master/README.zh-CN.md)
             - Android: 
-              - [同文输入法](https://github.com/osfans/trime/releases/tag/latest)
+              - [同文输入法](https://github.com/osfans/trime/releases/latest)
               - 小企鹅输入法 Android 版：
                 - [主程序](https://jenkins.fcitx-im.org/job/android/job/fcitx5-android/)
                 - [Rime 插件](https://jenkins.fcitx-im.org/job/android/job/fcitx5-android-plugin-rime/)
