@@ -18,7 +18,7 @@ patch:
   switches/@7/reset: 1     #[ 简约, 逐码展示 ]
 
   #流式功能配置，想使用流式请取消以下注释，取消注释删掉 # 即可
-  # engine/filters//@4: null  #如果只需要使用a自造词功能,不需要流式就只开这一个
+  engine/filters//@4: null  #如果只需要使用a自造词功能,不需要流式就只开这一个
   # engine/processors/@4: null
   # engine/processors/@5: null
   # translator/enable_sentence: true

@@ -1,4 +1,4 @@
-奶茶	奶茶 🧋
+﻿奶茶	奶茶 🧋
 想桃子	想桃子 💭🍑
 18禁	18禁 🔞 18禁 🔞
 爷	爷 👴
@@ -8065,8 +8065,8 @@ zu	zu ず ズ づ ヅ
 元素	元素 氢H 氦He 锂Li 铍Be 硼B 碳C 氮N 氧O 氟F 氖Ne 钠Na 镁Mg 铝Al 硅Si 磷P 硫S 氯Cl 氩Ar 钾K 钙Ca 钪Sc 钛Ti 钒V 铬Cr 锰Mn 铁Fe 钴Co 镍Ni 铜Cu 锌Zn 镓Ga 锗Ge 砷As 硒Se 溴Br 氪Kr 铷Rb 锶Sr 钇Y 锆Zr 铌Nb 钼Mo 锝Tc 钌Ru 铑Rh 钯Pd 银Ag 镉Cd 铟In 锡Sn 锑Sb 碲Te 碘I 氙Xe 铯Cs 钡Ba 镧La 铈Ce 镨Pr 钕Nd 钷Pm 钐Sm 铕Eu 钆Gd 铽Tb 镝Dy 钬Ho 铒Er 铥Tm 镱Yb 镥Lu 铪Hf 钽Ta 钨W 铼Re 锇Os 铱Ir 铂Pt 金Au 汞Hg 铊Tl 铅Pb 铋Bi 钋Po 砹At 氡Rn 钫Fr 镭Ra 锕Ac 钍Th 镤Pa 铀U 镎Np 钚Pu 镅Am 锔Cm 锫Bk 锎Cf 锿Es 镄Fm 钔Md 锘No 铹Lr 𬬻Rf 𬭊Db 𬭳Sg 𬭛Bh 𬭶Hs 鿏Mt 𫟼Ds 𬬭Rg 鿔Cn 鿭Nh 𫓧Fl 镆Mc 𫟷Lv 鿬Ts 鿫Og
 元宵	元宵 🏮
 円	円 💴
-原谅我	原谅我 🙏 
-原諒我	原諒我 🙏 
+原谅我	原谅我 🙏
+原諒我	原諒我 🙏
 原子	原子 ⚛
 原子笔	原子笔 🖊
 原子筆	原子筆 🖊
@@ -9105,6 +9105,3 @@ X射线	X射线 🩻
 梳子	梳子 🪮
 缝合	缝合 🪡
 围观	围观 ʕ•̫͡•ʕ*̫͡*ʕ•͓͡•ʔ-̫͡-ʕ•̫͡•ʔ*̫͡*ʔ-̫͡-ʔ
-
-
-
