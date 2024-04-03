@@ -15,10 +15,16 @@ app_options:
   telegram.exe: {ascii_mode: false}
   wechat.exe: {ascii_mode: false}
   DingTalk.exe: {ascii_mode: false}
-
+  firefox.exe: {inline_preedit: true}
 ascii_composer:
   good_old_caps_lock: false
   switch_key: {Caps_Lock: inline_ascii, Control_L: commit_code, Control_R: commit_code, Eisu_toggle: clear, Shift_L: commit_text, Shift_R: commit_text}
+
+# [global settings]
+show_notifications: true                   # 是否显示状态变化的通知：true；false；option_list（方案内的开头 option）
+show_notifications_time: 1200              # 通知显示的时间，单位 ms
+global_ascii: false                        # 切换为 ascii 模式时，是否影响所有窗口：true；false
+# [End of <global settings>]
 
  # 字体设置
   # 支持字重设置THIN, EXTRA_LIGHT, ULTRA_LIGHT, LIGHT, SEMI_LIGHT, NORMAL, REGULAR, MEDIUM, DEMI_BOLD, SEMI_BOLD, BOLD, EXTRA_BOLD, ULTRA_BOLD, BLACK, HEAVY, EXTRA_BLACK, ULTRA_BLACK
@@ -35,43 +41,66 @@ ascii_composer:
 
 style:
   __include": win11_preset
-  antialias_mode": default
-  color_font: true  #★在Windows 8.1以上系统上使用彩色字体，支持彩色Emoji。如系统版本低于8.1则自动false
-  color_scheme: CatLight  #主题色
-  color_scheme_dark: CatDark  #暗色主题色
-  font_face: "Microsoft Yahei"     #候选字体
-  label_font_face: "Microsoft Yahei"       #★序号字体
-  comment_font_face: "Microsoft Yahei"     #★注释字体
-  font_point: 14  #候选字号
-  label_font_point: 14  #★序号字号，小于等于候选字号
-  comment_font_point: 12  #★注释字号，小于等于候选字号
-  capture_type: none  # (none/highlighted/candidates可选)，可以在提交候选时复制 无/高亮选项/整个候选窗口 的截图到剪贴板
-  horizontal: false  #水平布局，true时横屏幕，false时竖直布局
-  fullscreen: false #全屏
-  hide_candidates_when_single: false      #★preedit_inline时，只有一个候选时隐藏候选框不绘制
-  inline_preedit: true  #嵌入式面编码输入
-  preedit_type: composition #隐藏候选窗(margin_x或margin_y为负数，负数即可)+ style/preedit_type: preview_all
-  display_tray_icon: false  #显示托盘图标
-  label_format: "%s." #编号规则
-  vertical_auto_reverse": false #竖排候选翻转
-  layout:
-    align_type: bottom  #★文字偏置，主要影响label和comment居上/居中/居下布置，尤其是label和comment字体比候选字小的时候，bottom/center/top, 
-    min_width: 0  #候选栏最小宽度
-    min_height: 0 #候选栏最小高度
-    border_width: 0 #边框宽度，同border_width
-    margin_x: 0 #候选框位置偏移X
-    margin_y: 0 #候选框位置偏移Y
-    spacing: 0  #非嵌入式输入时，编码框和候选框的间距
-    candidate_spacing: 0  #相邻候选间距
-    hilite_spacing: 5 #候选框间距
-    hilite_padding: 5 #候选内边距
-    round_corner: 8   #别名 hilited_corner_radius
-    corner_radius: 8
-    shadow_radius: 0
-    shadow_offset_x: 4
-    shadow_offset_y: 4
-    style/layout/min_width: 30
+  antialias_mode": default                 # 次像素反锯齿设定：default；force_dword；cleartype；grayscale；aliased
+  color_font: true                         # ★在Windows 8.1以上系统上使用彩色字体，支持彩色Emoji。如系统版本低于8.1则自动false
+  color_scheme: CatLight                   # 主题色
+  color_scheme_dark: CatDark               # 暗色主题色
+  font_face: "Microsoft Yahei"             # 候选字体
+  label_font_face: "Microsoft Yahei"       # ★序号字体
+  comment_font_face: "Microsoft Yahei"     # ★注释字体
+  font_point: 14                           # 候选字号
+  label_font_point: 14                     # ★序号字号，小于等于候选字号
+  comment_font_point: 12                   # ★注释字号，小于等于候选字号
+  capture_type: none                       # (none/highlighted/candidates可选)，可以在提交候选时复制 无/高亮选项/整个候选窗口 的截图到剪贴板
+  horizontal: false                        # 水平布局，true时横屏幕，false时竖直布局
+  fullscreen: false                        # 全屏
+  mark_text: "|"                           # 标记字符，显示在选中的候选标签前，需要在配色方案中指定颜色；如该项为空字符串 "" 而配色方案中 hilited_mark_color 非透明色，则显示 Windows 11 输入法风格标记
+  ascii_tip_follow_cursor: false           # 切换 ASCII 模式时，提示跟随鼠标，而非输入光标
+  enhanced_position: true                  # 无法定位候选框时，在窗口左上角显示候选框：true；false
+  hide_candidates_when_single: false       # ★preedit_inline时，只有一个候选时隐藏候选框不绘制
+  inline_preedit: false                    # 行内显示预编辑区：true；false
+  preedit_type: composition                # 隐藏候选窗(margin_x或margin_y为负数，负数即可)+ style/preedit_type: preview_all
+  display_tray_icon: false                 # 托盘显示独立于语言栏的额外图标：true；false
+  label_format: "%s."                      # 编号规则
+  vertical_text: false                     # 竖排文本：true；false
+  candidate_list_layout: stacked           # stacked | linear  候选项排列方向（似乎只有在custom内才可以生效）
+  vertical_text_left_to_right: false       # 竖排方向是否从左到右：true；false
+  vertical_text_with_wrap: false           # 文本竖排模式下，自动换行：true；false
+  vertical_auto_reverse: false             # 文本竖排模式下，候选窗口位于光标上方时倒序排列：true；false
+  vertical_auto_reverse": false            # 竖排候选翻转
+  paging_on_scroll: true                   # 在候选窗口上滑动滚轮的行为：true（翻页）；false （选中下一个候选）
+  click_to_capture: false                  # 鼠标点击候选项，创建截图：true；false
 
+  layout:
+    align_type: center                     # 标签、候选文字、注解文字之间的相对对齐方式：top ; center ; bottom
+    max_height: 600                        # 候选框最大高度，horizontal 布局如宽超此尺寸则换行显示候选，设置为 0 不启用此功能
+    max_width: 0                           # 候选框最大宽度，文本竖排模式下如高度超此尺寸则换列显示候选，设置为 0 不启用此功能
+    min_height: 0                          # 候选框最小高度
+    min_width: 145                          # 候选框最小宽度
+    border_width: 0                        # 边框宽度；又名 border
+    margin_x: 8                            # 主体元素和候选框的左右边距；为负值时，不显示候选框
+    margin_y: 8                            # 主体元素的上下边距；为负值时，不显示候选框
+    spacing: 10                            # inline_preedit 为否时，编码区域和候选区域的间距
+    candidate_spacing: 22                  # 候选项之间的间距
+    hilite_spacing: 6                      # 候选项和相应标签的间距
+    hilite_padding: 8                      # 高亮区域和内部文字的间距，影响高亮区域大小
+    # hilite_padding_x: 8                  # 高亮区域和内部文字的左右间距，如无特殊指定则依 hilite_padding 设置
+    # hilite_padding_y: 8                  # 高亮区域和内部文字的上下间距，如无特殊指定则依 hilite_padding 设置
+    shadow_radius: 0                       # 阴影区域半径，为 0 不显示阴影；需要同时在配色方案中指定非透明的阴影颜色
+    shadow_offset_x: 4                     # 阴影左右偏移距离
+    shadow_offset_y: 4                     # 阴影上下偏移距离
+    corner_radius: 8                       # 候选窗口圆角半径
+    round_corner: 8                        # 候选背景色块圆角半径，又名 hilited_corner_radius
+    # type: vertical                       # 布局设置，效果和 style 下的设置相同：
+# [preset_color_schemes]
+# 配色设定
+# 在小狼毫用户目录新建 preview 文件夹，将自定义皮肤的截图重命名为 color_scheme_<name>.png 放入此文件夹，可以在「输入法设定」中看到自定义皮肤效果
+
+# 小狼毫配色在线设计：
+# [RIME 西米](https://fxliang.github.io/RimeSeeMe/)
+# [润笔](https://pdog18.github.io/rime-soak/#/theme)
+
+# [小狼毫配色详解](https://github.com/rime/weasel/wiki/定制小狼毫配色)
 preset_color_schemes:
   mint_light_blue:
     name: "蓝水鸭／Mint Light Blue"
