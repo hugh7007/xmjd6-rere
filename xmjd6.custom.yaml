@@ -1,6 +1,7 @@
 #功能开关一键配置
 patch:
   schema/name: 🌟🐈   #修改方案名称，显示在空格上的名字
+  schema/icon: "xmjd6.ico" #任务栏显示星猫键道图标，注释后恢复默认
   speller/auto_select: false    #自动上屏开关，默认关false开true
   hint_text: ''    #顶功提示符→在两个<''>中间添加符号，例如hint_text: '🔞'
   style/horizontal: false  #竖排为false横排为true
@@ -24,7 +25,6 @@ patch:
   # translator/enable_sentence: true
   # translator/enable_user_dict: true
 
-  menu:
   ascii_composer/switch_key:
     Caps_Lock: clear   #切换大小写，clear是不上屏切换大写，使用commit_code会先上屏小写然后再输入是大写
     Control_L: noop    #ctrl
@@ -56,6 +56,3 @@ patch:
  # 设为 noop，屏蔽该切换键 
  # 如果要把 Caps Lock 设爲只改变字母的大小写而不做中西文切换，可将 Caps_Lock 对应的切换方式设为 noop 
  # 如果要以 Caps Lock 切换到西文模式，默认输出小写字母，请至 ascii_composer/good_old_caps_lock: false 
-
-
-
