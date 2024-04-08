@@ -79,7 +79,7 @@ jobs:
         body: |
           ## Release Notes
           - xmjd6: 星猫键道6 Rime 方案，适合导入至 librime(>=1.9.0) 的 Rime 输入法使用。
-            - 窗户： 
+            - Windows： 
               - [小狼毫输入法测试版](https://github.com/rime/weasel/releases/tag/latest)
               - [小狼毫输入法 水龙月 Fork 版](https://github.com/Techince/weasel/releases/latest)
             - macOS: 
