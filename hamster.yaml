@@ -1,3 +1,100 @@
+keyboard:
+  colorSchemas:
+    - schemaName: "11"
+      name: 配色方案
+      author: 佚名
+      back_color: "0xFFFFFF"
+      button_back_color: "0xFFFFFF"
+      button_pressed_back_color: "0xD0D0D0"
+      button_bubble_back_color: "0xD0D0D0"
+      button_foreground_color: "0x6B6B6B"
+      button_pressed_foreground_color: "0x000000"
+      button_swipe_foreground_color: "0xD7000000"
+      button_swipe_pressed_foreground_color: "0x000000"
+      font_size: 21
+      swipe_font_size: 8
+      corner_radius: 6
+      border_color: "0x000000"
+      text_color: "0x000000"
+      lower_edge_color: "0x000000"
+      shadow_color: "0x000000"
+      shadow_size: 0
+      hilited_candidate_back_color: "0xFFFFFF"
+      hilited_candidate_text_color: "0x000000"
+      hilited_candidate_label_color: "0x000000"
+      hilited_comment_text_color: "0x000000"
+      candidate_text_color: "0x000000"
+      comment_text_color: "0x000000"
+      label_color: "0x000000"
+      hilited_callout_back_color: "0xFFFFFF"
+      hilited_callout_foreground_color: "0x000000"
+keyStyle:
+  "1": &a1
+    name: "1"
+    buttonBackgroundColor: "0xFFFFFF"
+    pressedButtonBackgroundColor: "0xD0D0D0"
+    buttonForegroundColor: "0x64000000"
+    pressedButtonForegroundColor: "0x8C000000"
+    swipeForegroundColor: "0x82000000"
+    pressedSwipeForegroundColor: "0xD2000000"
+    buttonBubbleBackColor: "0xD0D0D0"
+    cornerRadius: 2
+    borderSize: 1
+    borderColor: "0x0A000000"
+    lowerEdgeColor: "0x05000000"
+    shadowColor: "0x78000000"
+    shadowSize: 1
+    fontSize: 18
+    swipeFontSize: 11
+  "2": &a2
+    name: "2"
+    buttonBackgroundColor: "0xB9292929"
+    pressedButtonBackgroundColor: "0xC8454545"
+    buttonForegroundColor: "0xB4BFBFBF"
+    pressedButtonForegroundColor: "0xBEF5F5F5"
+    swipeForegroundColor: "0x91FFFFFF"
+    pressedSwipeForegroundColor: "0xBED9D9D9"
+    buttonBubbleBackColor: "0xD0D0D0"
+    cornerRadius: 2
+    borderSize: 1
+    borderColor: "0x969696"
+    lowerEdgeColor: "0x404040"
+    shadowColor: "0x000000"
+    shadowSize: 1
+    fontSize: 11
+    swipeFontSize: 10
+  "3":
+    name: "3"
+    buttonBackgroundColor: "0xA555FF33"
+    pressedButtonBackgroundColor: "0xD0D0D0"
+    buttonForegroundColor: "0x9B000000"
+    pressedButtonForegroundColor: "0x87000000"
+    swipeForegroundColor: "0x82000000"
+    pressedSwipeForegroundColor: "0xD2000000"
+    buttonBubbleBackColor: "0xD0D0D0"
+    cornerRadius: 6
+    borderSize: 1
+    borderColor: "0x05000000"
+    lowerEdgeColor: "0x87000000"
+    shadowColor: "0x000000"
+    shadowSize: 0
+    fontSize: 18
+    swipeFontSize: 11
+  "4":
+    name: "4"
+    buttonBackgroundColor: "0xFFFFFF"
+    pressedButtonBackgroundColor: "0xD0D0D0"
+    buttonForegroundColor: "0x000000"
+    pressedButtonForegroundColor: "0x000000"
+    swipeForegroundColor: "0x000000"
+    pressedSwipeForegroundColor: "0x000000"
+    buttonBubbleBackColor: "0xD0D0D0"
+    cornerRadius: 5
+    borderSize: 1
+    borderColor: "0x000000"
+    lowerEdgeColor: "0x000000"
+    shadowColor: "0x000000"
+    shadowSize: 0
 keyboards:
   - name: 中
     isPrimary: false
@@ -21,6 +118,8 @@ keyboards:
                 display: true
                 processByRIME: false
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: w
@@ -39,6 +138,8 @@ keyboards:
                 display: true
                 processByRIME: false
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: e
@@ -57,6 +158,8 @@ keyboards:
                 display: true
                 processByRIME: false
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: r
@@ -75,6 +178,8 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: t
@@ -93,6 +198,8 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: y
@@ -112,6 +219,8 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: u
@@ -130,6 +239,8 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: i
@@ -148,6 +259,8 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: o
@@ -166,6 +279,8 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: p
@@ -184,6 +299,8 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
       - keys:
           - action: none
             width: available
@@ -205,6 +322,8 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: s
@@ -223,6 +342,8 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: d
@@ -232,7 +353,6 @@ keyboards:
               - action:
                   character:
                     char: /
-                label: 、
                 display: true
                 processByRIME: true
                 direction: up
@@ -242,6 +362,8 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: f
@@ -260,6 +382,8 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: g
@@ -278,6 +402,8 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: h
@@ -296,6 +422,8 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: j
@@ -309,12 +437,13 @@ keyboards:
                 processByRIME: true
                 direction: up
               - action:
-                  symbol:
-                    char: 、
-                label: 、
+                  character:
+                    char: ·
                 display: true
-                processByRIME: false
+                processByRIME: true
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: k
@@ -333,6 +462,8 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: l
@@ -351,24 +482,40 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action: none
             width: available
       - keys:
           - action: shift
+            processByRIME: false
             width:
-              percentage: 0.13
+              portrait:
+                percentage: 0.12
+              landscape:
+                percentage: 0.13
             swipe:
               - action: tab
-                label: ↔
+                label: " "
                 display: true
                 processByRIME: true
                 direction: up
-              - action: shift
+              - action:
+                  shortcutCommand: "#中英切换"
+                label: " "
                 display: true
-                processByRIME: false
+                processByRIME: true
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action: none
-            width: available
+            processByRIME: false
+            width:
+              portrait:
+                percentage: 0.02
+              landscape: available
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: z
@@ -377,15 +524,18 @@ keyboards:
             swipe:
               - action:
                   shortcutCommand: "#行首"
+                label: " "
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   shortcutCommand: "#左移"
-                label: ⇠
+                label: " "
                 display: true
                 processByRIME: true
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: x
@@ -401,11 +551,13 @@ keyboards:
                 direction: up
               - action:
                   character:
-                    char: ·
-                label: ·
+                    char: "?"
+                label: "?"
                 display: true
                 processByRIME: false
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: c
@@ -416,7 +568,7 @@ keyboards:
                   character:
                     char: ，
                 display: true
-                processByRIME: false
+                processByRIME: true
                 direction: up
               - action:
                   character:
@@ -425,6 +577,8 @@ keyboards:
                 display: true
                 processByRIME: false
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: v
@@ -435,7 +589,7 @@ keyboards:
                   character:
                     char: 。
                 display: true
-                processByRIME: false
+                processByRIME: true
                 direction: up
               - action:
                   character:
@@ -444,6 +598,8 @@ keyboards:
                 display: true
                 processByRIME: false
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: b
@@ -458,10 +614,13 @@ keyboards:
                 direction: up
               - action:
                   character:
-                    char: ←
+                    char: .com
+                label: " "
                 display: true
                 processByRIME: false
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: n
@@ -480,6 +639,8 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: m
@@ -488,31 +649,42 @@ keyboards:
             swipe:
               - action:
                   shortcutCommand: "#行尾"
+                label: " "
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   shortcutCommand: "#右移"
-                label: ⇢
+                label: " "
                 display: true
                 processByRIME: true
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action: none
-            width: available
-          - action: backspace
+            processByRIME: false
             width:
               portrait:
-                percentage: 0.14
+                percentage: 0.02
+              landscape: available
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
+          - action: backspace
+            width:
+              portrait: available
               landscape:
                 percentage: 0.13
+            label: " "
             swipe:
               - action:
                   shortcutCommand: "#重输"
+                label: " "
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   shortcutCommand: "#重输"
+                label: " "
                 display: true
                 processByRIME: true
                 direction: down
@@ -526,24 +698,27 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: right
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
       - keys:
           - action:
               keyboardType: "123"
             width:
               portrait:
-                percentage: 0.15
+                percentage: 0.14
               landscape:
                 percentage: 0.1
-            label: "123"
+            label: " "
             swipe:
               - action:
                   shortcutCommand: "#左手模式"
-                label: ↙
+                label: " "
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   shortcutCommand: "#RimeSwitcher"
+                label: " "
                 display: true
                 processByRIME: true
                 direction: down
@@ -559,66 +734,79 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: right
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               keyboardType: abc
             processByRIME: false
             width:
               percentage: 0.1
-            label: abc
+            label: " "
             swipe:
               - action:
-                  character:
-                    char: ","
-                label: ","
+                  shortcutCommand: "#中英切换"
+                label: " "
                 display: true
                 processByRIME: false
                 direction: up
               - action:
-                  character:
-                    char: .
-                label: .
+                  shortcutCommand: "#中英切换"
+                label: " "
                 display: true
                 processByRIME: false
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action: space
             width: available
+            label: " "
             swipe:
               - action:
                   shortcutCommand: "#次选上屏"
-                label: ²
+                label: " "
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   shortcutCommand: "#三选上屏"
-                label: ³
+                label: " "
                 display: true
                 processByRIME: true
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action: enter
             width:
               portrait:
                 percentage: 0.25
               landscape:
                 percentage: 0.1
+            label: " "
             swipe:
               - action:
                   shortcutCommand: "#换行"
-                label: ↵
+                label: " "
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   keyboardType: emojis
+                label: " "
                 display: true
                 processByRIME: false
                 direction: down
               - action:
                   shortcutCommand: "#重输"
+                label: " "
                 display: true
                 processByRIME: true
                 direction: left
-    buttonInsets: 2
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
+    buttonInsets: 3
+    keyStyle:
+      "1": *a1
+      "2": *a2
   - name: "123"
     isPrimary: false
     rows:
@@ -628,7 +816,7 @@ keyboards:
                 char: (
             width:
               portrait:
-                percentage: 0.16
+                percentage: 0.12
               landscape:
                 percentage: 0.1
             label: (
@@ -647,6 +835,8 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: +
@@ -654,6 +844,8 @@ keyboards:
               portrait: available
               landscape:
                 percentage: 0.1
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: "1"
@@ -672,10 +864,13 @@ keyboards:
                 direction: up
               - action:
                   character:
-                    char: ""
+                    char: 壹
+                label: 壹
                 display: true
                 processByRIME: true
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: "2"
@@ -692,6 +887,15 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: up
+              - action:
+                  character:
+                    char: 贰
+                label: 贰
+                display: true
+                processByRIME: true
+                direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: "3"
@@ -708,25 +912,38 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: up
+              - action:
+                  character:
+                    char: 叁
+                label: 叁
+                display: true
+                processByRIME: true
+                direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action: backspace
             width:
               portrait:
                 percentage: 0.18
               landscape:
                 percentage: 0.2
+            label: ⌫
             swipe:
               - action:
                   shortcutCommand: "#重输"
+                label: " "
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   shortcutCommand: "#重输"
+                label: " "
                 display: true
                 processByRIME: true
                 direction: down
               - action:
                   shortcutCommand: "#重输"
+                label: " "
                 display: true
                 processByRIME: true
                 direction: left
@@ -735,13 +952,15 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: right
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
       - keys:
           - action:
               character:
                 char: ）
             width:
               portrait:
-                percentage: 0.16
+                percentage: 0.12
               landscape:
                 percentage: 0.1
             label: ）
@@ -760,6 +979,8 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: "-"
@@ -767,6 +988,8 @@ keyboards:
               portrait: available
               landscape:
                 percentage: 0.1
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: "4"
@@ -783,6 +1006,15 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: up
+              - action:
+                  character:
+                    char: 肆
+                label: 肆
+                display: true
+                processByRIME: true
+                direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: "5"
@@ -799,6 +1031,15 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: up
+              - action:
+                  character:
+                    char: 伍
+                label: 伍
+                display: true
+                processByRIME: true
+                direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: "6"
@@ -815,6 +1056,15 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: up
+              - action:
+                  character:
+                    char: 陆
+                label: 陆
+                display: true
+                processByRIME: true
+                direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: =
@@ -831,15 +1081,19 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: up
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
       - keys:
           - action:
               keyboardType: classifySymbolic
             width:
               portrait:
-                percentage: 0.16
+                percentage: 0.12
               landscape:
                 percentage: 0.1
-            label: 更多
+            label: " "
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: "*"
@@ -848,6 +1102,8 @@ keyboards:
               landscape:
                 percentage: 0.1
             label: ×
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: "7"
@@ -864,6 +1120,15 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: up
+              - action:
+                  character:
+                    char: 柒
+                label: 柒
+                display: true
+                processByRIME: true
+                direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: "8"
@@ -880,6 +1145,15 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: up
+              - action:
+                  character:
+                    char: 捌
+                label: 捌
+                display: true
+                processByRIME: true
+                direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: "9"
@@ -896,6 +1170,15 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: up
+              - action:
+                  character:
+                    char: 玖
+                label: 玖
+                display: true
+                processByRIME: true
+                direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: "%"
@@ -921,12 +1204,14 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
       - keys:
           - action:
               keyboardType: 中
             width:
               portrait:
-                percentage: 0.16
+                percentage: 0.12
               landscape:
                 percentage: 0.2
             label: 中
@@ -954,6 +1239,8 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: right
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: /
@@ -961,7 +1248,9 @@ keyboards:
               portrait: available
               landscape:
                 percentage: 0.1
-            label: /
+            label: ÷
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: .
@@ -974,10 +1263,10 @@ keyboards:
             swipe:
               - action:
                   character:
-                    char: ","
-                label: ","
+                    char: .
+                label: .
                 display: true
-                processByRIME: true
+                processByRIME: false
                 direction: up
               - action:
                   character:
@@ -986,6 +1275,8 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: "0"
@@ -1002,25 +1293,36 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: up
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action: space
             width:
               portrait:
                 percentage: 0.18
               landscape:
                 percentage: 0.2
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action: enter
             width:
               portrait:
                 percentage: 0.18
               landscape:
                 percentage: 0.2
+            label: " "
             swipe:
               - action:
                   shortcutCommand: "#换行"
+                label: " "
                 display: true
                 processByRIME: true
                 direction: up
-    buttonInsets: 3
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
+    buttonInsets: 4
+    keyStyle:
+      "1": *a1
+      "2": *a2
   - name: abc
     isPrimary: false
     rows:
@@ -1039,6 +1341,8 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: up
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: w
@@ -1053,6 +1357,15 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: up
+              - action:
+                  character:
+                    char: "@"
+                label: "@"
+                display: true
+                processByRIME: false
+                direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: e
@@ -1067,6 +1380,15 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: up
+              - action:
+                  character:
+                    char: "#"
+                label: "#"
+                display: true
+                processByRIME: true
+                direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: r
@@ -1081,6 +1403,15 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: up
+              - action:
+                  character:
+                    char: $
+                label: $
+                display: true
+                processByRIME: true
+                direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: t
@@ -1095,6 +1426,15 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: up
+              - action:
+                  character:
+                    char: "%"
+                label: "%"
+                display: true
+                processByRIME: true
+                direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: y
@@ -1109,6 +1449,15 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: up
+              - action:
+                  character:
+                    char: ^
+                label: ^
+                display: true
+                processByRIME: true
+                direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: u
@@ -1123,6 +1472,15 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: up
+              - action:
+                  character:
+                    char: "&"
+                label: "&"
+                display: true
+                processByRIME: true
+                direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: i
@@ -1137,6 +1495,15 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: up
+              - action:
+                  character:
+                    char: "*"
+                label: "*"
+                display: true
+                processByRIME: true
+                direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: o
@@ -1151,6 +1518,15 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: up
+              - action:
+                  character:
+                    char: (
+                label: (
+                display: true
+                processByRIME: true
+                direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: p
@@ -1165,10 +1541,21 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: up
+              - action:
+                  character:
+                    char: )
+                label: )
+                display: true
+                processByRIME: true
+                direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
       - keys:
           - action: none
             processByRIME: false
             width: available
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: a
@@ -1178,241 +1565,330 @@ keyboards:
             swipe:
               - action:
                   character:
-                    char: ""
+                    char: "!"
+                label: "!"
                 display: true
-                processByRIME: true
+                processByRIME: false
                 direction: up
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: s
             processByRIME: false
             width:
               percentage: 0.1
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: d
             processByRIME: false
             width:
               percentage: 0.1
-            swipe:
-              - action:
-                  character:
-                    char: /
-                label: /
-                display: true
-                processByRIME: false
-                direction: up
-              - action:
-                  character:
-                    char: 、
-                label: 、
-                display: true
-                processByRIME: false
-                direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: f
             processByRIME: false
             width:
               percentage: 0.1
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: g
             processByRIME: false
             width:
               percentage: 0.1
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: h
             processByRIME: false
             width:
               percentage: 0.1
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: j
             processByRIME: false
             width:
               percentage: 0.1
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: k
             processByRIME: false
             width:
               percentage: 0.1
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: l
             processByRIME: false
             width:
               percentage: 0.1
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action: none
             processByRIME: false
             width: available
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
       - keys:
           - action: shift
             processByRIME: false
             width:
-              percentage: 0.13
+              portrait:
+                percentage: 0.12
+              landscape:
+                percentage: 0.13
+            swipe:
+              - action: tab
+                label: " "
+                display: true
+                processByRIME: true
+                direction: up
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action: none
             processByRIME: false
             width: available
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: z
             processByRIME: false
             width:
               percentage: 0.1
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: x
             processByRIME: false
             width:
               percentage: 0.1
+            swipe:
+              - action:
+                  character:
+                    char: ？
+                display: true
+                processByRIME: true
+                direction: up
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: c
             processByRIME: false
             width:
               percentage: 0.1
+            swipe:
+              - action:
+                  character:
+                    char: ","
+                label: ","
+                display: true
+                processByRIME: false
+                direction: up
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action:
               character:
                 char: v
             processByRIME: false
             width:
               percentage: 0.1
-          - action:
-              character:
-                char: b
-            processByRIME: false
-            width:
-              percentage: 0.1
-          - action:
-              character:
-                char: n
-            processByRIME: false
-            width:
-              percentage: 0.1
-          - action:
-              character:
-                char: m
-            processByRIME: false
-            width:
-              percentage: 0.1
-          - action: none
-            processByRIME: false
-            width: available
-          - action: backspace
-            width:
-              portrait:
-                percentage: 0.14
-              landscape:
-                percentage: 0.13
-            swipe:
-              - action:
-                  shortcutCommand: "#重输"
-                display: true
-                processByRIME: true
-                direction: up
-              - action:
-                  shortcutCommand: "#重输"
-                display: true
-                processByRIME: true
-                direction: down
-              - action:
-                  shortcutCommand: "#重输"
-                display: true
-                processByRIME: true
-                direction: left
-              - action:
-                  shortcutCommand: "#重输"
-                display: true
-                processByRIME: true
-                direction: right
-      - keys:
-          - action:
-              keyboardType: "123"
-            width:
-              portrait:
-                percentage: 0.15
-              landscape:
-                percentage: 0.1
-            label: "123"
-            swipe:
-              - action:
-                  shortcutCommand: "#左手模式"
-                label: ↙
-                display: true
-                processByRIME: true
-                direction: up
-              - action:
-                  shortcutCommand: "#右手模式"
-                label: ↘
-                display: true
-                processByRIME: true
-                direction: down
-              - action:
-                  shortcutCommand: "#左手模式"
-                label: ↙
-                display: true
-                processByRIME: true
-                direction: left
-              - action:
-                  shortcutCommand: "#右手模式"
-                label: ↘
-                display: true
-                processByRIME: true
-                direction: right
-          - action:
-              keyboardType: 中
-            processByRIME: false
-            width:
-              percentage: 0.1
-            label: 中
             swipe:
               - action:
                   character:
                     char: .
                 label: .
                 display: true
+                processByRIME: false
+                direction: up
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
+          - action:
+              character:
+                char: b
+            processByRIME: false
+            width:
+              percentage: 0.1
+            swipe:
+              - action:
+                  character:
+                    char: www.
+                label: " "
+                display: true
+                processByRIME: true
+                direction: up
+              - action:
+                  character:
+                    char: .com
+                label: " "
+                display: true
+                processByRIME: true
+                direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
+          - action:
+              character:
+                char: n
+            processByRIME: false
+            width:
+              percentage: 0.1
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
+          - action:
+              character:
+                char: m
+            processByRIME: false
+            width:
+              percentage: 0.1
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
+          - action: none
+            processByRIME: false
+            width: available
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
+          - action: backspace
+            width:
+              portrait:
+                percentage: 0.14
+              landscape:
+                percentage: 0.13
+            label: " "
+            swipe:
+              - action:
+                  shortcutCommand: "#重输"
+                label: " "
+                display: true
+                processByRIME: true
+                direction: up
+              - action:
+                  shortcutCommand: "#重输"
+                label: "  "
+                display: true
+                processByRIME: true
+                direction: down
+              - action:
+                  shortcutCommand: "#重输"
+                label: "  "
+                display: true
+                processByRIME: true
+                direction: left
+              - action:
+                  shortcutCommand: "#重输"
+                label: " "
+                display: true
+                processByRIME: true
+                direction: right
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
+      - keys:
+          - action:
+              keyboardType: "123"
+            width:
+              portrait:
+                percentage: 0.14
+              landscape:
+                percentage: 0.1
+            label: " "
+            swipe:
+              - action:
+                  shortcutCommand: "#左手模式"
+                label: " "
+                display: true
+                processByRIME: true
+                direction: up
+              - action:
+                  shortcutCommand: "#右手模式"
+                label: " "
+                display: true
+                processByRIME: true
+                direction: down
+              - action:
+                  shortcutCommand: "#左手模式"
+                label: ↙
+                display: true
+                processByRIME: true
+                direction: left
+              - action:
+                  shortcutCommand: "#右手模式"
+                label: ↘
+                display: true
+                processByRIME: true
+                direction: right
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
+          - action:
+              keyboardType: 中
+            processByRIME: false
+            width:
+              percentage: 0.1
+            label: " "
+            swipe:
+              - action:
+                  character:
+                    char: .
+                label: " "
+                display: true
                 processByRIME: true
                 direction: up
               - action:
                   character:
                     char: ","
-                label: ","
+                label: " "
                 display: true
                 processByRIME: true
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action: space
             width: available
+            label: " "
             swipe:
               - action:
                   shortcutCommand: "#次选上屏"
-                label: ²
+                label: " "
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   shortcutCommand: "#三选上屏"
-                label: ³
+                label: " "
                 display: true
                 processByRIME: true
                 direction: down
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
           - action: enter
             width:
               portrait:
                 percentage: 0.25
               landscape:
                 percentage: 0.1
+            label: " "
             swipe:
               - action:
                   shortcutCommand: "#换行"
-                label: ↵
+                label: " "
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   keyboardType: emojis
+                label: " "
                 display: true
                 processByRIME: false
                 direction: down
@@ -1421,4 +1897,9 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: left
-    buttonInsets: 2
+            lightModeStyleName: "1"
+            darkModeStyleName: "2"
+    buttonInsets: 3
+    keyStyle:
+      "1": *a1
+      "2": *a2
