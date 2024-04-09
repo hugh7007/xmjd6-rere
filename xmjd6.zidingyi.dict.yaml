@@ -8,6 +8,37 @@ sort: original
 #单字→bb
 
 #自定义的词语
+总好过	zhgoa
+再换个	zhgv
+回错	hbcli
+求拉	qqls
+我也以为	wyyw
+就可以用	jkyyov
+北方特色	bftsio
+南方特色	nftsuo
+笑啥	xces
+搞多	gzdl
+搞多了	gdl
+好特么多	htmdau
+没瘦	mwed
+没壮	mwfx
+你信不信	nxbxi
+你想不想	nxbx
+他信不信	txbxi
+他想不想	txbx
+她信不信	txbxai
+她想不想	txbxa
+拉踩	lsch
+呲了	zkleo 
+滋回	zkhba
+带错	dhcl
+放多了	fdlo
+这道理	fdloo
+震耳	qnxj
+真二	qnxju
+舒适拼	eepiu
+网约	wpyhi
+网约车	wyw
 班次章	bcqvo
 不直角	bfjvuu
 不够位置	bgwfvu
@@ -383,7 +414,6 @@ sort: original
 该砍	ghkfo
 超音波	wybvo
 放多	fpdl
-放多了	fdlou
 的效果	dxguo
 真小	qnxc
 无配色	wps
@@ -13066,12 +13096,12 @@ www.	wpfk
 复方氨酚烷胺胶囊	gfmz
 酚麻美敏片	gfmz
 氨咖黄敏片	gfmz
-板蓝根冲剂	gfmzf
-双黄连口服液	gfmzf
-连花清瘟颗粒	gfmzf
-小儿感冒清热颗粒	gfmzx
-小儿氨酚黄那敏颗粒	gfmzx
-小儿氨酚伪麻分散片	gfmzx
+小儿感冒清热颗粒	gfmzi  # 小孩用药
+小儿氨酚黄那敏颗粒	gfmzi
+小儿氨酚伪麻分散片	gfmzi
+板蓝根冲剂	gfmzi # 中成药
+双黄连口服液	gfmzi
+连花清瘟颗粒	gfmzi
 
 #避孕药
 左炔诺孕酮片	bkyw
@@ -13582,7 +13612,7 @@ www.	wpfk
 # 常用链接
 星猫键道	xmjdo
 星魔键道	xmjdoo
-飞书笔记→https://hu0w1jn4xq.feishu.cn/docx/ZgQ8deGPlozhWCxOyeucBvHJnPe?from=from_copylink	xmjdo
+飞书笔记→https://hu0w1jn4xq.feishu.cn/docx/ZgQ8deGPlozhWCxOyeucBvHJnPe	xmjdo
 𝑮𝒊𝒕𝒉𝒖𝒃→https://github.com/hugh7007/xmjd6-rere	xmjdo
 老手打字网站→https://typer.owenyang.top	xmjdo
 键道6新手练习网址→https://api.ihint.me/shuang/	xmjdo

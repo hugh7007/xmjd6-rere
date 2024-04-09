@@ -31,16 +31,16 @@ keyboard:
 keyStyle:
   "1": &a1
     name: "1"
-    buttonBackgroundColor: "0xFFFFFF"
-    pressedButtonBackgroundColor: "0xD0D0D0"
-    buttonForegroundColor: "0x64000000"
-    pressedButtonForegroundColor: "0x8C000000"
-    swipeForegroundColor: "0x82000000"
+    buttonBackgroundColor: "0xD7FFFFFF"
+    pressedButtonBackgroundColor: "0xC3D0D0D0"
+    buttonForegroundColor: "0xBE000000"
+    pressedButtonForegroundColor: "0x96000000"
+    swipeForegroundColor: "0xB4000000"
     pressedSwipeForegroundColor: "0xD2000000"
-    buttonBubbleBackColor: "0xD0D0D0"
-    cornerRadius: 2
+    buttonBubbleBackColor: "0xFAD0D0D0"
+    cornerRadius: 8
     borderSize: 1
-    borderColor: "0x0A000000"
+    borderColor: "0x1E000000"
     lowerEdgeColor: "0x05000000"
     shadowColor: "0x78000000"
     shadowSize: 1
@@ -48,21 +48,21 @@ keyStyle:
     swipeFontSize: 11
   "2": &a2
     name: "2"
-    buttonBackgroundColor: "0xB9292929"
-    pressedButtonBackgroundColor: "0xC8454545"
-    buttonForegroundColor: "0xB4BFBFBF"
+    buttonBackgroundColor: "0xD7707070"
+    pressedButtonBackgroundColor: "0xD7A6A6A6"
+    buttonForegroundColor: "0xB4DEDEDE"
     pressedButtonForegroundColor: "0xBEF5F5F5"
     swipeForegroundColor: "0x91FFFFFF"
     pressedSwipeForegroundColor: "0xBED9D9D9"
     buttonBubbleBackColor: "0xD0D0D0"
-    cornerRadius: 2
+    cornerRadius: 8
     borderSize: 1
     borderColor: "0x969696"
     lowerEdgeColor: "0x404040"
     shadowColor: "0x000000"
     shadowSize: 1
-    fontSize: 11
-    swipeFontSize: 10
+    fontSize: 18
+    swipeFontSize: 11
   "3":
     name: "3"
     buttonBackgroundColor: "0xA555FF33"
@@ -496,7 +496,6 @@ keyboards:
                 percentage: 0.13
             swipe:
               - action: tab
-                label: " "
                 display: true
                 processByRIME: true
                 direction: up
@@ -674,11 +673,11 @@ keyboards:
               portrait: available
               landscape:
                 percentage: 0.13
-            label: " "
+            label: ↼
             swipe:
               - action:
                   shortcutCommand: "#重输"
-                label: " "
+                label: " ↞"
                 display: true
                 processByRIME: true
                 direction: up
@@ -708,11 +707,11 @@ keyboards:
                 percentage: 0.14
               landscape:
                 percentage: 0.1
-            label: " "
+            label: "123"
             swipe:
               - action:
                   shortcutCommand: "#左手模式"
-                label: " "
+                label: ↙
                 display: true
                 processByRIME: true
                 direction: up
@@ -741,11 +740,11 @@ keyboards:
             processByRIME: false
             width:
               percentage: 0.1
-            label: " "
+            label: 英
             swipe:
               - action:
                   shortcutCommand: "#中英切换"
-                label: " "
+                label: ⇄
                 display: true
                 processByRIME: false
                 direction: up
@@ -781,17 +780,15 @@ keyboards:
                 percentage: 0.25
               landscape:
                 percentage: 0.1
-            label: " "
             swipe:
               - action:
                   shortcutCommand: "#换行"
-                label: " "
+                label: ↫
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   keyboardType: emojis
-                label: " "
                 display: true
                 processByRIME: false
                 direction: down
@@ -1651,10 +1648,15 @@ keyboards:
                 percentage: 0.13
             swipe:
               - action: tab
-                label: " "
                 display: true
                 processByRIME: true
                 direction: up
+              - action:
+                  shortcutCommand: "#中英切换"
+                label: " "
+                display: true
+                processByRIME: true
+                direction: down
             lightModeStyleName: "1"
             darkModeStyleName: "2"
           - action: none
@@ -1767,17 +1769,17 @@ keyboards:
                 percentage: 0.14
               landscape:
                 percentage: 0.13
-            label: " "
+            label: " ↼"
             swipe:
               - action:
                   shortcutCommand: "#重输"
-                label: " "
+                label: "  ↞"
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   shortcutCommand: "#重输"
-                label: "  "
+                label: " "
                 display: true
                 processByRIME: true
                 direction: down
@@ -1803,7 +1805,7 @@ keyboards:
                 percentage: 0.14
               landscape:
                 percentage: 0.1
-            label: " "
+            label: "123"
             swipe:
               - action:
                   shortcutCommand: "#左手模式"
@@ -1836,18 +1838,16 @@ keyboards:
             processByRIME: false
             width:
               percentage: 0.1
-            label: " "
+            label: " 中"
             swipe:
               - action:
-                  character:
-                    char: .
-                label: " "
+                  shortcutCommand: "#中英切换"
+                label: ⇄
                 display: true
                 processByRIME: true
                 direction: up
               - action:
-                  character:
-                    char: ","
+                  shortcutCommand: "#中英切换"
                 label: " "
                 display: true
                 processByRIME: true
@@ -1878,17 +1878,15 @@ keyboards:
                 percentage: 0.25
               landscape:
                 percentage: 0.1
-            label: " "
             swipe:
               - action:
                   shortcutCommand: "#换行"
-                label: " "
+                label: " ↫"
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   keyboardType: emojis
-                label: " "
                 display: true
                 processByRIME: false
                 direction: down
