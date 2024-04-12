@@ -54,7 +54,35 @@
 3. **天行键 GitHub 仓库链接：**[📖天行键 - GitHub](https://github.com/wzxmer/rime-txjx)
 4. **星空键道 GitHub 仓库链接：**[📖星空键道6 - GitHub](https://github.com/xkinput/Rime_JD)
 
+## 如何使用
+
+将 GitHub Release 中的 xmjd6.zip 适合导入至 librime(≥1.9.0) 的 Rime 输入法的用户文件夹中使用。
+  - Windows： 
+    - 小狼毫
+      - [小狼毫输入法测试版](https://github.com/rime/weasel/releases/tag/latest)
+      - [小狼毫输入法 水龙月 Fork 版](https://github.com/Techince/weasel/releases/latest)
+      - 默认用户文件夹路径：`%APPDATA%\Rime` 
+    - [玉兔毫](https://github.com/amorphobia/rabbit)
+      - 玉兔毫[星猫键道6绿色便携版](https://github.com/hugh7007/xmjd6-rere/releases/latest/download/Rabbit-xmjd6.zip)，无需导入方案即可在 Windows 系统上轻量使用。
+  - macOS: 
+    - [鼠须管输入法 groverlynn Fork 版](https://github.com/groverlynn/squirrel/releases/latest)
+      - 默认用户文件夹路径：`~/Library/Rime` 
+    - [小企鹅输入法 macOS 版【中州韵版】](https://github.com/fcitx-contrib/fcitx5-macos-installer/blob/master/README.zh-CN.md)
+      - 默认用户文件夹路径：`~/.local/share/fcitx5/rime`
+  - Android: 
+    - [同文输入法](https://github.com/osfans/trime/releases/latest)
+      - 默认用户文件夹路径：`/storage/emulated/0/rime/`
+    - [小企鹅输入法 Android 版](https://github.com/fcitx5-android/fcitx5-android)：
+      - [主程序](https://jenkins.fcitx-im.org/job/android/job/fcitx5-android/)
+      - [Rime 插件](https://jenkins.fcitx-im.org/job/android/job/fcitx5-android-plugin-rime/)
+      - [更新器](https://jenkins.fcitx-im.org/job/android/job/fcitx5-android-updater/)
+      - 默认用户文件夹路径（在小企鹅中添加中州韵输入法后出现）：`/storage/emulated/0/Android/data/org.fcitx.fcitx5.android/files/data/rime/`
+  - iOS: 
+    - [仓输入法](https://apps.apple.com/app/id6446617683)
+      - 可使用内置在线方案下载导入
+
 ## 细节补充
+
 - **主方案文件：** `xmjd6.schema.yaml`  
 - **快捷功能配置：** `xmjd6.custom.yaml`  
 - **英文快捷：** `xmjd6.yingwen.dict.yaml`  
