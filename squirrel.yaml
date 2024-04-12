@@ -70,7 +70,7 @@ style:
   # candidate_format: '%c. %@'
 
   # 全局字体及大小
-  font_face: 'PingFang SC'
+  font_face: "霞鹜新晰黑, PingFang SC, TH-Tshyn-P1:30000:3134A, TH-Tshyn-P1:31350:323AF, TH-Tshyn-P1:2EBF0:2EE5D, Segoe UI, Segoe UI Emoji:30:39, Segoe UI Emoji:23:23, Segoe UI Emoji:2a:2a, Segoe UI Emoji:fe0f:fe0f, Segoe UI Emoji:20e3:20e3, Noto Color Emoji SVG:80, 全宋体-1, 全宋体-2, 全宋体-3, 全宋体-F, 全宋体-X, 全宋体(调和), 全宋体(等宽)"
   font_point: 16
   # 序号字体及大小（建议使用「等宽字体」）
   label_font_face: 'Lucida Grande'
@@ -351,33 +351,419 @@ preset_color_schemes:
     hilited_comment_text_color: 0xffffff    # 注解文字高亮
     hilited_label_color: 0xffffff           # 已选字的数字的颜色
     label_color: 0x888888                   # 预选栏编号颜色    
-  apathy: {back_color: 0xFFFFFF, candidate_format: "%c %@ ", comment_text_color: 0x999999, hilited_candidate_back_color: 0xFFF0E4, hilited_candidate_text_color: 0xEE6E00, inline_preedit: true, name: "冷漠", text_color: 0x424242}
-  appsored: {author: "Astrian Zheng", back_color: 0x2824C8, candidate_format: "%c. %@ ", candidate_text_color: 0xC5C3F2, comment_text_color: 0xFFFFFF, hilited_candidate_back_color: 0x2824C8, hilited_candidate_label_color: 0xFFFFFF, hilited_candidate_text_color: 0xFFFFFF, hilited_text_color: 0xFFFFFF, label_color: 0xC5C3F2, name: "AppSo 红", text_color: 0xC5C3F2}
-  dracula: {back_color: 0x362A28, border_color: 0x362A28, candidate_format: "%c %@ ", candidate_text_color: 0xF993BD, comment_text_color: 0xFDE98B, corner_radius: 5, font_point: 16, hilited_back_color: 0xF2F8F8, hilited_candidate_back_color: 0xC679FF, hilited_candidate_label_color: 0xfafafa, hilited_candidate_text_color: 0xF2F8F8, hilited_comment_text_color: 0x362b00, hilited_text_color: 0x5A4744, horizontal: true, inline_preedit: true, label_font_point: 14, line_spacing: 10, name: dracula, text_color: 0x6CB8FF}
-  dracula_light: {back_color: 0xF2F8F8, border_color: 0xF2F8F8, candidate_format: "%c %@ ", candidate_text_color: 0x362A28, comment_text_color: 0x5A4744, corner_radius: 5, font_point: 16, hilited_back_color: 0xF2F8F8, hilited_candidate_back_color: 0xC679FF, hilited_candidate_label_color: 0xF2F8F8, hilited_candidate_text_color: 0xF2F8F8, hilited_comment_text_color: 0x362b00, hilited_text_color: 0x362A28, horizontal: true, inline_preedit: true, label_font_point: 14, line_spacing: 10, name: dracula_light, text_color: 0x362A28}
-  ifanrblack: {author: "Astrian Zheng", back_color: 0x000000, candidate_format: "%c. %@ ", candidate_text_color: 0x2824C8, comment_text_color: 0xFFFFFF, hilited_candidate_back_color: 0x000000, hilited_candidate_label_color: 0xFFFFFF, hilited_candidate_text_color: 0xFFFFFF, hilited_text_color: 0xFFFFFF, label_color: 0x2824C8, name: "爱范儿黑", text_color: 0x2824C8}
-  macos12_dark: {author: "Lufs X <i@isteed.cc>", back_color: 0x1E1F24, border_color: 0x1E1F24, candidate_text_color: 0xE8E8E8, comment_text_color: 0x3F000000, hilited_candidate_back_color: 0xDA6203, hilited_candidate_label_color: 0xFFE7D6, hilited_candidate_text_color: 0xFFFFFF, hilited_comment_text_color: 0x808080, hilited_text_color: 0xD8000000, label_color: 0x7C7C7C, name: "高仿暗色 macOS", text_color: 0x3F000000}
-  macos12_light: {author: "Lufs X <i@isteed.cc>", back_color: 0xFFFFFF, border_color: 0xFFFFFF, candidate_text_color: 0xD8000000, comment_text_color: 0x3F000000, hilited_candidate_back_color: 0xD05925, hilited_candidate_label_color: 0xFFFFFF, hilited_candidate_text_color: 0xFFFFFF, hilited_comment_text_color: 0x808080, hilited_text_color: 0xD8000000, label_color: 0x7F7F7F, name: "高仿亮色 macOS", text_color: 0x3F000000}
-  metro: {author: flypy.com, back_color: 0xffffff, border_color: 0xe89f00, comment_text_color: 0x666666, hilited_back_color: 0xffffff, hilited_candidate_back_color: 0xe89f00, hilited_candidate_text_color: 0xffffff, hilited_comment_text_color: 0x666666, hilited_text_color: 0x000000, label_color: 0x666666, name: metro, text_color: 0x000000}
-  milan: {back_color: 0xFFFFFF, candidate_format: "%c %@ ", comment_text_color: 0x999999, hilited_candidate_back_color: 0xF5803B, hilited_candidate_text_color: 0xFFFFFF, name: "米兰", text_color: 0x424242}
-  nord_dark: {back_color: 0x473A33, border_color: 0x473A33, candidate_format: "%c %@ ", candidate_text_color: 0xF5D887, comment_text_color: 0xE6B687, hilited_back_color: 0x473A33, hilited_candidate_back_color: 0x5D4C43, hilited_candidate_text_color: 0xC0E077, hilited_text_color: 0x6EC8F5, name: "北方深色", text_color: 0x78E8F0}
-  nord_light: {back_color: 0xF4EFEC, border_color: 0xF4EFEC, candidate_format: "%c %@ ", candidate_text_color: 0xC1A181, comment_text_color: 0xD0C088, hilited_back_color: 0xF0E9E5, hilited_candidate_back_color: 0xE9DED8, hilited_candidate_text_color: 0xAC815E, hilited_text_color: 0xAD8EB4, name: "北方浅色", text_color: 0x7087D0}
-  purity: {back_color: 0x444444, candidate_format: "%c %@ ", candidate_text_color: 0xeeeeee, comment_text_color: 0x808080, hilited_back_color: 0x444444, hilited_candidate_back_color: 0xfafafa, hilited_candidate_text_color: 0x000000, hilited_text_color: 0xeeeeee, name: "纯洁", text_color: 0xc2c2c2}
-  MacRoseo: {author: KyleBing, back_color: 0xFFFFFF, border_color: 0x33000000, candidate_back_color: 0xFFFFFF, candidate_border_color: 0x00000000, candidate_shadow_color: 0x00000000, candidate_text_color: 0x000000, comment_text_color: 0xBBCC27, creat_time: "2021-07-26", hilited_back_color: 0xEDEDF9, hilited_candidate_back_color: 0x004F11FA, hilited_candidate_border_color: 0x004F11FA, hilited_candidate_shadow_color: 0x004F11FA, hilited_candidate_text_color: 0x4F11FA, hilited_label_color: 0x884F11FA, hilited_mark_color: 0x000000, hilited_shadow_color: 0xcccccc, hilited_text_color: 0x000000, label_color: 0x999999, name: "玫红 / MacRoseo", nextpage_color: 0x000000, prevpage_color: 0x000000, shadow_color: 0x44000000, text_color: 0x000000}
-  MacRoseoAlt: {author: KyleBing, back_color: 0xFFFFFF, border_color: 0xD6D6D6, candidate_text_color: 0x000000, comment_text_color: 0xBBCC27, creat_time: "2021-07-26", hilited_back_color: 0xFFFFFF, hilited_candidate_back_color: 0x4F11FA, hilited_candidate_text_color: 0xFFFFFF, hilited_text_color: 0x000000, name: MacRoseo, text_color: 0x000000}
-  WhiteAqua: {author: KyleBing, back_color: 0xFFFFFF, border_color: 0xD6D6D6, candidate_text_color: 0x000000, comment_text_color: 0xBBCC27, creat_time: "2021-07-26", hilited_back_color: 0xFFFFFF, hilited_candidate_back_color: 0x9BAD23, hilited_candidate_text_color: 0xFFFFFF, hilited_text_color: 0x000000, name: WhiteAqua, text_color: 0x000000}
-  wechat_dark: {back_color: 0x2e2925, candidate_format: "%c %@ ", candidate_text_color: 0xe9e9ea, comment_text_color: 0x999999, hilited_candidate_back_color: 0x75B100, hilited_candidate_text_color: 0xFFFFFF, inline_preedit: true, label_color: 0x999999, name: "微信键盘深色", text_color: 0x424242, hilited_text_color: 0xFFFFFF}
-  wechat_light: {back_color: 0xFFFFFF, border_height: 0, border_width: 8, candidate_format: "%c %@ ", comment_text_color: 0x999999, hilited_candidate_back_color: 0x75B100, hilited_candidate_text_color: 0xFFFFFF, inline_preedit: true, name: "微信键盘浅色", text_color: 0x424242}
-  white: {back_color: 0xededed, border_color: 0x40444444, candidate_shadow_color: 0x60444444, candidate_text_color: 0x444444, comment_text_color: 0x444444, hilited_candidate_back_color: 0x444444, hilited_candidate_shadow_color: 0x60444444, hilited_candidate_text_color: 0xededed, hilited_comment_text_color: 0xededed, hilited_label_color: 0xededed, hilited_shadow_color: 0x60444444, hilited_text_color: 0x000000, label_color: 0x444444, name: "白色/white", shadow_color: 0x60444444}
-  win10_MDL_ayaya: {author: "Lufs X <i@isteed.cc>", back_color: 0xFFFFFF, candidate_text_color: 0x121212, comment_text_color: 0x8E8E8E, hilited_candidate_back_color: 0xECE4FC, hilited_candidate_text_color: 0x7A40EC, hilited_label_color: 0xB18FF4, label_color: 0x888785, name: "Windows10 文文／Ayaya", text_color: 0x8100EB}
-  win10_MDL_blue: {author: fbewivpjsbsby, back_color: 0xffffff, border_color: 0xcc8f29, candidate_text_color: 0x000000, comment_text_color: 0x888888, hilited_back_color: 0xffffff, hilited_candidate_back_color: 0xcc8f29, hilited_candidate_text_color: 0xffffff, hilited_comment_text_color: 0xffffff, hilited_label_color: 0xffffff, hilited_text_color: 0x000000, label_color: 0x888888, name: "Windows 10 Blue", text_color: 0x000000}
-  win10_MDL_darkblue: {author: fbewivpjsbsby, back_color: 0x1f1f1f, border_color: 0xa37220, candidate_text_color: 0xf2f2f2, comment_text_color: 0x888888, hilited_back_color: 0x1f1f1f, hilited_candidate_back_color: 0xa37220, hilited_candidate_text_color: 0xf2f2f2, hilited_comment_text_color: 0xffffff, hilited_label_color: 0xf2f2f2, hilited_text_color: 0xffffff, label_color: 0x888888, name: "Windows 10 Dark Blue", text_color: 0xffffff}
-  win10_MDL_deepgrey: {author: fbewivpjsbsby, back_color: 0xFFFFFF, border_color: 0x7E7969, candidate_text_color: 0x000000, comment_text_color: 0x888888, hilited_back_color: 0x7E7969, hilited_candidate_back_color: 0x7E7969, hilited_candidate_text_color: 0xFFFFFF, hilited_comment_text_color: 0xffffff, hilited_label_color: 0xffffff, hilited_text_color: 0xFFFFFF, name: "Windows10 Deepgrey", text_color: 0x000000}
-  win10_MDL_preset: {font_point: 13, label_font_point: 9, label_format: "%s", layout: {border_width: 1, candidate_spacing: 30, corner_radius: 0, hilite_padding_x: 27, hilite_padding_y: 15, hilite_spacing: 5, margin_x: 15, margin_y: 2, round_corner: 0, spacing: 10}}
-  win10_preset: {label_format: "%s", layout: {align_type: center, border_width: 2, candidate_spacing: 50, corner_radius: 10, hilite_padding: 18, hilite_padding_x: 18, hilite_padding_y: 18, hilite_spacing: 17, margin_x: 17, margin_y: 17, max_height: 0, max_width: 0, min_height: 0, min_width: 160, round_corner: 0, shadow_offset_x: 5, shadow_offset_y: 4, shadow_radius: 10, spacing: 10}}
-  win10_weasel: {author: luminosa, back_color: 0xF3F3F3, border_color: 0xDBDCDC, candidate_text_color: 0x000000, hilited_candidate_back_color: 0xFFD8A6, hilited_label_color: 0x6F6F6F, hilited_mark_color: 0x00000000, label_color: 0x6F6F6F, name: win10_weasel, shadow_color: 0x20000000, text_color: 0x000000}
-  win11_preset: {label_format: " %s", layout: {align_type: center, border_width: 1, candidate_spacing: 25, corner_radius: 12, hilite_padding: 5, hilite_padding_x: 7, hilite_padding_y: 6, hilite_spacing: 14, margin_x: 16, margin_y: 14, max_height: 0, max_width: 0, min_height: 0, min_width: 160, round_corner: 12, shadow_offset_x: 6, shadow_offset_y: 6, shadow_radius: 13, spacing: 18}}
-  win11_weasel: {author: luminosa, back_color: 0xF9F9F9, border_color: 0xE7E7E7, candidate_text_color: 0x000000, hilited_candidate_back_color: 0xF0F0F0, hilited_label_color: 0x727272, hilited_mark_color: 0xFFD8A6, label_color: 0x727272, name: win11_weasel, shadow_color: 0x20000000, text_color: 0x000000}
+  apathy:
+    back_color: 0xFFFFFF
+    candidate_format: "%c %@ "
+    comment_text_color: 0x999999
+    hilited_candidate_back_color: 0xFFF0E4
+    hilited_candidate_text_color: 0xEE6E00
+    inline_preedit: true
+    name: "冷漠"
+    text_color: 0x424242
+
+  appsored:
+    author: "Astrian Zheng"
+    back_color: 0x2824C8
+    candidate_format: "%c. %@ "
+    candidate_text_color: 0xC5C3F2
+    comment_text_color: 0xFFFFFF
+    hilited_candidate_back_color: 0x2824C8
+    hilited_candidate_label_color: 0xFFFFFF
+    hilited_candidate_text_color: 0xFFFFFF
+    hilited_text_color: 0xFFFFFF
+    label_color: 0xC5C3F2
+    name: "AppSo 红"
+    text_color: 0xC5C3F2
+
+  dracula:
+    back_color: 0x362A28
+    border_color: 0x362A28
+    candidate_format: "%c %@ "
+    candidate_text_color: 0xF993BD
+    comment_text_color: 0xFDE98B
+    corner_radius: 5
+    font_point: 16
+    hilited_back_color: 0xF2F8F8
+    hilited_candidate_back_color: 0xC679FF
+    hilited_candidate_label_color: 0xfafafa
+    hilited_candidate_text_color: 0xF2F8F8
+    hilited_comment_text_color: 0x362b00
+    hilited_text_color: 0x5A4744
+    horizontal: true
+    inline_preedit: true
+    label_font_point: 14
+    line_spacing: 10
+    name: dracula
+    text_color: 0x6CB8FF
+
+  dracula_light:
+    back_color: 0xF2F8F8
+    border_color: 0xF2F8F8
+    candidate_format: "%c %@ "
+    candidate_text_color: 0x362A28
+    comment_text_color: 0x5A4744
+    corner_radius: 5
+    font_point: 16
+    hilited_back_color: 0xF2F8F8
+    hilited_candidate_back_color: 0xC679FF
+    hilited_candidate_label_color: 0xF2F8F8
+    hilited_candidate_text_color: 0xF2F8F8
+    hilited_comment_text_color: 0x362b00
+    hilited_text_color: 0x362A28
+    horizontal: true
+    inline_preedit: true
+    label_font_point: 14
+    line_spacing: 10
+    name: dracula_light
+    text_color: 0x362A28
+
+  ifanrblack:
+    author: "Astrian Zheng"
+    back_color: 0x000000
+    candidate_format: "%c. %@ "
+    candidate_text_color: 0x2824C8
+    comment_text_color: 0xFFFFFF
+    hilited_candidate_back_color: 0x000000
+    hilited_candidate_label_color: 0xFFFFFF
+    hilited_candidate_text_color: 0xFFFFFF
+    hilited_text_color: 0xFFFFFF
+    label_color: 0x2824C8
+    name: "爱范儿黑"
+    text_color: 0x2824C8
+
+  macos12_dark:
+    author: "Lufs X <i@isteed.cc>"
+    back_color: 0x1E1F24
+    border_color: 0x1E1F24
+    candidate_text_color: 0xE8E8E8
+    comment_text_color: 0x3F000000
+    hilited_candidate_back_color: 0xDA6203
+    hilited_candidate_label_color: 0xFFE7D6
+    hilited_candidate_text_color: 0xFFFFFF
+    hilited_comment_text_color: 0x808080
+    hilited_text_color: 0xD8000000
+    label_color: 0x7C7C7C
+    name: "高仿暗色 macOS"
+    text_color: 0x3F000000
+
+  macos12_light:
+    author: "Lufs X <i@isteed.cc>"
+    back_color: 0xFFFFFF
+    border_color: 0xFFFFFF
+    candidate_text_color: 0xD8000000
+    comment_text_color: 0x3F000000
+    hilited_candidate_back_color: 0xD05925
+    hilited_candidate_label_color: 0xFFFFFF
+    hilited_candidate_text_color: 0xFFFFFF
+    hilited_comment_text_color: 0x808080
+    hilited_text_color: 0xD8000000
+    label_color: 0x7F7F7F
+    name: "高仿亮色 macOS"
+    text_color: 0x3F000000
+
+  metro: 
+    author: flypy.com
+    back_color: 0xffffff
+    border_color: 0xe89f00
+    comment_text_color: 0x666666
+    hilited_back_color: 0xffffff
+    hilited_candidate_back_color: 0xe89f00
+    hilited_candidate_text_color: 0xffffff
+    hilited_comment_text_color: 0x666666
+    hilited_text_color: 0x000000
+    label_color: 0x666666
+    name: metro
+    text_color: 0x000000
+
+  milan:
+    back_color: 0xFFFFFF
+    candidate_format: "%c %@ "
+    comment_text_color: 0x999999
+    hilited_candidate_back_color: 0xF5803B
+    hilited_candidate_text_color: 0xFFFFFF
+    name: "米兰"
+    text_color: 0x424242
+
+  nord_dark:
+    back_color: 0x473A33
+    border_color: 0x473A33
+    candidate_format: "%c %@ "
+    candidate_text_color: 0xF5D887
+    comment_text_color: 0xE6B687
+    hilited_back_color: 0x473A33
+    hilited_candidate_back_color: 0x5D4C43
+    hilited_candidate_text_color: 0xC0E077
+    hilited_text_color: 0x6EC8F5
+    name: "北方深色"
+    text_color: 0x78E8F0
+
+  nord_light:
+    back_color: 0xF4EFEC
+    border_color: 0xF4EFEC
+    candidate_format: "%c %@ "
+    candidate_text_color: 0xC1A181
+    comment_text_color: 0xD0C088
+    hilited_back_color: 0xF0E9E5
+    hilited_candidate_back_color: 0xE9DED8
+    hilited_candidate_text_color: 0xAC815E
+    hilited_text_color: 0xAD8EB4
+    name: "北方浅色"
+    text_color: 0x7087D0
+
+  purity:
+    back_color: 0x444444
+    candidate_format: "%c %@ "
+    candidate_text_color: 0xeeeeee
+    comment_text_color: 0x808080
+    hilited_back_color: 0x444444
+    hilited_candidate_back_color: 0xfafafa
+    hilited_candidate_text_color: 0x000000
+    hilited_text_color: 0xeeeeee
+    name: "纯洁"
+    text_color: 0xc2c2c2
+
+  MacRoseo:
+    author: KyleBing
+    back_color: 0xFFFFFF
+    border_color: 0x33000000
+    candidate_back_color: 0xFFFFFF
+    candidate_border_color: 0x00000000
+    candidate_shadow_color: 0x00000000
+    candidate_text_color: 0x000000
+    comment_text_color: 0xBBCC27
+    creat_time: "2021-07-26"
+    hilited_back_color: 0xEDEDF9
+    hilited_candidate_back_color: 0x004F11FA
+    hilited_candidate_border_color: 0x004F11FA
+    hilited_candidate_shadow_color: 0x004F11FA
+    hilited_candidate_text_color: 0x4F11FA
+    hilited_label_color: 0x884F11FA
+    hilited_mark_color: 0x000000
+    hilited_shadow_color: 0xcccccc
+    hilited_text_color: 0x000000
+    label_color: 0x999999
+    name: "玫红 / MacRoseo"
+    nextpage_color: 0x000000
+    prevpage_color: 0x000000
+    shadow_color: 0x44000000
+    text_color: 0x000000
+
+  MacRoseoAlt:
+    author: KyleBing
+    back_color: 0xFFFFFF
+    border_color: 0xD6D6D6
+    candidate_text_color: 0x000000
+    comment_text_color: 0xBBCC27
+    creat_time: "2021-07-26"
+    hilited_back_color: 0xFFFFFF
+    hilited_candidate_back_color: 0x4F11FA
+    hilited_candidate_text_color: 0xFFFFFF
+    hilited_text_color: 0x000000
+    name: MacRoseo
+    text_color: 0x000000
+
+  WhiteAqua:
+    author: KyleBing
+    back_color: 0xFFFFFF
+    border_color: 0xD6D6D6
+    candidate_text_color: 0x000000
+    comment_text_color: 0xBBCC27
+    creat_time: "2021-07-26"
+    hilited_back_color: 0xFFFFFF
+    hilited_candidate_back_color: 0x9BAD23
+    hilited_candidate_text_color: 0xFFFFFF
+    hilited_text_color: 0x000000
+    name: WhiteAqua
+    text_color: 0x000000
+
+  wechat_dark:
+    back_color: 0x2e2925
+    candidate_format: "%c %@ "
+    candidate_text_color: 0xe9e9ea
+    comment_text_color: 0x999999
+    hilited_candidate_back_color: 0x75B100
+    hilited_candidate_text_color: 0xFFFFFF
+    inline_preedit: true
+    label_color: 0x999999
+    name: "微信键盘深色"
+    text_color: 0x424242
+    hilited_text_color: 0xFFFFFF
+
+  wechat_light:
+    back_color: 0xFFFFFF
+    border_height: 0
+    border_width: 8
+    candidate_format: "%c %@ "
+    comment_text_color: 0x999999
+    hilited_candidate_back_color: 0x75B100
+    hilited_candidate_text_color: 0xFFFFFF
+    inline_preedit: true
+    name: "微信键盘浅色"
+    text_color: 0x424242
+
+  white:
+    back_color: 0xededed
+    border_color: 0x40444444
+    candidate_shadow_color: 0x60444444
+    candidate_text_color: 0x444444
+    comment_text_color: 0x444444
+    hilited_candidate_back_color: 0x444444
+    hilited_candidate_shadow_color: 0x60444444
+    hilited_candidate_text_color: 0xededed
+    hilited_comment_text_color: 0xededed
+    hilited_label_color: 0xededed
+    hilited_shadow_color: 0x60444444
+    hilited_text_color: 0x000000
+    label_color: 0x444444
+    name: "白色/white"
+    shadow_color: 0x60444444
+
+  win10_MDL_ayaya:
+    author: "Lufs X <i@isteed.cc>"
+    back_color: 0xFFFFFF
+    candidate_text_color: 0x121212
+    comment_text_color: 0x8E8E8E
+    hilited_candidate_back_color: 0xECE4FC
+    hilited_candidate_text_color: 0x7A40EC
+    hilited_label_color: 0xB18FF4
+    label_color: 0x888785
+    name: "Windows10 文文／Ayaya"
+    text_color: 0x8100EB
+
+  win10_MDL_blue:
+    author: fbewivpjsbsby
+    back_color: 0xffffff
+    border_color: 0xcc8f29
+    candidate_text_color: 0x000000
+    comment_text_color: 0x888888
+    hilited_back_color: 0xffffff
+    hilited_candidate_back_color: 0xcc8f29
+    hilited_candidate_text_color: 0xffffff
+    hilited_comment_text_color: 0xffffff
+    hilited_label_color: 0xffffff
+    hilited_text_color: 0x000000
+    label_color: 0x888888
+    name: "Windows 10 Blue"
+    text_color: 0x000000
+
+  win10_MDL_darkblue:
+    author: fbewivpjsbsby
+    back_color: 0x1f1f1f
+    border_color: 0xa37220
+    candidate_text_color: 0xf2f2f2
+    comment_text_color: 0x888888
+    hilited_back_color: 0x1f1f1f
+    hilited_candidate_back_color: 0xa37220
+    hilited_candidate_text_color: 0xf2f2f2
+    hilited_comment_text_color: 0xffffff
+    hilited_label_color: 0xf2f2f2
+    hilited_text_color: 0xffffff
+    label_color: 0x888888
+    name: "Windows 10 Dark Blue"
+    text_color: 0xffffff
+
+  win10_MDL_deepgrey:
+    author: fbewivpjsbsby
+    back_color: 0xFFFFFF
+    border_color: 0x7E7969
+    candidate_text_color: 0x000000
+    comment_text_color: 0x888888
+    hilited_back_color: 0x7E7969
+    hilited_candidate_back_color: 0x7E7969
+    hilited_candidate_text_color: 0xFFFFFF
+    hilited_comment_text_color: 0xffffff
+    hilited_label_color: 0xffffff
+    hilited_text_color: 0xFFFFFF
+    name: "Windows10 Deepgrey"
+    text_color: 0x000000
+
+  win10_MDL_preset:
+    font_point: 13
+    label_font_point: 9
+    label_format: "%s"
+    layout:
+      border_width: 1
+      candidate_spacing: 30
+      corner_radius: 0
+      hilite_padding_x: 27
+      hilite_padding_y: 15
+      hilite_spacing: 5
+      margin_x: 15
+      margin_y: 2
+      round_corner: 0
+      spacing: 10
+
+  win10_preset:
+    label_format: "%s"
+    layout:
+      align_type: center
+      border_width: 2
+      candidate_spacing: 50
+      corner_radius: 10
+      hilite_padding: 18
+      hilite_padding_x: 18
+      hilite_padding_y: 18
+      hilite_spacing: 17
+      margin_x: 17
+      margin_y: 17
+      max_height: 0
+      max_width: 0
+      min_height: 0
+      min_width: 160
+      round_corner: 0
+      shadow_offset_x: 5
+      shadow_offset_y: 4
+      shadow_radius: 10
+      spacing: 10
+
+  win10_weasel:
+    author: luminosa
+    back_color: 0xF3F3F3
+    border_color: 0xDBDCDC
+    candidate_text_color: 0x000000
+    hilited_candidate_back_color: 0xFFD8A6
+    hilited_label_color: 0x6F6F6F
+    hilited_mark_color: 0x00000000
+    label_color: 0x6F6F6F
+    name: win10_weasel
+    shadow_color: 0x20000000
+    text_color: 0x000000
+
+  win11_preset:
+    label_format: " %s"
+    layout:
+      align_type: center
+      border_width: 1
+      candidate_spacing: 25
+      corner_radius: 12
+      hilite_padding: 5
+      hilite_padding_x: 7
+      hilite_padding_y: 6
+      hilite_spacing: 14
+      margin_x: 16
+      margin_y: 14
+      max_height: 0
+      max_width: 0
+      min_height: 0
+      min_width: 160
+      round_corner: 12
+      shadow_offset_x: 6
+      shadow_offset_y: 6
+      shadow_radius: 13
+      spacing: 18
+
+  win11_weasel:
+    author: luminosa
+    back_color: 0xF9F9F9
+    border_color: 0xE6E6E6
+    candidate_text_color: 0x000000
+    hilited_candidate_back_color: 0xFFFFB3
+    hilited_label_color: 0x7C7C7C
+    hilited_mark_color: 0x00000000
+    label_color: 0x7C7C7C
+    name: win11_weasel
+    shadow_color: 0x20000000
+    text_color: 0x000000
 
   # 下面是内置的皮肤 /Library/Input Methods/Squirrel.app/Contents/SharedSupport/squirrel.yaml
 
