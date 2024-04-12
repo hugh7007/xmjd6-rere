@@ -56,7 +56,7 @@
 
 ## 如何使用
 
-将 GitHub Release 中的 xmjd6.zip 适合导入至 librime(≥1.9.0) 的 Rime 输入法的用户文件夹中使用。
+将 [GitHub Release](https://github.com/hugh7007/xmjd6-rere/releases/) 中的 [xmjd6.zip](https://github.com/hugh7007/xmjd6-rere/releases/latest/download/xmjd6.zip) 导入至 librime ≥ 1.9.0 的 Rime 输入法的用户文件夹中使用。
   - Windows： 
     - 小狼毫
       - [小狼毫输入法测试版](https://github.com/rime/weasel/releases/tag/latest)
