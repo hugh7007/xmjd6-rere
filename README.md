@@ -60,7 +60,7 @@
   - Windows： 
     - 小狼毫
       - [小狼毫输入法测试版](https://github.com/rime/weasel/releases/tag/latest)
-      - [小狼毫输入法 水龙月 Fork 版](https://github.com/Techince/weasel/releases/latest)
+      - [小狼毫输入法 水龙月 Fork 版](https://github.com/Techince/weasel/releases/latest)，需要卸载原版后重启再安装。
       - 默认用户文件夹路径：`%APPDATA%\Rime` 
     - [玉兔毫](https://github.com/amorphobia/rabbit)
       - 玉兔毫[星猫键道6绿色便携版](https://github.com/hugh7007/xmjd6-rere/releases/latest/download/Rabbit-xmjd6.zip)，无需导入方案即可在 Windows 系统上轻量使用。
