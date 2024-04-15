@@ -70,7 +70,7 @@ style:
   # candidate_format: '%c. %@'
 
   # 全局字体及大小
-  font_face: "霞鹜新晰黑, PingFang SC, TH-Tshyn-P1:30000:3134A, TH-Tshyn-P1:31350:323AF, TH-Tshyn-P1:2EBF0:2EE5D, Segoe UI, Segoe UI Emoji:30:39, Segoe UI Emoji:23:23, Segoe UI Emoji:2a:2a, Segoe UI Emoji:fe0f:fe0f, Segoe UI Emoji:20e3:20e3, Noto Color Emoji SVG:80, 全宋体-1, 全宋体-2, 全宋体-3, 全宋体-F, 全宋体-X, 全宋体(调和), 全宋体(等宽)"
+  font_face: "霞鹜新晰黑, PingFang SC, TH-Tshyn-P1:30000:3134A, TH-Tshyn-P1:31350:323AF, TH-Tshyn-P1:2EBF0:2EE5D, Segoe UI, Segoe UI Emoji:30:39, Segoe UI Emoji:23:23, Segoe UI Emoji:2a:2a, Segoe UI Emoji:fe0f:fe0f, Segoe UI Emoji:20e3:20e3, Noto Color Emoji SVG:80"
   font_point: 16
   # 序号字体及大小（建议使用「等宽字体」）
   label_font_face: 'Lucida Grande'

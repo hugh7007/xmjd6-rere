@@ -45,7 +45,7 @@ style:
   color_font: true                         # ★在Windows 8.1以上系统上使用彩色字体，支持彩色Emoji。如系统版本低于8.1则自动false
   color_scheme: CatLight                   # 主题色
   color_scheme_dark: CatDark               # 暗色主题色
-  font_face: "霞鹜新晰黑, Microsoft Yahei, TH-Tshyn-P1:30000:3134A, TH-Tshyn-P1:31350:323AF, TH-Tshyn-P1:2EBF0:2EE5D, Segoe UI, Segoe UI Emoji:30:39, Segoe UI Emoji:23:23, Segoe UI Emoji:2a:2a, Segoe UI Emoji:fe0f:fe0f, Segoe UI Emoji:20e3:20e3, Noto Color Emoji SVG:80, 全宋体-1, 全宋体-2, 全宋体-3, 全宋体-F, 全宋体-X, 全宋体(调和), 全宋体(等宽)"             # 候选字体
+  font_face: "霞鹜新晰黑, Microsoft Yahei, TH-Tshyn-P1:30000:3134A, TH-Tshyn-P1:31350:323AF, TH-Tshyn-P1:2EBF0:2EE5D, Segoe UI, Segoe UI Emoji:30:39, Segoe UI Emoji:23:23, Segoe UI Emoji:2a:2a, Segoe UI Emoji:fe0f:fe0f, Segoe UI Emoji:20e3:20e3, Noto Color Emoji SVG:80"             # 候选字体
   label_font_face: "Microsoft Yahei"       # ★序号字体
   comment_font_face: "Microsoft Yahei"     # ★注释字体
   font_point: 14                           # 候选字号
