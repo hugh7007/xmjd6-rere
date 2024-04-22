@@ -65,7 +65,7 @@
     - [玉兔毫](https://github.com/amorphobia/rabbit)
       - 玉兔毫[星猫键道6绿色便携版](https://github.com/hugh7007/xmjd6-rere/releases/latest/download/Rabbit-xmjd6.zip)，无需导入方案即可在 Windows 系统上轻量使用。
   - macOS: 
-    - [鼠须管输入法 groverlynn Fork 版](https://github.com/groverlynn/squirrel/releases/latest)
+    - [鼠须管输入法测试版](https://github.com/rime/squirrel/releases/tag/latest)
       - 默认用户文件夹路径：`~/Library/Rime` 
     - [小企鹅输入法 macOS 版【中州韵版】](https://github.com/fcitx-contrib/fcitx5-macos-installer/blob/master/README.zh-CN.md)
       - 默认用户文件夹路径：`~/.local/share/fcitx5/rime`
