@@ -2,7 +2,6 @@
 local embeded_cands_filter = {}
 local core = require("xmjd6/xmjd6_embeded_core")
 
-
 --[[
 # xxx.schema.yaml
 switches:
@@ -216,7 +215,9 @@ function embeded_cands_filter.func(input, env)
         -- 頁索引自增, 滿足 1 <= index <= page_size
         index = index + 1
         -- 當前遍歷候選項
-        local cand = next
+        local cand = Candidate(next.type, next.start, next._end, next.text, next.comment) -- next
+        cand.quality = next.quality
+        cand.preedit = next.preedit
 
         if index == 1 then
             -- 把首選捉出來
@@ -229,6 +230,15 @@ function embeded_cands_filter.func(input, env)
             input_code = cand.preedit
         else
             input_code = core.input_code
+        end
+
+        -- 展開 IVD selector
+        if #input_code == 0 then
+            for _, c in utf8.codes(cand.text) do
+                if c >= 0xE0100 and c <= 0xE01FF then
+                    cand.comment = string.format("(%X)", c)
+                end
+            end
         end
 
         -- 帶有暫存串的候選合併同類項

@@ -3,7 +3,7 @@ local function startswith(str, start)
 end
 
 local function safe_regex_escape(pattern)
-    return pattern:gsub("([%[%]().*+?^$%%-])", "%%%1")
+    return pattern:gsub("%W", "%%%1")
 end
 
 local function hint(cand, env)
@@ -17,25 +17,17 @@ local function hint(cand, env)
     local b = safe_regex_escape(env.b)
     
     local lookup = " " .. reverse:lookup(cand.text) .. " "
-    local patterns = {
-        " (["..s.."]["..b.."]+) ",
-        " (["..s.."]["..s.."]) ",
-        " (["..s.."]["..s.."]["..b.."]) ",
-        " (["..b.."]["..b.."]["..b.."]) "
-    }
+    local patterns = env.patterns
     
     local input = context.input 
-    local matched = false
-    for _, pat in ipairs(patterns) do
-        local short = string.match(lookup, pat)
-        if short and utf8.len(input) > utf8.len(short) and not startswith(short, input) then
-            cand:get_genuine().comment = cand.comment .. " = " .. short
-            matched = true
-            break  -- 匹配成功后立即退出循环
-        end
+    local input_len = utf8.len(input)
+    local short = env.short -- Make sure 'short' is defined and valid
+    if short and input_len > utf8.len(short) and not startswith(short, input) then
+        cand:get_genuine().comment = cand.comment .. " = " .. short
+        return true
     end
-    
-    return matched
+
+    return false
 end
 
 local function danzi(cand)
@@ -75,6 +67,12 @@ local function init(env)
     env.b = config:get_string("topup/topup_with")
     env.s = config:get_string("topup/topup_this")
     env.reverse = ReverseDb("build/".. dict_name .. ".reverse.bin")
+    env.patterns = {
+        " (["..env.s.."]["..env.b.."]+) ",
+        " (["..env.s.."]["..env.s.."]) ",
+        " (["..env.s.."]["..env.s.."]["..env.b.."]) ",
+        " (["..env.b.."]["..env.b.."]["..env.b.."]) "
+    }
 end
 
 return { init = init, func = filter }

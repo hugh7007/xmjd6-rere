@@ -71,7 +71,6 @@ core.switch_names = {
     full_char     = "full.char",
     full_off      = "full.off",
     embeded_cands = "embeded_cands",
-    smyh_tc       = "smyh_tc",
     completion    = "completion",
 }
 
@@ -626,13 +625,20 @@ end
 function core.gen_smart_trie(base_rev, db_name)
     local result = {
         base_rev  = base_rev,
-        db_path   = rime_api.get_user_data_dir() .. "/" .. db_name .. ".userdb",
+        db_path   = rime_api.get_user_data_dir() .. "/" .. db_name,
         dict_path = rime_api.get_user_data_dir() .. "/" .. db_name .. ".txt",
     }
 
     -- 獲取db對象
     function result:db()
-        self.userdb = self.userdb or LevelDb and LevelDb(self.db_path, db_name)
+        if not self.userdb then
+            -- 使用 pcall 嘗試兩種 LevelDb 傳參方式
+            local ok
+            ok, self.userdb = pcall(LevelDb, db_name)
+            if not ok then
+                _, self.userdb = pcall(LevelDb, self.db_path, db_name)
+            end
+        end
         if self.userdb and not self.userdb:loaded() then
             self.userdb:open()
         end
