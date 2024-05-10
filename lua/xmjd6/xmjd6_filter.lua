@@ -2,27 +2,23 @@ local function startswith(str, start)
     return string.sub(str, 1, string.len(start)) == start
 end
 
-local function safe_regex_escape(pattern)
-    return pattern:gsub("%W", "%%%1")
-end
-
 local function hint(cand, env)
     if utf8.len(cand.text) < 2 then
         return false
     end
-    
     local context = env.engine.context
     local reverse = env.reverse
-    local s = safe_regex_escape(env.s)
-    local b = safe_regex_escape(env.b)
+    local s = env.s
+    local b = env.b
     
     local lookup = " " .. reverse:lookup(cand.text) .. " "
-    local patterns = env.patterns
-    
+    local short = string.match(lookup, " (["..s.."]["..b.."]+) ") or 
+                  string.match(lookup, " (["..s.."]["..s.."]) ") or
+                  string.match(lookup, " (["..s.."]["..s.."]["..b.."]) ") or
+                  string.match(lookup, " (["..b.."]["..b.."]["..b.."]) ")
     local input = context.input 
-    local input_len = utf8.len(input)
-    local short = env.short -- Make sure 'short' is defined and valid
-    if short and input_len > utf8.len(short) and not startswith(short, input) then
+    if short and utf8.len(input) > utf8.len(short) and not startswith(short, input) then
+        -- cand:get_genuine().comment = cand.comment .. "〔" .. short .. "〕"
         cand:get_genuine().comment = cand.comment .. " = " .. short
         return true
     end
@@ -31,32 +27,41 @@ local function hint(cand, env)
 end
 
 local function danzi(cand)
-    return utf8.len(cand.text) < 2
+    if utf8.len(cand.text) < 2 then
+        return true
+    end
+    return false
 end
 
 local function commit_hint(cand, hint_text)
     cand:get_genuine().comment = hint_text .. cand.comment
+    -- cand:get_genuine().comment = cand.comment
 end
+
+
 
 local function filter(input, env)
     local is_danzi = env.engine.context:get_option('danzi_mode')
-    local is_on = env.engine.context:get_option('sbb_hint')
+    local is_630_hint_on = env.engine.context:get_option('sbb_hint')
     local hint_text = env.engine.schema.config:get_string('hint_text') or '🚫'
+    local first = true
     local input_text = env.engine.context.input
-    local no_commit = (input_text:len() < 4 and input_text:match("^["..safe_regex_escape(env.s).."]+$")) or (input_text:match("^["..safe_regex_escape(env.b).."]+$"))
-    
+    local no_commit = (input_text:len() < 4 and input_text:match("^["..env.s.."]+$")) or (input_text:match("^["..env.b.."]+$"))
     for cand in input:iter() do
-        if no_commit then
+        -- if first and no_commit and cand.type ~= 'completion' then
+        if first and no_commit then
             commit_hint(cand, hint_text)
-            no_commit = false
         end
-        
+       
+        first = false
         if not is_danzi or danzi(cand) then
-            if is_on then
-                hint(cand, env)
+            local has_630 = false
+            if is_630_hint_on then
+                has_630 = hint(cand, env)
             end
             yield(cand)
         end
+        
     end
 end
 
@@ -66,13 +71,15 @@ local function init(env)
 
     env.b = config:get_string("topup/topup_with")
     env.s = config:get_string("topup/topup_this")
-    env.reverse = ReverseDb("build/".. dict_name .. ".reverse.bin")
-    env.patterns = {
-        " (["..env.s.."]["..env.b.."]+) ",
-        " (["..env.s.."]["..env.s.."]) ",
-        " (["..env.s.."]["..env.s.."]["..env.b.."]) ",
-        " (["..env.b.."]["..env.b.."]["..env.b.."]) "
-    }
+    env.reverse = ReverseLookup(dict_name)
+    env.gc = env.engine.context.commit_notifier:connect(
+       function(ctx)   collectgarbage('collect')     
+    end)
+
 end
 
-return { init = init, func = filter }
+local function fini(env)
+    env.gc:disconnect()
+end
+
+return { init = init, func = filter, fini = fini }
