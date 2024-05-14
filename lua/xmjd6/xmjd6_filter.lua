@@ -10,13 +10,13 @@ local function hint(cand, env)
     local reverse = env.reverse
     local s = env.s
     local b = env.b
-    
+
     local lookup = " " .. reverse:lookup(cand.text) .. " "
-    local short = string.match(lookup, " (["..s.."]["..b.."]+) ") or 
-                  string.match(lookup, " (["..s.."]["..s.."]) ") or
-                  string.match(lookup, " (["..s.."]["..s.."]["..b.."]) ") or
-                  string.match(lookup, " (["..b.."]["..b.."]["..b.."]) ")
-    local input = context.input 
+    local short = string.match(lookup, " ([" .. s .. "][" .. b .. "]+) ") or
+                      string.match(lookup, " ([" .. s .. "][" .. s .. "]) ") or
+                      string.match(lookup, " ([" .. s .. "][" .. s .. "][" .. b .. "]) ") or
+                      string.match(lookup, " ([" .. b .. "][" .. b .. "][" .. b .. "]) ")
+    local input = context.input
     if short and utf8.len(input) > utf8.len(short) and not startswith(short, input) then
         -- cand:get_genuine().comment = cand.comment .. "〔" .. short .. "〕"
         cand:get_genuine().comment = cand.comment .. " = " .. short
@@ -38,21 +38,20 @@ local function commit_hint(cand, hint_text)
     -- cand:get_genuine().comment = cand.comment
 end
 
-
-
 local function filter(input, env)
     local is_danzi = env.engine.context:get_option('danzi_mode')
     local is_630_hint_on = env.engine.context:get_option('sbb_hint')
     local hint_text = env.engine.schema.config:get_string('hint_text') or '🚫'
     local first = true
     local input_text = env.engine.context.input
-    local no_commit = (input_text:len() < 4 and input_text:match("^["..env.s.."]+$")) or (input_text:match("^["..env.b.."]+$"))
+    local no_commit = (input_text:len() < 4 and input_text:match("^[" .. env.s .. "]+$")) or
+                          (input_text:match("^[" .. env.b .. "]+$"))
     for cand in input:iter() do
         -- if first and no_commit and cand.type ~= 'completion' then
         if first and no_commit then
             commit_hint(cand, hint_text)
         end
-       
+
         first = false
         if not is_danzi or danzi(cand) then
             local has_630 = false
@@ -61,7 +60,7 @@ local function filter(input, env)
             end
             yield(cand)
         end
-        
+
     end
 end
 
@@ -71,15 +70,11 @@ local function init(env)
 
     env.b = config:get_string("topup/topup_with")
     env.s = config:get_string("topup/topup_this")
+    -- env.reverse = ReverseDb("build/".. dict_name .. ".reverse.bin")
     env.reverse = ReverseLookup(dict_name)
-    env.gc = env.engine.context.commit_notifier:connect(
-       function(ctx)   collectgarbage('collect')     
-    end)
-
 end
 
-local function fini(env)
-    env.gc:disconnect()
-end
-
-return { init = init, func = filter, fini = fini }
+return {
+    init = init,
+    func = filter
+}
