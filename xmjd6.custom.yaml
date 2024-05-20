@@ -20,11 +20,11 @@ patch:
   switches/@7/reset: 1     #[ 简约, 逐码展示 ]
 
   #流式功能配置，想使用流式请取消以下注释，取消注释删掉 # 即可
-  engine/filters/@4: null  #如果只需要使用a自造词功能,不需要流式就只开这一个
-  # engine/processors/@4: null
-  # engine/processors/@5: null
-  # translator/enable_sentence: true
-  # translator/enable_user_dict: true
+  engine/filters/@4: null  #注释会使候选<单字优先>。如果需要使用⭐<a自造词>或<流式>则必须不注释此项。
+  # engine/processors/@4: null   #要使用<流式>则必须不注释此项
+  # engine/processors/@5: null   #要使用<流式>则必须不注释此项
+  # translator/enable_sentence: true   #要使用<流式>则必须不注释此项
+  # translator/enable_user_dict: true   #要使用<流式>则必须不注释此项
 
   ascii_composer/switch_key:
     Caps_Lock: clear   #切换大小写，clear是不上屏切换大写，使用commit_code会先上屏小写然后再输入是大写
