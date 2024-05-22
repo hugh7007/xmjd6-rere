@@ -138,11 +138,11 @@ engine:
     - reverse_lookup_filter@quanpinerfen_lookup
     - reverse_lookup_filter@gbk_lookup
     - lua_filter@*xmjd6/xmjd6_single_char #候选单字优先
+    - lua_filter@*xmjd6/xmjd6_filter
     - simplifier@emoji_cn
     - simplifier@jffh
     - simplifier@ascii_punct
     - simplifier@mars #火星文
-    - lua_filter@*xmjd6/xmjd6_filter
     - lua_filter@*xmjd6/xmjd6_embeded_cands@embeded_cands #嵌入候选
     - uniquifier
 
