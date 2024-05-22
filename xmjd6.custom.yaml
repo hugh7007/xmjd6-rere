@@ -4,7 +4,6 @@ patch:
   schema/icon: "xmjd6.ico" #任务栏显示星猫键道图标，注释后恢复默认
   speller/auto_select: false    #自动上屏开关，默认关false开true
   hint_text: ''    #顶功提示符→在两个<''>中间添加符号，例如hint_text: '🔞'
-  style/horizontal: false  #竖排为false横排为true
   menu/page_size: 5   #候选项数
   style/inline_preedit: true   # 行内显示预编辑区：true；false
 
