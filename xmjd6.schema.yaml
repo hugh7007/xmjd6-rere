@@ -407,5 +407,3 @@ topup:
   topup_command: true
 menu:
   page_size: 5 #请到xmjd6.custom.yaml去修改
-style:
-   horizontal: false  #请到xmjd6.custom.yaml去修改
