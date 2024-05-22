@@ -95,7 +95,7 @@ engine:
     - key_binder    
     - lua_processor@*xmjd6/xmjd6_smart_2    #这个注释后不会顶功，使用流式请注释这两行
     - lua_processor@*xmjd6/xmjd6_topup_processor   #这个注释后不会顶功，使用流式请注释这两行
-    - lua_processor@*xmjd6/add_ge    #可以在词的首字后加 "个"字，比如 吃饭-> 吃个饭
+    - lua_processor@*xmjd6/add_ge # 可以在词的首字后加 "个"字，比如 吃饭-> 吃个饭
     - speller
     - punctuator
     - selector
@@ -131,6 +131,7 @@ engine:
     - script_translator@pinyin_simp
     - table_translator@xmjd6en
     - script_translator@xmjd6gbk
+    - lua_translator@*xmjd6/force_gc
   filters:
     - simplifier
     - reverse_lookup_filter@pinyin_simp_lookup
