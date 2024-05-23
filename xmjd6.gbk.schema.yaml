@@ -40,6 +40,7 @@ engine:
   translators:
     - punct_translator
     - table_translator
+    - lua_translator@*xmjd6/force_gc
   filters:
     - simplifier
     - uniquifier
