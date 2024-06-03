@@ -1,4 +1,4 @@
 patch:
-  style/horizontal: false  #竖排为false横排为true 
+  candidate_list_layout: stacked  # stacked | linear | tabled ，如果希望水平，设置为linear 
   style/color_scheme: CatLight # 此处可修改主题，比如wechat_light
   style/color_scheme_dark: CatDark # 此处可修改暗黑模式主题，比如wechat_dark
