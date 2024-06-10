@@ -15,17 +15,18 @@ patch:
   switches/@1/reset: 0     #[ 全角, 半角 ]
   switches/@2/reset: 0     #[ 简体, 繁體 ]
   switches/@3/reset: 0     #[ 地球文, 火星文 ]
-  switches/@4/reset: 1     #[ 简约, 表情展示  
+  switches/@4/reset: 1     #[ 简约, 表情展示 ]
   switches/@5/reset: 0     #[ 正常候选, 内嵌候选  ]
-  switches/@6/reset: 1     #[ 简约, 630提示 
+  switches/@6/reset: 1     #[ 简约, 630提示 ]
   switches/@7/reset: 1     #[ 简约, 逐码展示 ]
 
-  #流式功能配置，想使用流式请取消以下注释，取消注释删掉 # 即可
-  engine/filters/@4: null  #注释会使候选<单字优先>。如果需要使用⭐<a自造词>或<流式>则必须不注释此项。
-  # engine/processors/@4: null   #要使用<流式>则必须不注释此项
-  # engine/processors/@5: null   #要使用<流式>则必须不注释此项
-  # translator/enable_sentence: true   #要使用<流式>则必须不注释此项
-  # translator/enable_user_dict: true   #要使用<流式>则必须不注释此项
+  #流式功能配置，注释或删掉 <#> 即可 。配置表<↓注意数字>   流式：< 123456>前无<#>。  单字优先< 123456>前面都有<#>。   单字不优先<1>前无<#>  <23456>前面有<#>
+  engine/filters/@4: null                #<1><单字优先>
+  # engine/processors/@4: null           #<2><流式>
+  # engine/processors/@5: null           #<3><流式>
+  # translator/enable_sentence: true     #<4><流式>
+  # translator/enable_user_dict: true    #<5><流式>
+  # key_binder/bindings/@5: null         #<6><流式>
 
   ascii_composer/switch_key:
     Caps_Lock: clear   #切换大小写，clear是不上屏切换大写，使用commit_code会先上屏小写然后再输入是大写
