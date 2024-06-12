@@ -77,6 +77,8 @@
       - [Rime 插件](https://jenkins.fcitx-im.org/job/android/job/fcitx5-android-plugin-rime/)
       - [更新器](https://jenkins.fcitx-im.org/job/android/job/fcitx5-android-updater/)
       - 默认用户文件夹路径（在小企鹅中添加中州韵输入法后出现）：`/storage/emulated/0/Android/data/org.fcitx.fcitx5.android/files/data/rime/`
+      - 推荐使用系统内置文件管理器（通过 DocumentsUI）来管理小企鹅输入法5的数据文件。 在 DocumentsUI 的侧边栏中，选择“小企鹅输入法5”，即可直接访问 /sdcard/Android/data/org.fcitx.fcitx5.android/files/ 目录中的文件，不需要借助第三方文件管理器，也不需要使用 adb 或者 root 权限。
+      - 参考：https://github.com/Mintimate/oh-my-rime/issues/96/
   - iOS: 
     - [仓输入法](https://apps.apple.com/app/id6446617683)
       - 可使用内置在线方案下载导入
