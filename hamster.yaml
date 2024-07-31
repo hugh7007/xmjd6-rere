@@ -1,61 +1,60 @@
-keyboard:
-  colorSchemas:
-    - schemaName: wexin
-      name: wexin
-      author: re
-      back_color: "0x02FFFFFF"
-      button_back_color: "0x4CFFFFFF"
-      button_pressed_back_color: "0x19FFFFFF"
-      button_bubble_back_color: "0xD0D0D0"
-      button_foreground_color: "0xFFFFFF"
-      button_pressed_foreground_color: "0xFFFFFF"
-      button_swipe_foreground_color: "0x99F5EBEB"
-      button_swipe_pressed_foreground_color: "0x99F5EBEB"
-      corner_radius: 6
-      border_color: "0x01000000"
-      border_size: 1
-      text_color: "0x000000"
-      lower_edge_color: "0x000000"
-      shadow_color: "0x000000"
-      shadow_size: 0
-      hilited_candidate_back_color: "0xFFFDFE"
-      hilited_candidate_text_color: "0x60C107"
-      hilited_candidate_label_color: "0x000000"
-      hilited_comment_text_color: "0x000000"
-      candidate_text_color: "0x000000"
-      comment_text_color: "0x000000"
-      label_color: "0x000000"
-      hilited_callout_back_color: "0xFFFFFF"
-      hilited_callout_foreground_color: "0x000000"
-      action_callout_back_color: "0xD0D0D0"
-    - schemaName: wexin_dark
-      name: wexin_dark
-      author: attiv
-      back_color: "0x02FFFFFF"
-      button_back_color: "0x4CFFFFFF"
-      button_pressed_back_color: "0x19FFFFFF"
-      button_bubble_back_color: "0xD0D0D0"
-      button_foreground_color: "0xFFFFFF"
-      button_pressed_foreground_color: "0xFFFFFF"
-      button_swipe_foreground_color: "0x99F5EBEB"
-      button_swipe_pressed_foreground_color: "0x99F5EBEB"
-      corner_radius: 5
-      border_color: "0x01000000"
-      border_size: 1
-      text_color: "0xFFFFFF"
-      lower_edge_color: "0x000000"
-      shadow_color: "0x000000"
-      shadow_size: 0
-      hilited_candidate_back_color: "0x6B6868"
-      hilited_candidate_text_color: "0x60C107"
-      hilited_candidate_label_color: "0x60C107"
-      hilited_comment_text_color: "0x60C107"
-      candidate_text_color: "0xFFFFFF"
-      comment_text_color: "0xFFFFFF"
-      label_color: "0xFFFFFF"
-      hilited_callout_back_color: "0xFFFFFF"
-      hilited_callout_foreground_color: "0x000000"
-      action_callout_back_color: "0xD0D0D0"
+colorSchemas:
+  - schemaName: wexin
+    name: wexin
+    author: re
+    back_color: "0x02FFFFFF"
+    button_back_color: "0x4CFFFFFF"
+    button_pressed_back_color: "0x19FFFFFF"
+    button_bubble_back_color: "0xD0D0D0"
+    button_foreground_color: "0xFFFFFF"
+    button_pressed_foreground_color: "0xFFFFFF"
+    button_swipe_foreground_color: "0x99F5EBEB"
+    button_swipe_pressed_foreground_color: "0x99F5EBEB"
+    corner_radius: 6
+    border_color: "0x01000000"
+    border_size: 1
+    text_color: "0x000000"
+    lower_edge_color: "0x000000"
+    shadow_color: "0x000000"
+    shadow_size: 0
+    hilited_candidate_back_color: "0xFFFDFE"
+    hilited_candidate_text_color: "0x60C107"
+    hilited_candidate_label_color: "0x000000"
+    hilited_comment_text_color: "0x000000"
+    candidate_text_color: "0x000000"
+    comment_text_color: "0x000000"
+    label_color: "0x000000"
+    hilited_callout_back_color: "0xFFFFFF"
+    hilited_callout_foreground_color: "0x000000"
+    action_callout_back_color: "0xD0D0D0"
+  - schemaName: wexin_dark
+    name: wexin_dark
+    author: attiv
+    back_color: "0x02FFFFFF"
+    button_back_color: "0x4CFFFFFF"
+    button_pressed_back_color: "0x19FFFFFF"
+    button_bubble_back_color: "0xD0D0D0"
+    button_foreground_color: "0xFFFFFF"
+    button_pressed_foreground_color: "0xFFFFFF"
+    button_swipe_foreground_color: "0x99F5EBEB"
+    button_swipe_pressed_foreground_color: "0x99F5EBEB"
+    corner_radius: 5
+    border_color: "0x01000000"
+    border_size: 1
+    text_color: "0xFFFFFF"
+    lower_edge_color: "0x000000"
+    shadow_color: "0x000000"
+    shadow_size: 0
+    hilited_candidate_back_color: "0x6B6868"
+    hilited_candidate_text_color: "0x60C107"
+    hilited_candidate_label_color: "0x60C107"
+    hilited_comment_text_color: "0x60C107"
+    candidate_text_color: "0xFFFFFF"
+    comment_text_color: "0xFFFFFF"
+    label_color: "0xFFFFFF"
+    hilited_callout_back_color: "0xFFFFFF"
+    hilited_callout_foreground_color: "0x000000"
+    action_callout_back_color: "0xD0D0D0"
 keyStyle:
   微信: &a1
     name: 微信
@@ -77,12 +76,16 @@ keyboards:
               - action:
                   character:
                     char: "1"
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   character:
                     char: ！
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: down
@@ -96,12 +99,16 @@ keyboards:
               - action:
                   character:
                     char: "2"
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   character:
                     char: "@"
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: down
@@ -109,6 +116,8 @@ keyboards:
               - action:
                   symbol:
                     char: www.
+                label:
+                  text: ""
           - action:
               character:
                 char: e
@@ -119,12 +128,16 @@ keyboards:
               - action:
                   character:
                     char: "3"
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   character:
                     char: "#"
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: down
@@ -155,12 +168,16 @@ keyboards:
               - action:
                   character:
                     char: "4"
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   character:
                     char: $
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: down
@@ -174,12 +191,16 @@ keyboards:
               - action:
                   character:
                     char: "5"
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   character:
                     char: "%"
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: down
@@ -187,12 +208,18 @@ keyboards:
               - action:
                   character:
                     char: 他
+                label:
+                  text: ""
               - action:
                   character:
                     char: 她
+                label:
+                  text: ""
               - action:
                   character:
                     char: 它
+                label:
+                  text: ""
           - action:
               character:
                 char: y
@@ -203,6 +230,8 @@ keyboards:
               - action:
                   character:
                     char: "6"
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: up
@@ -223,12 +252,16 @@ keyboards:
               - action:
                   character:
                     char: "7"
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   character:
                     char: "&"
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: down
@@ -242,12 +275,16 @@ keyboards:
               - action:
                   character:
                     char: "8"
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   character:
                     char: "*"
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: down
@@ -261,12 +298,16 @@ keyboards:
               - action:
                   character:
                     char: "9"
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   character:
                     char: （
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: down
@@ -296,12 +337,16 @@ keyboards:
               - action:
                   character:
                     char: "0"
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   character:
                     char: ）
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: down
@@ -310,6 +355,8 @@ keyboards:
               characterMargin:
                 char: a
             width: available
+            label:
+              text: ""
           - action:
               character:
                 char: a
@@ -320,21 +367,29 @@ keyboards:
               - action:
                   character:
                     char: "`"
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   character:
                     char: "~"
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: down
               - action: tab
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: left
               - action:
                   shortcutCommand: "#全选"
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: right
@@ -355,12 +410,16 @@ keyboards:
               - action:
                   character:
                     char: +
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   character:
                     char: "-"
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: down
@@ -374,12 +433,16 @@ keyboards:
               - action:
                   character:
                     char: /
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   character:
                     char: =
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: down
@@ -400,12 +463,16 @@ keyboards:
               - action:
                   character:
                     char: "["
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   character:
                     char: "]"
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: down
@@ -419,12 +486,16 @@ keyboards:
               - action:
                   character:
                     char: <
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   character:
                     char: "{"
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: down
@@ -438,12 +509,16 @@ keyboards:
               - action:
                   character:
                     char: ">"
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   character:
                     char: "}"
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: down
@@ -466,12 +541,16 @@ keyboards:
               - action:
                   character:
                     char: \
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   character:
                     char: ·
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: down
@@ -490,12 +569,16 @@ keyboards:
               - action:
                   character:
                     char: ;
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   character:
                     char: ":"
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: down
@@ -509,12 +592,16 @@ keyboards:
               - action:
                   character:
                     char: "'"
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   character:
                     char: '"'
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: down
@@ -522,6 +609,8 @@ keyboards:
               characterMargin:
                 char: l
             width: available
+            label:
+              text: ""
       - keys:
           - action: shift
             width:
@@ -529,6 +618,8 @@ keyboards:
                 percentage: 0.14
               landscape:
                 percentage: 0.13
+            label:
+              text: ""
             swipe:
               - action:
                   shortcutCommand: "#中英切换"
@@ -538,11 +629,15 @@ keyboards:
                 direction: up
               - action:
                   keyboardType: classifySymbolic
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: down
               - action:
                   shortcutCommand: "#RimeSwitcher"
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: right
@@ -555,6 +650,8 @@ keyboards:
                 label: 简繁
               - action:
                   shortcutCommand: "#RimeSwitcher"
+                label:
+                  text: ""
           - action:
               character:
                 char: z
@@ -565,20 +662,28 @@ keyboards:
               - action:
                   character:
                     char: _
+                label:
+                  text: ""
                 display: true
                 processByRIME: false
                 direction: up
               - action:
                   character:
                     char: —
+                label:
+                  text: ""
                 display: true
                 processByRIME: false
                 direction: down
             callout:
               - action:
                   shortcutCommand: "#行首"
+                label:
+                  text: ""
               - action:
                   shortcutCommand: "#行尾"
+                label:
+                  text: ""
           - action:
               character:
                 char: x
@@ -589,12 +694,16 @@ keyboards:
               - action:
                   symbol:
                     char: ？
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   character:
                     char: "?"
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: down
@@ -620,12 +729,16 @@ keyboards:
               - action:
                   character:
                     char: ，
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   character:
                     char: ","
+                label:
+                  text: ""
                 display: true
                 processByRIME: false
                 direction: down
@@ -636,9 +749,13 @@ keyboards:
               - action:
                   symbol:
                     char: .com
+                label:
+                  text: ""
               - action:
                   symbol:
                     char: .cn
+                label:
+                  text: ""
           - action:
               character:
                 char: v
@@ -674,12 +791,16 @@ keyboards:
               - action:
                   character:
                     char: →
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   symbol:
                     char: .com
+                label:
+                  text: ""
                 display: true
                 processByRIME: false
                 direction: down
@@ -687,15 +808,23 @@ keyboards:
               - action:
                   symbol:
                     char: ↑
+                label:
+                  text: ""
               - action:
                   symbol:
                     char: ↓
+                label:
+                  text: ""
               - action:
                   symbol:
                     char: →
+                label:
+                  text: ""
               - action:
                   symbol:
                     char: ←
+                label:
+                  text: ""
           - action:
               character:
                 char: n
@@ -706,12 +835,16 @@ keyboards:
               - action:
                   character:
                     char: ·
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   symbol:
                     char: "|"
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: down
@@ -724,11 +857,15 @@ keyboards:
             swipe:
               - action:
                   shortcutCommand: "#左移"
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: up
               - action:
                   shortcutCommand: "#右移"
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: down
@@ -746,53 +883,66 @@ keyboards:
               portrait: available
               landscape:
                 percentage: 0.13
+            label:
+              text: ""
             swipe:
               - action:
-                  shortcutCommand: "#清空"
+                  shortcutCommand: "#全选"
+                label:
+                  text: ""
                 display: true
                 processByRIME: false
                 direction: up
               - action:
-                  symbol:
-                    char: ‘’
+                  shortcutCommand: "#换行"
+                label:
+                  text: ""
                 display: false
                 processByRIME: true
                 direction: down
               - action:
-                  shortcutCommand: "#重输"
+                  shortcutCommand: "#清空"
+                label:
+                  text: ""
                 display: false
                 processByRIME: true
                 direction: left
               - action:
                   shortcutCommand: "#重输"
+                label:
+                  text: ""
                 display: false
                 processByRIME: true
                 direction: right
       - keys:
           - action:
-              keyboardType:
-                custom:
-                  named: "123"
+              keyboardType: "123"
             width:
               portrait:
                 percentage: 0.14
               landscape:
                 percentage: 0.13
-            label: 🧮
+            label: "123"
             swipe:
               - action:
                   shortcutCommand: "#左手模式"
+                label:
+                  text: ""
                 display: false
                 processByRIME: true
                 direction: up
               - action:
                   shortcutCommand: "#右手模式"
+                label:
+                  text: ""
                 display: false
                 processByRIME: true
                 direction: down
               - action:
                   character:
                     char: ""
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: left
@@ -811,14 +961,19 @@ keyboards:
               portrait:
                 percentage: 0.7
               landscape: available
+            label: 🌟🐈
             swipe:
               - action:
                   shortcutCommand: "#次选上屏"
+                label:
+                  text: ""
                 display: false
                 processByRIME: true
                 direction: up
               - action:
                   shortcutCommand: "#三选上屏"
+                label:
+                  text: ""
                 display: false
                 processByRIME: false
                 direction: down
@@ -827,6 +982,8 @@ keyboards:
               portrait: available
               landscape:
                 percentage: 0.19
+            label:
+              text: ""
             swipe:
               - action:
                   shortcutCommand: "#换行"
@@ -836,6 +993,8 @@ keyboards:
                 direction: up
               - action:
                   keyboardType: emojis
+                label:
+                  text: ""
                 display: false
                 processByRIME: true
                 direction: down
@@ -883,6 +1042,8 @@ keyboards:
               portrait: available
               landscape:
                 percentage: 0.1
+            label:
+              text: ""
           - action:
               character:
                 char: "1"
@@ -891,6 +1052,8 @@ keyboards:
                 percentage: 0.18
               landscape:
                 percentage: 0.2
+            label:
+              text: ""
             swipe:
               - action:
                   character:
@@ -914,6 +1077,8 @@ keyboards:
                 percentage: 0.18
               landscape:
                 percentage: 0.2
+            label:
+              text: ""
             swipe:
               - action:
                   character:
@@ -937,6 +1102,8 @@ keyboards:
                 percentage: 0.18
               landscape:
                 percentage: 0.2
+            label:
+              text: ""
             swipe:
               - action:
                   character:
@@ -980,6 +1147,8 @@ keyboards:
                 direction: left
               - action:
                   shortcutCommand: "#重输"
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: right
@@ -1017,6 +1186,8 @@ keyboards:
               portrait: available
               landscape:
                 percentage: 0.1
+            label:
+              text: ""
           - action:
               character:
                 char: "4"
@@ -1025,6 +1196,8 @@ keyboards:
                 percentage: 0.18
               landscape:
                 percentage: 0.2
+            label:
+              text: ""
             swipe:
               - action:
                   character:
@@ -1048,6 +1221,8 @@ keyboards:
                 percentage: 0.18
               landscape:
                 percentage: 0.2
+            label:
+              text: ""
             swipe:
               - action:
                   character:
@@ -1071,6 +1246,8 @@ keyboards:
                 percentage: 0.18
               landscape:
                 percentage: 0.2
+            label:
+              text: ""
             swipe:
               - action:
                   character:
@@ -1094,6 +1271,8 @@ keyboards:
                 percentage: 0.18
               landscape:
                 percentage: 0.2
+            label:
+              text: ""
             swipe:
               - action:
                   character:
@@ -1129,6 +1308,8 @@ keyboards:
                 percentage: 0.18
               landscape:
                 percentage: 0.2
+            label:
+              text: ""
             swipe:
               - action:
                   character:
@@ -1152,6 +1333,8 @@ keyboards:
                 percentage: 0.18
               landscape:
                 percentage: 0.2
+            label:
+              text: ""
             swipe:
               - action:
                   character:
@@ -1175,6 +1358,8 @@ keyboards:
                 percentage: 0.18
               landscape:
                 percentage: 0.2
+            label:
+              text: ""
             swipe:
               - action:
                   character:
@@ -1211,20 +1396,20 @@ keyboards:
               - action:
                   symbol:
                     char: ()
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: down
       - keys:
           - action:
-              keyboardType:
-                custom:
-                  named: xingmao
+              keyboardType: xingmao
             width:
               portrait:
                 percentage: 0.12
               landscape:
                 percentage: 0.2
-            label: ⌨
+            label: 🈭
             swipe:
               - action:
                   shortcutCommand: "#左手模式"
@@ -1234,6 +1419,8 @@ keyboards:
                 direction: left
               - action:
                   shortcutCommand: "#右手模式"
+                label:
+                  text: ""
                 display: true
                 processByRIME: true
                 direction: right
@@ -1245,8 +1432,6 @@ keyboards:
               landscape:
                 percentage: 0.1
             label: ÷
-            lightModeStyleName: "1"
-            darkModeStyleName: "2"
           - action:
               character:
                 char: .
@@ -1281,6 +1466,8 @@ keyboards:
                 percentage: 0.18
               landscape:
                 percentage: 0.2
+            label:
+              text: ""
             swipe:
               - action:
                   character:
@@ -1297,12 +1484,16 @@ keyboards:
                 percentage: 0.18
               landscape:
                 percentage: 0.2
+            label:
+              text: ""
           - action: enter
             width:
               portrait:
                 percentage: 0.18
               landscape:
                 percentage: 0.2
+            label:
+              text: ""
             swipe:
               - action:
                   shortcutCommand: "#换行"
