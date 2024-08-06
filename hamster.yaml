@@ -887,7 +887,7 @@ keyboards:
               text: ""
             swipe:
               - action:
-                  shortcutCommand: "#全选"
+                  shortcutCommand: "#清空"
                 label:
                   text: ""
                 display: true
@@ -901,7 +901,7 @@ keyboards:
                 processByRIME: true
                 direction: down
               - action:
-                  shortcutCommand: "#清空"
+                  shortcutCommand: "#重输"
                 label:
                   text: ""
                 display: false
@@ -983,7 +983,7 @@ keyboards:
               landscape:
                 percentage: 0.19
             label:
-              text: ""
+              systemImageName: paperplane.fill
             swipe:
               - action:
                   shortcutCommand: "#换行"
@@ -1456,8 +1456,6 @@ keyboards:
                 display: true
                 processByRIME: true
                 direction: down
-            lightModeStyleName: "1"
-            darkModeStyleName: "2"
           - action:
               character:
                 char: "0"
@@ -1493,7 +1491,7 @@ keyboards:
               landscape:
                 percentage: 0.2
             label:
-              text: ""
+              systemImageName: paperplane.fill
             swipe:
               - action:
                   shortcutCommand: "#换行"
