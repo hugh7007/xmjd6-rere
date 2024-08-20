@@ -8,6 +8,84 @@ sort:	original
 #单字→bb
 
 #自定义的词语
+源遮罩	yffao
+纯块遮罩	jkffav
+纯块	jwkg
+遮罩混合	ffhho
+七精八怪	qjbgvo
+牛逼气场	nbqju
+最坑	zbkr
+中组	fyzjia
+刀好	dzhzaa
+血振纳刀	xqnd
+控制灵活	kflhiu
+一键驱离	yjqlv
+一键迫降	yjpj
+强制管理	qfglau
+无线电磁	wxdc
+无线电池	wxdwv
+频率干扰	plgri
+超大功率	jdglv
+超大功率	wdglv
+反制设备	ffebuu
+反制器	ffquu
+反制背包	ffbbu
+视觉盲维	ejmwoo
+盲维	mpwwoa
+会背	hbbwi
+藏哪	cpns
+屁兜	pkdda
+在上压力	zeylvi
+撞数	fmejio
+撞树	fmeji
+撞数	fxejio
+撞树	fxeji
+扫完付款	swfk
+贼雅	zwys
+鸭嘴	yszb
+工开	gykhvv
+吸星大法	xxdfo
+吸星	xkxgo
+丢韧	dqrnu
+禁箍	jbgjvu
+智瞳	fktyui
+金池长老	jwqlia
+风灵启动	flqdaa
+风灵老祖	fllzu
+得亏	dekb
+立棍式	lgeo
+劈棍式	pgea
+勇争第一	yqdy
+保底提名	bdtmoo
+被上压力	beylo
+背上压力	beyli
+修片狂魔	xpkm
+太薄	thbl
+蜀拼	ejpbii
+傩面	nlmmi
+挪面	nlmm
+狂增	kxzr
+停水拉闸	telfi
+下次别说	xcbe
+锅扣	glkdi
+你觉着行	njfxi
+我觉着行	wjfxuo
+我觉得行	wjdxuo
+我觉的行	wjdxuo
+在啥	zhesvo
+再啥	zhesvo
+上强度	eqd
+上强度吗	eqdmi
+你牛逼	nnbi
+您牛逼	nnbii
+鬼嫁	gbjsua
+错骨手	cgei
+卡皮巴拉	kpbli
+线下结算	xxjsa
+注音字符	qyzf
+见单	jmdfi
+捡单	jmdfio
+脸红脖子粗	lhbcu
 填饭	tmffvu
 技能栏	jnli
 没蓄力	mxlaai
@@ -48,7 +126,6 @@ sort:	original
 舔图	tmtju
 波棱盖	blgav
 挺饿	tgxe
-某刻	mdke
 某个时刻	mgekv
 低趴	dkps
 地啪	dkpsv
@@ -1863,8 +1940,6 @@ sort:	original
 玩不玩	wbwv
 太抽象	twx
 挺抽象	twxi
-太抽象了	twxl
-挺抽象了	twxli
 加磁	jsckav
 而且他	xqtv
 而且她	xqtvi
@@ -2757,7 +2832,8 @@ sort:	original
 龙车	lywev
 铁山靠	tek
 猫火	mzhlu
-零针	lgqn
+零帧	lgqn
+零针	lgqnv
 五针	wjqnv
 羊库库	ykko
 黑狼鸟	hlni
@@ -2913,7 +2989,6 @@ sort:	original
 是这样啊	eqyx
 实战演习	eqyxo
 要搞	yzgz
-是用	ekyyou
 活寡	hlgqa
 太困了	tkl
 太快了	tklv
@@ -2935,7 +3010,7 @@ sort:	original
 具有担保性质	dgjb
 不具有担保性质	dgjbo
 借条有20年主张权利，申述流程简单	jdtc
-欠条3年主张权利,需要证明真实原因	qmtc
+欠条3年主张权利，需要证明真实原因	qmtc
 都量	ddlxu
 都亮	ddlxuo
 多多练习	ddlxu
@@ -3070,7 +3145,6 @@ sort:	original
 对刚	dbgpa
 对肛	dbgpau
 坑了	krle
-毛坯	mzpk
 学着	xhfe
 实木门	emmo
 守秘密	emmou
@@ -4071,8 +4145,6 @@ sort:	original
 豆腐串	dfwvo
 油豆腐	ydfa
 炸蛋	fsdfo
-鸭脚	ysjc
-鸭掌	ysqp
 黑胡椒	hhj
 白胡椒	bhj
 烧鹅濑	exlou
@@ -4398,7 +4470,6 @@ sort:	original
 取回来	qhlv
 运回来	yhlvi
 顶额	dgxev
-牙片	yspmvu
 炸街	fsjd
 不一定了	bydl
 才这么少	cfmev
@@ -6346,8 +6417,6 @@ sort:	original
 错错	clcli
 错动	cldyi
 错着	clfeio
-错骨	clgjii
-挫骨	clgji
 蔡丽津	cljiva
 凑莉久	cljoiu
 从来就没有	cljyi
@@ -6692,7 +6761,6 @@ sort:	original
 丁原	dgytvv
 打工族	dgzi
 呆逼	dhbko
-带得	dhdev
 多喝点水	dhdeu
 大吼大叫	dhdjvo
 打蝴蝶结	dhdji
@@ -8218,7 +8286,6 @@ sort:	original
 搓出来	cjli
 搓出	cljji
 搓出去	cjqi
-都不用	dbyuv
 没摸过	mmgai
 慢慢逛	mmg
 元气十足	yqezv
@@ -8608,7 +8675,6 @@ sort:	original
 但其实	dqei
 这像话吗	fxhmo
 像话吗	xhmi
-你觉得像	njdx
 我觉得像	wjdx
 正在吃	qzw
 正在吃饭	qzwf
@@ -10530,7 +10596,6 @@ Chaumet	emblio
 定这	dgfeo
 但是这样	defy
 单说这	defo
-但是这	deqi
 的这	defe
 但是这是	defei
 对待这样	ddfya
@@ -10546,7 +10611,6 @@ Chaumet	emblio
 从这以后	cfyh
 从这一点	cfydi
 从这些	cfxi
-从这向北	cfxb
 从这天起	cftq
 从这头	cfti
 才这么	cfmv
@@ -10878,7 +10942,8 @@ Chaumet	emblio
 发工资没	fgzm
 这个资格	qgzg
 这个资格	fgzg
-注重管理	qfgla
+沾过	qfgla
+注重管理	qfglau
 钱赚够了	qfglia
 这种改变	qfgbo
 这种观点	qfgdou
@@ -10888,7 +10953,6 @@ Chaumet	emblio
 瞧瞧这个	qqqgi
 瞧瞧这个	qqfg
 这种格局	qfgjou
-沾过	qfgla
 真壮观	qfg
 强制更新	qfgxa
 折中关系	qfgxi
@@ -11225,8 +11289,8 @@ Chaumet	emblio
 截止到	jfdu
 组织运营	zfyya
 招聘中心	fpfxi
-系统自动	xtzdu
-系统自带	xtzd
+系统自带	xtzdu
+系统自动	xtzdua
 自动刹车	zdej
 自动生成	zdeju
 超强拍照	jqpq
@@ -11531,7 +11595,6 @@ Chaumet	emblio
 佬您	lznbi
 直钩钓鱼	fgdyu
 学过	xhgl
-单批	dfpk
 多批	dlpk
 总感觉	zgjo
 立旗	lkqkoo
@@ -11606,7 +11669,7 @@ Chaumet	emblio
 突然感觉	trgj
 喝就	hejqo
 鹤啾	hejqoo
-我误会了	wwhl
+我误会了	wwhluo
 懂哥	dyge
 部署功能	begn
 瘦不下去	ebxqov
@@ -12822,10 +12885,8 @@ Chaumet	emblio
 还嫩	hhnnv
 离开过	lkg
 离开过你	lkgn
-离开过我	lkgw
 离开过他	lkgt
 离开过她	lkgta
-立给	lkgwo
 也总	yezy
 又是怎样	yezya
 优势资源	yezyi
@@ -12857,7 +12918,7 @@ Chaumet	emblio
 的自己	dzjuua
 先变	xmbmu
 𝓙𝓮𝓻	jer
-拣日不如撞日,撞日不如今日	jrbrii
+拣日不如撞日，撞日不如今日	jrbrii
 撞日不如今日	frbri
 撞日	fxrk
 立刻会意	lkhy
@@ -13802,7 +13863,6 @@ PC模式	pcme
 洒洒水	ssea
 很不可思议	hbkyu
 你好特别	nhtbi
-爆火	bzhl
 插混	wshw
 甜粽	tmzyu
 咸粽	xmzyv
@@ -13972,7 +14032,6 @@ PC模式	pcme
 地奥	dkxzv
 多坑	dlkr
 多猛	dlmru
-低眉折腰	dmfyia
 店组	dmzjo
 店子	dmzko
 多潘立酮	dplt
@@ -13980,7 +14039,7 @@ PC模式	pcme
 打炮	dspzi
 大威	dswwvv
 短点	dtdmu
-大威天龙,世尊地藏,般若诸佛,般若巴麻吽	dwth
+大威天龙，世尊地藏，般若诸佛，般若巴麻吽	dwth
 大威天龙	dwtl
 谁懂	ebdyo
 谁不是呢	ebenov
@@ -14392,7 +14451,7 @@ jer发紫	jxfza
 上会儿班吧	ehxb
 生产线	ejxu
 双头龙	etla
-善语结善缘,恶言伤人心	eyjxoo
+善语结善缘，恶言伤人心	eyjxoo
 适应力	eylu
 水银体温表	eytb
 十字螺丝刀	ezldu
@@ -14627,7 +14686,6 @@ jer发紫	jxfza
 好娘	hznx
 移动防御	ydfyu
 星际战甲	xjqj
-不致命	bfmvv
 细细的品	xxdpaa
 尝尝看	jjkiii
 小鹭音形	xlyxi
@@ -14775,7 +14833,6 @@ jer发紫	jxfza
 没品位	mpwao
 鄙视你们	benmo
 丫说	yselo
-萨比	ssbki
 幼稚鬼	yfgau
 游中国	yfgai
 小傻	xcesi
@@ -15010,7 +15067,6 @@ jer发紫	jxfza
 没心肝	mxgao
 特别牛	tbnu
 吊爆	dcbzoo
-丫要	ysyz
 我是小三	wexsu
 不想理	bxlvvv
 美逼	mwbko
@@ -15102,7 +15158,6 @@ jer发紫	jxfza
 你屌	nkdci
 一群疯子	yqfzva
 没风度	mfdau
-都是傻子	deezu
 无节操	wjcvi
 生气你	eqnuu
 屌丝们	dsma
@@ -15879,11 +15934,13 @@ jer发紫	jxfza
 黐	wkuvov
 劏	tpioii
 
+
+# 修改的单字表zf咱fh摘zfo寁zfi攒
+迅	xwauo
+迅	xwauoo
+
 #单字
-渃	nlai
-渃	nlaivu
-幹	gfuoi
-幹	gfuoiv
+幹	gf
 僱	gjioa
 僱	gjioav
 喺	hhou
@@ -16070,7 +16127,7 @@ jer发紫	jxfza
 
 #网恋警句
 网恋=添加好友→日常聊骚→暧昧不断→互发裸照→确定关系→线下见面→翻云覆雨→假装冷漠→矛盾频出→关系破裂→删除好友🔚	wplmio
-🔞男女有别，安分守己!🔞偷尝禁果，万万不可!🔞一旦踏错,后悔一生!🔞请在做任何决定前询问一下家人!	wplmio
+🔞男女有别，安分守己!🔞偷尝禁果，万万不可!🔞一旦踏错，后悔一生!🔞请在做任何决定前询问一下家人!	wplmio
 严禁添加好友进行私聊磕炮等不法行为!网络对象都是虚拟和未知的!请爱护自己！如不听劝告!发生任何意外!自行负责!	wplmio
 切记网友之间禁止产生恋情!短期的高频聊天!会产生暧昧!这种感觉就产生对方是相见恨晚的错觉!聊天不等于生活的全部!	wplmio
 网恋自古无娇娘，残花败柳一行行！偶有几对鸳鸯鸟，也是野鸡配色狼！	wplmio
@@ -16082,9 +16139,9 @@ jer发紫	jxfza
 曹丕媳妇进菜园💉💪🥬	cpxyi
 盖伦出轻语😶🏹🛡	gljyoi
 完美对象	wmdxoo
-活好不粘人,声嗲自登门!	wmdxoo
+活好不粘人，声嗲自登门!	wmdxoo
 前凸后翘性感火辣迷人面容!	wmdxoo
-肤白貌美大长腿,纤腰娇乳蜜桃臀!	wmdxoo
+肤白貌美大长腿，纤腰娇乳蜜桃臀!	wmdxoo
 嫑忈嘦姕	brjzvv
 勥烎菿奣	qlct
 勥烎	qlkha
@@ -16127,13 +16184,13 @@ jer发紫	jxfza
 现金网	xjwvi
 五弊三缺	wbsq
 五弊鳏寡孤独残三缺财命权	wbsq
-鳏guān无妻,寡guǎ无夫,孤gū无父无母,独dú无子,残cán残疾	wbsq
+鳏guān无妻，寡guǎ无夫，孤gū无父无母，独dú无子，残cán残疾	wbsq
 三缺	sfqhv
 财命权	sfqhv
-财cái无钱,命mìng短命,权quán无权无福	sfqhv
+财cái无钱，命mìng短命，权quán无权无福	sfqhv
 五弊	wjbkvo
 鳏寡孤独残	wjbkvo
-鳏guān无妻,寡guǎ无夫,孤gū无父无母,独dú无子,残cán残疾	wjbkvo
+鳏guān无妻，寡guǎ无夫，孤gū无父无母，独dú无子，残cán残疾	wjbkvo
 
 
 九一	jqykuv
@@ -16374,6 +16431,137 @@ www.	wpfk
 方片凯	fpkoui
 梅花凯	mhkvii
 
+# 二次元词库
+柄图	bgtjv
+柄纹	bgwnv
+姐贵	jdgbai
+杀必死	ebsuo
+耻度	wkdjvo
+交肾	jceno
+谷圈里交肾指交钱	jceno
+谷圈	gjqtu
+谷子即为goods，指各种动漫游戏周边	gjqtu
+输入固团<gjtti>查看更多词条	gjqtu
+常见的谷子类型为吧唧，色纸，立牌，拍立得，麻将，镭射票	gjqtu
+谷子里麻指长方体状的亚克力制品	gjqtu
+镭射票	lepi
+谷圈纸制品.多为镭射工艺。常见的长度为21cm宽度的尺寸较多	lepi
+吃谷	wkgjo
+谷圈里买周边	wkgjo
+吧唧	bsjk
+谷圈指徽章，多为马口铁材质.常见形状有圆形和方形	bsjk
+徽章工艺丰富，拉丝银葱，镭射，星幻，双闪等	bsjk
+流沙麻将	lemj
+流沙麻将是在普通麻将的基础上，内部含有闪粉亮片和流沙油，随着晃动十分好看	lemj
+透卡	tdks
+谷圈pvc材质物品.含义如其名，具有可透性.	tdks
+立牌	lkpho
+谷圈亚克力材质物品。常见的有烫金工艺。可作为桌面摆件	lkpho
+推但	tbdfii
+推/但	tbdfii
+谷圈喜欢xxx.推/担xxx就是喜欢xxx.
+谷吃	gjwkuo
+谷吃的数量，比如同一个吧唧你吃5个，就叫做食量为5	gjwkuo
+少肾	ezenii
+多肾	dlenui
+立肾	lkenoi
+谷圈指立马交钱	lkenoi
+排谷	phgjiu
+本意是排队买谷，引申为想要吃xx谷	phgjiu
+日谷	rkgji
+国谷	glgji
+空气谷	kqgou
+指花钱买后仍未到手的非现谷	kqgou
+现谷	xmgjv
+梦情	mrqg
+指梦中情古，做梦都想拥有的谷子	mrqg
+湖景	hjjga
+指较为稀有且价钱较高的谷子	hjjga
+海景	hhjg
+指比湖景更为稀有，数量少，价格高，且可能有价无市	hhjg
+大梦想家	dmxjv
+指想用较低的价格购买较为稀有的谷子，多含贬义.
+樱花妹	yhmvi
+𝒚𝒉𝒎	yhm
+买谷	mhgja
+官谷	gtgj
+指游戏或动漫官方出的谷子	gtgj
+同人谷	trgi
+指同人画师出的非官方性质谷子	trgi
+场贩	jpffv
+指需要在漫展现场购买的谷子	jpffv
+通贩	tyffa
+指可以使用软件平台等进行线上购买的谷子	tyffa
+再贩	zhffva
+第二次及以上开放贩售	zhffva
+受注	edqju
+谷圈指预约	edqju
+出荷	jjhea
+谷圈指出货、出厂	jjhea
+在库	zhkjv
+仓库有货	zhkjv
+头铁产物	ttjwo
+激情上头买的h价谷子	ttjwo
+h:high的缩写，指价格较高	ttjwo
+赌博产物	dbjwau
+自己抽，不拼团买到的.赌博失败即没抽到自推	dbjwau
+赌博失败	dbeba
+入群占位	rqqw
+固团	gjtti
+指入群占位，妈位分为all(凹)妈位，亲妈位，分食位和捡漏位	gjtti
+all(凹)妈位指所有柄开的任何数量全部都吃，优先级最高，通常不需要其他妈，最多再招1捡漏	gjtti
+亲妈位指无all妈情况下，团内吃得最多的妈，通常有一定量的强制，优先级最高。亲妈和 all妈不可共存	gjtti
+分食  指几个分食在一起分着吃，通常强制，但最多吃1。有些团会出现分食＋亲妈的组合，如果分食有强制则亲妈不得擅自all谷	gjtti
+捡漏  不一定能排到谷，只有在其它妈都吃饱了还有剩余的情况下才能排谷，没有强制	gjtti
+柄开	bgkhv
+柄指周边上的图案和花纹	bgkhv
+凹妈	xzms
+凹(𝒂𝒍𝒍)妈指所有柄开的任何数量全部都吃	xzms
+野团	yett
+手速团	est
+出配比	jpba
+指实际抽到的数量	jpba
+爆配	bzpwo
+指开配比的情况下，某角色（柄）开出的数量大于配比，多出来的部分属于爆配	bzpwo
+温门	wnmn
+谷圈里推ta的人不算多也不算少的角色	wnmn
+躺吃	tpwku
+捆序	kwxw
+备捆	bwkwu
+上捆	epkwi
+提前确认	tqqr
+定尾	dgwwoa
+尾货	wwhl
+尾火	wwhla
+日拍	rkph
+即决	jkjh
+骏河屋	jhwaa
+垃圾车	ljwv
+垃圾屋	ljwvv
+垃圾池	ljwvva
+裸寄	lljkoo
+非现	fwxm
+状态全新	ftqxo
+全新未拆	qxwj
+全新仅拆	qbjji
+默认初伤	mrjei
+初伤	jjepo
+𝒚𝒔𝒈	ysg
+状态中古	ftfg
+有伤	ydepvi
+国际运费	gjyfia
+国内中转	gnffi
+自粘袋	zfduo
+收纳册	enca
+除锈膏	jxg
+谷美	gjmwu
+谷美道具	gmdju
+肾表	enbciv
+食量痛包	eltbi
+大食量痛包	delb
+小食量痛包	xelbi
+小食量	xelii
+大食量	delvi
 
 #	老师们的名单
 苍井空	cjkiv
