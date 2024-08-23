@@ -8,6 +8,9 @@ sort:	original
 #单字→bb
 
 #自定义的词语
+施孤	ekgjoa
+缺啥	qhes
+黄风	hxfrv
 源遮罩	yffao
 纯块遮罩	jkffav
 纯块	jwkg
@@ -140,7 +143,6 @@ sort:	original
 看爽	kfem
 血检	xdjmiv
 小气罐	xqgiuu
-孑jié然	lcrfa
 滚到边哈	gdbha
 手起	edqkiv
 手起个泡	eqlp
@@ -339,8 +341,6 @@ sort:	original
 满扎实	mfeai
 称透	jntdu
 搞么斯	gms
-搞么斯唦	gmseiu
-搞么斯唦shā	gmssi
 讲胃口	jwkoi
 伙结	hljdia
 盒开	hekhiv
@@ -2387,7 +2387,6 @@ sort:	original
 檐蛇	yfeev
 鸡公蛇	jgeaui
 玩蛇	wfee
-大舅哥	djg
 三界牌	sjpviu
 鱼惊石	yjeuov
 青鱼石	qyevu
@@ -3711,7 +3710,6 @@ sort:	original
 套装文具	tfwjvo
 投光灯	tgdii
 铜挂锁	tgsii
-弹簧扶针	thfq
 台秤	thjra
 退回去	thqa
 弹簧柱	thqau
@@ -4629,8 +4627,6 @@ sort:	original
 我只担心	wfdxu
 去学	qlxh
 会越来越	hylyi
-哄人	hyrn
-轰人	hyrnv
 做后	zlhd
 解结	jdjdua
 桀桀	jdjdua
@@ -4709,7 +4705,6 @@ sort:	original
 天诺	tmnlv
 𝑻𝒆𝒏𝒏𝒐	tmnlv
 选小	xtxcu
-好欺负	hqfa
 坤年	kwnm
 卖爆	mhbz
 买爆	mhbza
@@ -8217,7 +8212,6 @@ sort:	original
 村通网的	ctwdv
 太羡慕了	txml
 剪你	jmnkoi
-红装	hyfx
 白装	bhfxuo
 蓝装	lffx
 金装	jbfxi
@@ -8850,7 +8844,6 @@ sort:	original
 你看过吧	nkgb
 这节奏	fjzo
 透明图层	tmtcu
-会问清楚	hwqj
 广式	gxeko
 广式腊肠	geljo
 甜辣酱	tlju
@@ -11335,7 +11328,6 @@ Chaumet	emblio
 维保类	wblai
 维保	wwbza
 月类	yhlwuo
-想教	xxjcvu
 算出来	sjlu
 算出来的	sjldua
 布衣神算	byesv
@@ -13650,10 +13642,9 @@ Chaumet	emblio
 专家分析	fjfxv
 分解方案	fjfxu
 重金之下	fjfxu
-在线等	zxdv
-在许多	zxdvo
+在许多	zxdvou
 在心底	zxdvoo
-再写点	zxdvoi
+再写点	zxdvo
 长截图	jjtuu
 教教她	jjtuua
 教教他	jjtuui
@@ -14829,7 +14820,6 @@ jer发紫	jxfza
 装清高	fqgo
 我有病	wybuvo
 哎呀我去	xywqoo
-好气愤	hqfau
 没品位	mpwao
 鄙视你们	benmo
 丫说	yselo
@@ -14971,7 +14961,6 @@ jer发紫	jxfza
 丫都	ysdjo
 傻女人	enri
 死孩子	shzv
-穷比	qybkov
 妈死	msskav
 瓜婆娘	gpnu
 吓尿了	xnlo
@@ -15198,7 +15187,6 @@ jer发紫	jxfza
 傻得可以	edkyiu
 猪脑袋	qnduu
 抽他	wdtsi
-装无辜	fwgo
 滚蛋吧	gdbaa
 草蛋	czdfia
 犯蠢	ffjwuv
@@ -15783,6 +15771,7 @@ jer发紫	jxfza
 𝑴𝑴𝑷	mmp
 
 #神话名
+骊龙	lklya
 囚牛	qqnq
 嘲风	wzfro
 蒲牢	pjlz
@@ -15843,6 +15832,75 @@ jer发紫	jxfza
 灵吉	lgjkav
 国师王	gewiiv
 毗蓝婆	plpii
+六贼	lqzwo
+眼看喜，耳听怒，鼻嗅爱，舌尝思，身本忧，意见欲	lqzwo
+眼看喜	ykxi
+耳听怒	xtnvo
+鼻嗅爱	bxxuo
+舌尝思	ejsui
+身本忧	ebyuv
+意见欲	yjyoi
+舌尝	eejpui
+身本	enbnu
+破棍	plgw
+破棍式	pgev
+立棍	lkgwo
+挟魂	jsgwiv
+挟魂崖	jhyiv
+枕石	qnekvv
+枕石坪	qepvv
+夺心	dlxbv
+身外身法	ewefu
+阿罗金片	xljpa
+定风珠	dfqou
+傩面具	nmjiv
+傩魂	nlhw
+镔铁砂	btei
+炼的	lmdeo
+炼得	lmdeou
+沽取	gjqla
+灵蕴	lgywai
+灵光点	lgda
+橙武	jrwjv
+红髯龙	hrla
+沙门沟	emga
+暗丧	xfsp
+明丧	mgspo
+敛息	lmxki
+敛息坐定	lxzd
+有所顿悟	ysdwv
+神仙术法	exefoi
+术法	ejfsv
+沙门界	emjao
+惜而用之	xxyfov
+惜而	xkxjo
+藏风山凹	cfex
+施行调息	extxou
+青背	qgbwv
+施孤	ekgjaa
+起手式	qeevi
+切手式	qeeviv
+疯虎	frhj
+疯狐	frhjo
+
+
+
+
+
+
+
+# 错字表
+人参	rnsn
+人参(shēn)rnen	rnsn
+人参	rnsr
+人参(shēn)rnen	rnsr
+枸杞	gdjkv
+枸杞(qǐ)gdqk	gdjkv
+孑然	lcrfa
+孑(jié)然jdrfa	lcrfa
+搞么斯唦	gmseiu
+搞么斯唦	gmssi
+搞么斯唦(shā)gmseiu	gmssi
 
 
 #咖啡奶茶系列
@@ -16134,10 +16192,10 @@ jer发紫	jxfza
 关于这个事，我简单说两句，至于我的身份，你明白就行，总而言之，这个事呢，现在就是这个情况，具体的呢，大家也都看得到，我因为这个身份上的问题，也得出来说那么几句，可能，你听的不是很明白，但是意思就是那么个意思，我的身份呢，不知道的你也不用去猜，这种事情见多了，我只想说懂得都懂。	fwhqov
 
 #有趣俚语
-秦始皇摸电门🦅🦄🌶	qehmva
-曹操掉进人妻堆😌⇧+😋	ccddv
-曹丕媳妇进菜园💉💪🥬	cpxyi
-盖伦出轻语😶🏹🛡	gljyoi
+秦始皇摸电门🦅🦄🌶	qeh
+曹操掉进人妻堆😌⇧+😋	czcz
+曹丕媳妇进菜园💉💪🥬	czpkv
+盖伦出轻语😶🏹🛡	ghlwoi
 完美对象	wmdxoo
 活好不粘人，声嗲自登门!	wmdxoo
 前凸后翘性感火辣迷人面容!	wmdxoo
@@ -16207,7 +16265,7 @@ jer发紫	jxfza
 𝑮𝑰𝑻𝑬𝑬.𝑪𝑶𝑴	khyt
 
 #接话
-用自己的语言复述对方的话	jdhqiu
+用自己的语言复述对方的话	jdhq
 抓关键词进行扩充。	jdhqiu
 被夸时把主体转到对方身上。	jdhqiu
 被打探消息隐私时转移话题	jdhqiu
