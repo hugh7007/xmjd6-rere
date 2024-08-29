@@ -71,7 +71,7 @@ jobs:
     
     - name: Download the release asset
       run: |
-        curl -L -o rabbit-${{ env.RELEASE_TAG }}.zip https://github.com/amorphobia/rabbit/releases/download/${{ env.RELEASE_TAG }}/rabbit-${{ env.RELEASE_TAG }}.zip
+        curl -L -o rabbit-${{ env.RELEASE_TAG }}.zip https://github.com/amorphobia/rabbit/releases/download/${{ env.RELEASE_TAG }}/rabbit-${{ env.RELEASE_TAG }}-x64.zip
       
     - name: Unzip Rabbit
       run: |
