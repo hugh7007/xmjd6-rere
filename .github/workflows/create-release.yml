@@ -18,14 +18,19 @@ jobs:
 
     - name: Checkout main branch
       uses: actions/checkout@v4
-
+      
+    - name: Create directories
+      run: |
+        mkdir -p Rime
+        mkdir -p mb/xmjd6
+        
     - name: Zip main branch files excluding .git and .github
-      run: zip -r xmjd6.zip . -x "*.git*" -x "*.github*"
+      run: zip -r xmjd6.zip . -x "*.git*" -x "*.github*" -x "yong*" -x "mb*" -x "Rime*"
 
-    - name: Zip main branch pure files
+    - name: Prepare Rime directory for Rabbit
       run: |
         mkdir -p Rime/
-        rsync -avm --exclude='.git*' --exclude='*.github*' --exclude='squirrel*' --exclude='weasel*' --exclude='hamster*' --exclude='xmjd6.zip' . Rime/
+        rsync -avm --exclude='.git*' --exclude='*.github*' --exclude='squirrel*' --exclude='weasel*' --exclude='hamster*' --exclude='*.txt' --exclude='xmjd6.zip' --exclude='yong*' --exclude='mb*' --exclude='Rime*' . Rime/
         ls -al Rime/
         pwd
 
@@ -57,15 +62,14 @@ jobs:
             base: lastRelease.data.tag_name,
             head: 'main'
           });
-          let changelog = ''; 
+          let changelog = '';
           compare.data.commits.forEach(commit => {
-            const message = commit.commit.message.split('\n').join(' '); 
+            const message = commit.commit.message.split('\n').join(' ');
             const commitLink = `[${commit.sha.substring(0, 7)}](https://github.com/${context.repo.owner}/${context.repo.repo}/commit/${commit.sha})`;
-            changelog += `- ${commitLink} ${message}  \n`; 
+            changelog += `- ${commitLink} ${message} \n`;
           });
           core.setOutput('changelog', changelog);
 
-          
     - name: Set the tag as environment variable
       run: echo "RELEASE_TAG=${{ steps.get_tag.outputs.result }}" >> $GITHUB_ENV
     
@@ -92,7 +96,35 @@ jobs:
       run: |
         cp -r Rime/. Rabbit/SharedSupport
         zip -r Rabbit-xmjd6.zip Rabbit/
-        
+
+    - name: Convert .dict.yaml files to .txt using Bash
+      run: |
+        for dict_file in xmjd6.zidingyi.dict.yaml xmjd6.cizu.dict.yaml xmjd6.fjcy.dict.yaml xmjd6.danzi.dict.yaml xmjd6.buchong.dict.yaml xmjd6.wxw.dict.yaml
+        do
+          txt_file="Rime/$(basename $dict_file .dict.yaml).txt"
+          awk -F'\t' '
+          /^[^#]/ {
+            if ($0 ~ /^---|name:|version:|sort:|\.\.\.$/) next;
+            if ($1 ~ /^[A-Za-z0-9\s]+$/) {
+              print $1 " " $2
+            } else {
+              print $2 " " $1
+            }
+          }' "$dict_file" > "$txt_file"
+        done
+
+    - name: Merge all .txt files, add header, and convert to GB18030 using Python
+      run: |
+        header='name=星猫键道6\nkey=`abcedfghijklmnopqrstuvwxyz;\\\nlen=12\nwildcard=~\nbihua=viuoa\ncode_e2=p11+p12+p21+p22+p13+p23\ncode_e3=p11+p21+p31+p13+p23+p33\ncode_a4=p11+p21+p31+n11+p13+p23+p33\n[DATA]'
+        echo -e "$header" > Rime/xmjd6.header.txt
+        cat Rime/*.txt > Rime/xmjd6.body.txt
+        echo -n "$(cat Rime/xmjd6.header.txt Rime/xmjd6.body.txt)" > mb/xmjd6/xmjd6.txt
+        rm Rime/xmjd6.header.txt Rime/xmjd6.body.txt
+        python -c "with open('mb/xmjd6/xmjd6.txt', 'r', encoding='utf-8') as f: data = f.read(); open('mb/xmjd6/xmjd6.txt', 'w', encoding='gb18030', errors='ignore').write(data)"
+
+    - name: Zip yong.ini and mb directory
+      run: |
+        zip -r yong-xmjd6.zip yong.ini mb/
 
     - name: Create Release
       id: create_release
@@ -106,7 +138,7 @@ jobs:
           ## Changelog
           ${{ steps.changelog.outputs.changelog }}
           ## Release Notes
-          - [如何使用](https://github.com/hugh7007/xmjd6-rere#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8)
+          - [如何使用](https://github.com/hugh7007/xmjd6-rere#如何使用)
         draft: false
         prerelease: false
 
@@ -118,6 +150,16 @@ jobs:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./Rabbit-xmjd6.zip
         asset_name: Rabbit-xmjd6.zip
+        asset_content_type: application/zip
+
+    - name: Upload yong-xmjd6.zip to Release
+      uses: shogo82148/actions-upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./yong-xmjd6.zip
+        asset_name: yong-xmjd6.zip
         asset_content_type: application/zip
 
     - name: Upload xmjd6.zip to Release
