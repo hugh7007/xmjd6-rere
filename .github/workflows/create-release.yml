@@ -99,7 +99,7 @@ jobs:
 
     - name: Convert .dict.yaml files to .txt using Bash
       run: |
-        for dict_file in xmjd6.zidingyi.dict.yaml xmjd6.cizu.dict.yaml xmjd6.fjcy.dict.yaml xmjd6.danzi.dict.yaml xmjd6.buchong.dict.yaml xmjd6.wxw.dict.yaml
+        for dict_file in xmjd6.danzi.dict.yaml xmjd6.cizu.dict.yaml xmjd6.zidingyi.dict.yaml xmjd6.fjcy.dict.yaml xmjd6.buchong.dict.yaml xmjd6.yingwen.dict.yaml xmjd6.chaojizici.dict.yaml xmjd6.wxw.dict.yaml
         do
           txt_file="Rime/$(basename $dict_file .dict.yaml).txt"
           awk -F'\t' '
@@ -113,12 +113,29 @@ jobs:
           }' "$dict_file" > "$txt_file"
         done
 
-    - name: Merge all .txt files, add header, and convert to GB18030 using Python
+    - name: Merge .txt files in specific order, add header, and clean up
       run: |
+        # 创建头文件
         header='name=星猫键道6\nkey=`abcedfghijklmnopqrstuvwxyz;\\\nlen=12\nwildcard=~\nbihua=viuoa\ncode_e2=p11+p12+p21+p22+p13+p23\ncode_e3=p11+p21+p31+p13+p23+p33\ncode_a4=p11+p21+p31+n11+p13+p23+p33\n[DATA]'
         echo -e "$header" > Rime/xmjd6.header.txt
-        cat Rime/*.txt > Rime/xmjd6.body.txt
-        echo -n "$(cat Rime/xmjd6.header.txt Rime/xmjd6.body.txt)" > mb/xmjd6/xmjd6.txt
+        
+        # 按照指定顺序合并 .txt 文件
+        cat Rime/xmjd6.danzi.txt \
+            Rime/xmjd6.cizu.txt \
+            Rime/xmjd6.zidingyi.txt \
+            Rime/xmjd6.fjcy.txt \
+            Rime/xmjd6.buchong.txt \
+            Rime/xmjd6.yingwen.txt \
+            Rime/xmjd6.chaojizici.txt \
+            Rime/xmjd6.wxw.txt > Rime/xmjd6.body.txt
+        
+        # 将头文件和主体文件合并到一个中间文件
+        cat Rime/xmjd6.header.txt Rime/xmjd6.body.txt > mb/xmjd6/tmp_xmjd6.txt
+        
+        # 将中间文件移动到最终位置
+        mv mb/xmjd6/tmp_xmjd6.txt mb/xmjd6/xmjd6.txt
+        
+        # 删除临时文件
         rm Rime/xmjd6.header.txt Rime/xmjd6.body.txt
         python -c "with open('mb/xmjd6/xmjd6.txt', 'r', encoding='utf-8') as f: data = f.read(); open('mb/xmjd6/xmjd6.txt', 'w', encoding='gb18030', errors='ignore').write(data)"
 
