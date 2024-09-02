@@ -8,6 +8,73 @@ sort:	original
 #单字→bb
 
 #自定义的词语
+玩套	wftzv
+六味水	lweooa
+当饭吃哩	dfwli
+太强大了	tqdlv
+其他球	qtqvi
+奇葩球	qpqvi
+轮刀	lwdzva
+百目	bhmjv
+长度单位	jddw
+找您	fznb
+崩断	brdti
+开捆	khkw
+灵虚子	lxzai
+广谋	gmmd
+广谋	gxmdo
+锯下	jlxs
+局啊	jlxsao
+什么局啊	emjxiu
+缩卵	sllt
+锁卵	sllti
+嗦卵	sllto
+索卵	slltu
+卖乱	mhlt
+卖卵	mhltu
+促排卵针	cplqi
+野屎	yeekia
+吃一口	wyko
+橘座	jlzlvo
+夜光弹	ygdoi
+牛油国油	nygyu
+果油	glydia
+那批人	nprai
+棒锥	bpfbv
+即化	jkhqao
+取米	qlmk
+赚米	ftmk
+转米	ftmkv
+太冲了	twlvoa
+报餐	bzcfi
+银行行长	yhhqi
+央行行长	yhhqiu
+顺拆	ewjh
+手围	edwwia
+直柄伞	fbsu
+酱酱酿酿	jjnnoo
+公平公正	gpgqu
+风灵宗	flzuao
+月影宗	yyzuoo
+风灵月影	flyyu
+都在想你	dzxnu
+教杀	jcesuu
+居然好了	jrhla
+太难了吧	tnlb
+看看没有	kkmy
+看看可以	kkky
+褪凡	tbffo
+蜕凡	tbffiu
+破虚	plxl
+破虚得实	pxdev
+炼心	lmxbo
+练心	lmxba
+已淦	ykgfaa
+以干	ykgfav
+已干	ykgfa
+倒地而亡	ddxwiv
+台胞	thbzau
+怼脸输出	dlejau
 也忒	yetbav
 找自己	fzjiu
 我可以的	wkydu
@@ -1188,7 +1255,6 @@ sort:	original
 但还说	dheiv
 但还没	dhmi
 天玑	tmjkvv
-否之	fdfkv
 哈啾	hsqq
 五盘	wjpfv
 十盘	ekpfu
@@ -2361,7 +2427,6 @@ sort:	original
 爆破弹	ppdov
 猫味	mzwwu
 狗味	gdwwuo
-须子	xlzk
 蠄蟧	qblzi
 蛤乸	hsns
 蠄蚷	qbqli
@@ -5300,7 +5365,6 @@ sort:	original
 找一找	qyqi
 这特么	ftmo
 冻醒	dyxg
-含带	hfdh
 嘴强王者	zqwfo
 下三路	xsl
 白衬衫	bjeuo
@@ -6858,8 +6922,6 @@ sort:	original
 当成一种	djyfi
 当成一个	djygi
 大家已经	djyjv
-读一	djykov
-毒医	djykv
 多久以前	djyq
 都怨	ddyt
 等价于	djyu
@@ -7701,7 +7763,6 @@ sort:	original
 兜兜	dddduu
 虎群	hjqw
 鹤人	herno
-大橘	dsjlv
 带歪	dhwh
 大启	dsqkvo
 清水健	qejaa
@@ -9178,7 +9239,6 @@ sort:	original
 邵阳市	eyeaao
 食蚁兽	eyeii
 深一脚	eyjavu
-上一轮	eyli
 史玉柱	eyqivv
 生于斯	eysuvv
 深以为	eywa
@@ -11727,7 +11787,6 @@ Chaumet	emblio
 遗留下来	ylxli
 打字习惯	dzxgi
 会知道	hfdiu
-这样子的	fyzd
 就很离谱	jhlpou
 很差吧	hwbuo
 没输过	mega
@@ -13475,8 +13534,6 @@ Chaumet	emblio
 并不会有	bbhy
 打文	dswni
 没这个	mfga
-记的	jkdeo
-就看到说	jkdeoi
 千挑万选	qtwxu
 再这样下去	zfyqv
 苎麻	qjmsi
@@ -15921,7 +15978,6 @@ jer发紫	jxfza
 灾愆状态	zqft
 招受灾愆	fezqiu
 招受	fzediu
-零帧起手	lqqevi
 肉坨	rdtl
 肉坨子	rtziv
 如意画轴	ryhfa
@@ -15942,8 +15998,6 @@ jer发紫	jxfza
 棺材车	gcwvv
 五行车	wxwvuv
 黑神话	hehi
-游戏的背景设定在唐僧西天取经之后.三教崩塌的悲剧旨归.	hehi
-可输入白衣秀才(儒).金池长老(释).凌虚道长(道)等查看	hehi
 白衣秀才	byxc
 儒家.黑神话中寓意蛇蝎心肠	byxc
 金池长老	jwqlia
@@ -15985,18 +16039,16 @@ jer发紫	jxfza
 五蕴	wjywvi
 色蕴受蕴想蕴行蕴识蕴	wjywvi
 色蕴	seywu
-色蕴是物质的积聚包括地水火风四大元素所构成的物质世界以及我们的身体	seywu
-身体的各种感官器官，如眼耳鼻舌身能够感知外部世界的各种现象	seywu
 四大元素	sdysi
 地水火风四大元素	sdysi
 受蕴	edywui
 指感受包括苦.乐.不苦不乐三种感受	edywui
 苦受	kjediu
-指经历痛苦.不适.挫折等情况时的感受	kjediu
+指痛苦.不适.挫折等情况时的感受	kjediu
 乐受	leed
 遇到愉悦.舒适.满足等情况时的感受	leed
 不苦不乐受	bkbevi
-也称为舍受，是一种既不痛苦也不快乐的中性感受	bkbevi
+也称舍受是既不痛苦也不快乐的中性感受	bkbevi
 不苦	bjkjv
 不乐受	blevuu
 想蕴	xxywvi
@@ -16011,20 +16063,20 @@ jer发紫	jxfza
 如贪·嗔·痴·慢·疑等烦恼心理，以及善念，慈悲，智慧等正面心理状态	xgywui
 具象化泛指意志行为/心理状态	xgywui
 意志行为	xgywui
-包括我们的决策/行动/努力等.由心理状态所驱动，这决定了我们的行为方向和方式	xgywui
+包括决策/行动/努力等.由心理状态所驱动行为方向和方式	xgywui
 心理状态	xlfto
-如贪·嗔·痴·慢·疑等烦恼心理，以及善念，慈悲，智慧等正面心理状态	xlfto
+由贪·嗔·痴·慢·疑等烦恼心理，加上善念，慈悲，智慧等正面的心理状态	xlfto
 意志行为	yfxwo
-包括我们的决策/行动/努力等.由心理状态所驱动，这决定了我们的行为方向和方式	yfxwo
+包括决策/行动/努力等.由心理状态所驱动，决定行为方向和方式	yfxwo
 识蕴	ekywoi
 指认识的主体，即我们的意识	ekywoi
 识蕴能够对外部世界进行感知→认知→判断	ekywoi
 六识	lqekoo
 眼耳鼻舌身意	lqekoo
-眼识、耳识、鼻识、舌识、身识、意识	lqekoo
+眼识耳识鼻识舌识身识意识	lqekoo
 六时	lqekoo
 五蕴皆空	wyjkv
-色受想行识，五种要素无常、无我的，没有永恒不变的本质	wyjkv
+色受想行识皆无	wyjkv
 冯骥	fryko
 眼见立贪	yjlt
 耳听即怒	xtjn
@@ -16047,6 +16099,17 @@ jer发紫	jxfza
 反手出肉	fejru
 出肉	jjrd
 音炮	ybpzo
+鳖宝	bdbzoo
+鳖宝头骨	bbtg
+铜佛坠	tffiia
+雷火印	lhyvou
+君子牌	jzpaa
+白贝腰链	bbylu
+披挂升阶	pgejii
+武器升阶	wqejv
+玛瑙罐	mngv
+阳燧珠	ysqao
+铁角	tdjciu
 
 
 # 错字表
@@ -16106,7 +16169,8 @@ jer发紫	jxfza
 # 修改的单字表zf咱fh摘zfo寁zfi攒
 迅	xwauo
 迅	xwauoo
-
+曾	crouoi
+曾	crouia
 
 #单字
 幹	gf
