@@ -139,9 +139,18 @@ jobs:
         rm Rime/xmjd6.header.txt Rime/xmjd6.body.txt
         python -c "with open('mb/xmjd6/xmjd6.txt', 'r', encoding='utf-8') as f: data = f.read(); open('mb/xmjd6/xmjd6.txt', 'w', encoding='gb18030', errors='ignore').write(data)"
 
-    - name: Zip yong.ini and mb directory
+    - name: Zip yong
       run: |
-        zip -r yong-xmjd6.zip yong.ini mb/
+        mkdir -p .yong
+        cp yong.ini .yong/
+        cp -r mb .yong/
+        zip -r yong-xmjd6.zip .yong
+        curl -L -o yong-win-2.8.0-0.7z https://yong.dgod.net/download/yong-win-2.8.0-0.7z
+        7z x yong-win-2.8.0-0.7z -oyong_temp
+        cp -r .yong yong_temp/yong
+        cd yong_temp
+        zip -r ../yong-xmjd6-full.zip yong
+        rm -rf ../.yong ../yong_temp
 
     - name: Create Release
       id: create_release
@@ -179,6 +188,16 @@ jobs:
         asset_name: yong-xmjd6.zip
         asset_content_type: application/zip
 
+    - name: Upload yong-xmjd6-full.zip to Release
+      uses: shogo82148/actions-upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./yong-xmjd6-full.zip
+        asset_name: yong-xmjd6-full.zip
+        asset_content_type: application/zip
+        
     - name: Upload xmjd6.zip to Release
       uses: shogo82148/actions-upload-release-asset@v1
       env:
