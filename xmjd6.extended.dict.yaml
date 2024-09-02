@@ -52,7 +52,7 @@ import_tables:
   - xmjd6.yingwen
 # ---------------------------------------
 # 扩展：超级字词
-  - xmjd6.chaojizici
+#  - xmjd6.chaojizici
 # ---------------------------------------
 ## 扩展：525声笔笔词组
   - xmjd6.wxw

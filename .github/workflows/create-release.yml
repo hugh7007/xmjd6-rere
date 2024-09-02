@@ -99,7 +99,7 @@ jobs:
 
     - name: Convert .dict.yaml files to .txt using Bash
       run: |
-        for dict_file in xmjd6.danzi.dict.yaml xmjd6.cizu.dict.yaml xmjd6.zidingyi.dict.yaml xmjd6.fjcy.dict.yaml xmjd6.buchong.dict.yaml xmjd6.yingwen.dict.yaml xmjd6.chaojizici.dict.yaml xmjd6.wxw.dict.yaml
+        for dict_file in xmjd6.danzi.dict.yaml xmjd6.cizu.dict.yaml xmjd6.zidingyi.dict.yaml xmjd6.fjcy.dict.yaml xmjd6.buchong.dict.yaml xmjd6.yingwen.dict.yaml xmjd6.wxw.dict.yaml
         do
           txt_file="Rime/$(basename $dict_file .dict.yaml).txt"
           awk -F'\t' '
@@ -126,7 +126,6 @@ jobs:
             Rime/xmjd6.fjcy.txt \
             Rime/xmjd6.buchong.txt \
             Rime/xmjd6.yingwen.txt \
-            Rime/xmjd6.chaojizici.txt \
             Rime/xmjd6.wxw.txt > Rime/xmjd6.body.txt
         
         # 将头文件和主体文件合并到一个中间文件
