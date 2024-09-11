@@ -8,6 +8,11 @@ sort:	original
 #单字→bb
 
 #自定义的词语
+面线	mmxmv
+报用	bzyyi
+榔子	lpzkv
+等够	drgd
+我都告诉	wdgs
 生啃	erkn
 玩套	wftzv
 六味水	lweooa
@@ -137,7 +142,6 @@ sort:	original
 背上压力	beyli
 修片狂魔	xpkm
 太薄	thbl
-蜀拼	ejpbii
 傩面	nlmmi
 挪面	nlmm
 狂增	kxzr
@@ -431,7 +435,6 @@ sort:	original
 尿骚味	nswaa
 站厕	qfce
 一滴酒	ydjvaa
-季经	jkjgua
 暗经	xfjgo
 香膏	xxgzuo
 黄黑	hxhwv
@@ -997,7 +1000,6 @@ sort:	original
 吃工	wkgyo
 卡工	ksgyi
 怎么打	zmduui
-鳝变	efbmuo
 硬拆	ygjhvi
 左点	zldmv
 右点	yddmv
@@ -2460,7 +2462,8 @@ sort:	original
 怪不和谐	gbhxo
 都不和谐	dbhx
 摇人	yzrni
-卡谈	kstf
+卡痰	kstf
+卡谈	kstfi
 卡证	ksqr
 卡券	ksqt
 越上	yhepv
@@ -4285,7 +4288,6 @@ sort:	original
 没吃够	mwgao
 依然不能	yrbn
 否了	fdle
-是你的话	endho
 制裁之刃	fcfr
 抓不着他	fbfti
 抓不着她	fbftiv
@@ -5394,7 +5396,6 @@ sort:	original
 蚵仔煎	kzj
 免复	mmfj
 战五渣	qwqi
-五渣	wjfsv
 智五渣	fwquva
 节操论斤	jcljii
 搞飞	gzfwi
@@ -5570,6 +5571,7 @@ sort:	original
 贡献率	gxlvu
 诡案组	gxzoa
 绀野光	gygai
+搞一搞	gygiv
 挂衣杆	gygi
 隔一会	gyhav
 公元后	gyhuvu
@@ -5690,7 +5692,6 @@ sort:	original
 黄子华	hzhv
 洪子晴	hzqaao
 黑泽薰	hzxiai
-胡宗宪	hzxu
 叫爸爸	jbbo
 假把式	jbei
 就比较	jbjovv
@@ -5978,7 +5979,6 @@ sort:	original
 慢慢地	mmdo
 美美哒	mmdoo
 面面观	mmgv
-磨没了	mmlo
 明萌派	mmpoi
 没朋友	mpya
 面前的	mqdvo
@@ -7994,7 +7994,6 @@ sort:	original
 小红薯	xheiai
 小护士	xhei
 捋捋	lllli
-心志	xbfkov
 夜灵	yelgo
 盲怒	mpnj
 爽到	exdzv
@@ -8198,6 +8197,8 @@ sort:	original
 听多	tgdlo
 听的多了	tddl
 双杀	exes
+双傻	exesai
+双煞	exesa
 死完了	swlvo
 月运势	yyeuv
 重刹	fyes
@@ -8630,7 +8631,6 @@ sort:	original
 一毛一样	ymyyvu
 侧键	cejm
 深点	endma
-好常见	hjja
 夹肛	jsgpv
 我好慌	whhua
 我好慌张	whhqua
@@ -8781,7 +8781,6 @@ sort:	original
 真该死啊	qgsx
 罢葛	bsgei
 大吗	dsmsvo
-贬低速度	bdsda
 毫无必要	hwby
 毫无益处	hwyjo
 剑修	jmxqi
@@ -9396,7 +9395,6 @@ sort:	original
 得问	dwwnu
 蓝三	lfsfiv
 玩一下	wyxvv
-坐一下	zyxi
 死出	skjjv
 整这	qrfev
 整这死出	qfsj
@@ -10131,7 +10129,6 @@ Chaumet	emblio
 这桌	fefl
 着这	fefeo
 这身装束	fefeou
-这站	feffo
 这球	feffov
 发生这种事情	feffau
 这是真的	fefdoo
@@ -12517,10 +12514,9 @@ Chaumet	emblio
 不请	bjqg
 比较奇怪	bjqgv
 不成气候	bjqhvv
-比较清楚	bjqjv
+比较清楚	bjqjvv
 布奇	bjqkvv
 不弃	bjqkvo
-不娶	bjqlv
 不讲情面	bjqmv
 搏击拳套	bjqti
 不进去	bjqv
@@ -12616,8 +12612,10 @@ Chaumet	emblio
 必回	bkhboi
 不可回收	bkhev
 不可或缺的一部分	bkhfvv
-逼货	bkhlv
+比货	bkhlv
+逼货	bkhlvi
 比画	bkhqvv
+逼话	bkhqvo
 不可久留	bkjlv
 必唱	bkjpo
 碧君	bkjwv
@@ -13567,7 +13565,6 @@ Chaumet	emblio
 快很多	khdo
 快回到	khdoi
 这不比	fbbo
-越用越	yyyvuv
 返钱	ffqmui
 已装	ykfxao
 翼装	ykfmao
@@ -13795,7 +13792,6 @@ PC模式	pcme
 你真的好坏	nqdhiu
 知识诅咒	fezfu
 黑群晖	hqhi
-黑群	hwqwi
 可犹豫的	kyydvu
 阁下又该如何应对	gxydo
 沾沾喜气	qqxqa
@@ -14132,6 +14128,7 @@ PC模式	pcme
 会是	hbek
 慧泉	hbqtv
 还得是你	hdenv
+还得是您	hdenvu
 后纪	hdjku
 号都没了	hdmlo
 喉片	hdpmo
@@ -14144,7 +14141,6 @@ PC模式	pcme
 哄老婆呢	hlpno
 黄连素片	hlsp
 还真不怕	hqbp
-化龙	hqlyi
 慧泉嫩芽	hqnyv
 哈啤	hspkoo
 幻纹	htwna
@@ -14579,7 +14575,6 @@ jer发紫	jxfza
 你可以	nkyi
 尼莫地平片	nmdp
 你骂人	nmri
-你没有	nmyi
 你真棒	nqbi
 女超人	nwra
 拍立得	pld
@@ -16111,6 +16106,13 @@ jer发紫	jxfza
 玛瑙罐	mngv
 阳燧珠	ysqao
 铁角	tdjciu
+魔将神归	mjego
+种子齐备	fzqbu
+半个不少	bgbeoi
+收了葫芦	elhlaa
+饮食周全	yefqui
+琴榔	qblp
+广智救我	gzjwo
 
 
 # 错字表
@@ -17507,4 +17509,5 @@ www.	www
 本店默认快递	bdmdv
 抱歉不能	bqbni
 抱歉不能指定快递	bqbd
+逾期未发货	yqwhi
 
