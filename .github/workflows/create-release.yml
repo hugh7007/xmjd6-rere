@@ -82,19 +82,24 @@ jobs:
         mkdir -p Rabbit
         unzip rabbit-${{ env.RELEASE_TAG }}.zip -d Rabbit
 
-    - name: Clean SharedSupport
+    - name: Clean Data
       run: |
         mkdir -p /tmp/Rabbit_backup
-        cp Rabbit/SharedSupport/punctuation.yaml /tmp/Rabbit_backup/
-        cp Rabbit/SharedSupport/key_bindings.yaml /tmp/Rabbit_backup/
-        cp Rabbit/SharedSupport/default.yaml /tmp/Rabbit_backup/
-        rm -rf Rabbit/SharedSupport/*
-        cp /tmp/Rabbit_backup/* Rabbit/SharedSupport/
+        cp Rabbit/Data/punctuation.yaml /tmp/Rabbit_backup/
+        cp Rabbit/Data/key_bindings.yaml /tmp/Rabbit_backup/
+        cp Rabbit/Data/default.yaml /tmp/Rabbit_backup/
+        cp Rabbit/Data/symbols.yaml /tmp/Rabbit_backup/
+        cp Rime/default.custom.yaml Rabbit/Rime
+        cp Rime/xmjd6.user.dict.yaml Rabbit/Rime
+        rm -rf Rabbit/Data/*
+        rm -f Rime/default.custom.yaml
+        rm -f Rime/xmjd6.user.dict.yaml
+        cp /tmp/Rabbit_backup/* Rabbit/Data/
         rm -rf /tmp/Rabbit_backup
 
     - name: Merge Rime into Rabbit
       run: |
-        cp -r Rime/. Rabbit/SharedSupport
+        cp -r Rime/. Rabbit/Data
         zip -r Rabbit-xmjd6.zip Rabbit/
 
     - name: Convert .dict.yaml files to .txt using Bash
