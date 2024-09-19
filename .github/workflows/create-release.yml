@@ -91,11 +91,17 @@ jobs:
         cp Rabbit/Data/symbols.yaml /tmp/Rabbit_backup/
         cp Rime/default.custom.yaml Rabbit/Rime
         cp Rime/xmjd6.user.dict.yaml Rabbit/Rime
+<<<<<<< HEAD
         cp Rime/xmjd6.custom.yaml Rabbit/Rime
         rm -rf Rabbit/Data/*
         rm -f Rime/default.custom.yaml
         rm -f Rime/xmjd6.user.dict.yaml
         rm -f Rime/xmjd6.custom.yaml
+=======
+        rm -rf Rabbit/Data/*
+        rm -f Rime/default.custom.yaml
+        rm -f Rime/xmjd6.user.dict.yaml
+>>>>>>> bbcb125c4b727eeca6881c3e163602455245bc0f
         cp /tmp/Rabbit_backup/* Rabbit/Data/
         rm -rf /tmp/Rabbit_backup
 
