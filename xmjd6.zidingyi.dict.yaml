@@ -8,6 +8,21 @@ sort:	original
 #单字→bb
 
 #自定义的词语
+爽刷	exeq
+爽刷	emeqv
+刷爽	eqexa
+刷爽	eqema
+耳清目明	xqmmv
+铬靶	gebsiv
+钛靶	thbsi
+碳钨靶	twbvi
+硅靶	gbbsv
+铝靶	llbsi
+镍靶	ndbsi
+金靶	jbbsiv
+钨靶	wjbsi
+一类卡	ylkvo
+硬脱钩	ytgvui
 面线	mmxmv
 报用	bzyyi
 榔子	lpzkv
@@ -111,7 +126,7 @@ sort:	original
 超大功率	wdglv
 反制设备	ffebuu
 反制器	ffquu
-反制背包	ffbbu
+反制背包	ffbbuu
 视觉盲维	ejmwoo
 盲维	mpwwoa
 会背	hbbwi
@@ -524,7 +539,6 @@ sort:	original
 很感慨	hgku
 爆金币	bjboi
 哇哇叫	wwjo
-爽翻	emff
 爽翻	exff
 双反	exffa
 金丝瓜	jsgi
@@ -1771,9 +1785,6 @@ sort:	original
 两千多	lqdv
 秒记	mcjku
 锁频	slpb
-非加	fwjsi
-飞甲	fwjsa
-飞加	fwjsaa
 有球必硬	yqbyv
 有存货没	ychm
 还有存货	hychvv
@@ -2966,8 +2977,6 @@ sort:	original
 龙击	lyjk
 猎虫	ldwy
 狸兽	lkeduo
-角爹	jcddu
-角豆	jcdduv
 狗笼	gdly
 狗龙	gdlyu
 光虫	gxly
@@ -3275,7 +3284,6 @@ sort:	original
 鲅鱼	bsyl
 有跟	ydgnv
 有氧	ydyp
-组数	zjej
 光练	gxlm
 搓把	clbsii
 养的	ypde
@@ -3285,7 +3293,6 @@ sort:	original
 三线琴	sxqv
 地摊	dktf
 马杀鸡	meja
-浇给	jcgwaa
 种牙	fyys
 脸肿	lmfy
 长个	qpge
@@ -3413,7 +3420,6 @@ sort:	original
 转接头	fjtv
 分中	fnfyui
 分型	fnxgu
-飞料	fwlcao
 撞机	fxjki
 支线剧情	fxjq
 方形计数器	fxjqo
@@ -4671,7 +4677,6 @@ sort:	original
 她扫一下	tsyxa
 扫一下	syxi
 太硬	thyg
-玩透	wftdv
 只担心	fdxoio
 我知道啊	wfdx
 我只担心	wfdxu
@@ -4766,6 +4771,7 @@ sort:	original
 很好看哟	hhkyu
 看哟	kfyli
 这局	fejlo
+这具	fejloi
 手机膜	ejmi
 他没理我	tmlwi
 她没理我	tmlwa
@@ -7552,7 +7558,6 @@ sort:	original
 不拉叽	bljvio
 兵来将挡水来土掩	bljyuv
 波克	blkeau
-博肯	blknui
 布鲁坎特雷尔	blkxvu
 博了	bllcu
 拔了萝卜地皮宽	bllkia
@@ -8252,7 +8257,6 @@ sort:	original
 金装	jbfxi
 会让我	hrwi
 别换	bdht
-橙装	jrfx
 你们呢	nmn
 就冷	jqlr
 永不会	ybho
@@ -8279,7 +8283,6 @@ sort:	original
 我盲猜你	wmcnu
 能猜到	ncda
 带我飞	dwfv
-更靓	grlx
 降魔	xxml
 降魔杵	xmja
 金刚降魔杵	jgxjii
@@ -8427,7 +8430,6 @@ sort:	original
 零预付款	lyfk
 怕是得	pedo
 是得	ekdeo
-是得	ekdwo
 是得被	edbouo
 又有了	yyla
 笑出了	xjlua
@@ -8606,7 +8608,6 @@ sort:	original
 都不能搞	dbngu
 错音了	pkki
 有辆	ydlx
-地板油	dbyv
 地板电	dbdv
 重输	wyeju
 什么牛马	emnm
@@ -8723,12 +8724,10 @@ sort:	original
 我期待	wqduv
 怎么变成	zmbj
 更胸	grxyvu
-多辣	dlls
 龟责	gbzeu
 寸止	cwfk
 夹胸	jsxy
 夹音	jsybv
-加蒜	jsst
 跟个孤儿	gggxo
 这确实	fqeo
 送件	syjmoi
@@ -8760,7 +8759,6 @@ sort:	original
 过人之处	grfjv
 不服从	bfc
 刺尖	ckjmv
-靓汤	lxtp
 广东靓汤	gdlto
 广式靓汤	gelt
 鹤派	hepho
@@ -9413,7 +9411,6 @@ sort:	original
 很被	hnbwuo
 冷汗涔涔	lhcc
 六亲缘浅	lqyq
-雌竞	ckjgio
 你什么不能	nwenii
 朙月	mgyhi
 朙月拼音	mypyo
@@ -9637,7 +9634,6 @@ sort:	original
 我会不会	whbh
 他会不会	thbhi
 她会不会	thbha
-最靓	zblxo
 靓机	lxjkv
 靓妹	lxmw
 快乐水	kle
@@ -10676,7 +10672,6 @@ Chaumet	emblio
 别这么小器	bfmqo
 别这么见外嘛	bfmmoo
 把这两个人	bflri
-越亮	yhlxvo
 指亮	fklxi
 阴钞	ybwz
 别这么	bfmo
@@ -10771,7 +10766,6 @@ Chaumet	emblio
 不敢这么说	bgfeva
 版这	bfqeuo
 版这	bffeuo
-办这	bfqeao
 办这	bffeoo
 不是这	beqvoo
 不是这	befvo
@@ -12094,7 +12088,6 @@ Chaumet	emblio
 咋了这个	zlfg
 用一句话来说	yyjeu
 犹豫件事	yyjeua
-她经常	tjja
 他经常	tjj
 你经常	njji
 杨千嬅	yqhvua
@@ -12109,7 +12102,6 @@ Chaumet	emblio
 强殖装甲	qffja
 强殖	qxfkav
 很差劲	hwjuo
-双检	exjmav
 好麻	hzmsao
 壮壮	fxfxov
 双人成行	erjxai
@@ -12488,8 +12480,6 @@ Chaumet	emblio
 逋客	bjkevo
 不积跬步无以至千里	bjklvu
 不列	bjldvv
-布勒	bjlevv
-不勒	bjlev
 不立	bjlkvo
 不出来了	bjllv
 布罗	bjllvi
@@ -14166,7 +14156,6 @@ PC模式	pcme
 酒局	jqjla
 九筒	jqtyu
 救心	jqxbv
-城轨	jrgbv
 加的	jsdea
 加产	jsjfa
 佳宁	jsng
@@ -14897,7 +14886,6 @@ jer发紫	jxfza
 土锤	tjwb
 揍性	zdxgi
 挫男	clnf
-蠢成	jwjrvv
 真丢人	qdru
 奇葩男	qpnv
 我鄙视你	wben
@@ -15785,6 +15773,8 @@ jer发紫	jxfza
 𝑵𝑴𝑺𝑳	nmsl
 泥麻死了，在这个特殊的时刻，我想表达我对你母亲的去世的深深哀悼。我知道这很难，但请记住，你并不孤单。我们都在这里为你提供支持和慰问。你母亲是一个有价值的人，她的一生充满了爱和奉献。她在家庭中的角色和你对她的尊重让我感到非常感动。我相信她的智慧.勇气和爱心将继续影响你的生活，并传递给下一代。每个人都会面对失去亲人的痛苦，这是一种无法避免的伤痛。当你觉得孤独或失落的时候，请不要犹豫寻求帮助和支持。同样，也请你知道我以及众多的网友会在这一艰难时期陪伴着你度过。生老病死是不可避免的自然规律，但我们永远不会忘记那些在我们生活中留下深刻印记的人。最后，愿逝者安息，愿你能在这段难过的时光里得到慰藉和平静。	nmsl
 𝑴𝑴𝑷	mmp
+赠吗	zrms
+太贵了，怕买不起，太便宜了，又辱没您的才华，所以我想问，赠吗	zrms
 
 #神话名
 骊龙	lklya
@@ -16138,6 +16128,14 @@ jer发紫	jxfza
 灾愆(qian)zhqmo	zhyfo
 削弱	xcrl
 削xuē弱	xcrl
+解剖	jdplu
+解剖(pōu)jdpd	jdplu
+彻底	cedk
+彻(chè)底	cedk
+别墅	bdyeoi
+别墅(shù)	bdyeoi
+大别墅	dbyvoi
+大别墅(shù)	dbyvoi
 
 
 
@@ -16168,12 +16166,18 @@ jer发紫	jxfza
 黐	wkuvov
 劏	tpioii
 
+煲靓汤	bltiv
+手机靓号	ejlhiv
+祖母靓照	zmlq
+又平又靓	ypylav
+
 
 # 修改的单字表zf咱fh摘zfo寁zfi攒
 迅	xwauo
 迅	xwauoo
 曾	crouoi
 曾	crouia
+怡	yk
 
 #单字
 幹	gf
@@ -16496,7 +16500,7 @@ jer发紫	jxfza
 五弊	wjbkvo
 鳏寡孤独残	wjbkvo
 鳏guān无妻，寡guǎ无夫，孤gū无父无母，独dú无子，残cán残疾	wjbkvo
-
+我想放个尖酸刻薄的屁，硬忍着没放，因为没必要	mby
 
 九一	jqykuv
 #网址
