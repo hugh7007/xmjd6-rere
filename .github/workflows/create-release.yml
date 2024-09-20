@@ -89,6 +89,7 @@ jobs:
         cp Rabbit/Data/key_bindings.yaml /tmp/Rabbit_backup/
         cp Rabbit/Data/default.yaml /tmp/Rabbit_backup/
         cp Rabbit/Data/symbols.yaml /tmp/Rabbit_backup/
+        cp Rabbit/Data/rabbit.yaml /tmp/Rabbit_backup/        
         cp Rime/default.custom.yaml Rabbit/Rime
         cp Rime/xmjd6.user.dict.yaml Rabbit/Rime
         cp Rime/xmjd6.custom.yaml Rabbit/Rime
