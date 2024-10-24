@@ -145,6 +145,7 @@ engine:
     - simplifier@ascii_punct
     - simplifier@mars #火星文
     - lua_filter@*xmjd6/xmjd6_embeded_cands@embeded_cands #嵌入候选
+    - lua_filter@*xmjd6/add_space # \n 回车| 空格
     - uniquifier
 
 #导入符号
@@ -357,7 +358,7 @@ key_binder:
     # - {accept: bracketleft, send: Page_Up, when: has_menu} # [上翻页
     # - {accept: bracketright, send: Page_Down, when: has_menu} # ]下翻页
     - { when: always, accept: F6, select: .next }
-    - { when: always, accept: F7, toggle: jffh }
+    - { when: always, accept: F7, toggle: jffh }  # 电脑的繁体切换
     - { when: always, accept: "Control+backslash", toggle: emoji_cn }  #快捷电脑的快捷
     - { when: has_menu, accept: "&", toggle: emoji_cn }	#手机快捷切换表情
     - { when: has_menu, accept: "%", toggle: mars } #手机快捷火星文切换
