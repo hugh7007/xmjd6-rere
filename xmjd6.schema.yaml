@@ -117,7 +117,8 @@ engine:
     - lua_translator@*xmjd6/xmjd6_jisuanqi
     - lua_translator@*xmjd6/xmjd6_shijian
     - lua_translator@*xmjd6/xmjd6_zimu_translator
-    - lua_translator@*xmjd6/xmjd6_shuzi    
+    - lua_translator@*xmjd6/xmjd6_shuzi
+    - lua_translator@*xmjd6/unicode      # 使用< & >开头启动
     - punct_translator
     - table_translator
     - reverse_lookup_translator
@@ -398,7 +399,8 @@ recognizer:
     xmjd6gbk: "^o[a-z]*?$"
     jsq: "^=[^;']+$"
     zhuan: "^\\\\.*$" # 不加这句后面不能跟数字
-    zhuanxiao: "^\\+.*$" # 不加这句后面不能跟数字
+    unicode: "^&+.*$"
+    # zhuanxiao: "^\\+.*$" # 不加这句后面不能跟数字
 #        xmjdWXYZ: "^'['/a-z][a-z0-9,./:?!']*'?$"
 
 topup:
