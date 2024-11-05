@@ -175,15 +175,15 @@ jobs:
         draft: false
         prerelease: false
 
-    # - name: Upload Rabbit-xmjd6.zip to Release
-    #   uses: shogo82148/actions-upload-release-asset@v1
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    #   with:
-    #     upload_url: ${{ steps.create_release.outputs.upload_url }}
-    #     asset_path: ./Rabbit-xmjd6.zip
-    #     asset_name: Rabbit-xmjd6.zip
-    #     asset_content_type: application/zip
+    - name: Upload Rabbit-xmjd6.zip to Release
+      uses: shogo82148/actions-upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./Rabbit-xmjd6.zip
+        asset_name: Rabbit-xmjd6.zip
+        asset_content_type: application/zip
 
     - name: Upload yong-xmjd6.zip to Release
       uses: shogo82148/actions-upload-release-asset@v1
