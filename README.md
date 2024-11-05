@@ -73,6 +73,7 @@
   - Android: 
     - [同文输入法](https://github.com/osfans/trime/releases/latest)
       - 默认用户文件夹路径：`/storage/emulated/0/rime/`
+      - 需要在设置里点配置管理，点用户文件夹，再点默认后再导入方案至文件夹，再进行部署。
     - [小企鹅输入法 Android 版](https://github.com/fcitx5-android/fcitx5-android)：
       - [主程序](https://jenkins.fcitx-im.org/job/android/job/fcitx5-android/)
       - [Rime 插件](https://jenkins.fcitx-im.org/job/android/job/fcitx5-android-plugin-rime/)
