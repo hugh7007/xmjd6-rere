@@ -27,83 +27,83 @@ jobs:
     - name: Zip main branch files excluding .git and .github
       run: zip -r xmjd6.zip . -x "*.git*" -x "*.github*" -x "yong*" -x "mb*" -x "Rime*"
 
-    # - name: Prepare Rime directory for Rabbit
-    #   run: |
-    #     mkdir -p Rime/
-    #     rsync -avm --exclude='.git*' --exclude='*.github*' --exclude='squirrel*' --exclude='weasel*' --exclude='hamster*' --exclude='*.txt' --exclude='xmjd6.zip' --exclude='yong*' --exclude='mb*' --exclude='Rime*' . Rime/
-    #     ls -al Rime/
-    #     pwd
+    - name: Prepare Rime directory for Rabbit
+      run: |
+        mkdir -p Rime/
+        rsync -avm --exclude='.git*' --exclude='*.github*' --exclude='squirrel*' --exclude='weasel*' --exclude='hamster*' --exclude='*.txt' --exclude='xmjd6.zip' --exclude='yong*' --exclude='mb*' --exclude='Rime*' . Rime/
+        ls -al Rime/
+        pwd
 
-    # - name: Get latest release tag
-    #   id: get_tag
-    #   uses: actions/github-script@v7
-    #   with:
-    #     script: |
-    #       const response = await github.rest.repos.getLatestRelease({
-    #         owner: 'amorphobia',
-    #         repo: 'rabbit',
-    #       });
-    #       const tagName = response.data.tag_name;
-    #       console.log(`Latest release tag is ${tagName}`);
-    #       return tagName;
+    - name: Get latest release tag
+      id: get_tag
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const response = await github.rest.repos.getLatestRelease({
+            owner: 'amorphobia',
+            repo: 'rabbit',
+          });
+          const tagName = response.data.tag_name;
+          console.log(`Latest release tag is ${tagName}`);
+          return tagName;
 
-    # - name: Fetch tags and generate changelog from last release
-    #   id: changelog
-    #   uses: actions/github-script@v7
-    #   with:
-    #     script: |
-    #       const lastRelease = await github.rest.repos.getLatestRelease({
-    #         owner: context.repo.owner,
-    #         repo: context.repo.repo
-    #       });
-    #       const compare = await github.rest.repos.compareCommits({
-    #         owner: context.repo.owner,
-    #         repo: context.repo.repo,
-    #         base: lastRelease.data.tag_name,
-    #         head: 'main'
-    #       });
-    #       let changelog = '';
-    #       compare.data.commits.forEach(commit => {
-    #         const message = commit.commit.message.split('\n').join(' ');
-    #         const commitLink = `[${commit.sha.substring(0, 7)}](https://github.com/${context.repo.owner}/${context.repo.repo}/commit/${commit.sha})`;
-    #         changelog += `- ${commitLink} ${message} \n`;
-    #       });
-    #       core.setOutput('changelog', changelog);
+    - name: Fetch tags and generate changelog from last release
+      id: changelog
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const lastRelease = await github.rest.repos.getLatestRelease({
+            owner: context.repo.owner,
+            repo: context.repo.repo
+          });
+          const compare = await github.rest.repos.compareCommits({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            base: lastRelease.data.tag_name,
+            head: 'main'
+          });
+          let changelog = '';
+          compare.data.commits.forEach(commit => {
+            const message = commit.commit.message.split('\n').join(' ');
+            const commitLink = `[${commit.sha.substring(0, 7)}](https://github.com/${context.repo.owner}/${context.repo.repo}/commit/${commit.sha})`;
+            changelog += `- ${commitLink} ${message} \n`;
+          });
+          core.setOutput('changelog', changelog);
 
-    # - name: Set the tag as environment variable
-    #   run: echo "RELEASE_TAG=${{ steps.get_tag.outputs.result }}" >> $GITHUB_ENV
+    - name: Set the tag as environment variable
+      run: echo "RELEASE_TAG=${{ steps.get_tag.outputs.result }}" >> $GITHUB_ENV
     
-    # - name: Download the release asset
-    #   run: |
-    #     curl -L -o rabbit-${{ env.RELEASE_TAG }}.zip https://github.com/amorphobia/rabbit/releases/download/${{ env.RELEASE_TAG }}/rabbit-${{ env.RELEASE_TAG }}-x64.zip
+    - name: Download the release asset
+      run: |
+        curl -L -o rabbit-${{ env.RELEASE_TAG }}.zip https://github.com/amorphobia/rabbit/releases/download/${{ env.RELEASE_TAG }}/rabbit-${{ env.RELEASE_TAG }}-x64.zip
       
-    # - name: Unzip Rabbit
-    #   run: |
-    #     mkdir -p Rabbit
-    #     unzip rabbit-${{ env.RELEASE_TAG }}.zip -d Rabbit
+    - name: Unzip Rabbit
+      run: |
+        mkdir -p Rabbit
+        unzip rabbit-${{ env.RELEASE_TAG }}.zip -d Rabbit
 
-    # - name: Clean Data
-    #   run: |
-    #     mkdir -p /tmp/Rabbit_backup
-    #     cp Rabbit/Data/punctuation.yaml /tmp/Rabbit_backup/
-    #     cp Rabbit/Data/key_bindings.yaml /tmp/Rabbit_backup/
-    #     cp Rabbit/Data/default.yaml /tmp/Rabbit_backup/
-    #     cp Rabbit/Data/symbols.yaml /tmp/Rabbit_backup/
-    #     cp Rabbit/Data/rabbit.yaml /tmp/Rabbit_backup/        
-    #     cp Rime/default.custom.yaml Rabbit/Rime
-    #     cp Rime/xmjd6.user.dict.yaml Rabbit/Rime
-    #     cp Rime/xmjd6.custom.yaml Rabbit/Rime
-    #     rm -rf Rabbit/Data/*
-    #     rm -f Rime/default.custom.yaml
-    #     rm -f Rime/xmjd6.user.dict.yaml
-    #     rm -f Rime/xmjd6.custom.yaml
-    #     cp /tmp/Rabbit_backup/* Rabbit/Data/
-    #     rm -rf /tmp/Rabbit_backup
+    - name: Clean Data
+      run: |
+        mkdir -p /tmp/Rabbit_backup
+        cp Rabbit/Data/punctuation.yaml /tmp/Rabbit_backup/
+        cp Rabbit/Data/key_bindings.yaml /tmp/Rabbit_backup/
+        cp Rabbit/Data/default.yaml /tmp/Rabbit_backup/
+        cp Rabbit/Data/symbols.yaml /tmp/Rabbit_backup/
+        cp Rabbit/Data/rabbit.yaml /tmp/Rabbit_backup/        
+        cp Rime/default.custom.yaml Rabbit/Rime
+        cp Rime/xmjd6.user.dict.yaml Rabbit/Rime
+        cp Rime/xmjd6.custom.yaml Rabbit/Rime
+        rm -rf Rabbit/Data/*
+        rm -f Rime/default.custom.yaml
+        rm -f Rime/xmjd6.user.dict.yaml
+        rm -f Rime/xmjd6.custom.yaml
+        cp /tmp/Rabbit_backup/* Rabbit/Data/
+        rm -rf /tmp/Rabbit_backup
 
-    # - name: Merge Rime into Rabbit
-    #   run: |
-    #     cp -r Rime/. Rabbit/Data
-    #     zip -r Rabbit-xmjd6.zip Rabbit/
+    - name: Merge Rime into Rabbit
+      run: |
+        cp -r Rime/. Rabbit/Data
+        zip -r Rabbit-xmjd6.zip Rabbit/
 
     - name: Convert .dict.yaml files to .txt using Bash
       run: |
