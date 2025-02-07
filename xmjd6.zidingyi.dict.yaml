@@ -8,6 +8,12 @@ sort:	original
 #单字→bb
 
 #自定义的词语
+躺地	tpdku
+硬夸	ygkq
+贼卡	zwks
+仓群	cpqw
+剪刀石头布	jdtbo
+石头剪刀布	etjbv
 还真不是	hqbev
 更包	grbzvu
 你是天才	netc
@@ -2029,7 +2035,6 @@ sort:	original
 叠券	ddqta
 雨轩	ylxtv
 掉顶	dcdgi
-抽贷	wddhi
 发腿	fstba
 腿图	tbtjui
 发胸	fsxy
@@ -2817,7 +2822,7 @@ sort:	original
 太用力	tylv
 桃岩龙	tylvi
 岩龙亚种	ylyfiv
-黑轰	hwhyiv
+黑轰	hwhyi
 黑轰龙	hhliv
 轰龙亚种	hlyfv
 绿迅龙	lxlaav
@@ -3163,6 +3168,7 @@ sort:	original
 锐铁	rbtdi
 搭讪	dsef
 嘎了	gsle
+尬了	gslev
 逐枭	qjxcv
 你说的算	neds
 他说的算	tedsi
@@ -3175,7 +3181,8 @@ sort:	original
 越俗	yhsj
 越酥	yhsjv
 越诉	yhsjvo
-发过去了	fgql
+拽去	fgql
+发过去了	fgqla
 就闪	jqef
 就删	jqefo
 旧闪	jqefi
@@ -3435,7 +3442,6 @@ sort:	original
 刚聊	gplc
 刚撩	gplci
 挂设	gqee
-刮手	gqed
 挂上了	geli
 管位	gtww
 感温线	gwxv
@@ -5856,7 +5862,6 @@ sort:	original
 了多久	ldjau
 领带夹	ldjivv
 落地镜	ldjiv
-拎得清	ldqiu
 绿灯行	ldxa
 雷伤杯	lebviv
 老师好	lehui
@@ -8222,7 +8227,6 @@ sort:	original
 我盲猜你	wmcnu
 能猜到	ncda
 带我飞	dwfv
-降魔	xxml
 降魔杵	xmja
 金刚降魔杵	jgxjii
 微距	wwjl
@@ -8768,7 +8772,6 @@ sort:	original
 长了	jpleu
 珍酿	qnnx
 好有感觉	hygj
-有份	ydfn
 没有吗	myma
 想吃什么	xwem
 搅风搅雨	jfjy
@@ -11312,8 +11315,7 @@ Chaumet	emblio
 需要判定	xypdv
 都月底了	dydluu
 根本是	gbe
-根本上	gbev
-赶不上	gbevv
+根本上	gbevv
 顾不上	gbevvi
 你根本	ngbi
 你根本不	ngbbi
@@ -14300,7 +14302,7 @@ jer发紫	jxfza
 大兄弟	dxdvo
 地奥心血康	dxxk
 石斑鱼	ebyv
-蜀道山	edeia
+蜀道山	edeio
 啥东西	edx
 手撕鸡	eeji
 沙沙锤	eewa
@@ -15367,7 +15369,6 @@ jer发紫	jxfza
 蓝朋友	lpyiuv
 豆小瓣	dxbvio
 爱吹牛	xwnuou
-人品差	rpwi
 坏的人	hdrvu
 笑点低	xddui
 小屁	xcpkia
@@ -15427,7 +15428,6 @@ jer发紫	jxfza
 哼哼哼	hhhooo
 麻批	mspko
 我好生气	whequa
-圣母心	emxaa
 微笑脸	wxluuu
 漂亮姑娘	plgn
 骚情	szqga
@@ -16059,6 +16059,8 @@ jer发紫	jxfza
 政治正确	qffq
 政治正确(qfqq)	qffq
 之屑	fkxhoa
+癞疙	lhkeo
+癞疙gē(lhgeo)	lhkeo
 
 广州	gz
 #粤拼

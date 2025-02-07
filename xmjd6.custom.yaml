@@ -8,7 +8,7 @@ patch:
   # menu/alternative_select_labels: ["〡", "〢", " 〣", " 〤", " 〥", " 〦", " 〧", " 〨", " 〩", ""]  # 修改候选项标签
   # menu/alternative_select_keys: ASDFGHJKL  # 如编码字符占用数字键，则需另设选字键
   style/inline_preedit: true   # 行内显示预编辑区：true；false
-
+  punctuator/digit_separators: ",.:;()[]{}?"
 
   #                         0选择第一个,1选择第二个
   switches/@0/reset: 0     #[ 中文, 西文 ]
