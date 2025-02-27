@@ -152,7 +152,7 @@ jobs:
         cp yong.ini .yong/
         cp -r mb .yong/
         zip -r yong-xmjd6.zip .yong
-        curl -L -o yong-win-3.0.0-1.7z http://ys-g.ysepan.com/wap/yongim/T961Kf4VRO5jhcS87I/yc4gC8Lq3gDIDRa44s3ibEC4gV1KG8/yong-win-3.0.0-1.7z
+        curl -L -o yong-win-3.0.0-1.7z http://ys-g.ysepan.com/wap/yongim/T963Kfb8TQ7ljeUA9K/yc4gC8Lq3gDIDRa44s3ibEC4gV1KG8/yong-win-3.0.0-1.7z
         7z x yong-win-3.0.0-1.7z -oyong_temp
         cp -r .yong yong_temp/yong
         cd yong_temp
