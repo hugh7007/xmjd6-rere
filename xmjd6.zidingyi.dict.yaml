@@ -8,6 +8,7 @@ sort:	original
 #单字→bb
 
 #自定义的词语
+触类旁空	jlpku
 躺地	tpdku
 硬夸	ygkq
 贼卡	zwks
@@ -137,6 +138,8 @@ sort:	original
 太难了吧	tnlb
 看看没有	kkmy
 看看可以	kkky
+拼好帧	phqia
+Lossless Scaling	phqia
 褪凡	tbffo
 蜕凡	tbffiu
 破虚	plxl
@@ -1203,7 +1206,7 @@ sort:	original
 空击	kyjk
 走军	zdjwv
 坑过	krgl
-㞞包	sybza
+㞞包	sybzau
 难调	nftc
 点爆	dmbzi
 拍照记录	pfjlio
@@ -1522,7 +1525,7 @@ sort:	original
 往前看	wqk
 往后看	whk
 前口	qmkdo
-后口	hdkdu
+后口	hdkd
 上口	epkdi
 下口	xskdv
 中口	fykdi
@@ -2175,7 +2178,8 @@ sort:	original
 盗窑	dzyzoo
 皮盼	pkpfai
 滴扣子	dkza
-到了没	dlmv
+到了吗	dlmv
+到了没	dlmva
 首套	edtzo
 手痛	edty
 手铳	edwyii
@@ -2438,7 +2442,6 @@ sort:	original
 再说什么	zeemv
 就很快乐	jhklo
 剪片	jmpm
-封烟	fryfv
 决赛圈	jsqo
 刮鳞	gqlb
 故障类别	gqlbua
@@ -2835,7 +2838,7 @@ sort:	original
 龙亚种	lyfvvu
 绞蛇	jceeai
 蛇龙	eely
-猿狐	ythju
+猿狐	ythjuu
 奇猿	qkytvu
 白猿狐	byhuuu
 奇猿狐	qyhvu
@@ -3064,10 +3067,9 @@ sort:	original
 刷呀	eqysa
 是这样啊	eqyx
 实战演习	eqyxo
-要搞	yzgz
 活寡	hlgqa
-太困了	tkl
-太快了	tklv
+太困了	tklv
+太快了	tkl
 太酷了	tklvv
 泰酷辣	tklvv
 太酷辣	tklvv
@@ -3627,7 +3629,8 @@ sort:	original
 洗床	xkwm
 洗床	xkwx
 行位导向块	xwdku
-限位螺丝	xwls
+逊啦	xwls
+限位螺丝	xwlsai
 行位镶针	xwxq
 行位座	xwzu
 预变性	ybxao
@@ -5211,6 +5214,7 @@ sort:	original
 流平胶	lpja
 难绷	nfbr
 难蚌	nfbra
+难崩	nfbrai
 都不想	dbxuv
 乱指挥	lfhu
 不明白有	bmby
@@ -5580,7 +5584,7 @@ sort:	original
 好白菜	hbca
 红宝书	hbeaoa
 憨八龟	hbgau
-货比货	hbhi
+货比货	hbhiv
 红白梅	hbmauv
 黑白棋	hbqiu
 红包雨	hbyau
@@ -9879,8 +9883,8 @@ Chaumet	emblio
 不让你快	brnkv
 不让你慢	brnmv
 不让我跑	brwp
-不让我来	brwl
-不如我来	brwlv
+不让我来	brwlv
+不如我来	brwlva
 不让我打	brwdv
 不如我打	brwdva
 别让我打	brwdo
@@ -10261,7 +10265,6 @@ Chaumet	emblio
 这必	febko
 这屄	febkoa
 为啥之前	wefq
-打上	dsepii
 转达这个意思	fdfsv
 知道这些资料	fdflu
 这笔帐	fbfou
@@ -10422,7 +10425,7 @@ Chaumet	emblio
 不好用了	bhylv
 就不好用	jbhyo
 戴耳朵	dxd
-戴耳朵上	dxdeu
+戴耳朵上	dxde
 谁这么无理	efmlo
 谁这么早	efmzo
 事情往往就是这样	efwyv
@@ -10478,7 +10481,6 @@ Chaumet	emblio
 木函	mjhf
 待在这里	dzflu
 呆在这里	dzfl
-到这	dzfev
 道这	dzfeo
 不谓侠	bwxvoi
 对于这样	dyfya
@@ -10577,7 +10579,7 @@ Chaumet	emblio
 不重要吗	bfymv
 别这样子好不好	bfyho
 办这样	bfya
-被这些	bfxo
+被这些	bfxoo
 别去想	bqx
 把这些	bfxi
 把这项	bfxio
@@ -10635,11 +10637,8 @@ Chaumet	emblio
 辩折	bmfeoi
 贬谪	bmfeao
 边折	bmfeai
-编着	bmqe
-变着	bmqeo
-变这	bmqeoo
 辨折	bmqeoi
-贬谪	bmqea
+贬谪	bmqeao
 边折	bmqeai
 变着法儿	bffx
 变着法儿	bfqxoo
@@ -10760,7 +10759,7 @@ Chaumet	emblio
 称这个	jqguo
 称这个	jfguo
 进去过	jqgvv
-趁这个	jqgv
+趁这个	jqgvo
 趁这个	jfgv
 就这个问题	jqgtoo
 就这个问题	jfgto
@@ -10877,7 +10876,7 @@ Chaumet	emblio
 这种改变	qfgbo
 这种观点	qfgdou
 照这个	qqgoo
-照这个	qfgo
+照这个	qfgoo
 请发给	qfgoa
 瞧瞧这个	qqqgi
 瞧瞧这个	qqfg
@@ -11640,8 +11639,7 @@ Chaumet	emblio
 色准	seqw
 又奶又狼	ynyl
 奶狼	nhlp
-贼臭	zwwd
-贼香	zwxxa
+贼臭	zwwda
 刚到家	gdji
 这可是	fkeo
 拉面店	lmdiv
@@ -13986,7 +13984,7 @@ PC模式	pcme
 慧泉	hbqtv
 还得是你	hdenv
 还得是您	hdenvu
-后纪	hdjku
+后纪	hdjkua
 号都没了	hdmlo
 喉片	hdpmo
 缓释胶囊	hejna
@@ -14116,7 +14114,6 @@ jer发紫	jxfza
 骑墙	qkqxav
 七筒	qktyv
 启子	qkzkoa
-千分	qmfnu
 前纪	qmjko
 真坑	qnkr
 枪斗	qxdd
@@ -14187,7 +14184,7 @@ jer发紫	jxfza
 按法	xffsi
 暗盒	xfheo
 暗纹	xfqnoa
-辛伐他汀	xftt
+辛伐他汀	xftto
 氨酚烷胺颗粒	xfwnu
 氨茶	xfwsu
 氨溴	xfxqu
@@ -14299,7 +14296,6 @@ jer发紫	jxfza
 地面水	dmev
 地平片	dppv
 都脱了	dtlu
-大兄弟	dxdvo
 地奥心血康	dxxk
 石斑鱼	ebyv
 蜀道山	edeio
@@ -14419,7 +14415,6 @@ jer发紫	jxfza
 蔓越莓	mymi
 没有肉	myravi
 念慈庵	ncxi
-你懂的	nddi
 捏手指	nefii
 你可以	nky
 你可以	nkyi
@@ -14743,6 +14738,7 @@ jer发紫	jxfza
 真丢人	qdru
 奇葩男	qpnv
 我鄙视你	wben
+我不是给你	wbenu
 嘲笑人	jxroui
 嘲笑人	wxrou
 极品男	jpnv
@@ -14872,7 +14868,6 @@ jer发紫	jxfza
 瞎激动	xjdia
 一臭	ykwdv
 丑货	wdhla
-不骂	bjmsv
 贱女人	jnraa
 蠢狗	jwgdv
 逼犯	bkffvu
@@ -15348,6 +15343,7 @@ jer发紫	jxfza
 装蠢	fxjwov
 我骗	wlpmu
 掀桌	xmfli
+我这一生	wfyeuo
 我这样傻	wfyeuo
 又瞎	ydxsai
 真的好人	qdhr
@@ -15501,8 +15497,8 @@ jer发紫	jxfza
 妈卖	msmh
 刀狗	dzgda
 这渣	fefso
-虎必	hjbki
-虎逼	hjbkiv
+虎必	hjbkio
+虎逼	hjbki
 虎币	hjbkiu
 超烦	jzffv
 装逼好	fbhova
@@ -16030,8 +16026,9 @@ jer发紫	jxfza
 饲shì料(sklcuo)	eklcu
 引擎	ybqbai
 引擎qìng(ybqg)	ybqbai
-奶栀	nhzka
-奶栀zhì(nhfkav)	nhzka
+乃子	nhzka
+奶栀	nhzkav
+奶栀zhì(nhfkav)	nhzkav
 戾气	nkqko
 戾lì气(lkqkou)	nkqko
 汲取	xkqlav
@@ -16106,6 +16103,16 @@ jer发紫	jxfza
 喵么思猫🐈要么羊🐏	wjhf
 泥地马🐎搞斜鸟🐧	wjhf
 奏莫狮🦁小懒蛭🪱	wjhf
+麒麟芯片，巴龙基带，灵犀通信	hqww
+鸿蒙座舱，途灵底盘，太昊车灯	hqww
+玄武车身，昆仑玻璃，盘古模型	hqww
+乾坤智驾，鲲鹏算力，巨鲸电池	hqww
+雪鸮算法，时空悬架，星河门把	hqww
+寰宇天窗，炎黄天线，泰山架构	hqww
+伏羲轮毂，共工防冻，二郎激光	hqww
+玉帝车门，大禹雨刮，女娲补胎	hqww
+沉香转向，牛魔坐垫，神龙头枕	hqww
+三清仪表，六道轮毂，四御香薰	hqww
 
 
 # 修改的单字表zf咱fh摘zfo寁zfi攒
@@ -16406,6 +16413,7 @@ jer发紫	jxfza
 
 
 #有趣俚语
+绘(tian)声(you)绘(jia)色(cu)	hehs
 秦始皇摸电门🦅🦄🌶	qeh
 曹操掉进人妻堆😌⇧+😋	czcz
 曹丕媳妇进菜园💉💪🥬	czpkv
@@ -17234,7 +17242,7 @@ all(凹)妈位指所有柄开的任何数量全部都吃，优先级最高，通
 山本领平	eblpiv
 纱仓真奈	ecqna
 山手梨爱	eelxii
-淑惠美娜	ehmna
+淑惠美娜	ehmnav
 神里绫华	ellho
 上妻宏光	eqhgi
 山崎将义	eqjyii
