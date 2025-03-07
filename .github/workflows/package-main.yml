@@ -23,4 +23,4 @@ jobs:
           !.git/**
           !.github/**
           !.git*
-          !yong.ini
+          !yong*.*

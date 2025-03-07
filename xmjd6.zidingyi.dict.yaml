@@ -8,6 +8,8 @@ sort:	original
 #单字→bb
 
 #自定义的词语
+的没	demw
+护鹭鹰龙	hlyli
 触类旁空	jlpku
 躺地	tpdku
 硬夸	ygkq
@@ -27,7 +29,7 @@ sort:	original
 抗脏污	kzwiu
 通义万相	tywxa
 压坐	yszlvi
-熬穿了	xwlvo
+熬穿了	xwlvoa
 不强势	bqeva
 更穷了	gqlvo
 阳畜	ypjja
@@ -420,7 +422,8 @@ Lossless Scaling	phqia
 不喜欢看	bxhk
 去噪	qlzz
 去造	qlzzv
-硬享	ygxxv
+硬想	ygxxv
+硬享	ygxxvo
 德艺	deykui
 双失	exeka
 德艺双失	eyeeu
@@ -1008,7 +1011,6 @@ Lossless Scaling	phqia
 剪口	jmkd
 剪口播	jkbo
 红袖招	hxfaoi
-速秒	sjmc
 互害	hjhh
 咣噹	gmdp
 咣噹	gxdp
@@ -1303,7 +1305,7 @@ Lossless Scaling	phqia
 但都是	ddeiuo
 但可能	dkni
 但可以	dkyi
-但应该	dyg
+但应该	dygio
 但还有	dhyi
 但还得	dhyiv
 但还是	dhei
@@ -1623,6 +1625,7 @@ Lossless Scaling	phqia
 肥汁	fwfku
 脸罩	lmfzu
 平律	pgll
+平落	pgllv
 平绿	pgllva
 把金	bsjbi
 简繁通打	jftdu
@@ -2050,7 +2053,8 @@ Lossless Scaling	phqia
 而且她	xqtvi
 而且听	xqtvio
 作的吗	zdmiu
-钓毛	dcmzi
+伄戼	dcmzi
+钓毛	dcmziu
 草味	czwwi
 嚼绿	jclloa
 蛇棺	eegti
@@ -2633,6 +2637,27 @@ Lossless Scaling	phqia
 一角龙	yjlvuv
 夫鲁	fjljvu
 夫鲁夫鲁	flflv
+锁刃龙	srli
+锁刃	slrni
+冻峰龙	dfloiv
+风铗龙	fjluiv
+风铗	frjsui
+狱焰蛸	yyxuo
+狱焰	ylyfuo
+沼喷龙	fplao
+找喷	fzpn
+沼喷	fzpna
+招喷	fzpni
+赫猿兽	hyevuo
+赫猿	heytvu
+波衣龙	bylaov
+波衣	blykao
+煌雷龙	hllovv
+煌雷	hxlwo
+沙海龙	ehlaav
+炎尾龙	ywloa
+缠蛙	jfwsai
+黑蚀	hwekiu
 樱火龙	yhlvo
 金火龙	jhlio
 黑角龙	hjliu
@@ -3029,6 +3054,7 @@ Lossless Scaling	phqia
 锋利度	fldiu
 购买记录	gmjl
 斩味	qfwwv
+斩位	qfwwvi
 弹刀	tfdza
 禁撞	jbfm
 禁撞	jbfx
@@ -3619,7 +3645,7 @@ Lossless Scaling	phqia
 针阀	qnfsio
 针规	qngbi
 水濑	eblhaa
-强的可怕	qdkpa
+强的可怕	qdkp
 好神奇	heqao
 送外卖	swm
 弹簧销	thxaui
@@ -4620,7 +4646,6 @@ Lossless Scaling	phqia
 到个	dzgev
 临期	lbqk
 还是会	hehv
-不搞	bjgz
 补搞	bjgzo
 移动大厅	yddtu
 电信大厅	dxdt
@@ -6078,7 +6103,7 @@ Lossless Scaling	phqia
 去哪吃	qnwvoo
 祝锵博	qqboiu
 张主任	qqra
-强忍住	qrqaa
+强忍住	qrqaai
 助燃物	qrwio
 前同事	qteoi
 群通知	qtfa
@@ -9505,7 +9530,7 @@ Lossless Scaling	phqia
 缓不过来	hbgla
 戴口罩	dkqu
 荣幸之至	rxff
-多人活动	drhdu
+多人活动	drhdui
 多人运动	drydui
 要不要你	ybyn
 要不要给	ybygv
@@ -9600,7 +9625,6 @@ mua~	mjms
 少妻	ezqkiv
 都不带犹豫	dbdyu
 程度上	jdeuoi
-屡战	llqf
 长串	jpwtu
 以此要挟	ycyxai
 因为需要	ywxy
@@ -10287,7 +10311,6 @@ Chaumet	emblio
 过这村没这店	gfcd
 干这种事	gffevo
 跟这个	gfgo
-干这个	gfgv
 果真这样	gffyi
 改这些	gfxa
 干这一杯	gfybv
@@ -10358,9 +10381,6 @@ Chaumet	emblio
 尽管这样	jgfya
 决这	jhfeo
 就好这一口	jhfkoa
-除这	jjfeao
-出这	jjfeao
-处这	jjfeuo
 解决这个	jjfg
 将趁这时候	jjfh
 解决这类问题	jjftu
@@ -12589,7 +12609,6 @@ Chaumet	emblio
 不是很想	behxv
 巴山楚水	bejea
 不是经常	bejjv
-百世快递	bekd
 宝生莉莉	bellou
 被胜利冲昏了头脑	belno
 别说了	belo
@@ -13999,7 +14018,7 @@ PC模式	pcme
 慧泉嫩芽	hqnyv
 哈啤	hspkoo
 幻纹	htwna
-藿香正气	hxqq
+藿香正气	hxqqi
 海尔兄弟	hxxd
 红中	hyfy
 好撑	hzjra
@@ -14073,7 +14092,7 @@ PC模式	pcme
 密印	mkybo
 马来酸依那普利片	mlspa
 摩埃	mlxhov
-目前来说	mqlei
+目前来说	mqle
 猛停	mrtg
 每日一问	mryw
 没人约我	mrywa
@@ -15968,6 +15987,16 @@ jer发紫	jxfza
 
 
 # 错字表
+扫帚	ezfdia
+扫sào帚(szfd)	ezfdia
+铳枪	tyqxi
+铳chǒng枪(wyqxi)	tyqxi
+着色	qeseou
+着zhuó色(flse)	qeseou
+着色	feseou
+着zhuó色(flse)	feseou
+着色	fzse
+着zhuó色(flse)	fzse
 人参	rnsn
 人参shēn(rnen)	rnsn
 人参	rncfi
@@ -16113,7 +16142,7 @@ jer发紫	jxfza
 玉帝车门，大禹雨刮，女娲补胎	hqww
 沉香转向，牛魔坐垫，神龙头枕	hqww
 三清仪表，六道轮毂，四御香薰	hqww
-
+闲逛中偶遇天赋型选手拼尽力无法战胜	enpg
 
 # 修改的单字表zf咱fh摘zfo寁zfi攒
 迅	xwauo
@@ -17518,4 +17547,3 @@ www.	www
 抱歉不能	bqbni
 抱歉不能指定快递	bqbd
 逾期未发货	yqwhi
-

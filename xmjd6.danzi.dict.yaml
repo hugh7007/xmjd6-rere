@@ -1,8 +1,11 @@
+# Rime dictionary
+# encoding: utf-8
 ---
 name: xmjd6.danzi
 version: "Q1"
 sort: original
 ...
+
 不	b
 宾	bb
 滨	bba
@@ -1024,7 +1027,7 @@ sort: original
 艕	bpuuov
 稖	bpuv
 稖	bpuvov
-邦	bpv
+棒	bpv
 榜	bpvo
 幇	bpvoi
 幇	bpvoia
@@ -1039,7 +1042,7 @@ sort: original
 埲	bpvovv
 磅	bpvu
 磅	bpvuov
-棒	bpvv
+邦	bpvv
 邦	bpvvai
 帮	bpvvia
 幚	bpvvu

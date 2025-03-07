@@ -151,6 +151,7 @@ engine:
 
 #导入符号
 punctuator:
+  digit_separator_action: commit  #临时修改的句号相关
   import_preset: xmjd6.symbols
 speller:
   auto_select: false
