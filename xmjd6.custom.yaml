@@ -21,7 +21,7 @@ patch:
   switches/@7/reset: 1     #[ 简约, 逐码展示 ]
 
   #流式功能配置，注释或删掉 <#> 即可 。配置表<↓注意数字>   流式：< 123456>前无<#>。  单字优先< 123456>前面都有<#>。   单字不优先<1>前无<#>  <23456>前面有<#>
-  engine/filters/@4: null                #<1><单字优先>
+  # engine/filters/@4: null                #<1><单字优先>
   # engine/processors/@4: null           #<2><流式>
   # engine/processors/@5: null           #<3><流式>
   # translator/enable_sentence: true     #<4><流式>
@@ -38,14 +38,6 @@ patch:
     # Eisu_toggle: clear   #模拟映射
 
 
-  "switcher/save_options/+":    #开关记忆 → switches本地持久化
-    - ascii_punct  #全角, 半角
-    - jffh  #简体, 繁體
-    - mars  #地球文, 火星文 
-    - emoji_cn    #表情展示
-    - embeded_cands  #嵌入候选
-    - sbb_hint   #630提示
-    - completion  #逐码展示
 
  #switches本地持久化，不会随着部署重置开关，而会保持部署前的设置
  #原因:每次导入词库到输入法，一部署开关就变回去了，如果需要每次重新设置就反注释

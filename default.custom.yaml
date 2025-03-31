@@ -3,3 +3,21 @@ patch:
     - schema: xmjd6
   # style/horizontal: false  #默认设置，竖排为false横排为true，星猫键道的此项修改需要去xmjd6.custom.yaml
   # menu/page_size: 5   #默认设置，候选项数，星猫键道的此项修改需要去xmjd6.custom.yaml
+
+  #方案选单相关
+  "switcher/hotkeys":  # 這個列表裏每項定義一個快捷鍵，使哪個都中
+    - F4
+    - Control+grave
+    # - Alt+grave
+    - Control+Shift+grave
+  "switcher/save_options/+":    #开关记忆 → switches本地持久化
+    - ascii_punct  #全角, 半角
+    - jffh  #简体, 繁體
+    - mars  #地球文, 火星文 
+    - emoji_cn    #表情展示
+    - embeded_cands  #嵌入候选
+    - sbb_hint   #630提示
+    - completion  #逐码展示
+  fold_options: false            # 呼出时是否折叠，多方案时建议折叠 true ，一个方案建议展开 false
+  abbreviate_options: true      # 折叠时是否缩写选项
+  option_list_separator: ' / '  # 折叠时的选项分隔符
