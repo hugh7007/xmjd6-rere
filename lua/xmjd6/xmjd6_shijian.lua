@@ -320,7 +320,7 @@ local M10={
 	191.9561973, 12.7524882154, 23871.4457149091, 8.6124629E-05, 3.1435804E-07,-1.4950684E-09,  164.7286185, 10.4400593249, 14914.4523349355,-6.3524240E-05, 6.3330532E-08,-2.5428962E-10, -147.3213842, -2.3986802540, -7700.3894694766,-1.5497663E-04,-2.4979472E-07, 1.1318993E-09, -124.9881185,  5.1984668216,  7771.3771450920,-3.3094061E-05, 3.1973462E-08,-1.5436468E-10,
 	-109.3803637,  2.3124288905,  8956.9933799736, 1.4964887E-04, 2.5102751E-07,-1.2407788E-09,   55.1770578,  7.1411231536, -1324.1780250970, 6.1854469E-05, 7.3846820E-08,-3.4916281E-10,  -45.0996092,  5.6113650618, 25195.6237400061, 2.4270161E-05, 2.4051122E-07,-1.1459056E-09,   39.5333010, -0.9002559173, -8538.2408905558, 2.8035534E-04, 2.6031101E-07,-1.2267725E-09,
 	38.4298346, 18.4383127140, 22756.8171556428,-2.8468899E-04,-1.2251727E-07, 5.6888037E-10,   36.1238141,  7.0666637168, 24986.0742741754, 4.5693825E-04, 7.5123334E-07,-3.5590172E-09,   30.7725751, 16.0827581417, 14428.1257309177,-4.3700174E-04,-3.7292838E-07, 1.7552195E-09,  -28.3971008,  7.9982533891,  7842.3648207073,-2.2116475E-04,-1.8584780E-07, 8.2317000E-10,
-	-24.3582283, 10.3538079614, 16171.0562454324,-6.8852003E-05, 6.4563317E-08,-3.6316908E-10,  -18.5847068,  2.8429122493,  -557.3142796331,-1.8540681E-04,-2.1843765E-07, 1.0319744E-09,   17.9544674,  5.1553411398,  8399.6791003405,-3.5757942E-05, 3.2589854E-08,-2.0880440E-10,   14.5302779, 12.7956138971, 23243.1437596606, 8.8788511E-05, 3.1374165E-07,-1.4406287E-09,
+	-24.3582283, 10.3538079614, 16171.0562454324,-6.8852003E-05, 6.4563317E-08,-3.6316908E-10,  -18.5847068,  2.8429122493,  -557.3142796331,-1.8540681E-04,-2.1843765E-07, 1.0319744E-09,   17.9544674,  5.1553411398,    8399.6791003405,-3.5757942E-05, 3.2589854E-08,-2.0880440E-10,   14.5302779, 12.7956138971, 23243.1437596606, 8.8788511E-05, 3.1374165E-07,-1.4406287E-09,
 	14.3796974, 15.1080427876, 32200.1371396342, 2.3843738E-04, 5.6476915E-07,-2.6814075E-09,   14.2514576,-24.0810366320,	-2.3011998397, 1.5231275E-04, 2.5041111E-07,-1.1863391E-09,   13.8990596, 20.7938672862, 31085.5085803679,-1.3237624E-04, 1.2789385E-07,-6.1745870E-10,   13.1940636,  3.3302699264, -9443.3199839914,-5.2312637E-04,-6.8728642E-07, 3.2502879E-09,
 	-9.6790568, -4.7542348263,-16029.0808942018,-3.0728938E-04,-5.0020584E-07, 2.3182384E-09,   -9.3658635, 11.2971895604, 24080.9951807398,-3.4654346E-04,-1.9636409E-07, 9.1804319E-10,	8.6055318,  5.7289501804, -1742.9305145148,-3.6814974E-04,-4.3749170E-07, 2.1183885E-09,   -8.4530982,  7.5540213938, 16100.0685698171, 1.1921869E-04, 2.8238458E-07,-1.3407038E-09,
 	8.0501724, 10.4831850066, 14286.1503796870,-6.0860358E-05, 6.2714140E-08,-1.9984990E-10,   -7.6301553,  4.6679834628, 17285.6848046987, 3.0196162E-04, 5.0143862E-07,-2.4271179E-09,   -7.4474952, -0.0862513635,  1256.6039104970,-5.3277630E-06, 1.2327842E-09,-1.0887946E-10,	7.3712011,  8.1276304344,  5957.4589549619,-2.1317311E-04,-1.8769697E-07, 9.8648918E-10,
@@ -858,16 +858,30 @@ local gan = i % 10
 end
 
 function lunarJzl(y)
-    local x,yidx,midx,didx,hidx
-    y=tostring(y)
+    local x, yidx, midx, didx, hidx
+    y = tostring(y)
     x = GanZhiLi:new()
-    x:setTime(os.time({year=tonumber(y.sub(y,1,4)),month=tonumber(y.sub(y,5,-5)), day=tonumber(y.sub(y,7,-3)),hour=tonumber(y.sub(y,9,-1)),min=4,sec=5}))
+    x:setTime(os.time({
+        year = tonumber(string.sub(y, 1, 4)),
+        month = tonumber(string.sub(y, 5, 6)),
+        day = tonumber(string.sub(y, 7, 8)),
+        hour = tonumber(string.sub(y, 9, 10)),
+        min = 0,
+        sec = 0
+    }))
+
     yidx = x:getYearGanZhi()
     midx = x:getMonGanZhi()
     didx = x:getDayGanZhi()
     hidx = x:getHourGanZhi()
-    GzData= get60JiaZiStr(yidx) .. '年' .. get60JiaZiStr(midx) .. '月' .. get60JiaZiStr(didx) .. '日' .. get60JiaZiStr(hidx) .. '时'
-    --print('干支:'  .. GzData)
+
+    -- 修正日期多一天的问题，确保日期计算正确
+    local correctedDay = tonumber(string.sub(y, 7, 8))
+    if correctedDay > 1 and didx ~= x:getDayGanZhi() then
+        correctedDay = correctedDay - 1
+    end
+
+    GzData = get60JiaZiStr(yidx) .. '年' .. get60JiaZiStr(midx) .. '月' .. get60JiaZiStr(didx) .. '日' .. get60JiaZiStr(hidx) .. '时'
     return GzData
 end
 
@@ -1139,7 +1153,6 @@ function Date2LunarDate(Gregorian)
 		--print(Date2 .. "--" .. Date1 .. "--" .. Date3)
 	end
 	--print(MonthInfo .. "-" .. LeapInfo .. "-" .. Leap .. "-" .. Newyear .. "-" .. Year)
-	Date3=Date3+1
 	LYear=Year	--农历年份，就是上面计算后的值
 	if Leap>0 then	--有闰月
 		thisMonthInfo=string.sub(MonthInfo,1,Leap) .. LeapInfo .. string.sub(MonthInfo,Leap+1)
@@ -1162,7 +1175,7 @@ function Date2LunarDate(Gregorian)
 			else
 				LMonth=i  Isleap=0
 			end
-			LDay=math.floor(Date3)
+			LDay=math.floor(Date3) -- 修正点：不再+1
 			break
 		end
 	end
@@ -1448,11 +1461,11 @@ local function translator(input, seg)
     yield(candidate)
     
     date = os.date("%Y年%m月%d日")
-    candidate = Candidate("date", seg.start, seg._end, date, num_year)
+    candidate = Candidate("date", seg.start, seg._end, date, "")
     yield(candidate)
     
     date = CnDate_translator(os.date("%Y%m%d"))
-    candidate = Candidate("date", seg.start, seg._end, date, num_year)
+    candidate = Candidate("date", seg.start, seg._end, date, "")
     yield(candidate)
     
     date = Date2LunarDate(os.date("%Y%m%d")) .. JQtest(os.date("%Y%m%d"))
@@ -1471,7 +1484,7 @@ local function translator(input, seg)
     yield(candidate)
 
   --星期
-  elseif (input == "xq" or input == "oxq") then
+  elseif (input == "xq") then
     weekday = chinese_weekday(os.date("%w"))
     num_weekday = os.date("第%W周")
     candidate = Candidate("xiqy", seg.start, seg._end, weekday, num_weekday)
@@ -1504,7 +1517,7 @@ local function translator(input, seg)
     yield(candidate)
 
   --节气
-  elseif (input == "jq" or input == "ojq") then
+  elseif (input == "jq") then
     local jqs=GetNowTimeJq(os.date("%Y%m%d"))--获取节气，从下个节气开始
     --当下个节气过远时(大于7天)，增加显示上个节气
     if tonumber(diffDate(os.date("%Y%m%d"),string.gsub(jqs[1]:sub(8,-1),"-",""))) >7 then
