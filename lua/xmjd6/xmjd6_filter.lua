@@ -1,92 +1,81 @@
---[[
-    https://github.com/xkjd27/rime_jd27c/blob/e38a8c5d010d5a3933e6d6d8265c0cf7b56bfcca/rime/lua/jd27_hint.lua
-    by TsFreddie
-    - 简码 630 提示
-    - 单字模式
---]]
-
-local function startswith(str, start)
-    return string.sub(str, 1, string.len(start)) == start
+-- 优化版filter  来源：@浮生 https://github.com/wzxmer/rime-txjx
+local function escape_pattern(s)
+    return s and s:gsub("([%-%]%^])", "%%%1") or ""
 end
 
-local function hint(cand, input, env)
-    -- 简码提示
-    if utf8.len(cand.text) <= 1 then
-        return 0
+local function startswith(str, start)
+    if type(str) ~= "string" or type(start) ~= "string" then return false end
+    if #start == 0 then return true end
+    if #str < #start then return false end
+    return string.sub(str, 1, #start) == start
+end
+
+local function hint(cand, env)
+    if utf8.len(cand.text) < 2 then
+        return false
     end
+    local context = env.engine.context
     local reverse = env.reverse
-    local s = env.s
-    local b = env.b
-
+    local s = env.s and escape_pattern(env.s) or ''
+    local b = env.b and escape_pattern(env.b) or ''
+    if s == '' and b == '' then return false end
+    
     local lookup = " " .. reverse:lookup(cand.text) .. " "
-    local sbb = string.match(lookup, " (["..s.."]["..b.."]+) ")
-    local short = string.match(lookup, " (["..s.."]["..s.."]) ") or
-                string.match(lookup, " (["..s.."]["..s.."]["..b.."]) ") or
+    local short
+    
+    -- 严格保持原始匹配顺序
+    if #s > 0 and #b > 0 then
+        short = string.match(lookup, " (["..s.."]["..s.."]["..b.."]) ") or
                 string.match(lookup, " (["..b.."]["..b.."]["..b.."]) ") or
-                string.match(lookup, " (["..b.."]["..b.."]) ")
-
-    if string.len(input) > 1 then
-        if sbb and not startswith(sbb, input) then
-            cand:get_genuine().comment = cand.comment .. "= " .. sbb .. ""
-            return 1
-        end
-
-        if short and not startswith(short, input) then
-            cand:get_genuine().comment = cand.comment .. "= " .. short .. ""
-            return 2
-        end
-
+                string.match(lookup, " (["..s.."]["..b.."]+) ") or
+                string.match(lookup, " (["..s.."]["..s.."]) ")
+    elseif #s > 0 then
+        short = string.match(lookup, " (["..s.."]["..s.."]) ")
+    elseif #b > 0 then
+        short = string.match(lookup, " (["..b.."]["..b.."]) ")
     end
+    
+    local input = context.input 
+    if short and utf8.len(input) > utf8.len(short) and not startswith(short, input) then
+        cand:get_genuine().comment = cand.comment .. " = " .. short
+        return true
+    end
+    return false
+end
 
-    return 0
+local function danzi(cand)
+    if utf8.len(cand.text) < 2 then
+        return true
+    end
+    return false
 end
 
 local function commit_hint(cand, hint_text)
-    -- 顶功提示
-    cand:get_genuine().comment = hint_text .. cand.comment
-end
-
-local function is_danzi(cand)
-    return utf8.len(cand.text) == 1
+    cand:get_genuine().comment = hint_text .. (cand.comment or "")
 end
 
 local function filter(input, env)
-    local context = env.engine.context    
+    local is_danzi = env.engine.context:get_option('danzi_mode')
+    local is_on = env.engine.context:get_option('sbb_hint')
     local hint_text = env.engine.schema.config:get_string('hint_text') or '🚫'
-    local is_hint_on = context:get_option('wxw_hint') or context:get_option('sbb_hint')
-    local is_completion_on = context:get_option('completion')
-    local is_danzi_on = context:get_option('danzi_mode')
-    local input_text = context.input
-    local no_commit = string.len(input_text) < 4 and string.match(input_text, "^["..env.s.."]+$")
-    local has_table = false
     local first = true
-
+    local input_text = env.engine.context.input
+    local s = env.s and escape_pattern(env.s) or ''
+    local b = env.b and escape_pattern(env.b) or ''
+    
+    local no_commit = (input_text:len() < 4 and s ~= '' and input_text:match("^["..s.."]+$")) or 
+                     (b ~= '' and input_text:match("^["..b.."]+$"))
+    
     for cand in input:iter() do
-        if no_commit and first then
+        if first and no_commit then
             commit_hint(cand, hint_text)
         end
         first = false
-        if cand.type == 'table' then
-            if is_hint_on then
-                hint(cand, input_text, env)
+        
+        if not is_danzi or danzi(cand) then
+            if is_on then
+                hint(cand, env)
             end
-
-            yield(cand)
-            has_table = true
-        elseif cand.type == 'completion' then
-            if is_completion_on then
-                if not is_danzi_on or is_danzi(cand) then
-                    yield(cand)
-                end
-            elseif not has_table then
-                if not is_danzi_on or is_danzi(cand) then
-                    yield(cand)
-                    return
-                end
-            else
-                return
-            end
-        else
             yield(cand)
         end
     end
@@ -96,10 +85,9 @@ local function init(env)
     local config = env.engine.schema.config
     local dict_name = config:get_string("translator/dictionary")
 
-    env.b = config:get_string("topup/topup_with")
-    env.s = config:get_string("topup/topup_this")
+    env.b = config:get_string("topup/topup_with") or ""
+    env.s = config:get_string("topup/topup_this") or ""
     env.reverse = ReverseLookup(dict_name)
- --   env.reverse = ReverseDb("build/".. dict_name .. ".reverse.bin")
 end
 
 return { init = init, func = filter }

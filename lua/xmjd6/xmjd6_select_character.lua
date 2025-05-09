@@ -1,76 +1,61 @@
--- 以词定字
--- 来源 https://github.com/BlindingDark/rime-lua-select-character
--- 删除了默认按键 [ ]，和方括号翻页冲突，需要在 key_binder 下指定才能生效
--- 20230526195910 不再错误地获取commit_text，而是直接获取get_selected_candidate().text。
-local function utf8_sub(s, i, j)
+-- 优化版select_character  来源：@浮生 https://github.com/wzxmer/rime-txjx
+local function utf8_safe_sub(s, i, j)
+    if type(s) ~= "string" or s == "" then return "" end
+    
     i = i or 1
     j = j or -1
 
-    if i < 1 or j < 1 then
-        local n = utf8.len(s)
-        if not n then
-            return nil
-        end
-        if i < 0 then
-            i = n + 1 + i
-        end
-        if j < 0 then
-            j = n + 1 + j
-        end
-        if i < 0 then
-            i = 1
-        elseif i > n then
-            i = n
-        end
-        if j < 0 then
-            j = 1
-        elseif j > n then
-            j = n
-        end
-    end
+    -- 获取UTF-8长度并处理负索引
+    local len = utf8.len(s) or 0
+    if len == 0 then return "" end
 
-    if j < i then
-        return ""
-    end
+    i = (i < 0) and math.max(len + 1 + i, 1) or math.min(i, len)
+    j = (j < 0) and math.max(len + 1 + j, 1) or math.min(j, len)
 
-    i = utf8.offset(s, i)
-    j = utf8.offset(s, j + 1)
+    -- 边界检查
+    if j < i then return "" end
 
-    if i and j then
-        return s:sub(i, j - 1)
-    elseif i then
-        return s:sub(i)
-    else
-        return ""
+    -- 获取字节偏移
+    local byte_start = utf8.offset(s, i)
+    local byte_end = utf8.offset(s, j + 1)
+
+    if byte_start then
+        return byte_end and s:sub(byte_start, byte_end - 1) or s:sub(byte_start)
     end
+    return ""
 end
 
 local function select_character(key, env)
     local engine = env.engine
     local context = engine.context
-    local commit_text = context:get_commit_text()
     local config = engine.schema.config
 
-    -- local first_key = config:get_string('key_binder/select_first_character') or 'bracketleft'
-    -- local last_key = config:get_string('key_binder/select_last_character') or 'bracketright'
+    -- 配置读取优化（带默认值）
     local first_key = config:get_string('key_binder/select_first_character')
     local last_key = config:get_string('key_binder/select_last_character')
 
+    -- 快速失败检查
+    if not (first_key or last_key) or not context:has_menu() then
+        return 2 -- kNoop
+    end
 
-    if context:has_menu() and context:get_selected_candidate().text ~= '「' then
-        if (key:repr() == first_key) then
-            if (context:get_selected_candidate().text) then
-                engine:commit_text(utf8_sub(context:get_selected_candidate().text, 1, 1))
-                context:clear()
-            end
-            return 1 -- kAccepted
-        elseif (key:repr() == last_key) then
-            if (context:get_selected_candidate().text) then
-                engine:commit_text(utf8_sub(context:get_selected_candidate().text, -1, -1))
-                context:clear()
-            end
-            return 1 -- kAccepted
-        end
+    local selected = context:get_selected_candidate()
+    if not selected or selected.text == "「" then
+        return 2 -- kNoop
+    end
+
+    local key_repr = key:repr()
+    local text = selected.text
+
+    -- 执行选字逻辑
+    if first_key and key_repr == first_key then
+        engine:commit_text(utf8_safe_sub(text, 1, 1))
+        context:clear()
+        return 1 -- kAccepted
+    elseif last_key and key_repr == last_key then
+        engine:commit_text(utf8_safe_sub(text, -1, -1))
+        context:clear()
+        return 1 -- kAccepted
     end
 
     return 2 -- kNoop
