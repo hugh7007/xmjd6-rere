@@ -1,32 +1,42 @@
-﻿# ==================== Rime 星猫键道输入方案配置 ====================
+﻿# Rime schema settingsjffh
 # encoding: utf-8
-# 版本: USER_BASE_INTEGRATED_2.4
-# 作者: Proud丶Cat、热热佬、千年蟲
-# 源自: 星空键道6.2 → 🐈星猫键道6.3
-# 教程: https://hu0w1jn4xq.feishu.cn/docx/ZgQ8deGPlozhWCxOyeucBvHJnPe
-# 仓库: https://github.com/hugh7007/xmjd6-rere
+# 方案维护者：Proud丶Cat、热热佬、千年蟲
+# 方案溯源：星空键道6.2 →  🐈星猫键道6.3
+# 教程链接：https://hu0w1jn4xq.feishu.cn/docx/ZgQ8deGPlozhWCxOyeucBvHJnPe
+# 方案 GitHub 仓库：https://github.com/hugh7007/xmjd6-rere
+# 本方案特色：
+#  增加百万词语，优化打字体验。
+# o键超级繁体(全字集)，让繁体字特殊字不再属于形码专利。
+# v键开启二分反查功能（通过键道双拼拆分文字可打全字集）。遇到不会读的字也可以随时随地打出全字集。
+# u键开启全拼反查功能拼音查全码，新增笔画提示。
+# i键开启英文单词联想输入模式。
+# a键开启连打模式，自造词模式。
 
 schema:
   schema_id: xmjd6
   name: 星🐈键道
-  icon: "xmjd6.ico"
-  version: "20250515"
+  icon: ""
   author:
-    - Proud丶Cat
-    - 热热佬
-    - 千年蟲
+    - 方案维护者：Proud丶Cat、热热佬、千年蟲
   description: |
-    方案溯源：星空键道6.2 → 🐈星猫键道6.3
+    方案溯源：星空键道6.2 →  🐈星猫键道6.3
     本方案特色：
-    - 增加百万词语，优化打字体验。
-    - o键超级繁体(全字集)，让繁体字特殊字不再属于形码专利。
-    - v键开启二分反查功能（通过键道双拼拆分文字可打全字集）。遇到不会读的字也可以随时随地打出全字集。
-    - u键开启全拼反查功能拼音查全码，新增笔画提示。
-    - i键开启英文单词联想输入模式。
-    - a键开启连打模式，自造词模式。
-  dependencies: [xmjd6.cx, pinyin_simp, liangfen]
+    增加百万词语，优化打字体验。
+    o键超级繁体(全字集)，让繁体字特殊字不再属于形码专利。
+    v键开启二分反查功能（通过键道双拼拆分文字可打全字集）。遇到不会读的字也可以随时随地打出全字集。
+    u键开启全拼反查功能拼音查全码，新增笔画提示。
+    i键开启英文单词联想输入模式。
+    a键开启连打模式，自造词模式。
+  version: "20250518"
+  dependencies:
+    - xmjd6.cx
+    - pinyin_simp
+    - liangfen
+    - xmjd6.en
+    - xmjd6.gbk
 
-# ==================== 布局与顶功配置 ====================
+
+# Layout config
 layout:
   topup:
     topup_this: "bcdefghjklmnpqrstwxyz"
@@ -41,136 +51,137 @@ layout:
     - derive/^([bcdefghjklmnpqrstwxyz;`]{2}[avuio`]{4}).(.*)$/$1`$2/
     - derive/^([bcdefghjklmnpqrstwxyz;`]{2}[avuio`]{5}).$/$1`/
     - derive/^[bcdefghjklmnpqrstwxyz;]{2}([avuio`]*)$/``$1/
+
   patterns:
     special: "^(?:;?[avuio])[a-z]{0,}"
 
-# ==================== 输入法功能开关 ====================
 switches:
-  - name: ascii_mode      # 中/西文切换
+  - name: ascii_mode  # custom.yaml的开关0
     reset: 0
     states: [ 中文, 西文 ]
-  - name: ascii_punct     # 全/半角标点
+  - name: ascii_punct  # custom.yaml的开关1
     reset: 0
     states: [ 全角, 半角 ]
-  - name: jffh            # 简/繁体切换
+  - name: jffh  # custom.yaml的开关2
     reset: 0
     states: [ 简体, 繁體 ]
-  - name: mars            # 地球文/火星文
+  - name: mars # custom.yaml的开关3
     reset: 0
-    states: [ 地球文, 火星文 ]
-  - name: emoji_cn        # 表情符号展示
-    reset: 1
+    states: [ 地球文, 火星文 ] #火星文
+  - name: emoji_cn   #Emoji开关 # custom.yaml的开关4
+    reset: 1              # 1为默认开启
     states: [ 简约, 表情展示 ]
-  - name: embeded_cands   # 嵌入候选
+  - name: embeded_cands # custom.yaml的开关5
     reset: 0
-    states: [ 普通, 嵌入候选 ]
-  - name: sbb_hint        # 630提示
+    states: [普通, 嵌入候选]
+  - name: sbb_hint # custom.yaml的开关6
     reset: 1
     states: [ 简约, 630提示 ]
-  - name: completion      # 逐码展示
+  - name: completion
     reset: 1
     states: [ 简约, 逐码展示 ]
 
-# ==================== 输入法核心配置 ====================
+
+
+  # - name: full_shape
+  #   states: [ 半角, 全角 ]
+  #提示词开关在下方，请根据注释查找
+
 engine:
   processors:
     - lua_processor@*xmjd6/xmjd6_select_character  # 以词定字
-    - ascii_composer       # 英文模式处理
-    - recognizer           # 特殊模式识别
-    - key_binder           # 快捷键绑定
-    - lua_processor@*xmjd6/xmjd6_smart_2           # 智能次选
-    - lua_processor@*xmjd6/xmjd6_topup_processor   # 顶功输入
-    - lua_processor@*xmjd6/add_ge                  # 加个
-    - lua_processor@*xmjd6/bianzi                  # 变字
-    - speller              # 拼写处理
-    - punctuator           # 标点处理
-    - selector             # 候选选择
-    - navigator            # 导航键
-    - express_editor       # 快速编辑
+    - ascii_composer
+    - recognizer
+    - key_binder    
+    - lua_processor@*xmjd6/xmjd6_smart_2    #这个注释后不会顶功，使用流式请注释这两行
+    - lua_processor@*xmjd6/xmjd6_topup_processor   #这个注释后不会顶功，使用流式请注释这两行
+    - lua_processor@*xmjd6/add_ge # 可以在词的首字后加 "个"字，比如 吃饭-> 吃个饭
+    - lua_processor@*xmjd6/bianzi
+    - speller
+    - punctuator
+    - selector
+    - navigator
+    - express_editor
   segmentors:
-    - ascii_segmentor      # 英文分段
-    - matcher              # 模式匹配
-    - affix_segmentor@pinyin_simp    # 全拼前缀
-    - affix_segmentor@xmjd6en        # 英文前缀
-    - affix_segmentor@quanpinerfen   # 二分前缀
-    - affix_segmentor@xmjdWXYZ       # 造词前缀
-    - affix_segmentor@xmjd6gbk       # GBK前缀
-    - abc_segmentor        # 字母分段
-    - punct_segmentor      # 标点分段
-    - fallback_segmentor   # 回退分段
+    - ascii_segmentor
+    - matcher
+    - affix_segmentor@pinyin_simp
+    - affix_segmentor@xmjd6en
+    - affix_segmentor@quanpinerfen
+    - affix_segmentor@xmjdWXYZ
+    - affix_segmentor@xmjd6gbk
+    - abc_segmentor
+    - punct_segmentor
+    - fallback_segmentor
   translators:
-    - lua_translator@*xmjd6/xmjd6_jisuanqi         # 计算器
-    - lua_translator@*xmjd6/xmjd6_shijian          # 时间
-    - lua_translator@*xmjd6/xmjd6_zimu_translator  # 字母
-    - lua_translator@*xmjd6/xmjd6_shuzi            # 数字
-    - lua_translator@*xmjd6/unicode                # Unicode
-    - punct_translator     # 标点翻译
-    - table_translator     # 主词典
-    - reverse_lookup_translator@reverse_lookup     # 反查
-    - table_translator@xmjdWXYZ                    # 造词
-    - table_translator@xmjdYY                      # Y词典
-    - table_translator@xmjdZZ                      # Z词典
-    - table_translator@xmjdWW                      # W词典
-    - table_translator@xmjd6_user                  # 用户词典
-    - history_translator@repeat_history            # 历史记录
-    - history_translator@repeat_history2           # 历史记录2
-    - script_translator@quanpinerfen               # 二分翻译
-    - script_translator@pinyin_simp                # 全拼翻译
-    - table_translator@xmjd6en                     # 英文词典
-    - script_translator@xmjd6gbk                   # GBK翻译
-    - lua_translator@*xmjd6/force_gc               # GC
+    - lua_translator@*xmjd6/xmjd6_jisuanqi
+    - lua_translator@*xmjd6/xmjd6_shijian
+    - lua_translator@*xmjd6/xmjd6_zimu_translator
+    - lua_translator@*xmjd6/xmjd6_shuzi
+    - lua_translator@*xmjd6/unicode      # 使用< & >开头启动
+    - punct_translator
+    - table_translator
+    - reverse_lookup_translator
+    - table_translator@xmjdWXYZ
+    - table_translator@xmjdYY
+    - table_translator@xmjdZZ
+    - table_translator@xmjdWW
+    - table_translator@xmjd6_user
+    - history_translator@repeat_history
+    - history_translator@repeat_history2
+    - script_translator@quanpinerfen
+    - script_translator@pinyin_simp
+    - table_translator@xmjd6en
+    - script_translator@xmjd6gbk
+    - lua_translator@*xmjd6/force_gc
   filters:
-    - simplifier           # 简繁转换
-    - reverse_lookup_filter@pinyin_simp_lookup     # 全拼反查
-    - reverse_lookup_filter@quanpinerfen_lookup    # 二分反查
-    - reverse_lookup_filter@gbk_lookup             # GBK反查
-    - lua_filter@*xmjd6/xmjd6_single_char          # 单字优先
-    - lua_filter@*xmjd6/xmjd6_embeded_cands        # 内嵌候选
-    - lua_filter@*xmjd6/xmjd6_completion           # 辅助码提示
-    - lua_filter@*xmjd6/add_space                  # 自动空格
-    - simplifier@emoji_cn  # 表情符号
-    - simplifier@jffh      # 简繁转换
-    - simplifier@ascii_punct  # 英文标点
-    - simplifier@mars      # 火星文
-    - lua_filter@*xmjd6/xmjd6_filter               # 自定义过滤
-    - uniquifier           # 去重
+    - simplifier
+    - reverse_lookup_filter@pinyin_simp_lookup
+    - reverse_lookup_filter@quanpinerfen_lookup
+    - reverse_lookup_filter@gbk_lookup
+    - lua_filter@*xmjd6/xmjd6_single_char #候选单字优先
+    - lua_filter@*xmjd6/xmjd6_filter
+    - simplifier@emoji_cn
+    - simplifier@jffh
+    - simplifier@ascii_punct
+    - simplifier@mars #火星文
+    - lua_filter@*xmjd6/xmjd6_embeded_cands@embeded_cands #嵌入候选
+    - lua_filter@*xmjd6/add_space # \n 回车| 空格
+    - uniquifier
 
-# ==================== 标点符号配置 ====================
+#导入符号
 punctuator:
   import_preset: xmjd6.symbols
-
-# ==================== 拼写处理 ====================
 speller:
   auto_select: false
-  alphabet: "zyxwvutsrqponmlkjihgfedcba;'"
+  alphabet: "zyxwvutsrqponmlkjihgfedcba;'" # 【"zyxwvutsrqponmlkjihgfedcba;'"】 修改为【"zyxwvutsrqponmlkjihgfedcba"】会直接上屏，但无法使用；+字母打快符。记得修改348、349行
   initials: "abcdefghijklmnopqrstuvwxyz;'"
   delimiter: " '"
-  algebra:
-    - derive/[0-9]$//      # 过滤数字
-    - derive|^;|/|         # 处理分号开头
+  algebra: 
+    - derive/[0-9]$//  #无数字
+    - derive|^;|/|
 
-# ==================== 词典配置 ====================
 translator:
   dictionary: xmjd6.extended
   enable_charset_filter: false
-  enable_completion: true    # 启用提示
+  enable_completion: true   #提示码开关，不需要候选词提示请改false
   enable_encoder: true
-  enable_sentence: false     # 禁用整句
-  enable_user_dict: false    # 禁用用户词典
+  enable_sentence: false    #要想使用流式请改为true
+  enable_user_dict: false   #要想使用流式请改为true
   encode_commit_history: true
   max_phrase_length: 6
   initial_quality: 0
   comment_format:
-    - xform/[0-9]//         # 过滤数字注释
+#    - xform|~||
+    - xform/[0-9]//  #无数字
 
-# ==================== 特殊功能配置 ====================
 repeat_history:
-  input: i       # 触发键
-  size: 3        # 记忆数量
+  input: i #重复上次上屏内容
+  size: 3
   initial_quality: 10000
 
 repeat_history2:
-  input: ;f
+  input: ;f #重复上次上屏内容
   size: 3
   initial_quality: 10000
 
@@ -178,23 +189,25 @@ emoji_cn:
   opencc_config: xmjd6/xmjd6_emoji.json
   option_name: emoji_cn
   comment_format:
-    - xform/.*/ /
+  #  - xform/.*//   #不会有透明的文字显示
+    - xform/.*/ /  #原始的后面会有长度显示
+  # tips: all  #不显示表情备注
 
 jffh:
   opencc_config: xmjd6/xmjd6_s2tw.json
   option_name: jffh
 
 mars:
-  opencc_config: xmjd6/xmjd6_martian.json
+  opencc_config: xmjd6/xmjd6_martian.json 
   option_name: mars
 
 ascii_punct:
   option_name: ascii_punct
 
-# ==================== 反查配置 ====================
+#↓gbk反查方案
 gbk_lookup:
-  tags: [xmjd6gbk_reverse_lookup]
-  dictionary: xmjd6.cx
+  tags: [xmjd6gbk]
+  dictionary: xmjd6.cx #反查其码
   overwrite_comment: true
 
 xmjd6gbk:
@@ -203,12 +216,14 @@ xmjd6gbk:
   enable_sentence: true
   enable_completion: true
   enable_user_dict: false
+  # comment_format:
+  #   - xform/.*//
   prefix: "o"
-  tips: "〔GBK字集〕"
+  # tips: "〔GBK字集〕"
 
 pinyin_simp_lookup:
-  tags: [pinyin_simp_reverse_lookup]
-  dictionary: xmjd6.cx
+  tags: [pinyin_simp]
+  dictionary: xmjd6.cx #反查其码
   overwrite_comment: true
 
 pinyin_simp:
@@ -224,7 +239,7 @@ pinyin_simp:
     - xform/([jqxy])v/$1u/
   prefix: "u"
   tips: "〔全拼〕"
-
+  
 xmjd6en:
   tag: xmjd6en
   dictionary: xmjd6.en
@@ -236,9 +251,10 @@ xmjd6en:
   prefix: "i"
   tips: "〔单词〕"
 
+#↓二分反查方案
 quanpinerfen_lookup:
-  tags: [quanpinerfen_reverse_lookup]
-  dictionary: xmjd6.cx
+  tags: [quanpinerfen]
+  dictionary: xmjd6.cx #反查其码
   overwrite_comment: true
 
 quanpinerfen:
@@ -252,30 +268,19 @@ quanpinerfen:
 
 reverse_lookup:
   dictionary: xmjd6.cx
-  enable_completion: true
+  enable_completion: true # 逐鍵顯示
   comment_format:
     - xform/^/〔/
     - xform/$/〕/
     - xform/ /, /
-  speller:
-    alphabet: 'zyxwvutsrqponmlkjihgfedcba;'
-    initials: 'abcdefghijklmnopqrstuvwxyz;'
-    delimiter: " '"
-    max_code_length: 6
-    auto_select: true
-    auto_select_pattern: ^;.$|^\w{6}$
-    algebra:
-      - derive/^.(.*)$/`$1/
-      - derive/^(.).(.*)$/$1`$2/
-      - derive/^(..).(.*)$/$1`$2/
-      - derive/^(...).(.*)$/$1`$2/
-      - derive/^(....).(.*)$/$1`$2/
-      - derive/^(.....).$/$1`/
 
-# ==================== WXYZ 系列模式配置 ====================
-xmjdWXYZ_base_config: &xmjdWXYZ_base_config
+xmjdWXYZ:
+  tag: xmjdWXYZ
+  dictionary: xmjd6.extended
   user_dict: xmjd6_user
+# ↓ 用户词典格式，tabledb（文本） 或 userdb （二进制）。
   db_class: tabledb
+#  db_class: userdb
   enable_charset_filter: false
   enable_completion: true
   enable_encoder: true
@@ -286,36 +291,28 @@ xmjdWXYZ_base_config: &xmjdWXYZ_base_config
     - xform|1|_|
   comment_format:
     - xform|1|_|
-
-xmjdWXYZ:
-  <<: *xmjdWXYZ_base_config
-  tag: xmjdWXYZ
-  dictionary: xmjd6.extended
+#    - xform|~||
   prefix: "a"
   tips: "〔造词〕"
-
+  
 xmjdYY:
-  <<: *xmjdWXYZ_base_config
+  __include: /xmjdWXYZ
   tag: xmjdYY
   dictionary: xmjd6.Y
   prefix: "~E"
   tips: "〔Y〕"
-
 xmjdZZ:
-  <<: *xmjdWXYZ_base_config
+  __include: /xmjdWXYZ
   tag: xmjdZZ
   dictionary: xmjd6.Z
   prefix: "~R"
   tips: "〔Z〕"
-
 xmjdWW:
-  <<: *xmjdWXYZ_base_config
+  __include: /xmjdWXYZ
   tag: xmjdWW
   dictionary: xmjd6.W
   prefix: "~T"
   tips: "〔W〕"
-
-# ==================== 用户词典配置 ====================
 xmjd6_user:
   dictionary: ""
   user_dict: xmjd6_user
@@ -323,75 +320,89 @@ xmjd6_user:
   enable_sentence: false
   enable_completion: true
   comment_format:
-    - xform/[0-9]//
-  initial_quality: -1
+    - xform/[0-9]//  #无数字
+#    - xform|~||
+  initial_quality: -1  #原始的 -1<关>/999999<开>修改这个会影响自造词是否会变成第一位
 
-# ==================== Lua 脚本相关配置 ====================
+# 嵌入候選的顯示配置
+# 默認顯示效果爲:
+# 宇[浩¹]iwl ~淍² ~泃³
 embeded_cands:
-  option_name: embeded_cands
-  index_indicators: [ ¹, ², ³, ⁴, ⁵, ⁶, ⁷, ⁸, ⁹, ⁰ ]
-  first_format: "${Stash}[${候選}${Seq}]${Code}${Comment}"
-  next_format: "${Stash}${候選}${Seq}${Comment}"
-  separator: " "
-  stash_placeholder: "~"
+  option_name: embeded_cands                               # 嵌入候選開關
+  index_indicators: [ ¹, ², ³, ⁴, ⁵, ⁶, ⁷, ⁸, ⁹, ⁰ ]       # 嵌入候選的序號顯示格式
+  first_format: "${Stash}[${候選}${Seq}]${Code}${Comment}" # 首選的渲染格式
+  next_format: "${Stash}${候選}${Seq}${Comment}"           # 非首選的渲染格式
+  separator: " "                                           # 候選之間的分隔符
+  stash_placeholder: "~" 
+  
+# punctuator:
+#   import_preset: default
+#   half_shape:
+#     '''' : [ '‘', '’' , '\', '﹨' ]
 
-# ==================== 键位绑定 ====================
 key_binder:
-  select_first_character: "bracketleft"   # [ 选择首字
-  select_last_character: "bracketright"  # ] 选择尾字
+#  import_preset: default
+  select_first_character: "bracketleft"  # 左中括号 [
+  select_last_character: "bracketright"  # 右中括号 ]
   add_ge: "backslash"
   bian_zi: "slash"
   bindings:
     - { when: always, accept: "Control+period", toggle: ascii_punct }
-    - { accept: minus, send: Page_Up, when: has_menu }
-    - { accept: equal, send: Page_Down, when: has_menu }
-    - { when: has_menu, accept: Tab, send: 2 }
-    - { accept: semicolon, send: 2, when: has_menu }
-    - { accept: apostrophe, send: 3, when: has_menu }
+    - {accept: minus, send: Page_Up, when: has_menu}
+    - {accept: equal, send: Page_Down, when: has_menu}
+    # - { when: has_menu, accept: Tab, send: 1 } # tab 首选
+    - { when: has_menu, accept: Tab, send: 2 } # tab 次选
+    - {accept: semicolon, send: 2, when: has_menu} #分号次选   # 需要；符号顶直接顶注释本行，并修改第152行
+    - {accept: apostrophe, send: 3, when: has_menu} #撇号三选   # 如果注释348次选，请也注释349，可以使【’】变为选择次选
+    # - {accept: comma, send: Page_Up, when: has_menu}     #<,>翻页功能
+    # - {accept: period, send: Page_Down, when: has_menu}   #<。>翻页功能
+    # - {accept: bracketleft, send: Page_Up, when: has_menu} # [上翻页
+    # - {accept: bracketright, send: Page_Down, when: has_menu} # ]下翻页
     - { when: always, accept: F6, select: .next }
-    - { when: always, accept: F7, toggle: jffh }
-    - { when: always, accept: "Control+backslash", toggle: emoji_cn }
-    - { when: has_menu, accept: "&", toggle: emoji_cn }
-    - { when: has_menu, accept: "%", toggle: mars }
-    - { when: has_menu, accept: "*", toggle: jffh }
-    - { when: has_menu, accept: "$", toggle: embeded_cands }
-    - { accept: KP_0, send: 0, when: composing }
-    - { accept: KP_1, send: 1, when: composing }
-    - { accept: KP_2, send: 2, when: composing }
-    - { accept: KP_3, send: 3, when: composing }
-    - { accept: KP_4, send: 4, when: composing }
-    - { accept: KP_5, send: 5, when: composing }
-    - { accept: KP_6, send: 6, when: composing }
-    - { accept: KP_7, send: 7, when: composing }
-    - { accept: KP_8, send: 8, when: composing }
-    - { accept: KP_9, send: 9, when: composing }
-    - { accept: KP_Subtract, send: -, when: composing }
-    - { accept: KP_Divide, send: /, when: composing }
-    - { accept: KP_Multiply, send: "*", when: has_menu }
-    - { accept: KP_Add, send: +, when: has_menu }
-    - { accept: KP_Decimal, send: ".", when: has_menu }
+    - { when: always, accept: F7, toggle: jffh }  # 电脑的繁体切换
+    - { when: always, accept: "Control+backslash", toggle: emoji_cn }  #快捷电脑的快捷
+    - { when: has_menu, accept: "&", toggle: emoji_cn }	#手机快捷切换表情
+    - { when: has_menu, accept: "%", toggle: mars } #手机快捷火星文切换
+    - { when: has_menu, accept: "*", toggle: jffh } #手机快捷简繁切换
+    - { when: has_menu, accept: "$", toggle: embeded_cands } #手机快捷切换内嵌
+    - {accept: KP_0, send: 0, when: composing}
+    - {accept: KP_1, send: 1, when: composing}
+    - {accept: KP_2, send: 2, when: composing}
+    - {accept: KP_3, send: 3, when: composing}
+    - {accept: KP_4, send: 4, when: composing}
+    - {accept: KP_5, send: 5, when: composing}
+    - {accept: KP_6, send: 6, when: composing}
+    - {accept: KP_7, send: 7, when: composing}
+    - {accept: KP_8, send: 8, when: composing}
+    - {accept: KP_9, send: 9, when: composing}
+    - {accept: KP_Subtract, send: -, when: composing}
+    - {accept: KP_Divide, send: /, when: composing}
+    - {accept: KP_Multiply, send: "*", when: has_menu}
+    - {accept: KP_Add, send: +, when: has_menu}  #原始 → KP_Add
+    - {accept: KP_Decimal, send: ".", when: has_menu}
 
-# ==================== 输入识别器模式 ====================
+
+
 recognizer:
+  #import_preset: default
   patterns:
     email: "^[A-Za-z][-_.0-9A-Za-z]*@.*$"
     uppercase: "[A-Z][-_+.'0-9A-Za-z]*$"
     url: "^(www[.]|https?:|ftp[.:]|mailto:|file:).*$|^[a-z]+[.].+$"
+
     reverse_lookup: "[a-z`]*`+[a-z`]*"
     punct: "^/([0-9]0?|[a-z]+)$"
-    xmjdWXYZ:     "^a['/a-z][a-z,./:?!']*'?$"
-    xmjdYY:       "^~E[a-z']*'?$"
-    xmjdZZ:       "^~R[a-z']*'?$"
-    xmjdWW:       "^~T[a-z']*'?$"
-    pinyin_simp:  "^u[a-z']*'?$"
+    xmjdWXYZ: "^a['/a-z][a-z,./:?!']*'?$"
+    pinyin_simp: "^u[a-z']*'?$"
     quanpinerfen: "^v[a-z']*'?$"
-    xmjd6en:      "^i[a-z]*?$"
-    xmjd6gbk:     "^o[a-z]*?$"
-    jsq:          "^=[^;']+$"
-    zhuan:        "^\\.*$"
-    unicode:      "^&+.*$"
+    xmjd6en: "^i[a-z]*?$"
+    xmjd6gbk: "^o[a-z]*?$"
+    jsq: "^=[^;']+$"
+    zhuan: "^\\\\.*$" # 不加这句后面不能跟数字
+    unicode: "^&+.*$"
+    # zhuanxiao: "^\\+.*$" # 不加这句后面不能跟数字
+#        xmjdWXYZ: "^'['/a-z][a-z0-9,./:?!']*'?$"
 
-# ==================== 顶功相关配置 ====================
 topup:
   __include: "layout/topup"
   min_length: 4
@@ -399,7 +410,5 @@ topup:
   auto_clear: true
   min_length_danzi: 2
   topup_command: true
-
-# ==================== 菜单配置 ====================
 menu:
-  page_size: 5
+  page_size: 5 #请到xmjd6.custom.yaml去修改
