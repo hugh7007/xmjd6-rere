@@ -27,7 +27,7 @@ schema:
     u键开启全拼反查功能拼音查全码，新增笔画提示。
     i键开启英文单词联想输入模式。
     a键开启连打模式，自造词模式。
-  version: "20250521"
+  version: "20250609"
   dependencies:
     - xmjd6.cx
     - pinyin_simp
@@ -135,19 +135,20 @@ engine:
     - script_translator@xmjd6gbk
     - lua_translator@*xmjd6/force_gc
   filters:
-    - simplifier
-    - reverse_lookup_filter@pinyin_simp_lookup
-    - reverse_lookup_filter@quanpinerfen_lookup
-    - reverse_lookup_filter@gbk_lookup
+    - simplifier           # 简繁转换
+    - reverse_lookup_filter@pinyin_simp_lookup  # 二分反查
+    - reverse_lookup_filter@quanpinerfen_lookup      # 全拼反查
+    - reverse_lookup_filter@gbk_lookup      # GBK反查
+    - lua_filter@*xmjd6/xmjd6_completion   # 辅助码提示
     - lua_filter@*xmjd6/xmjd6_single_char #候选单字优先
-    - lua_filter@*xmjd6/xmjd6_filter
-    - simplifier@emoji_cn
-    - simplifier@jffh
-    - simplifier@ascii_punct
+    - simplifier@emoji_cn  # 表情符号
+    - simplifier@jffh      # 简繁转换
+    - simplifier@ascii_punct  # 英文标点
     - simplifier@mars #火星文
     - lua_filter@*xmjd6/xmjd6_embeded_cands@embeded_cands #嵌入候选
     - lua_filter@*xmjd6/add_space # \n 回车| 空格
-    - uniquifier
+    - lua_filter@*xmjd6/xmjd6_filter  # 自定义过滤
+    - uniquifier         # 去重
 
 #导入符号
 punctuator:
