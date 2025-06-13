@@ -21,7 +21,7 @@ patch:
   switches/@7/reset: 1     #[ 简约, 逐码展示 ]
 
   #流式功能配置，注释或删掉 <#> 即可 。配置表<↓注意数字>   流式：< 123456>前无<#>。  单字优先< 123456>前面都有<#>。   单字不优先<1>前无<#>  <23456>前面有<#>
-  # engine/filters/@4: null                #<1><单字优先>
+  # engine/filters/@5: null                #<1><单字优先>
   # engine/processors/@4: null           #<2><流式>
   # engine/processors/@5: null           #<3><流式>
   # translator/enable_sentence: true     #<4><流式>
