@@ -18,10 +18,10 @@ sort: original
 #;f被用做了重复，i键也是
 <	;g
 >	;h
-|	;i
+｜	;i
 ^	;j
 ·	;o
-“	;t
+「	;t
 (	;k
 )	;l
 《	;m
@@ -30,11 +30,11 @@ sort: original
 ~	;q
 ]	;r
 ……	;s
-ctrl+z	;u
+Φ	;u
 =	;v
 ?	;w
 →	;x
-”	;y
+」	;y
 ```	;z
 
 
