@@ -83,8 +83,9 @@ sort:	original
 “小嘴抹了开塞露似的,老往外喷。”	msrn
 你身材其实挺好,肥而不腻。	msrn
 百度找不到你,我得用搜狗！人不可貌相啊	msrn
-尼玛死了	nmsl
+尼玛死了	nmsla
 𝑵𝑴𝑺𝑳	nmsl
+你妈死了	nmsl
 泥麻死了,在这个特殊的时刻,我想表达我对你母亲的去世的深深哀悼。我知道这很难,但请记住,你并不孤单。我们都在这里为你提供支持和慰问。你母亲是一个有价值的人,她的一生充满了爱和奉献。她在家庭中的角色和你对她的尊重让我感到非常感动。我相信她的智慧.勇气和爱心将继续影响你的生活,并传递给下一代。每个人都会面对失去亲人的痛苦,这是一种无法避免的伤痛。当你觉得孤独或失落的时候,请不要犹豫寻求帮助和支持。同样,也请你知道我以及众多的网友会在这一艰难时期陪伴着你度过。生老病死是不可避免的自然规律,但我们永远不会忘记那些在我们生活中留下深刻印记的人。最后,愿逝者安息,愿你能在这段难过的时光里得到慰藉和平静。	nmsl
 𝑴𝑴𝑷	mmp
 赠吗	zrms
@@ -118,8 +119,78 @@ sort:	original
 
 
 
-
 # 错字表
+称号	jnhz
+称cheng号(jrhz)	jnhz
+拎着	ngfei
+拎lin着(lbfe)	ngfei
+拎着	ngfei
+拎lin着(lbfe)	ngfei
+泽被	zepk
+泽被bei(zebwao)	zepk
+裸连	nllm
+裸luo连(lllm)	nllm
+渗水	sneb
+渗shèn水(eneb)	sneb
+肉脯	rdpji
+肉脯pǔ(rdfj)	rdpji
+水渍	ebfkaa
+水渍zhi(ebzka)	ebfkaa
+现宰	xmfh
+现宰zǎi(xmzhv)	xmfh
+口头禅	ktc
+口头禅chán(ktj)	ktc
+债卷	qhjt
+债券quàn(fhqt)	qhjt
+妊娠纹	rjwa
+妊娠shēn纹(rew)	rjwa
+摔进	ehjbi
+摔shuai进(egjbi)	ehjbi
+录屏	ljpb
+录屏ping(ljpb)	ljpb
+裸聊	nllc
+裸luo聊(lllc)	nllc
+费劲	fwjga
+费劲jìn(fwjb)	fwjga
+狰狞	qnngu
+狰zhēng狞(qrng)	qnngu
+瓷砖	ckzt
+瓷砖zhuan(ckft)	ckzt
+配角	pwjc
+配角jué(pwjh)	pcjc
+捧着	pnfe
+捧peng着(prfe)	pnfe
+闪烁	efsl
+闪烁shuo(efel)	efsl
+寿命	sdmg
+寿shòu命(edmg)	sdmg
+赞同	qfty
+赞zàn同(zfty)	qfty
+观察	gtcs
+观察cha(gtws)	gtcs
+名称	mgjn
+名称chen(mgjr)	mgjn
+厨师	cjekv
+厨chú师(jjekv)	cjekv
+痕迹	hrjkoo
+痕hén迹(hnjko)	hrjkoo
+奔腾	brtr
+奔ben腾(bntr)	brtr
+鹌鹑	xfcw
+鹌鹑chún(xfjw)	xfcw
+逃难	tzlf
+逃难nàn(tznf)	tzlf
+猝死	jjsku
+猝cù死(cjsk)	jjsku
+划痕(hqhn)	hqhr
+划痕hēn(hqhn)	hqhr
+殷红	xbhyu
+殷yān红(yfhyu)	xbhyu
+殷红	ybhy
+殷yān红(yfhyu)	ybhy
+说客	ebkeoo
+说shuō客(elke)	ebkeoo
+最新读音规范统一读作shuō	ebkeoo
 入场券	rjj
 入场券quàn(rjq)	rjj
 凌空	lbkyo
@@ -180,14 +251,14 @@ sort:	original
 耽shěn美(dfmwv)	enmwv
 喃呒	nfwjo
 喃呒	wjfjoo
-卒中	zjfyo
-卒cù中(cjfyo)	zjfyo
+卒中	zjfyoi
+卒cù中(cjfyo)	zjfyoi
 房租水电	fqedo
 房租zū水电(fzedo)	fqedo
 要摔	yzeg
 要摔shuai(yzegv)	yzeg
-痉孪	jgnt
-痉孪luán(jglt)	jgnt
+痉挛	jgnt
+痉挛luán(jglt)	jgnt
 内容	lwryi
 内nèi容(nwry)	lwryi
 扫帚	ezfdia
@@ -339,6 +410,10 @@ sort:	original
 咱	zf
 畊	gri
 畊	griavv
+先	xm
+陷	xm
+咸	xm
+
 
 
 
@@ -531,10 +606,10 @@ sort:	original
 复方氨酚烷胺胶囊	gfmz
 酚麻美敏片	gfmz
 氨咖黄敏片	gfmz
-小儿感冒清热颗粒	gfmzi	#	小孩用药
+小儿感冒清热颗粒	gfmzi	#小孩用药
 小儿氨酚黄那敏颗粒	gfmzi
 小儿氨酚伪麻分散片	gfmzi
-板蓝根冲剂	gfmzi	#	中成药
+板蓝根冲剂	gfmzi	#中成药
 双黄连口服液	gfmzi
 连花清瘟颗粒	gfmzi
 
@@ -588,6 +663,8 @@ sort:	original
 甘草片	kesd
 咳特灵胶囊	kesd
 
+#类固醇
+群勃龙美替诺龙氧雄龙康复龙康利龙屋托龙西斯龙葵酸诺龙	lgj
 
 
 
@@ -1048,3 +1125,81 @@ Proud丶Cat	prou
 @qq.com	ydxxi
 @outlook.com	ydxxi
 @gmail.com	ydxxi
+
+# 一些奇怪的暂时先留着
+吃劲	wkjgoa
+吃劲jìn(wkjbo)	wkjgoa
+𰻝𰻝面	bbmb
+𝒃𝒊𝒂𝒏𝒈𝒃𝒊𝒂𝒏𝒈面	bbmb
+办公自动化	bgzhou
+把酒问青天	bjwtia
+不进一家门	bjymvv
+不能当饭吃	bndwva
+饱暖生淫欲	bneyu
+都不一样了	dbylu
+大理白族自治州	dlbfvv
+低头思故乡	dtsxi
+时间管理大师	ejgeoo
+飞身跃入横扫斩	feyqa
+债券(quàn)	fhjt
+怪不好意思	gbhs
+盒式呼吸法	hehf
+军事化狩猎	jehlov
+嫁出去的女儿泼出去的水	jjqeaa
+举头望明月	jtwyoo
+机械手取件	jxejvv
+䓥亼𠀧島	ljbdi
+老鹰捉小鸡	lyfju
+你去干什么	nqgm
+真的不明白	qdbbu
+真的不知道	qdbdu
+司美格鲁肽	smgta
+太强了吧	tqlb
+汰镪𣱾𣲩	tqlb
+床前明月光	wqmg
+床前明月光，疑是地上霜。举头望明月，低头思故乡。	wqmxoo
+我以公会之名授权	wygqu
+行车记录仪	xjjyu
+行车记录仪	xwjy
+疑是地上霜	yedeuo
+怎么样才能	zmyn
+平衡炮	php
+𝑷𝑯𝑷	php
+有三个	ysg
+𝒚𝒔𝒈	ysg
+你怎么可以这样	nzmyiu
+犹抱琵琶半遮面	ybpmu
+本不富裕的家庭雪上加霜	bbfe
+不是蠢就是坏	bejh
+苍天饶过谁	ctre
+知己知彼百战不殆	fjfdua
+神经元网络	ejyloa
+古道西风瘦马	gdxmuo
+光说不练假把势	gebei
+旱的旱死涝的涝死	hfhs
+买新不买旧	mxbja
+宁可无了有不可有了无	nkwwov
+整个人都不好了	qgrlvi
+劝和不劝离	qhbla
+睁一只眼闭一只眼	qyfyia
+温故而知新	wgxxa
+吃不到葡萄说葡萄酸	wbdsov
+听君一席话，胜读十年书	tjyeo
+一个跟斗十万八千里	ygglvi
+一个君子待了十个小人	ygjrvi
+一个人的	ygrd
+一个愿打，一个愿挨	ygyx
+一哭二闹三上吊	ykxdvo
+雅鲁藏布江	ylzjv
+犹抱琵琶半遮面	ybpmu
+君子不立危墙之下	jzbxa
+君子论迹不论心	jzlxa
+好奇害死猫	hqhma
+话不说不明	hbemo
+我嘞个豆	wlgdu
+怪奇物语	gqwyo
+梦灯之仪	mdfyvo
+遗老遗少	ylyei
+LGBT	lgbt
+
+
