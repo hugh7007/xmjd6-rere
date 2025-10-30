@@ -121,7 +121,7 @@ jobs:
           }' "$dict_file" > "$txt_file"
         done
 
-    - name: Merge .txt files in specific order, add header, and clean up
+    - name: Merge .txt files in specific order, add header
       run: |
         # 创建头文件
         header='name=星猫键道6\nkey=`abcedfghijklmnopqrstuvwxyz;\\\nlen=12\nwildcard=~\nbihua=viuoa\ncode_e2=p11+p12+p21+p22+p13+p23\ncode_e3=p11+p21+p31+p13+p23+p33\ncode_a4=p11+p21+p31+n11+p13+p23+p33\n[DATA]'
@@ -141,11 +141,65 @@ jobs:
         
         # 将中间文件移动到最终位置
         mv mb/xmjd6/tmp_xmjd6.txt mb/xmjd6/xmjd6.txt
+    - name: Generate dazhu.txt from xmjd6.body.txt，and clean up
+      run: |
+        # 1. 检查输入文件
+        if [ ! -f Rime/xmjd6.body.txt ]; then
+          echo "Error: Rime/xmjd6.body.txt not found. Cannot proceed."
+          exit 1
+        fi
         
-        # 删除临时文件
-        rm Rime/xmjd6.header.txt Rime/xmjd6.body.txt
+        # 2. 对文件进行排序，确保相同编码的行相邻 (为归并做准备)
+        #    -k1,1 按第一列 (编码) 排序
+        sort -k1,1 Rime/xmjd6.body.txt > /tmp/sorted_body.txt
+        
+        # 3. 修正后的 AWK 脚本：合并所有相同编码的词语，并使用制表符分隔。
+        awk '
+        BEGIN {
+            OFS = "\t";      # **关键修正：设置输出分隔符为制表符**
+            prev_code = "";  # 用于跟踪上一个编码
+            buffer = "";     # 用于缓存归并的词语
+        }
+        {
+            # $1 是编码, 获取词语部分（从第一个空格后开始）
+            code = $1;
+            word = substr($0, length($1) + 2); # 从第一个空格后截取所有内容
+            
+            # 如果词语为空，跳过
+            if (word == "") { next; }
+            
+            # 归并逻辑 (仅在编码变更时输出)
+            if (code != prev_code && prev_code != "") {
+                # 编码变更：输出上一个归并结果：编码<tab>词1<tab>词2...
+                print prev_code, buffer;
+                # 重置缓冲区
+                buffer = "";
+            }
+            
+            # 累加到缓冲区
+            if (buffer == "") {
+                buffer = word;
+            } else {
+                # 使用 OFS (tab) 分隔候选词
+                buffer = buffer OFS word; 
+            }
+            
+            # 更新上一个编码
+            prev_code = code;
+        }
+        END {
+            # 输出最后一个归并结果
+            if (prev_code != "") {
+                print prev_code, buffer;
+            }
+        }
+        ' /tmp/sorted_body.txt > dazhu.txt
+        
+        # 4. 检查文件并清理
+        ls -al dazhu.txt
+        rm /tmp/sorted_body.txt Rime/xmjd6.header.txt Rime/xmjd6.body.txt
         python -c "with open('mb/xmjd6/xmjd6.txt', 'r', encoding='utf-8') as f: data = f.read(); open('mb/xmjd6/xmjd6.txt', 'w', encoding='gb18030', errors='ignore').write(data)"
-
+        
     - name: Zip yong
       run: |
         mkdir -p .yong
@@ -213,3 +267,13 @@ jobs:
         asset_path: ./xmjd6.zip
         asset_name: xmjd6.zip
         asset_content_type: application/zip
+        
+    - name: Upload dazhu.txt to Release
+      uses: shogo82148/actions-upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./dazhu.txt
+        asset_name: dazhu.txt
+        asset_content_type: text/plain; charset=utf-8
