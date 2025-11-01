@@ -27,7 +27,7 @@ schema:
     u键开启全拼反查功能拼音查全码，新增笔画提示。
     i键开启英文单词联想输入模式。
     a键开启连打模式，自造词模式。
-  version: "20251024"
+  version: "20251101"
   dependencies:
     - xmjd6.cx
     - pinyin_simp
