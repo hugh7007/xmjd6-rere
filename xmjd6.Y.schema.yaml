@@ -4,7 +4,7 @@
 schema:
   schema_id: xmjd6.Y
   name: 键道Y·勿选
-  version: "1"
+  version: "20251116"
 
 switches:
   - name: ascii_mode

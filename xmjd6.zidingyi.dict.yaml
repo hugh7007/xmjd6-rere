@@ -1,6 +1,6 @@
 ---
 name:	xmjd6.zidingyi
-version:	"Q1"
+version:	"20251116"
 sort:	original
 ...
 #有需要请自行修改,修改请遵循键道6拆字规则
@@ -8,6 +8,29 @@ sort:	original
 #单字→bb
 
 #自定义的词语
+
+
+#四字
+飞火引燃	fhyra
+易燃材料	yrcl
+对错勿怪	dcwg
+他在耍你	tzen
+她在耍你	tzena
+徒增杀孽	tzenu
+冲师逆徒	went
+潮汕牛肉	wenra
+多肽抑制	dtyfu
+蛋白激酶	dbjmau
+萨立多胺	sldx
+社会失调	ehet
+惩羹吹齑	jgwju
+协调经济	xtjju
+官民协调	gmxto
+类时曲线	leqx
+透明管理	tmgluo
+本位主义	bwqyv
+
+
 
 #骂人不带🐴,伤害如刮痧,请友好交流,请勿随便使用,理论选定字母前三个为固定,但建议选择前两个例如：特么or特马。这样前两个字母是固定的了。只需要修改中间穿插的文字,最后两码结尾即可。
 #吵架语录-邪道之被动防守反击库
@@ -116,10 +139,27 @@ sort:	original
 ちょっと待って	qdmdv
 意思:等等、等一下	qdmdv
 呆胶布	djbou
-
+𝒃𝒍𝒊𝒏𝒈	bjlg
+𝒃𝒖𝒍𝒊𝒏𝒈	bjlg
 
 
 # 错字表
+腊排	nsphu
+腊là排(lsphu)	nsphu
+存赚	cwztv
+存赚zhuàn	cwztv
+纯赚	jwzt
+纯赚zhuàn(jwft)	jwzt
+纯钻	jwzta
+剑穗	jmebiu
+剑穗sui(jmsbi)	jmebiu
+绦纶	tzlwa
+绦dí纶(dklwa)	tzlwa
+街友	ghydu
+掉色	dcsh
+掉色se(dcse)	dcsh
+掉色	dceh
+掉色se(dcse)	dceh
 虐哭	lhkj
 虐nue哭(nhkj)	lhkj
 称号	jnhz
@@ -443,7 +483,7 @@ sort:	original
 屙	wlavai
 迅	xwav
 迅	xwavio
-刑	xgv
+刑	xg
 嘻	xko
 实	eko
 鶸	rlav
@@ -1129,6 +1169,17 @@ Proud丶Cat	prou
 @gmail.com	ydxxi
 
 # 一些奇怪的暂时先留着
+天丼	tmjgvv
+天丼	tmdfvv
+亲子丼	jzdo
+亲子丼	qzjoav
+亲子丼dǎn(jzdo)	qzjoav
+鳗丼	mfdfu
+鳗丼	mfjguv
+鳗丼dǎn(mfdfu)	mfjguv
+牛丼	nqjguv
+牛丼	nqdfuv
+牛丼dǎn(nqdfuv)	nqdfuv
 吃劲	wkjgoa
 吃劲jìn(wkjbo)	wkjgoa
 𰻝𰻝面	bbmb
