@@ -149,46 +149,39 @@ jobs:
           exit 1
         fi
         
-        # 2. 对文件进行排序，确保相同编码的行相邻 (为归并做准备)
+        # 2. 对文件进行排序 (稳定排序)
         #    -k1,1 按第一列 (编码) 排序
-        sort -k1,1 Rime/xmjd6.body.txt > /tmp/sorted_body.txt
+        #    -s (--stable) **关键修正：** 保持相同键的原始相对顺序
+        sort -k1,1 -s Rime/xmjd6.body.txt > /tmp/sorted_body.txt
         
-        # 3. 修正后的 AWK 脚本：合并所有相同编码的词语，并使用制表符分隔。
+        # 3. AWK 脚本 (保持不变，它会忠实地执行 sorted_body.txt 的顺序)
         awk '
         BEGIN {
-            OFS = "\t";      # **关键修正：设置输出分隔符为制表符**
-            prev_code = "";  # 用于跟踪上一个编码
-            buffer = "";     # 用于缓存归并的词语
+            OFS = "\t";      # 输出分隔符为制表符
+            prev_code = "";  # 跟踪上一个编码
+            buffer = "";     # 缓存归并的词语
         }
         {
             # $1 是编码, 获取词语部分（从第一个空格后开始）
             code = $1;
-            word = substr($0, length($1) + 2); # 从第一个空格后截取所有内容
+            word = substr($0, length($1) + 2);
             
-            # 如果词语为空，跳过
             if (word == "") { next; }
             
-            # 归并逻辑 (仅在编码变更时输出)
             if (code != prev_code && prev_code != "") {
-                # 编码变更：输出上一个归并结果：编码<tab>词1<tab>词2...
                 print prev_code, buffer;
-                # 重置缓冲区
                 buffer = "";
             }
             
-            # 累加到缓冲区
             if (buffer == "") {
                 buffer = word;
             } else {
-                # 使用 OFS (tab) 分隔候选词
                 buffer = buffer OFS word; 
             }
             
-            # 更新上一个编码
             prev_code = code;
         }
         END {
-            # 输出最后一个归并结果
             if (prev_code != "") {
                 print prev_code, buffer;
             }
@@ -198,6 +191,8 @@ jobs:
         # 4. 检查文件并清理
         ls -al dazhu.txt
         rm /tmp/sorted_body.txt Rime/xmjd6.header.txt Rime/xmjd6.body.txt
+        
+        # 5. 编码转换 (保持不变)
         python -c "with open('mb/xmjd6/xmjd6.txt', 'r', encoding='utf-8') as f: data = f.read(); open('mb/xmjd6/xmjd6.txt', 'w', encoding='gb18030', errors='ignore').write(data)"
         
     - name: Zip yong
@@ -277,3 +272,4 @@ jobs:
         asset_path: ./dazhu.txt
         asset_name: dazhu.txt
         asset_content_type: text/plain; charset=utf-8
+
