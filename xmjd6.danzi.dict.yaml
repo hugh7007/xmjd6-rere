@@ -2,8 +2,9 @@
 # encoding: utf-8
 ---
 name: xmjd6.danzi
-version: "20251116"
+version: "1.0"
 sort: original
+url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 ...
 
 不	b
