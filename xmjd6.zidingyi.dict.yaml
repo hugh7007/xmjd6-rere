@@ -1,6 +1,6 @@
 ---
 name:	xmjd6.zidingyi
-version: "20251119"
+version:	"Q1"
 sort:	original
 ...
 #有需要请自行修改,修改请遵循键道6拆字规则
@@ -9,8 +9,16 @@ sort:	original
 
 #自定义的词语
 
-
 #四字
+从深到浅	cedq
+从浅到深	cqde
+从前到后	cqdh
+从下到上	cxde
+从里到外	cldw
+从高到低	cgdd
+从远到近	cydj
+从大到小	cddx
+天若有情	tryq
 飞火引燃	fhyra
 易燃材料	yrcl
 对错勿怪	dcwg
@@ -43,8 +51,13 @@ sort:	original
 肆意破坏	syphu
 双手插兜	eewda
 取死之道	qsfd
-
-
+回来吃饭	hlwfiv
+回去吃饭	hqwfiv
+不宣而战	bxxq
+国土面积	gtmji
+吻切轨道	wqgd
+切线推力	qxtlv
+推力分量	tlfli
 
 
 
@@ -161,7 +174,16 @@ sort:	original
 这么认真	fmrq
 
 
+
 # 错字表
+死劲	skjgv
+死劲jìn(skjbv)	skjgv
+用劲	yyjgua
+用劲jìn(yyjgua)	yyjgua
+残害	jfhh
+残cán害(cfhh)	jfhh
+掺杂	cfzs
+掺chān杂(jfzs)	cfzs
 侦察	qncsi
 侦察chá(qnwsi)	qncsi
 破损	plew
