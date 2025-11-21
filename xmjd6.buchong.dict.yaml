@@ -1,6 +1,6 @@
 ---
 name: xmjd6.buchong
-version: "20251118"
+version: "20251121"
 sort: original
 ...
 # 一简
@@ -33,26 +33,22 @@ sort: original
 氪	k
 了	l
 啦	l
-没	m
-嘛	m
-你	n
-能	n
 啊	o
 着	o
-平	p
-去	q
-其	q
-期	q
-人	r
-三	s
-他	t
-得	u
-十	u
 有	v
 木	v
 士	v
 土	v
 朩	v
+没	m
+嘛	m
+你	n
+能	n
+去	q
+其	q
+期	q
+得	u
+十	u
 我	w
 玩	w
 而	x
@@ -61,7 +57,6 @@ sort: original
 一	y
 意	y
 噫	y
-在	z
 在	z
 咋	z
 # 二简

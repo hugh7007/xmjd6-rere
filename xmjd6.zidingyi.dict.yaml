@@ -1,6 +1,6 @@
 ---
 name:	xmjd6.zidingyi
-version:	"Q1"
+version:	"20251121"
 sort:	original
 ...
 #有需要请自行修改,修改请遵循键道6拆字规则
@@ -176,6 +176,10 @@ sort:	original
 
 
 # 错字表
+铜臭	tywdiu
+铜臭xiù(tyxqi)	tywdiu
+铜臭味	twwi
+铜臭xiù味(txwi)	twwi
 死劲	skjgv
 死劲jìn(skjbv)	skjgv
 用劲	yyjgua
@@ -752,7 +756,7 @@ sort:	original
 咳特灵胶囊	kesd
 
 #类固醇
-群勃龙美替诺龙氧雄龙康复龙康利龙屋托龙西斯龙葵酸诺龙	lgj
+
 
 
 
