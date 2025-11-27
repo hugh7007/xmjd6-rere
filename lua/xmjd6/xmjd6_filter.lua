@@ -1,105 +1,124 @@
---[[
-    https://github.com/xkjd27/rime_jd27c/blob/e38a8c5d010d5a3933e6d6d8265c0cf7b56bfcca/rime/lua/jd27_hint.lua
-    by TsFreddie
-    - 简码 630 提示
-    - 单字模式
---]]
-
+-- txjx filter 模块，此版本经过二次优化 来源：@浮生 https://github.com/wzxmer/rime-txjx
 local function startswith(str, start)
-    return string.sub(str, 1, string.len(start)) == start
+    return string.sub(str, 1, #start) == start
 end
 
-local function hint(cand, input, env)
-    -- 简码提示
-    if utf8.len(cand.text) <= 1 then
-        return 0
+local function hint(cand, env)
+    -- 安全检查：cand.text 不能为空
+    if not cand.text or utf8.len(cand.text) < 2 then
+        return false
     end
+    local context = env.engine.context
     local reverse = env.reverse
     local s = env.s
     local b = env.b
-
-    local lookup = " " .. reverse:lookup(cand.text) .. " "
-    local sbb = string.match(lookup, " (["..s.."]["..b.."]+) ")
-    local short = string.match(lookup, " (["..s.."]["..s.."]) ") or
-                string.match(lookup, " (["..s.."]["..s.."]["..b.."]) ") or
-                string.match(lookup, " (["..b.."]["..b.."]["..b.."]) ") or
-                string.match(lookup, " (["..b.."]["..b.."]) ")
-
-    if string.len(input) > 1 then
-        if sbb and not startswith(sbb, input) then
-            cand:get_genuine().comment = cand.comment .. "= " .. sbb .. ""
-            return 1
-        end
-
-        if short and not startswith(short, input) then
-            cand:get_genuine().comment = cand.comment .. "= " .. short .. ""
-            return 2
-        end
-
+    
+    -- 安全检查：reverse、s 和 b 必须有效
+    if not reverse or s == "" or b == "" then
+        return false
+    end
+    
+    -- 安全调用 reverse:lookup，捕获可能的异常
+    local ok, lookup_result = pcall(function() return reverse:lookup(cand.text) end)
+    if not ok or not lookup_result then
+        return false
+    end
+    local lookup = " " .. lookup_result .. " "
+    local short = string.match(lookup, " (["..s.."]["..b.."]+) ") or 
+                  string.match(lookup, " (["..s.."]["..s.."]) ") or
+                  string.match(lookup, " (["..s.."]["..s.."]["..b.."]) ") or
+                  string.match(lookup, " (["..b.."]["..b.."]["..b.."]) ")
+    local input = context.input 
+    if short and utf8.len(input) > utf8.len(short) and not startswith(short, input) then
+        -- cand:get_genuine().comment = cand.comment .. "〔" .. short .. "〕"
+        cand:get_genuine().comment = (cand.comment or "") .. " = " .. short
+        return true
     end
 
-    return 0
+    return false
+end
+
+local function danzi(cand)
+    if not cand.text then
+        return false
+    end
+    return utf8.len(cand.text) < 2
 end
 
 local function commit_hint(cand, hint_text)
-    -- 顶功提示
-    cand:get_genuine().comment = hint_text .. cand.comment
+    cand:get_genuine().comment = hint_text .. (cand.comment or "")
+    -- cand:get_genuine().comment = cand.comment
 end
 
-local function is_danzi(cand)
-    return utf8.len(cand.text) == 1
-end
+
 
 local function filter(input, env)
-    local context = env.engine.context    
-    local hint_text = env.engine.schema.config:get_string('hint_text') or '🚫'
-    local is_hint_on = context:get_option('wxw_hint') or context:get_option('sbb_hint')
-    local is_completion_on = context:get_option('completion')
-    local is_danzi_on = context:get_option('danzi_mode')
-    local input_text = context.input
-    local no_commit = string.len(input_text) < 4 and string.match(input_text, "^["..env.s.."]+$")
-    local has_table = false
+    local engine = env.engine
+    local context = engine.context
+    local is_danzi = context:get_option('danzi_mode')
+    local is_on = context:get_option('sbb_hint')
+    local hint_text = env.hint_text
     local first = true
-
+    local input_text = context.input
+    -- 安全检查：避免空字符串导致正则表达式错误
+    local no_commit = false
+    if env.s ~= "" and env.b ~= "" then
+        local is_short_s = input_text:len() < 4 and input_text:match("^["..env.s.."]+$") ~= nil
+        local is_all_b = input_text:match("^["..env.b.."]+$") ~= nil
+        no_commit = is_short_s or is_all_b
+    end
+    local count = 0
     for cand in input:iter() do
-        if no_commit and first then
+        -- if first and no_commit and cand.type ~= 'completion' then
+        if first and no_commit then
             commit_hint(cand, hint_text)
         end
+       
         first = false
-        if cand.type == 'table' then
-            if is_hint_on then
-                hint(cand, input_text, env)
+        if not is_danzi or danzi(cand) then
+            if is_on then
+                hint(cand, env)
             end
-
             yield(cand)
-            has_table = true
-        elseif cand.type == 'completion' then
-            if is_completion_on then
-                if not is_danzi_on or is_danzi(cand) then
-                    yield(cand)
-                end
-            elseif not has_table then
-                if not is_danzi_on or is_danzi(cand) then
-                    yield(cand)
-                    return
-                end
-            else
-                return
-            end
-        else
-            yield(cand)
+            count = count + 1
         end
+    end
+    -- 每处理一定数量候选词后触发 GC
+    if count > 100 then
+        collectgarbage("step", 1)
     end
 end
 
 local function init(env)
     local config = env.engine.schema.config
     local dict_name = config:get_string("translator/dictionary")
+    
+    if not dict_name or dict_name == "" then
+        error("txjx_filter: translator/dictionary not configured")
+    end
 
-    env.b = config:get_string("topup/topup_with")
-    env.s = config:get_string("topup/topup_this")
-    env.reverse = ReverseLookup(dict_name)
- --   env.reverse = ReverseDb("build/".. dict_name .. ".reverse.bin")
+    env.b = config:get_string("topup/topup_with") or ""
+    env.s = config:get_string("topup/topup_this") or ""
+    env.hint_text = config:get_string('hint_text') or '🚫'
+    
+    -- 安全初始化 ReverseDb，捕获可能的错误
+    local ok, result = pcall(function()
+        return ReverseDb("build/".. dict_name .. ".reverse.bin")
+    end)
+    if ok then
+        env.reverse = result
+    else
+        -- 如果反查库加载失败，设为 nil，hint 函数会跳过
+        env.reverse = nil
+    end
 end
 
-return { init = init, func = filter }
+local function fini(env)
+    env.reverse = nil
+    env.s = nil
+    env.b = nil
+    env.hint_text = nil
+    collectgarbage("collect")
+end
+
+return { init = init, func = filter, fini = fini }

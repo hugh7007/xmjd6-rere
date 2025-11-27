@@ -3,7 +3,7 @@
 # 该文件以UTF-8编码保存
 ---
 name: xmjd6.gbk
-version: "20251116"
+version: "20251127"
 sort: original
 ...
 # 编码各字段以制表符（Tab）分隔
@@ -134,6 +134,7 @@ sort: original
 冘	aua
 日	i
 宀	oa
+辶	oa
 忄	oi
 灬	ooo
 氵	ov
