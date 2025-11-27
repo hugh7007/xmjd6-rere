@@ -1,64 +1,58 @@
--- 优化版select_character  来源：@浮生 https://github.com/wzxmer/rime-txjx
-local function utf8_safe_sub(s, i, j)
-    if type(s) ~= "string" or s == "" then return "" end
-    
-    i = i or 1
-    j = j or -1
+-- 优化版select_character，此版本经过二次优化 来源：@浮生 https://github.com/wzxmer/rime-txjx
+-- 以词定字
 
-    -- 获取UTF-8长度并处理负索引
-    local len = utf8.len(s) or 0
-    if len == 0 then return "" end
+local kAccepted = 1
+local kNoop = 2
 
-    i = (i < 0) and math.max(len + 1 + i, 1) or math.min(i, len)
-    j = (j < 0) and math.max(len + 1 + j, 1) or math.min(j, len)
+local select = {}
 
-    -- 边界检查
-    if j < i then return "" end
-
-    -- 获取字节偏移
-    local byte_start = utf8.offset(s, i)
-    local byte_end = utf8.offset(s, j + 1)
-
-    if byte_start then
-        return byte_end and s:sub(byte_start, byte_end - 1) or s:sub(byte_start)
-    end
-    return ""
+function select.init(env)
+    local config = env.engine.schema.config
+    env.first_key = config:get_string('key_binder/select_first_character')
+    env.last_key = config:get_string('key_binder/select_last_character')
 end
 
-local function select_character(key, env)
+function select.func(key, env)
     local engine = env.engine
     local context = engine.context
-    local config = engine.schema.config
 
-    -- 配置读取优化（带默认值）
-    local first_key = config:get_string('key_binder/select_first_character')
-    local last_key = config:get_string('key_binder/select_last_character')
-
-    -- 快速失败检查
-    if not (first_key or last_key) or not context:has_menu() then
-        return 2 -- kNoop
+    if not key:release()
+        and (context:is_composing() or context:has_menu())
+        and (env.first_key or env.last_key)
+    then
+        local text = context.input
+        if context:get_selected_candidate() then
+            text = context:get_selected_candidate().text
+        end
+        
+        -- 安全检查：utf8.len 可能返回 nil
+        local text_len = text and utf8.len(text)
+        if text_len and text_len > 1 then
+            if key:repr() == env.first_key then
+                local offset = utf8.offset(text, 2)
+                if offset then
+                    engine:commit_text(text:sub(1, offset - 1))
+                    context:clear()
+                    return kAccepted
+                end
+            elseif key:repr() == env.last_key then
+                local offset = utf8.offset(text, -1)
+                if offset then
+                    engine:commit_text(text:sub(offset))
+                    context:clear()
+                    return kAccepted
+                end
+            end
+        end
     end
-
-    local selected = context:get_selected_candidate()
-    if not selected or selected.text == "「" then
-        return 2 -- kNoop
-    end
-
-    local key_repr = key:repr()
-    local text = selected.text
-
-    -- 执行选字逻辑
-    if first_key and key_repr == first_key then
-        engine:commit_text(utf8_safe_sub(text, 1, 1))
-        context:clear()
-        return 1 -- kAccepted
-    elseif last_key and key_repr == last_key then
-        engine:commit_text(utf8_safe_sub(text, -1, -1))
-        context:clear()
-        return 1 -- kAccepted
-    end
-
-    return 2 -- kNoop
+    
+    return kNoop
 end
 
-return select_character
+function select.fini(env)
+    env.first_key = nil
+    env.last_key = nil
+    collectgarbage("step", 1)
+end
+
+return select

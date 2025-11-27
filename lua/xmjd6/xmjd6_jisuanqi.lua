@@ -1,4 +1,5 @@
 -- Rime Script >https://github.com/baopaau/rime-lua-collection/blob/master/calculator_translator.lua
+-- txjx 计算器适配版，此版本经过二次优化 来源：@浮生 https://github.com/wzxmer/rime-txjx
 -- 簡易計算器（執行任何Lua表達式）
 --
 -- 格式：=<exp>
@@ -15,28 +16,28 @@
 
 -- 需在方案增加 `recognizer/patterns/expression: "^=.*$"`
 
--- 定義全局函數、常數（注意命名空間污染）
-cos = math.cos
-sin = math.sin
-tan = math.tan
-acos = math.acos
-asin = math.asin
-atan = math.atan
-rad = math.rad
-deg = math.deg
+-- 定義局部函數、常數（避免命名空間污染）
+local cos = math.cos
+local sin = math.sin
+local tan = math.tan
+local acos = math.acos
+local asin = math.asin
+local atan = math.atan
+local rad = math.rad
+local deg = math.deg
 
-abs = math.abs
-floor = math.floor
-ceil = math.ceil
-mod = math.fmod
-trunc = function (x, dc)
+local abs = math.abs
+local floor = math.floor
+local ceil = math.ceil
+local mod = math.fmod
+local trunc = function (x, dc)
   if dc == nil then
     return math.modf(x)
   end
   return x - mod(x, dc)
 end
 
-round = function (x, dc)
+local round = function (x, dc)
   dc = dc or 1
   local dif = mod(x, dc)
   if abs(dif) > dc / 2 then
@@ -45,23 +46,23 @@ round = function (x, dc)
   return x - dif
 end
 
-random = math.random
-randomseed = math.randomseed
+local random = math.random
+local randomseed = math.randomseed
 
-inf = math.huge
-MAX_INT = math.maxinteger
-MIN_INT = math.mininteger
-pi = math.pi
-sqrt = math.sqrt
-exp = math.exp
-e = exp(1)
-ln = math.log
-log = function (x, base)
+local inf = math.huge
+local MAX_INT = math.maxinteger
+local MIN_INT = math.mininteger
+local pi = math.pi
+local sqrt = math.sqrt
+local exp = math.exp
+local e = exp(1)
+local ln = math.log
+local log = function (x, base)
   base = base or 10
   return ln(x)/ln(base)
 end
 
-min = function (arr)
+local min = function (arr)
   local m = inf
   for k, x in ipairs(arr) do
    m = x < m and x or m
@@ -69,7 +70,7 @@ min = function (arr)
   return m
 end
 
-max = function (arr)
+local max = function (arr)
   local m = -inf
   for k, x in ipairs(arr) do
    m = x > m and x or m
@@ -77,7 +78,7 @@ max = function (arr)
   return m
 end
 
-sum = function (t)
+local sum = function (t)
   local acc = 0
   for k,v in ipairs(t) do
     acc = acc + v
@@ -85,16 +86,16 @@ sum = function (t)
   return acc
 end
 
-avg = function (t)
+local avg = function (t)
   return sum(t) / #t
 end
 
-isinteger = function (x)
+local isinteger = function (x)
   return math.fmod(x, 1) == 0
 end
 
 -- iterator . array
-array = function (...)
+local array = function (...)
   local arr = {}
   for v in ... do
     arr[#arr + 1] = v
@@ -103,7 +104,7 @@ array = function (...)
 end
 
 -- iterator <- [form, to)
-irange = function (from,to)
+local irange = function (from,to)
   if to == nil then
     to = from
     from = 0
@@ -119,12 +120,12 @@ irange = function (from,to)
 end
 
 -- array <- [form, to)
-range = function (from, to)
+local range = function (from, to)
   return array(irange(from, to))
 end
 
 -- array . reversed iterator
-irev = function (arr)
+local irev = function (arr)
   local i = #arr + 1
   return function()
     if i > 1 then
@@ -135,13 +136,13 @@ irev = function (arr)
 end
 
 -- array . reversed array
-arev = function (arr)
+local arev = function (arr)
   return array(irev(arr))
 end
 
 
 -- # Functional
-map = function (t, ...)
+local map = function (t, ...)
   local ta = {}
   for k,v in pairs(t) do
     local tmp = v
@@ -151,7 +152,7 @@ map = function (t, ...)
   return ta
 end
 
-filter = function (t, ...)
+local filter = function (t, ...)
   local ta = {}
   local i = 1
   for k,v in pairs(t) do
@@ -171,7 +172,7 @@ filter = function (t, ...)
 end
 
 -- e.g: foldr({2,3},\n,x.x^n|,2) = 81
-foldr = function (t, f, val)
+local foldr = function (t, f, val)
   for k,v in pairs(t) do
     val = f(val, v)
   end
@@ -179,7 +180,7 @@ foldr = function (t, f, val)
 end
 
 -- e.g: foldl({2,3},\n,x.x^n|,2) = 512
-foldl = function (t, f, val)
+local foldl = function (t, f, val)
   for v in irev(t) do
     val = f(val, v)
   end
@@ -191,7 +192,7 @@ end
 --    = floor(map(map(map(range(-5,5),\x.x/5|),sin),\x.e^x*10|))
 --    = {4, 4, 5, 6, 8, 10, 12, 14, 17, 20}
 -- 可以用 $ 代替 chain
-chain = function (t)
+local chain = function (t)
   local ta = t
   local function cf(f, ...)
     if f ~= nil then
@@ -205,7 +206,7 @@ chain = function (t)
 end
 
 -- # Statistics
-fac = function (n)
+local fac = function (n)
   local acc = 1
   for i = 2,n do
     acc = acc * i
@@ -213,15 +214,15 @@ fac = function (n)
   return acc
 end
 
-nPr = function (n, r)
+local nPr = function (n, r)
   return fac(n) / fac(n - r)
 end
 
-nCr = function (n, r)
+local nCr = function (n, r)
   return nPr(n,r) / fac(r)
 end
 
-MSE = function (t)
+local MSE = function (t)
   local ss = 0
   local s = 0
   local n = #t
@@ -237,7 +238,7 @@ end
 
 -- # Calculus
 -- Linear approximation
-lapproxd = function (f, delta)
+local lapproxd = function (f, delta)
   local delta = delta or 1e-8
   return function (x)
            return (f(x+delta) - f(x)) / delta
@@ -245,7 +246,7 @@ lapproxd = function (f, delta)
 end
 
 -- Symmetric approximation
-sapproxd = function (f, delta)
+local sapproxd = function (f, delta)
   local delta = delta or 1e-8
   return function (x)
            return (f(x+delta) - f(x-delta)) / delta / 2
@@ -253,7 +254,7 @@ sapproxd = function (f, delta)
 end
 
 -- 近似導數
-deriv = function (f, delta, dc)
+local deriv = function (f, delta, dc)
   dc = dc or 1e-4
   local fd = sapproxd(f, delta)
   return function (x)
@@ -262,7 +263,7 @@ deriv = function (f, delta, dc)
 end
 
 -- Trapezoidal rule
-trapzo = function (f, a, b, n)
+local trapzo = function (f, a, b, n)
   local dif = b - a
   local acc = 0
   for i = 1, n-1 do
@@ -274,7 +275,7 @@ trapzo = function (f, a, b, n)
 end
 
 -- 近似積分
-integ = function (f, delta, dc)
+local integ = function (f, delta, dc)
   delta = delta or 1e-4
   dc = dc or 1e-4
   return function (a, b)
@@ -288,7 +289,7 @@ integ = function (f, delta, dc)
 end
 
 -- Runge-Kutta
-rk4 = function (f, timestep)
+local rk4 = function (f, timestep)
   local timestep = timestep or 0.01
   return function (start_x, start_y, time)
            local x = start_x
@@ -309,9 +310,9 @@ end
 
 
 -- # System
-date = os.date
-time = os.time
-path = function ()
+local date = os.date
+local time = os.time
+local path = function ()
   return debug.getinfo(1).source:match("@?(.*/)")
 end
 
@@ -526,11 +527,22 @@ local function calculator_translator(input, seg)
   end
   -- yield(Candidate("number", seg.start, seg._end, expe, "展開"))
   
-  -- 防止危險操作，禁用os和io命名空間
-  if expe:find("i?os?%.") then return end
+  -- 增强安全检查：禁用危险操作
+  -- 检查 os, io, debug, package, require, dofile, loadfile 等危险函数
+  -- 注意：内部使用的 os.date 和 os.time 是安全的，不在用户输入中
+  if expe:find("os%.") or expe:find("io%.") or expe:find("debug%.") or expe:find("package%.") 
+     or expe:find("require") or expe:find("dofile") or expe:find("loadfile") 
+     or expe:find("_G") or expe:find("getmetatable") or expe:find("setmetatable") then 
+    return 
+  end
 
   -- yield(Candidate("text",seg.start, seg._end, expe, "表達式"))
-  local result  = load("return "..expe)()
+  -- 使用 pcall 捕获执行错误，防止崩溃
+  local func, load_err = load("return "..expe)
+  if not func then return end
+  
+  local success, result = pcall(func)
+  if not success then return end
   -- return語句保證了只有合法的Lua表達式才可執行
   if result == nil then  return end
   
@@ -543,4 +555,8 @@ local function calculator_translator(input, seg)
 
 end
 
-return calculator_translator
+local function fini(env)
+    collectgarbage("step", 1)
+end
+
+return { func = calculator_translator, fini = fini }
