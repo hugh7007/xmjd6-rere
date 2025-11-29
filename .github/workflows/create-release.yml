@@ -23,8 +23,73 @@ jobs:
       run: |
         mkdir -p Rime
         mkdir -p mb/xmjd6
+
+    - name: Get latest OpenCC pre-release asset URL
+      id: get_opencc_url
+      uses: actions/github-script@v7
+      with:
+        script: |
+          // 获取 amorphobia/opencc-tonggui 的发布列表
+          const releases = await github.rest.repos.listReleases({
+            owner: 'amorphobia',
+            repo: 'opencc-tonggui',
+          });
+          
+          // 找到最新的 pre-release (预发布版本)
+          const preRelease = releases.data.find(r => r.prerelease);
+          
+          if (!preRelease) {
+             core.setFailed('No pre-release found for amorphobia/opencc-tonggui');
+             return;
+          }
+          
+          console.log(`Found pre-release tag: ${preRelease.tag_name}`);
+          
+          // 找到后缀为 .zip 的资源文件
+          const asset = preRelease.assets.find(a => a.name.endsWith('.zip'));
+          
+          if (!asset) {
+             core.setFailed('No zip asset found in the pre-release');
+             return;
+          }
+          
+          console.log(`Download URL: ${asset.browser_download_url}`);
+          return asset.browser_download_url;
+
+    - name: Download and Setup OpenCC
+      run: |
+        # 1. 获取上一步解析出的 URL
+        url="${{ steps.get_opencc_url.outputs.result }}"
         
+        # 2. 下载
+        echo "Downloading OpenCC from $url..."
+        wget -q -O opencc_temp.zip "$url"
+        
+        # 3. 解压到临时目录
+        unzip -q opencc_temp.zip -d opencc_extract_temp
+        
+        # 4. 移动解压后 opencc 文件夹内的所有内容到 opencc/xmjd6/
+        # 注意：这里假设 zip 包解压后里层结构是 opencc/xxx
+        echo "Copying files to opencc/xmjd6/..."
+        
+        # 确保目标文件夹存在
+        mkdir -p opencc/xmjd6
+        
+        # 复制文件 (如果 opencc_extract_temp 下直接就是文件，去掉中间的 /opencc/)
+        # 根据 opencc-tonggui 的结构，通常解压后可能有一层目录，这里尝试通配复制
+        if [ -d "opencc_extract_temp/opencc" ]; then
+            cp -r opencc_extract_temp/opencc/* opencc/xmjd6/
+        else
+            # 备用方案：如果zip里没有opencc文件夹，直接复制所有解压内容
+            cp -r opencc_extract_temp/* opencc/xmjd6/
+        fi
+        
+        # 5. 清理临时文件
+        rm opencc_temp.zip
+        rm -rf opencc_extract_temp
+      
     - name: Zip main branch files excluding .git and .github
+      # 此时 opencc/xmjd6 里的文件已经存在，会被包含在下面的 xmjd6.zip 中（因为没有被 -x 排除）
       run: zip -r xmjd6.zip . -x "*.git*" -x "*.github*" -x "yong*" -x "mb*" -x "Rime*"
 
     - name: Prepare Rime directory for Rabbit
@@ -72,7 +137,7 @@ jobs:
 
     - name: Set the tag as environment variable
       run: echo "RELEASE_TAG=${{ steps.get_tag.outputs.result }}" >> $GITHUB_ENV
-    
+      
     - name: Download the release asset
       run: |
         curl -L -o rabbit-${{ env.RELEASE_TAG }}.zip https://github.com/amorphobia/rabbit/releases/download/${{ env.RELEASE_TAG }}/rabbit-${{ env.RELEASE_TAG }}-x64.zip
@@ -274,4 +339,3 @@ jobs:
         asset_path: ./dazhu.txt
         asset_name: dazhu.txt
         asset_content_type: text/plain; charset=utf-8
-

@@ -1,0 +1,22 @@
+{
+  "name": "Simplified Chinese to Guji Chinese",
+  "segmentation": {
+    "type": "mmseg",
+    "dict": {
+      "type": "text",
+      "file": "SGPhrases.txt"
+    }
+  },
+  "conversion_chain": [{
+    "dict": {
+      "type": "group",
+      "dicts": [{
+        "type": "text",
+        "file": "SGPhrases.txt"
+      }, {
+        "type": "text",
+        "file": "SGCharacters.txt"
+      }]
+    }
+  }]
+}

@@ -192,7 +192,7 @@ emoji_cn:
   # tips: all  #不显示表情备注
 
 jffh:
-  opencc_config: xmjd6/xmjd6_s2tw.json
+  opencc_config: xmjd6/s2g.json # 使用 https://github.com/forfudan/GujiCC https://github.com/amorphobia/opencc-tonggui 提供的简繁转换 opencc
   option_name: jffh
 
 mars:
