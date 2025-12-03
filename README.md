@@ -82,9 +82,14 @@
       - 推荐使用系统内置文件管理器（通过 DocumentsUI）来管理小企鹅输入法5的数据文件。 在 DocumentsUI 的侧边栏中，选择“小企鹅输入法5”，即可直接访问 /sdcard/Android/data/org.fcitx.fcitx5.android/files/ 目录中的文件，不需要借助第三方文件管理器，也不需要使用 adb 或者 root 权限。
       - 参考：https://github.com/Mintimate/oh-my-rime/issues/96/
   - iOS: 
+    - [元书输入法](https://apps.apple.com/app/id6744464701)
+      - 可手动在“输入方案”中“下载方案”，下载地址：
+        - <https://github.com/hugh7007/xmjd6-rere/releases/latest/download/xmjd6.zip> （原始地址）
+        - <https://gh-proxy.com/https://github.com/hugh7007/xmjd6-rere/releases/latest/download/xmjd6.zip> （国内加速地址）
+        - 设置方案下后，点击下载按钮，完成后在“方案目录切换”中找到 RimeUserData 目录中选择刚才导入的方案名的目录，点击右上角 打开 即可。
+        - 后续更新方案可以重新在“下载方案”中重新下载，然后重新在“方案目录切换”即可。
     - [仓输入法](https://apps.apple.com/app/id6446617683)
       - 可使用内置在线方案下载导入
-
 ## 细节补充
 
 - **主方案文件：** `xmjd6.schema.yaml`  
