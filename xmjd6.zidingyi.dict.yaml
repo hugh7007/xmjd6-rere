@@ -1,6 +1,6 @@
 ---
 name:	xmjd6.zidingyi
-version:	"20251130"
+version:	"20251204"
 sort:	original
 ...
 #有需要请自行修改,修改请遵循键道6拆字规则
@@ -8,6 +8,7 @@ sort:	original
 #单字→bb
 
 #自定义的词语
+
 
 #四字
 从深到浅	cedq
@@ -94,6 +95,32 @@ sort:	original
 开团秒跟	ktmgv
 螺栓扣件	lekj
 说不清楚	ebqjov
+以贩养吸	yfyxa
+弹性伸缩	txes
+露头就秒	ltjmv
+具身智能	jefni
+赛博对账	sbdq
+数字游民	ezym
+从从容容	ccrr
+智能向善	fnxeua
+水灵灵地	ellda
+银发力量	yflli
+反正信了	fqxl
+顶层设计	dcejv
+合理合法	hlhfi
+这么认真	fmrq
+开始读秒	kedmva
+双椒鸡腿	ejjta
+鸡腿拌面	jtbma
+排骨土豆	pgtdi
+炖粉条	dftoo
+排骨土豆炖粉条	pgtt
+
+
+
+
+
+
 
 
 #骂人不带🐴,伤害如刮痧,请友好交流,请勿随便使用,理论选定字母前三个为固定,但建议选择前两个例如：特么or特马。这样前两个字母是固定的了。只需要修改中间穿插的文字,最后两码结尾即可。
@@ -205,12 +232,13 @@ sort:	original
 呆胶布	djbou
 𝒃𝒍𝒊𝒏𝒈	bjlg
 𝒃𝒖𝒍𝒊𝒏𝒈	bjlg
-合理合法	hlhfi
-这么认真	fmrq
-开始读秒	kedmva
+
+
 
 
 # 错字表
+沉浸	jnjg
+沉浸jìn(jnjb)	jnjg
 奔赴	brfj
 奔ben赴(bnfj)	brfj
 薄荷	plhei
