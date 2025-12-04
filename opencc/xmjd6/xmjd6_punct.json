@@ -1,0 +1,18 @@
+{
+  "name": "Fullwidth to Halfwidth Punctuation",
+  "segmentation": {
+    "type": "mmseg",
+    "dict": {
+      "type": "text",
+      "file": "xmjd6_punct.txt"
+    }
+  },
+  "conversion_chain": [
+    {
+      "dict": {
+        "type": "text",
+        "file": "xmjd6_punct.txt"
+      }
+    }
+  ]
+}
