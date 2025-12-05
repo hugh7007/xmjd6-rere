@@ -94,8 +94,9 @@ engine:
     - key_binder    
     - lua_processor@*xmjd6/xmjd6_smartTwo    #这个注释后不会顶功，使用流式请注释这两行
     - lua_processor@*xmjd6/xmjd6_topup_processor   #这个注释后不会顶功，使用流式请注释这两行
-    - lua_processor@*xmjd6/add_ge # 可以在词的首字后加 "个"字，比如 吃饭-> 吃个饭
-    - lua_processor@*xmjd6/bianzi
+    - lua_processor@*xmjd6/xmjd6_add_ge # 可以在词的首字后加 "个"字，比如 吃饭-> 吃个饭
+    - lua_processor@*xmjd6/xmjd6_bianzi
+    - lua_processor@*xmjd6/xmjd6_auto_fallback   #空码自动上屏前面首选
     - speller
     - punctuator
     - selector
@@ -116,7 +117,7 @@ engine:
     - lua_translator@*xmjd6/xmjd6_shijian
     - lua_translator@*xmjd6/xmjd6_zimu_translator
     - lua_translator@*xmjd6/xmjd6_shuzi
-    - lua_translator@*xmjd6/unicode      # 使用< & >开头启动
+    - lua_translator@*xmjd6/xmjd6_unicode      # 使用< & >开头启动
     - history_translator@repeat_history
     - history_translator@repeat_history2
     - punct_translator
@@ -130,7 +131,7 @@ engine:
     - script_translator@quanpinerfen
     - script_translator@pinyin_simp
     - script_translator@xmjd6gbk
-    - lua_translator@*xmjd6/force_gc
+    - lua_translator@*xmjd6/xmjd6_force_gc
   filters:
 #    - simplifier           # 简繁转换
     - reverse_lookup_filter@pinyin_simp_lookup  # 二分反查
@@ -143,9 +144,9 @@ engine:
     - simplifier@mars #火星文
     - simplifier@jffh      # 简繁转换
     - simplifier@ascii_punct  # 英文标点
-    
+
     - lua_filter@*xmjd6/xmjd6_embeded_cands@embeded_cands #嵌入候选
-    - lua_filter@*xmjd6/add_space # \n 回车| 空格
+    - lua_filter@*xmjd6/xmjd6_add_space # \n 回车| 空格
     - lua_filter@*xmjd6/xmjd6_filter  # 自定义过滤
     - uniquifier         # 去重
 
@@ -153,7 +154,7 @@ engine:
 punctuator:
   import_preset: xmjd6.symbols
 speller:
-  auto_select: false
+  auto_select: false   #true或者false
   alphabet: "zyxwvutsrqponmlkjihgfedcba;'" # 【"zyxwvutsrqponmlkjihgfedcba;'"】 修改为【"zyxwvutsrqponmlkjihgfedcba"】会直接上屏，但无法使用；+字母打快符。记得修改348、349行
   initials: "abcdefghijklmnopqrstuvwxyz;'"
   delimiter: " '"
@@ -194,7 +195,7 @@ emoji_cn:
   # tips: all  #不显示表情备注
 
 jffh:
-  opencc_config: xmjd6/s2g.json # 使用 https://github.com/forfudan/GujiCC https://github.com/amorphobia/opencc-tonggui 提供的简繁转换 opencc
+  opencc_config: xmjd6/xmjd6_s2g.json# # 使用 https://github.com/forfudan/GujiCC https://github.com/amorphobia/opencc-tonggui 提供的简繁转换 opencc
   option_name: jffh
 
 mars:
@@ -204,6 +205,7 @@ mars:
 ascii_punct:
   option_name: ascii_punct
   opencc_config: xmjd6/xmjd6_punct.json
+
 #↓gbk反查方案
 gbk_lookup:
   tags: [xmjd6gbk]
