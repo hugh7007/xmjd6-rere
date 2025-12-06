@@ -27,7 +27,7 @@ schema:
     u键开启全拼反查功能拼音查全码，新增笔画提示。
     i键开启英文单词联想输入模式。
     a键开启连打模式，自造词模式。
-  version: "20251205"
+  version: "20251206"
   dependencies:
     - xmjd6.cx
     - pinyin_simp
@@ -133,18 +133,15 @@ engine:
     - script_translator@xmjd6gbk
     - lua_translator@*xmjd6/xmjd6_force_gc
   filters:
-#    - simplifier           # 简繁转换
     - reverse_lookup_filter@pinyin_simp_lookup  # 二分反查
     - reverse_lookup_filter@quanpinerfen_lookup      # 全拼反查
     - reverse_lookup_filter@gbk_lookup      # GBK反查
     - lua_filter@*xmjd6/xmjd6_completion   # 辅助码提示
     - lua_filter@*xmjd6/xmjd6_single_char #候选单字优先
-
     - simplifier@emoji_cn  # 表情符号
     - simplifier@mars #火星文
     - simplifier@jffh      # 简繁转换
     - simplifier@ascii_punct  # 英文标点
-
     - lua_filter@*xmjd6/xmjd6_embeded_cands@embeded_cands #嵌入候选
     - lua_filter@*xmjd6/xmjd6_add_space # \n 回车| 空格
     - lua_filter@*xmjd6/xmjd6_filter  # 自定义过滤
@@ -195,7 +192,7 @@ emoji_cn:
   # tips: all  #不显示表情备注
 
 jffh:
-  opencc_config: xmjd6/xmjd6_s2g.json# # 使用 https://github.com/forfudan/GujiCC https://github.com/amorphobia/opencc-tonggui 提供的简繁转换 opencc
+  opencc_config: xmjd6/xmjd6_s2g.json
   option_name: jffh
 
 mars:

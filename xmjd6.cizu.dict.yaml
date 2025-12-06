@@ -1,6 +1,6 @@
 ---
 name: xmjd6.cizu
-version: "20251204"
+version: "20251206"
 sort: original
 ...
 棒不棒	bbb
@@ -4132,8 +4132,8 @@ sort: original
 布加勒斯特	bjltv
 白建良	bjluao
 白唇鹿	bjluuv
-不卷了	bjlv
-不出来	bjlva
+不卷了	bjlvoa
+不出来	bjlv
 不讲理	bjlvo
 不成立	bjlvv
 不论	bjlw
@@ -15904,7 +15904,8 @@ HarryWinston	brwda
 单底	dfdk
 但多	dfdl
 但夺	dfdli
-单夺	dfdlo
+单多	dfdlo
+单夺	dfdlov
 大风大浪	dfdlv
 单点	dfdm
 吊着打	dfdo
@@ -17212,6 +17213,8 @@ TIFFANY	dfni
 带货	dhhl
 带火	dhhlv
 电话号码	dhhm
+带黄	dhhmv
+带黄	dhhx
 待换	dhht
 动画化	dhhv
 待婚	dhhw
@@ -17895,7 +17898,12 @@ TIFFANY	dfni
 点击率	djl
 堵漏	djld
 当机立断	djldi
-读了	djle
+堵了	djle
+赌了	djlea
+渡了	djleaa
+镀了	djleia
+度了	djleoa
+读了	djleo
 独揽	djlf
 都兰	djlfu
 都灵	djlg
@@ -21854,6 +21862,7 @@ big胆	dsdf
 锻刀	dtdzi
 短到	dtdzu
 短道	dtdzuo
+的提升	dteu
 大屠杀	dte
 堕天使	dtea
 断水	dteb
@@ -29597,7 +29606,9 @@ Chaumet	emblio
 双效	emxca
 双小	emxcai
 双笑	emxcau
+爽些	emxd
 双鞋	emxda
+双偶	emxdai
 双安	emxf
 双性	emxg
 双形	emxga
@@ -32744,7 +32755,9 @@ Chaumet	emblio
 双薪	exxb
 双效	exxc
 首先想到	exxd
-双鞋	exxd
+双鞋	exxda
+爽些	exxdv
+双偶	exxdai
 授信额度	exxdi
 双安	exxf
 双性	exxg
@@ -45440,7 +45453,8 @@ VanCleef&Arpels	fkybv
 赶锥	gffb
 赣州	gffd
 甘蔗	gffe
-赶着	gffev
+干着	gffev
+赶着	gffevo
 干这种事	gffevo
 干饭	gfff
 干翻	gfffv
@@ -47298,7 +47312,8 @@ VanCleef&Arpels	fkybv
 过世	glekvv
 果霜	glem
 过审	glen
-过深	glenv
+过甚	glenv
+过深	glenva
 过身	glenvu
 过上	glep
 过剩	gler
@@ -48320,6 +48335,8 @@ VanCleef&Arpels	fkybv
 高品质	gpf
 购票者	gpfa
 钢轴	gpfd
+杠这	gpfe
+杠着	gpfev
 港这	gpfea
 刚翻	gpff
 刚反	gpffi
@@ -54595,6 +54612,7 @@ VanCleef&Arpels	fkybv
 还挤	hhjk
 海基	hhjka
 害己	hhjko
+还寄	hhjkvo
 还急	hhjkvu
 还举	hhjl
 骇惧	hhjlao
@@ -63140,6 +63158,8 @@ VanCleef&Arpels	fkybv
 承受不了	jebla
 出师不利	jeblai
 接受不了	jebli
+车泊	jeblv
+车泊	weblv
 车边	jebm
 精神饱满	jebmo
 精神病	jebo
@@ -66136,9 +66156,9 @@ VanCleef&Arpels	fkybv
 机甲车	jjwvi
 厨卫	jjww
 出位	jjwwa
-颤颤巍巍	jjwwo
+颤颤巍巍	jjwwoo
 将军抽车	jjwwoo
-唧唧歪歪	jjwwoo
+唧唧歪歪	jjwwo
 橱窗	jjwx
 初创	jjwxo
 除虫	jjwy
@@ -69979,13 +69999,14 @@ VanCleef&Arpels	fkybv
 久经	jqjgu
 救出	jqjj
 揪出	jqjji
-救济	jqjk
+就寄	jqjk
 纠集	jqjka
 究极	jqjko
 究级	jqjkoa
 九级	jqjku
 九几	jqjkuu
 救急	jqjkv
+救济	jqjkva
 旧居	jqjl
 酒局	jqjla
 潮起潮落	jqjlav
@@ -76759,6 +76780,7 @@ Cartier	kdyiv
 抗少	kpezi
 炕梢	kpezo
 扛着	kpfe
+扛这	kpfei
 康复	kpfj
 抗旨	kpfk
 康志	kpfko
@@ -81161,6 +81183,9 @@ k线	kxm
 卢春如	ljriva
 录入	ljrj
 路人	ljrn
+录人	ljrna
+掳人	ljrni
+撸人	ljrnii
 垃圾人	ljrvv
 领军人物	ljrw
 鹿茸	ljry
@@ -85965,8 +85990,9 @@ k线	kxm
 老茧	lzjm
 老陈	lzjn
 老衬	lzjnuo
-老厂	lzjp
-老场	lzjpu
+老厂	lzjpu
+老长	lzjp
+老场	lzjpuv
 连载长篇	lzjpv
 老九	lzjq
 佬就	lzjqi
@@ -94130,10 +94156,11 @@ mua~	mjms
 拟借	nkjd
 逆产	nkjf
 逆境	nkjg
-拟拆	nkjhii
 你拆	nkjhi
 你绝	nkjh
 你觉	nkjhio
+你倔	nkjhii
+拟拆	nkjhii
 你处	nkjj
 匿迹	nkjk
 你捡	nkjm
@@ -94169,7 +94196,9 @@ mua~	mjms
 腻了	nkleu
 匿了	nklev
 你来	nklh
-泥路	nklj
+你录	nklj
+你撸	nklji
+泥路	nklja
 泥里	nklk
 逆旅	nkll
 你连	nklm
@@ -99240,6 +99269,7 @@ LosslessScaling	phqia
 喷泵	pnbr
 匹诺曹	pnc
 盆菜	pnch
+喷菜	pncho
 拍脑袋	pnd
 喷毒	pndj
 喷镀	pndjo
@@ -106644,6 +106674,7 @@ LosslessScaling	phqia
 真机	qnjku
 甄姬	qnjkv
 震级	qnjkva
+真寄	qnjkuo
 针尖	qnjm
 真贱	qnjmu
 真沉	qnjn
@@ -112169,6 +112200,7 @@ LosslessScaling	phqia
 让进	rpjb
 嚷叫	rpjc
 禳解	rpjd
+让寄	rpjk
 让车	rpje
 让撤	rpjeo
 让扯	rpjeoi
@@ -117990,14 +118022,16 @@ LosslessScaling	phqia
 他的选择	tdxzi
 土地爷	tdy
 天妒英才	tdyc
-偷油	tdyd
+偷油	tdydi
 贴有	tdyda
 贴友	tdydav
-投邮	tdydi
+投邮	tdydii
 偷邮	tdydii
 铁友	tdydiv
 他大爷的	tdydiv
-头油	tdydo
+头油	tdyd
+头有	tdydo
+头又	tdydoa
 头也	tdye
 铁叶	tdyei
 团队意识	tdyeia
@@ -124214,6 +124248,7 @@ LosslessScaling	phqia
 我都瘦了	wdelu
 车到山前必有路	wdelv
 抽身	wden
+抽神	wdenio
 问的是	wdeo
 吃独食	wdeou
 差多少	wdeoui
@@ -127870,7 +127905,10 @@ LosslessScaling	phqia
 我领	wllgu
 我另	wllguo
 我来	wllh
-蜗庐	wllj
+我录	wllj
+我撸	wllju
+我路	wlljuo
+蜗庐	wllji
 窝里	wllk
 握力	wllki
 我连	wllm
@@ -128259,6 +128297,8 @@ LosslessScaling	phqia
 窗格	wmge
 创个	wmgei
 创格	wmgeiv
+闯岗	wmgp
+闯岗	wxgp
 闯个	wmgeo
 床隔	wmgeoa
 文明古国	wmgg
@@ -139270,7 +139310,9 @@ Chopard	xcbpi
 贤者	xmqei
 衔着	xmqeu
 先占	xmqf
-闲情	xmqg
+先斩	xmqfu
+先清	xmqg
+闲情	xmqgo
 险情	xmqga
 先请	xmqgu
 先确	xmqh
@@ -146746,6 +146788,7 @@ Chopard	xcbpi
 研拟	yfnkvi
 厌女	yfnl
 艳女	yfnlv
+演您	yfnb
 延年	yfnm
 阉牛	yfnq
 眼能	yfnr
@@ -149625,6 +149668,8 @@ Chopard	xcbpi
 一来	yklhv
 亚克力盒	yklhvu
 一路	yklj
+已撸	yklja
+已录	ykljaa
 毅力	yklk
 已离	yklka
 伊利	yklki
@@ -152297,7 +152342,9 @@ MIKIMOTO	ymbuvv
 鸭绒	ysry
 阴森森	yss
 压碎	yssb
-压岁	yssbv
+压岁	yssbvi
+牙髓	yssbv
+轧碎	yssbvv
 亚瑟	ysse
 牙色	yssev
 亚赛	yssh
@@ -154756,13 +154803,16 @@ MIKIMOTO	ymbuvv
 扬子江	yzji
 要出	yzjj
 咬出	yzjjo
+要寄	yzjkv
 要记	yzjk
 幺鸡	yzjka
 药剂	yzjki
 腰际	yzjku
 腰肌	yzjkuu
-要几	yzjkv
+要几	yzjkvu
 要挤	yzjkvi
+咬肌	yzjko
+窑鸡	yzjkoa
 要举	yzjl
 药具	yzjlii
 腰举	yzjluo
@@ -154845,6 +154895,7 @@ MIKIMOTO	ymbuvv
 一字螺丝刀	yzldv
 要了	yzle
 摇了	yzlei
+药了	yzleia
 咬了	yzleo
 要篮	yzlf
 摇篮	yzlfi
@@ -154863,7 +154914,9 @@ MIKIMOTO	ymbuvv
 药理	yzlkiv
 药力	yzlki
 腰里	yzlku
-一座牢笼	yzll
+要落	yzll
+要啰	yzllv
+一座牢笼	yzllvo
 要脸	yzlm
 要溜	yzlq
 要留	yzlqv
