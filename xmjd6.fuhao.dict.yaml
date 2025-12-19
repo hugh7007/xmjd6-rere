@@ -1,11 +1,12 @@
 ﻿---
 name: xmjd6.fuhao
-version: "20251116"
+version: "20251219"
 sort: original
 ...
 # 特殊
 *#06#	xjlji
 # 标点
+auto_select_pattern: ^;\w
 ;	;
 :	;;
 !	;a
@@ -36,6 +37,8 @@ sort: original
 →	;x
 」	;y
 ```	;z
+
+
 
 
 # !	oa

@@ -27,7 +27,7 @@ schema:
     u键开启全拼反查功能拼音查全码，新增笔画提示。
     i键开启英文单词联想输入模式。
     a键开启连打模式，自造词模式。
-  version: "20251206"
+  version: "20251219"
   dependencies:
     - xmjd6.cx
     - pinyin_simp
@@ -96,7 +96,7 @@ engine:
     - lua_processor@*xmjd6/xmjd6_topup_processor   #这个注释后不会顶功，使用流式请注释这两行
     - lua_processor@*xmjd6/xmjd6_add_ge # 可以在词的首字后加 "个"字，比如 吃饭-> 吃个饭
     - lua_processor@*xmjd6/xmjd6_bianzi
-    - lua_processor@*xmjd6/xmjd6_auto_fallback   #空码自动上屏前面首选
+    # - lua_processor@*xmjd6/xmjd6_auto_fallback   #空码自动上屏前面首选，不建议新手解除此行注释 #
     - speller
     - punctuator
     - selector
