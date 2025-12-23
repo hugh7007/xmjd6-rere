@@ -1,0 +1,25 @@
+# xmjd6.en.schema.yaml
+# 这是一个辅助方案，专门用来强制编译英文词库
+schema:
+  schema_id: xmjd6.en
+  name: "英文词库核心"
+  version: "20251223"
+
+engine:
+  processors:
+    - speller
+    - selector
+  segmentors:
+    - abc_segmentor
+    - punct_segmentor
+    - fallback_segmentor
+  translators:
+    - table_translator
+  filters:
+    - uniquifier
+
+translator:
+  dictionary: xmjd6.en
+  enable_completion: true
+  enable_sentence: false
+  enable_user_dict: false

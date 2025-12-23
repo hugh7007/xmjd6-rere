@@ -27,11 +27,12 @@ schema:
     u键开启全拼反查功能拼音查全码，新增笔画提示。
     i键开启英文单词联想输入模式。
     a键开启连打模式，自造词模式。
-  version: "20251219"
+  version: "20251223"
   dependencies:
     - xmjd6.cx
     - pinyin_simp
     - liangfen
+    - xmjd6.en
     - xmjd6.gbk
 
 
@@ -106,6 +107,7 @@ engine:
     - ascii_segmentor
     - matcher
     - affix_segmentor@pinyin_simp
+    - affix_segmentor@xmjd6en
     - affix_segmentor@quanpinerfen
     - affix_segmentor@xmjdWXYZ
     - affix_segmentor@xmjd6gbk
@@ -130,6 +132,7 @@ engine:
     - table_translator@xmjd6_user
     - script_translator@quanpinerfen
     - script_translator@pinyin_simp
+    - table_translator@xmjd6en
     - script_translator@xmjd6gbk
     - lua_translator@*xmjd6/xmjd6_force_gc
   filters:
@@ -238,6 +241,17 @@ pinyin_simp:
     - xform/([jqxy])v/$1u/
   prefix: "u"
   tips: "〔全拼〕"
+  
+xmjd6en:
+  tag: xmjd6en
+  dictionary: xmjd6.en
+  enable_sentence: true
+  enable_completion: true
+  enable_user_dict: false
+  comment_format:
+    - xform/.*//
+  prefix: "i"
+  tips: "〔单词〕"
 
 #↓二分反查方案
 quanpinerfen_lookup:
@@ -382,6 +396,7 @@ recognizer:
     xmjdWXYZ: "^a['/a-z][a-z,./:?!']*'?$"
     pinyin_simp: "^u[a-z']*'?$"
     quanpinerfen: "^v[a-z']*'?$"
+    xmjd6en: "^i[a-z]*?$"
     xmjd6gbk: "^o[a-z]*?$"
     jsq: "^=[^;']+$"
     zhuan: "^\\\\.*$" # 不加这句后面不能跟数字
