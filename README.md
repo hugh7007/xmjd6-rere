@@ -57,39 +57,155 @@
 ## 如何使用
 
 将 [GitHub Release](https://github.com/hugh7007/xmjd6-rere/releases/) 中的 [xmjd6.zip](https://github.com/hugh7007/xmjd6-rere/releases/latest/download/xmjd6.zip) 导入至 librime ≥ 1.9.0 的 Rime 输入法的用户文件夹中使用。
-  - Windows： 
-    - 小狼毫
-      - [小狼毫输入法测试版](https://github.com/rime/weasel/releases/tag/latest)
-      - [小狼毫输入法 水龙月 Fork 版](https://github.com/Techince/weasel/releases/latest)，需要卸载原版后重启再安装。
-      - 默认用户文件夹路径：`%APPDATA%\Rime`
-    - 小小输入法[星猫键道6绿色便携版](https://github.com/hugh7007/xmjd6-rere/releases/latest/download/yong-xmjd6-full.zip)，无需导入方案即可在 Windows 系统上轻量使用。使用 Ctrl + 空格激活输入法。
-    - [玉兔毫](https://github.com/amorphobia/rabbit)
-      - 玉兔毫[星猫键道6绿色便携版](https://github.com/hugh7007/xmjd6-rere/releases/latest/download/Rabbit-xmjd6.zip)，无需导入方案即可在 Windows 系统上轻量使用。注意目录中不能有空格。
-  - macOS: 
-    - [鼠须管输入法测试版](https://github.com/rime/squirrel/releases/tag/latest)
-      - 默认用户文件夹路径：`~/Library/Rime` 
-    - [小企鹅输入法 macOS 版【中州韵版】](https://github.com/fcitx-contrib/fcitx5-macos-installer/blob/master/README.zh-CN.md)
-      - 默认用户文件夹路径：`~/.local/share/fcitx5/rime`
-  - Android: 
-    - [同文输入法](https://github.com/osfans/trime/releases/latest)
-      - 默认用户文件夹路径：`/storage/emulated/0/rime/`
-      - 需要在设置里点配置管理，点用户文件夹，再点默认后再导入方案至文件夹，再进行部署。
-    - [小企鹅输入法 Android 版](https://github.com/fcitx5-android/fcitx5-android)：
-      - [主程序](https://jenkins.fcitx-im.org/job/android/job/fcitx5-android/)
-      - [Rime 插件](https://jenkins.fcitx-im.org/job/android/job/fcitx5-android-plugin-rime/)
-      - [更新器](https://jenkins.fcitx-im.org/job/android/job/fcitx5-android-updater/)
-      - 默认用户文件夹路径（在小企鹅中添加中州韵输入法后出现）：`/storage/emulated/0/Android/data/org.fcitx.fcitx5.android/files/data/rime/`
-      - 推荐使用系统内置文件管理器（通过 DocumentsUI）来管理小企鹅输入法5的数据文件。 在 DocumentsUI 的侧边栏中，选择“小企鹅输入法5”，即可直接访问 /sdcard/Android/data/org.fcitx.fcitx5.android/files/ 目录中的文件，不需要借助第三方文件管理器，也不需要使用 adb 或者 root 权限。
-      - 参考：https://github.com/Mintimate/oh-my-rime/issues/96/
-  - iOS: 
-    - [元书输入法](https://apps.apple.com/app/id6744464701)
-      - 可手动在“输入方案”中“下载方案”，下载地址：
-        - <https://github.com/hugh7007/xmjd6-rere/releases/latest/download/xmjd6.zip> （原始地址）
-        - <https://gh-proxy.com/https://github.com/hugh7007/xmjd6-rere/releases/latest/download/xmjd6.zip> （国内加速地址）
-        - 设置方案下后，点击下载按钮，完成后在“方案目录切换”中找到 RimeUserData 目录中选择刚才导入的方案名的目录，点击右上角 打开 即可。
-        - 后续更新方案可以重新在“下载方案”中重新下载，然后重新在“方案目录切换”即可。
-    - [仓输入法](https://apps.apple.com/app/id6446617683)
-      - 可使用内置在线方案下载导入
+
+- Windows：
+  - 小狼毫
+    - [小狼毫输入法测试版](https://github.com/rime/weasel/releases/tag/latest)
+    - [小狼毫输入法 水龙月 Fork 版](https://github.com/Techince/weasel/releases/latest)，需要卸载原版后重启再安装。
+    - 默认用户文件夹路径：`%APPDATA%\Rime`
+  - 小小输入法[星猫键道6绿色便携版](https://github.com/hugh7007/xmjd6-rere/releases/latest/download/yong-xmjd6-full.zip)，无需导入方案即可在 Windows 系统上轻量使用。使用 Ctrl + 空格激活输入法。
+  - [玉兔毫](https://github.com/amorphobia/rabbit)
+    - 玉兔毫[星猫键道6绿色便携版](https://github.com/hugh7007/xmjd6-rere/releases/latest/download/Rabbit-xmjd6.zip)，无需导入方案即可在 Windows 系统上轻量使用。注意目录中不能有空格。
+
+- macOS:
+  - [鼠须管输入法测试版](https://github.com/rime/squirrel/releases/tag/latest)
+    - 默认用户文件夹路径：`~/Library/Rime`
+  - [小企鹅输入法 macOS 版【中州韵版】](https://github.com/fcitx-contrib/fcitx5-macos-installer/blob/master/README.zh-CN.md)
+    - 默认用户文件夹路径：`~/.local/share/fcitx5/rime`
+
+- Linux:
+  - [小企鹅输入法 5 (Fcitx5)](https://github.com/fcitx/fcitx5)
+    - **各发行版安装指令**：
+      - **Arch / Manjaro / EndeavourOS**: `sudo pacman -S fcitx5-im fcitx5-rime fcitx5-configtool librime-lua`
+      - **Ubuntu / Debian / Linux Mint**: `sudo apt install fcitx5 fcitx5-rime librime-lua`
+      - **Fedora**: `sudo dnf install fcitx5 fcitx5-rime librime-lua`
+      - **RHEL / AlmaLinux / Rocky Linux**: 
+        - 需先启用 EPEL 源：`sudo dnf install epel-release`
+        - 然后启用 CRB (CodeReady Builder) 库（RHEL/Rocky 9 必需）：`sudo /usr/bin/crb enable`
+        - 再执行 `sudo dnf install fcitx5 fcitx5-rime librime-lua`
+      - **Deepin (深度) / UOS (统信)**：
+        - 卸载旧版 Fcitx4：`sudo apt remove fcitx fcitx-bin fcitx-table-all`
+        - 安装 Fcitx5：`sudo apt install fcitx5 fcitx5-rime librime-lua`
+      - **Flatpak**: `flatpak install org.fcitx.Fcitx5 org.fcitx.Fcitx5.Addon.Rime`
+
+    - **环境配置 (Configuration Strategy)**：
+      *请严格根据您的桌面环境 (DE/WM) 选择配置方案。变量值统一为 `fcitx` (协议名)。*
+
+      - **方案 A：KDE Plasma (Wayland) 用户**
+        - **操作步骤**：
+          1. 系统设置 -> 虚拟键盘 -> 选中 Fcitx 5。
+          2. **重要警告**：切勿在任务栏图标菜单点击“重启”。
+          3. 编辑 `/etc/environment` ，添加以下：
+             ```text
+             XMODIFIERS=@im=fcitx
+             GLFW_IM_MODULE=fcitx
+             CLUTTER_IM_MODULE=fcitx
+             ECORE_IMF_MODULE=fcitx
+             QT_IM_MODULES="wayland;fcitx;ibus"
+             ```
+
+      - **方案 B：GNOME / Budgie / Debian 系用户**
+        - **操作步骤**：
+          1. **(必须)** 终端运行 `im-config -n fcitx5`。
+          2. **(GNOME/Budgie 特有)** 运行强制覆盖命令：
+             终端运行 `gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "{'Gtk/IMModule':<'fcitx'>}"`
+          3. **(补全)** 编辑 `/etc/environment`，添加以下：
+             ```text
+             GTK_IM_MODULE=fcitx
+             QT_IM_MODULE=fcitx
+             XMODIFIERS=@im=fcitx
+             SDL_IM_MODULE=fcitx
+             GLFW_IM_MODULE=fcitx
+             CLUTTER_IM_MODULE=fcitx
+             ECORE_IMF_MODULE=fcitx
+             QT_IM_MODULES="wayland;fcitx;ibus"
+             ```
+
+      - **方案 C：传统 X11 桌面 (Xfce / LXQt / LXDE / Mate)**
+        - **操作步骤**：
+          1. **(LXQt 用户)**：在“会话设置” -> “自动启动”中添加 Fcitx5。
+          2. **(Xfce/LXDE 用户)**：通常由系统自动启动，若未启动请在“会话和启动”中添加 `fcitx5`。
+          3. **(环境变量)** 编辑 `/etc/environment` (全局) 或 `~/.xprofile` (用户级)，写入全量配置：
+             ```text
+             GTK_IM_MODULE=fcitx
+             QT_IM_MODULE=fcitx
+             XMODIFIERS=@im=fcitx
+             SDL_IM_MODULE=fcitx
+             GLFW_IM_MODULE=fcitx
+             CLUTTER_IM_MODULE=fcitx
+             ECORE_IMF_MODULE=fcitx
+             QT_IM_MODULES="wayland;fcitx;ibus"
+             ```
+
+      - **方案 D：平铺窗口管理器 (i3wm / awesome / bspwm)**
+        - **操作步骤 1 (环境变量)**：
+          - 编辑 `~/.xprofile`，写入全量配置：
+            ```bash
+            export GTK_IM_MODULE=fcitx
+            export QT_IM_MODULE=fcitx
+            export XMODIFIERS=@im=fcitx
+            export SDL_IM_MODULE=fcitx
+            export GLFW_IM_MODULE=fcitx
+            export CLUTTER_IM_MODULE=fcitx
+            export ECORE_IMF_MODULE=fcitx
+            export QT_IM_MODULES="wayland;fcitx;ibus"
+            ```
+        - **操作步骤 2 (自动启动)**：
+          - **i3wm**: 编辑 `~/.config/i3/config`，加入：
+            `exec --no-startup-id fcitx5 -d`
+          - **awesome**: 编辑 `~/.config/awesome/rc.lua`，加入：
+            `awful.spawn.with_shell("fcitx5 -d")`
+          - **bspwm**: 编辑 `~/.config/bspwm/bspwmrc`，在文件末尾加入：
+            `fcitx5 -d &`
+
+      - **方案 E：Deepin / UOS (DDE)**
+        - **操作步骤**：
+          1. 终端运行 `im-config -n fcitx5`。
+          2. 若遇到问题，编辑 `/etc/environment` 尝试强制覆盖：
+             ```text
+             GTK_IM_MODULE=fcitx
+             QT_IM_MODULE=fcitx
+             XMODIFIERS=@im=fcitx
+             SDL_IM_MODULE=fcitx
+             GLFW_IM_MODULE=fcitx
+             CLUTTER_IM_MODULE=fcitx
+             ECORE_IMF_MODULE=fcitx
+             QT_IM_MODULES="wayland;fcitx;ibus"
+             ```
+
+    - **应用特例 (Electron / Chrome / VSCode)**：
+      - **推荐参数 (XWayland 模式 - 最稳)**：
+        不加参数，让应用默认读取 `GTK_IM_MODULE` 或 `XMODIFIERS`。
+      - **原生 Wayland 模式 (如必须)**：
+        - KWin (KDE) 用户（使用 text-input-v1 以避免 v3 的 Bug）：
+          `--enable-features=UseOzonePlatform --ozone-platform=wayland --enable-wayland-ime --wayland-text-input-version=1`
+        - GNOME / 其他用户：
+          `--enable-features=UseOzonePlatform --ozone-platform=wayland --enable-wayland-ime --wayland-text-input-version=3`
+
+    - 默认用户文件夹路径：`~/.local/share/fcitx5/rime/`
+    - Flatpak 版路径：`~/.var/app/org.fcitx.Fcitx5/data/fcitx5/rime/`
+
+- Android:
+  - [同文输入法](https://github.com/osfans/trime/releases/latest)
+    - 默认用户文件夹路径：`/storage/emulated/0/rime/`
+    - 需要在设置里点配置管理，点用户文件夹，再点默认后再导入方案至文件夹，再进行部署。
+  - [小企鹅输入法 Android 版](https://github.com/fcitx5-android/fcitx5-android)：
+    - [主程序](https://jenkins.fcitx-im.org/job/android/job/fcitx5-android/)
+    - [Rime 插件](https://jenkins.fcitx-im.org/job/android/job/fcitx5-android-plugin-rime/)
+    - [更新器](https://jenkins.fcitx-im.org/job/android/job/fcitx5-android-updater/)
+    - 默认用户文件夹路径（在小企鹅中添加中州韵输入法后出现）：`/storage/emulated/0/Android/data/org.fcitx.fcitx5.android/files/data/rime/`
+    - 推荐使用系统内置文件管理器（通过 DocumentsUI）来管理小企鹅输入法5的数据文件。 在 DocumentsUI 的侧边栏中，选择“小企鹅输入法5”，即可直接访问 `/sdcard/Android/data/org.fcitx.fcitx5.android/files/` 目录中的文件，不需要借助第三方文件管理器，也不需要使用 adb 或者 root 权限。
+    - 参考：https://github.com/Mintimate/oh-my-rime/issues/96/
+
+- iOS:
+  - [元书输入法](https://apps.apple.com/app/id6744464701)
+    - 可手动在“输入方案”中“下载方案”，下载地址：
+      - <https://github.com/hugh7007/xmjd6-rere/releases/latest/download/xmjd6.zip> （原始地址）
+      - <https://gh-proxy.com/https://github.com/hugh7007/xmjd6-rere/releases/latest/download/xmjd6.zip> （国内加速地址）
+      - 设置方案下后，点击下载按钮，完成后在“方案目录切换”中找到 RimeUserData 目录中选择刚才导入的方案名的目录，点击右上角 打开 即可。
+      - 后续更新方案可以重新在“下载方案”中重新下载，然后重新在“方案目录切换”即可。
+  - [仓输入法](https://apps.apple.com/app/id6446617683)
+    - 可使用内置在线方案下载导入
 ## 细节补充
 
 - **主方案文件：** `xmjd6.schema.yaml`  
