@@ -10,7 +10,7 @@
 
 # 要比共享目录的同名文件的 config_version 大才可以生效
 
-config_version: '2024-05-22'
+config_version: '2025-12-24'
 
 # 选项: last | default | _custom_
 # last: 上次使用的拉丁键盘布局
