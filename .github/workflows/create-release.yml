@@ -195,9 +195,9 @@ jobs:
         # 按照指定顺序合并 .txt 文件
         cat Rime/xmjd6.buchong.txt \
             Rime/xmjd6.danzi.txt \
-            Rime/xmjd6.cizu.txt \
             Rime/xmjd6.zidingyi.txt \
             Rime/xmjd6.fjcy.txt \
+            Rime/xmjd6.cizu.txt \
             Rime/xmjd6.yingwen.txt \
             Rime/xmjd6.wxw.txt > Rime/xmjd6.body.txt
         
