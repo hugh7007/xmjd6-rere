@@ -8,6 +8,27 @@ local function hint(cand, env)
     if not cand.text or utf8.len(cand.text) < 2 then
         return false
     end
+    
+    local now = os.time()
+    -- 按需加载 ReverseDb
+    if not env.reverse and env.dict_name then
+        local ok, result = pcall(function()
+            return ReverseDb("build/".. env.dict_name .. ".reverse.bin")
+        end)
+        if ok then
+            env.reverse = result
+        else
+            -- 加载失败，清除 dict_name 防止重复尝试，或者记录错误状态
+            -- 这里简单地设为 nil，后续请求也会快速失败
+            env.reverse = nil
+        end
+    end
+
+    -- 如果加载成功，更新最后使用时间
+    if env.reverse then
+        env.last_lookup_time = now
+    end
+
     local context = env.engine.context
     local reverse = env.reverse
     local s = env.s
@@ -60,6 +81,18 @@ local function filter(input, env)
     local hint_text = env.hint_text
     local first = true
     local input_text = context.input
+    
+    -- 检查是否需要卸载闲置的 ReverseDb (15秒超时)
+    if env.reverse and env.last_lookup_time then
+        local now = os.time()
+        if os.difftime(now, env.last_lookup_time) > 15 then
+            env.reverse = nil
+            collectgarbage("collect")
+            -- 重置时间，避免重复触发
+            env.last_lookup_time = nil
+        end
+    end
+
     -- 安全检查：避免空字符串导致正则表达式错误
     local no_commit = false
     if env.s ~= "" and env.b ~= "" then
@@ -84,7 +117,7 @@ local function filter(input, env)
         end
     end
     -- 每处理一定数量候选词后触发 GC
-    if count > 100 then
+    if count > 50 then
         collectgarbage("step", 1)
     end
 end
@@ -97,20 +130,12 @@ local function init(env)
         error("txjx_filter: translator/dictionary not configured")
     end
 
+    env.dict_name = dict_name
     env.b = config:get_string("topup/topup_with") or ""
     env.s = config:get_string("topup/topup_this") or ""
     env.hint_text = config:get_string('hint_text') or '🚫'
-    
-    -- 安全初始化 ReverseDb，捕获可能的错误
-    local ok, result = pcall(function()
-        return ReverseDb("build/".. dict_name .. ".reverse.bin")
-    end)
-    if ok then
-        env.reverse = result
-    else
-        -- 如果反查库加载失败，设为 nil，hint 函数会跳过
-        env.reverse = nil
-    end
+    env.reverse = nil
+    env.last_lookup_time = nil
 end
 
 local function fini(env)
