@@ -13,7 +13,7 @@ local function hint(cand, env)
     -- 按需加载 ReverseDb
     if not env.reverse and env.dict_name then
         local ok, result = pcall(function()
-            return ReverseDb("build/".. env.dict_name .. ".reverse.bin")
+            return ReverseLookup(env.dict_name)  
         end)
         if ok then
             env.reverse = result
