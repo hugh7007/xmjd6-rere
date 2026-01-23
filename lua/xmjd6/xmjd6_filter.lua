@@ -1,4 +1,5 @@
--- txjx filter 模块，此版本经过二次优化 来源：@浮生 https://github.com/wzxmer/rime-txjx
+--此版本经过二次优化，时间：2026-01-19 来源：@浮生 https://github.com/wzxmer/rime-txjx 
+
 local function startswith(str, start)
     return string.sub(str, 1, #start) == start
 end
@@ -10,10 +11,10 @@ local function hint(cand, env)
     end
     
     local now = os.time()
-    -- 按需加载 ReverseDb
+    -- 按需加载 ReverseLookup
     if not env.reverse and env.dict_name then
         local ok, result = pcall(function()
-            return ReverseLookup(env.dict_name)  
+            return ReverseLookup(env.dict_name)
         end)
         if ok then
             env.reverse = result

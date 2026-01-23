@@ -1,4 +1,4 @@
--- 优化版completion，此版本经过二次优化 来源：@浮生 https://github.com/wzxmer/rime-txjx
+-- 优化版completion，此版本经过二次优化 来源：@浮生 https://github.com/wzxmer/rime-txjx  时间：2026-01-10
 -- 补全过滤器模块
 -- 用于控制是否显示编码补全候选词
 
