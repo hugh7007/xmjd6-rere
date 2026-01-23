@@ -27,12 +27,11 @@ schema:
     u键开启全拼反查功能拼音查全码，新增笔画提示。
     i键开启英文单词联想输入模式。
     a键开启连打模式，自造词模式。
-  version: "20260118"
+  version: "20251127"
   dependencies:
     - xmjd6.cx
     - pinyin_simp
     - liangfen
-    - xmjd6.en
     - xmjd6.gbk
 
 
@@ -89,15 +88,15 @@ switches:
 
 engine:
   processors:
-    - lua_processor@*xmjd6/xmjd6_select_character  # 以词定字
     - ascii_composer
     - recognizer
     - key_binder    
     - lua_processor@*xmjd6/xmjd6_smartTwo    #这个注释后不会顶功，使用流式请注释这两行
-    - lua_processor@*xmjd6/xmjd6_topup_processor   #这个注释后不会顶功，使用流式请注释这两行
+    - lua_processor@*xmjd6/xmjd6_forTopUp   #这个注释后不会顶功，使用流式请注释这两行
+    - lua_processor@*xmjd6/xmjd6_select_character  # 以词定字
     - lua_processor@*xmjd6/xmjd6_add_ge # 可以在词的首字后加 "个"字，比如 吃饭-> 吃个饭
     - lua_processor@*xmjd6/xmjd6_bianzi
-    # - lua_processor@*xmjd6/xmjd6_auto_fallback   #空码自动上屏前面首选，不建议新手解除此行注释 #
+    - lua_processor@*xmjd6/xmjd6_auto_fallback   #空码自动上屏前面首选
     - speller
     - punctuator
     - selector
@@ -107,7 +106,6 @@ engine:
     - ascii_segmentor
     - matcher
     - affix_segmentor@pinyin_simp
-    - affix_segmentor@xmjd6en
     - affix_segmentor@quanpinerfen
     - affix_segmentor@xmjdWXYZ
     - affix_segmentor@xmjd6gbk
@@ -116,7 +114,7 @@ engine:
     - fallback_segmentor
   translators:
     - lua_translator@*xmjd6/xmjd6_jisuanqi
-    - lua_translator@*xmjd6/xmjd6_shijian
+    - lua_translator@*xmjd6/xmjd6_time
     - lua_translator@*xmjd6/xmjd6_zimu_translator
     - lua_translator@*xmjd6/xmjd6_shuzi
     - lua_translator@*xmjd6/xmjd6_unicode      # 使用< & >开头启动
@@ -132,9 +130,7 @@ engine:
     - table_translator@xmjd6_user
     - script_translator@quanpinerfen
     - script_translator@pinyin_simp
-    - table_translator@xmjd6en
     - script_translator@xmjd6gbk
-    - lua_translator@*xmjd6/xmjd6_force_gc
   filters:
     - reverse_lookup_filter@pinyin_simp_lookup  # 二分反查
     - reverse_lookup_filter@quanpinerfen_lookup      # 全拼反查
@@ -145,7 +141,7 @@ engine:
     - simplifier@mars #火星文
     - simplifier@jffh      # 简繁转换
     - simplifier@ascii_punct  # 英文标点
-    - lua_filter@*xmjd6/xmjd6_embeded_cands@embeded_cands #嵌入候选
+    - lua_filter@*xmjd6/xmjd6_embeded_cands #嵌入候选
     - lua_filter@*xmjd6/xmjd6_add_space # \n 回车| 空格
     - lua_filter@*xmjd6/xmjd6_filter  # 自定义过滤
     - uniquifier         # 去重
@@ -241,17 +237,6 @@ pinyin_simp:
     - xform/([jqxy])v/$1u/
   prefix: "u"
   tips: "〔全拼〕"
-  
-xmjd6en:
-  tag: xmjd6en
-  dictionary: xmjd6.en
-  enable_sentence: true
-  enable_completion: true
-  enable_user_dict: false
-  comment_format:
-    - xform/.*//
-  prefix: "i"
-  tips: "〔单词〕"
 
 #↓二分反查方案
 quanpinerfen_lookup:
@@ -396,7 +381,6 @@ recognizer:
     xmjdWXYZ: "^a['/a-z][a-z,./:?!']*'?$"
     pinyin_simp: "^u[a-z']*'?$"
     quanpinerfen: "^v[a-z']*'?$"
-    xmjd6en: "^i[a-z]*?$"
     xmjd6gbk: "^o[a-z]*?$"
     jsq: "^=[^;']+$"
     zhuan: "^\\\\.*$" # 不加这句后面不能跟数字

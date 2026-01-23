@@ -2,7 +2,7 @@
 patch:
   schema/name: 🌟🐈   #修改方案名称，显示在空格上的名字
   schema/icon: "xmjd6.ico" #任务栏显示星猫键道图标，注释后恢复默认
-  speller/auto_select: false    #自动上屏开关，默认关false开true
+  speller/auto_select: false   #自动上屏开关，默认关false开true
   hint_text: ''    #顶功提示符→在两个<''>中间添加符号，例如hint_text: '🔞'
   menu/page_size: 5   #候选项数
   # menu/alternative_select_labels: ["〡", "〢", " 〣", " 〤", " 〥", " 〦", " 〧", " 〨", " 〩", ""]  # 修改候选项标签
@@ -21,9 +21,9 @@ patch:
   switches/@7/reset: 1     #[ 简约, 逐码展示 ]
 
   #流式功能配置，注释或删掉 <#> 即可 。配置表<↓注意数字>   流式：< 123456>前无<#>。  单字优先< 123456>前面都有<#>。   单字不优先<1>前无<#>  <23456>前面有<#>
-  # engine/filters/@5: null                #<1><单字优先>
-  # engine/processors/@4: null           #<2><流式>
-  # engine/processors/@5: null           #<3><流式>
+  # engine/filters/@4: null                #<1><单字优先>
+  # engine/processors/@3: null           #<2><流式>
+  # engine/processors/@4: null           #<3><流式>
   # translator/enable_sentence: true     #<4><流式>
   # translator/enable_user_dict: true    #<5><流式>
   # key_binder/bindings/@5: null         #<6><流式>
