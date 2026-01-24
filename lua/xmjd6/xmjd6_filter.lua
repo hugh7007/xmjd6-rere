@@ -83,10 +83,10 @@ local function filter(input, env)
     local first = true
     local input_text = context.input
     
-    -- 检查是否需要卸载闲置的 ReverseDb (15秒超时)
+    -- 检查是否需要卸载闲置的 ReverseDb (10秒超时)
     if env.reverse and env.last_lookup_time then
         local now = os.time()
-        if os.difftime(now, env.last_lookup_time) > 15 then
+        if os.difftime(now, env.last_lookup_time) > 10 then
             env.reverse = nil
             collectgarbage("collect")
             -- 重置时间，避免重复触发
@@ -128,7 +128,7 @@ local function init(env)
     local dict_name = config:get_string("translator/dictionary")
     
     if not dict_name or dict_name == "" then
-        error("txjx_filter: translator/dictionary not configured")
+        error("xmjd6_filter: translator/dictionary not configured")
     end
 
     env.dict_name = dict_name
