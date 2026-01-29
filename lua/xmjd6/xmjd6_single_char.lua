@@ -6,19 +6,33 @@
 2. 添加类型安全检查
 3. 优化内存使用
 4. 增强可读性
+5. 跳过反查候选，避免影响反查结果的完整性
 --]]
 
 local single_char_filter = {}
 
 function single_char_filter.func(input, env)
    if not input or not input.iter then return end  -- 安全校验
-   
+
+   -- 检查是否为反查模式（输入包含万能符 `）
+   local context = env.engine.context
+   local input_text = context.input or ""
+   local is_reverse_lookup = input_text:find("`") ~= nil
+
+   -- 如果是反查模式，直接透传所有候选，不做重排序
+   if is_reverse_lookup then
+       for cand in input:iter() do
+           yield(cand)
+       end
+       return
+   end
+
    -- 每次调用时创建新的 buffer，避免累积
    local buffer = {}
    local buffer_size = 0
-   
+
    for cand in input:iter() do
-       
+
        -- 安全检查：确保cand是有效的候选对象
        if cand and cand.text and type(cand.text) == "string" then
            -- 优化：优先检查comment长度（性能更高）
@@ -42,12 +56,12 @@ function single_char_filter.func(input, env)
            end
        end
    end
-   
+
    -- 批量输出非优先候选项
    for i = 1, buffer_size do
        yield(buffer[i])
    end
-   
+
    -- buffer 是局部变量，函数结束后自动被 GC 回收
 end
 

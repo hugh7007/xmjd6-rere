@@ -1,40 +1,56 @@
--- 优化版completion，此版本经过二次优化 来源：@浮生 https://github.com/wzxmer/rime-txjx  时间：2026-01-10
--- 补全过滤器模块
--- 用于控制是否显示编码补全候选词
+-- 补全候选过滤器（Completion Filter）
+-- 功能：根据开关控制是否显示编码补全候选词
+-- 特点：
+--   1. 支持动态开关（completion）监听
+--   2. 优化内存管理，正确断开监听器防止泄漏
+-- 作者：@浮生 https://github.com/wzxmer/rime-txjx
+-- 更新：2026-01-25
 
 return {
     -- 初始化函数
     init = function(env)
-        -- 将状态存储在 env 中，避免多实例共享状态
-        env.completion_enabled = false
-        
+        local ctx = env.engine.context
+
+        -- 读取当前开关状态，避免硬编码
+        env.completion_enabled = ctx:get_option("completion")
+        if env.completion_enabled == nil then
+            env.completion_enabled = false  -- 默认关闭
+        end
+
         -- 定义选项更新回调函数
-        local handler = function(ctx, opname)
-            -- 当"completion"选项发生变化时更新状态
+        -- 注意：不要在闭包中捕获 ctx，避免循环引用
+        local handler = function(context, opname)
             if opname == "completion" then
-                env.completion_enabled = ctx:get_option(opname)
+                env.completion_enabled = context:get_option(opname)
             end
         end
-        -- 注册选项更新监听器
-        env.engine.context.option_update_notifier:connect(handler)
+
+        -- 注册监听器（保存引用供 fini 断开，防止内存泄漏）
+        env._completion_handler = handler
+        ctx.option_update_notifier:connect(handler)
     end,
-    
-    -- 候选词处理函数
+
+    -- 候选词过滤函数
     func = function(input, env)
-        -- 遍历所有候选词
         for cand in input:iter() do
-            -- 如果补全功能关闭且候选词类型是补全词
+            -- 补全功能关闭时，跳过所有 completion 类型的候选
+            -- 使用 return 直接终止处理，提升性能
             if not env.completion_enabled and cand.type == "completion" then
-                -- 终止处理，丢弃后续所有候选词
                 return
             end
-            -- 正常返回候选词
             yield(cand)
         end
     end,
-    
+
     -- 清理函数
     fini = function(env)
+        -- 断开监听器，防止内存泄漏
+        if env._completion_handler then
+            pcall(function()
+                env.engine.context.option_update_notifier:disconnect(env._completion_handler)
+            end)
+            env._completion_handler = nil
+        end
         env.completion_enabled = nil
         collectgarbage("step", 1)
     end
