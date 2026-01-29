@@ -137,13 +137,13 @@ engine:
     - reverse_lookup_filter@gbk_lookup      # GBK反查
     - lua_filter@*xmjd6/xmjd6_completion   # 辅助码提示
     - lua_filter@*xmjd6/xmjd6_single_char #候选单字优先
-    - simplifier@emoji_cn  # 表情符号
+    - lua_filter@*xmjd6/xmjd6_filter  # 630提示（必须在emoji_cn之前，在embeded_cands之前）
+    - simplifier@emoji_cn  # 表情符号（会清空comment，所以630提示不会显示在表情上）
     - simplifier@mars #火星文
     - simplifier@jffh      # 简繁转换
     - simplifier@ascii_punct  # 英文标点
     - lua_filter@*xmjd6/xmjd6_embeded_cands #嵌入候选
     - lua_filter@*xmjd6/xmjd6_add_space # \n 回车| 空格
-    - lua_filter@*xmjd6/xmjd6_filter  # 自定义过滤
     - uniquifier         # 去重
 
 #导入符号
@@ -185,10 +185,7 @@ repeat_history2:
 emoji_cn:
   opencc_config: xmjd6/xmjd6_emoji.json
   option_name: emoji_cn
-  comment_format:
-  #  - xform/.*//   #不会有透明的文字显示
-    - xform/.*/ /  #原始的后面会有长度显示
-  # tips: all  #不显示表情备注
+  tips: none  # 不显示表情的原文提示（如〔开心〕）
 
 jffh:
   opencc_config: xmjd6/xmjd6_s2g.json
