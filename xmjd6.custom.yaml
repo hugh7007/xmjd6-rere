@@ -10,6 +10,7 @@ patch:
   style/inline_preedit: true   # 行内显示预编辑区：true；false
   punctuator/digit_separators: ",.:;()[]{}?"
 
+
   #                         0选择第一个,1选择第二个
   switches/@0/reset: 0     #[ 中文, 西文 ]
   switches/@1/reset: 0     #[ 全角, 半角 ]
@@ -20,13 +21,17 @@ patch:
   switches/@6/reset: 1     #[ 简约, 630提示 ]
   switches/@7/reset: 1     #[ 简约, 逐码展示 ]
 
-  #流式功能配置，注释或删掉 <#> 即可 。配置表<↓注意数字>   流式：< 123456>前无<#>。  单字优先< 123456>前面都有<#>。   单字不优先<1>前无<#>  <23456>前面有<#>
-  # engine/filters/@4: null                #<1><单字优先>
-  # engine/processors/@3: null           #<2><流式>
-  # engine/processors/@4: null           #<3><流式>
-  # translator/enable_sentence: true     #<4><流式>
-  # translator/enable_user_dict: true    #<5><流式>
-  # key_binder/bindings/@5: null         #<6><流式>
+  #流式功能配置，注释或删掉 <#> 即可 。配置表<↓注意数字>   流式：< 123456>前无<#>。  单字优先< 123456>前面都有<#>。   单字不优先<1>前无<#>  <23456>前面有<#> 中英混输<1><3><6><7>
+  # engine/filters/@4: null                #<1><单字优先> 
+  # engine/processors/@3: null           #<2><流式> 
+  # engine/processors/@4: null           #<3><流式>  
+  # translator/enable_sentence: true     #<4><流式> 本地缓存
+  # translator/enable_user_dict: true    #<5><流式> 用户词库开启
+  # key_binder/bindings/@5: null         #<6><流式> 单引号断开一简字
+  # engine/processors/@8: null           #<7>空码自动上屏前面首选，会影响三码是不是被顶，例如nbnq
+
+#如果需要中英混输,不需要顶功，需要空格才能上屏，就注释<1><3><6><7>，，不自造词，保持固定顺序
+
 
   ascii_composer/switch_key:
     Caps_Lock: clear   #切换大小写，clear是不上屏切换大写，使用commit_code会先上屏小写然后再输入是大写

@@ -4,7 +4,7 @@
 # 键道6 扩展词库控制
 ---
 name: xmjd6.extended
-version: "20260118"
+version: "Q1"
 sort: original 
 use_preset_vocabulary: false
 columns:

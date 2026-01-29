@@ -265,6 +265,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 摒	bgi
 蛃	bgia
 偋	bgiav
+眪	bgiavi
 蛃	bgiavi
 偋	bgiavu
 仌	bgii
@@ -1110,6 +1111,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 鞤	bpvovi
 榜	bpvovo
 棓	bpvovo
+㮄	bpvovu
 垹	bpvovv
 埲	bpvovv
 磅	bpvu
@@ -1250,6 +1252,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 鲌	bsuaui
 鲅	bsuavu
 魃	bsui
+皅	bsuia
+皅	bsuiai
 鼥	bsuiv
 魃	bsuivu
 鼥	bsuivu
@@ -1907,6 +1911,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 瓷	ckovva
 垐	ckovvo
 辞	cku
+皉	ckui
+皉	ckuiiv
 辤	ckuo
 蛓	ckuoi
 蛓	ckuoia
@@ -1937,6 +1943,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 𬘷	claaou
 搓	cli
 嵯	clia
+睉	cliai
+睉	cliaii
 嵳	cliao
 㽨	cliaou
 嵯	cliaou
@@ -2399,6 +2407,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 弔	dcava
 𢎨	dcavai
 弔	dcavai
+盄	dcavi
+盄	dcavia
 弴	dcavo
 屌	dcavoi
 弴	dcavov
@@ -2408,6 +2418,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 虭	dciaa
 蛁	dciaau
 虭	dciaau
+瞗	dciau	#繁体 ⿰目鸟
+瞗	dciaua	#繁体 ⿰目鸟
 伄	dciav
 伄	dciava
 𦰏	dcii
@@ -2487,11 +2499,14 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 斣	ddiaoo
 蚪	ddiaoo
 㲲	ddiau
+瞗	ddiaua	#繁体 ⿰目鸟
 氎	ddiauv
+眣	ddiauv
 㲲	ddiauv
 𫶇	ddiav
 蜨	ddiava
 峌	ddiava
+眰	ddiava
 幉	ddiavi
 蝶	ddiavi
 𫶇	ddiavi
@@ -3158,6 +3173,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 䵠	dkiaua
 骶	dkiaua
 䗖	dkiav
+眱	dkiava
 䗖	dkiavi
 𬱖	dkiavu
 嶳	dkiavu
@@ -3607,6 +3623,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 𫵵	dpiaau
 𬠅	dpiaio
 嵣	dpiao
+瞊	dpiaov
 嵣	dpiaov
 𱎟	dpiau
 𱎟	dpiauu
@@ -3777,6 +3794,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 答	dsu
 匒	dsua
 匒	dsuaii
+觰	dsuau
+觰	dsuauo
 笪	dsuv
 笚	dsuvi
 笚	dsuvia
@@ -4706,6 +4725,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 似	ekiaoi
 峕	ekiaov
 眡	ekiau
+眂	ekiaua
 眡	ekiaua
 峙	ekiav
 畤	ekiavo
@@ -5019,6 +5039,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 㡎	eniaa
 㡎	eniaao
 屾	eniai
+眒	eniaia
 屾	eniaia
 峷	eniao
 峷	eniaov
@@ -5220,6 +5241,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 昇	eroi
 曻	eroiu
 曻	eroiua
+㗂	eroiuo
 昇	eroiuv
 晠	eroiv
 晟	eroivu
@@ -5387,7 +5409,11 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 谁	ew
 瞬	ewi
 𥆧	ewia
+眒	ewiai
+眒	ewiaia
+瞚	ewiao
 𥆧	ewiaoi
+瞚	ewiaoo
 眴	ewiau
 眴	ewiaua
 瞬	ewiauo
@@ -5590,6 +5616,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 胄	fdi
 冑	fdia
 冑	fdiaia
+睭	fdiau
+睭	fdiaua
 胄	fdiauu
 荮	fdii
 伷	fdiia
@@ -5807,6 +5835,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 嬎	ffau
 汎	ffaua
 汎	ffauao
+盕	ffaui
+盕	ffauia
 泛	ffauoa
 嬏	ffauu
 嬔	ffauua
@@ -5922,6 +5952,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 梵	ffvvua
 璠	ffvvuo
 拽	fgi
+睉	fgia
+睉	fgiaii
 𢶀	fgiu
 拽	fgiuia
 𢶀	fgiuia
@@ -6032,6 +6064,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 付	fji
 幅	fjia
 岪	fjiaa
+䀟	fjiaav
 岪	fjiaav
 幞	fjiai
 幞	fjiaii
@@ -6229,6 +6262,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 髴	fjviav
 甫	fjviav
 䪇	fjvii
+盙	fjviia
 䪇	fjviii
 䭮	fjvio
 懯	fjvioa
@@ -6363,6 +6397,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 蜘	fkiauv
 峙	fkiav
 蛭	fkiava
+眰	fkiava
 畤	fkiavo
 峙	fkiavo
 芝	fkii
@@ -6923,7 +6958,9 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 妨	fpauov
 仿	fpi
 蚄	fpia
+眆	fpiao
 蚄	fpiaov
+眆	fpiaov
 芳	fpii
 芳	fpiiov
 钫	fpio
@@ -7013,6 +7050,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 崶	friav
 豊	friavo
 崶	friavo
+盽	friavv
 葑	frii
 僼	friia
 僼	friiav
@@ -7209,6 +7247,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 痄	fsovuv
 乏	fsu
 鲊	fsua
+觰	fsuau
+觰	fsuauo
 鲊	fsuauv
 馇	fsuav
 馇	fsuavo
@@ -7219,6 +7259,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 牐	fsuiuv
 齄	fsuivo
 乏	fsuoao
+瞂	fsuu
+瞂	fsuuvu
 乍	fsuv
 筏	fsuvi
 劄	fsuvii
@@ -7249,6 +7291,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 髪	fsvivu
 榨	fsvo
 𫭨	fsvoa
+皶	fsvoau
 𫭨	fsvoau
 查	fsvoi
 㘺	fsvoiv
@@ -7441,7 +7484,9 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 肺	fwuv
 笰	fwuva
 笰	fwuvav
+馡	fwuvi
 肺	fwuvia
+馡	fwuviv
 𫂈	fwuvo
 𫂈	fwuvov
 篚	fwuvv
@@ -7623,6 +7668,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 䍜	fziai
 䍜	fziaio
 罩	fziaiv
+瞾	fziao
+瞾	fziaoo
 佋	fziau
 佋	fziauo
 钊	fzio
@@ -7653,6 +7700,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 燳	fzouoi
 嘲	fzouoo
 旐	fzov
+皽	fzova
+皽	fzovau
 𡁻	fzovo
 𡁻	fzovoi
 旐	fzovuv
@@ -7714,6 +7763,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 䣒	gbiaai	#无读音
 贵	gbiaao
 刿	gbiai
+瞆	gbiaia
 刿	gbiaii
 嶲	gbiaio
 巂	gbiaio
@@ -7725,6 +7775,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 眭	gbiav
 眭	gbiavo
 嶡	gbiavu
+𰥪	gbiavv
 傀	gbiu
 佹	gbiua
 帰	gbiuav
@@ -8111,6 +8162,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 骭	gfia
 虷	gfiav
 䵟	gfiavv
+盰	gfiavv
 骭	gfiavv
 虷	gfiavv
 苷	gfii
@@ -8147,6 +8199,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 榦	gfuo
 乹	gfuoa
 乹	gfuoaa
+豃	gfuoav
 倝	gfuoi
 倝	gfuoii
 榦	gfuoiv
@@ -8433,6 +8486,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 巭	gjvivv	#无读音
 鼓	gjvo
 皷	gjvoa
+皼	gjvoau
 皷	gjvoau
 瞽	gjvoi
 堌	gjvoia
@@ -8491,6 +8545,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 蝈	gliaia
 帼	gliaia
 崞	gliao
+矌	gliaov	#繁体 ⿰目广
 崞	gliaov
 囶	gliau
 圀	gliauo
@@ -8988,6 +9043,10 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 滾	gwaovu
 丨	gwi
 䵪	gwia
+𬑆	gwiai
+𬑆	gwiaiu
+𬑕	gwiao
+𬑕	gwiaoa
 䵪	gwiaoi
 丨	gwii	#全码
 衮	gwo
@@ -9267,6 +9326,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 蛔	hbiaia
 囬	hbiaii
 睢	hbiaio
+瞺	hbiaiv	#繁体 ⿰目会
 逥	hbiao
 逥	hbiaoa
 回	hbiaoo
@@ -9276,6 +9336,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 蟪	hbiavi
 蚘	hbiavu
 蛕	hbiavu
+睳	hbiavu
 荟	hbii
 佪	hbiia
 儶	hbiiai
@@ -9605,6 +9666,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 狢	heuaua
 䶅	heui
 䶅	heuiua
+皬	heuiv
+皬	heuivo
 貉	heuo
 貉	heuoua
 盉	heuv
@@ -9760,8 +9823,11 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 鼾	hfui
 肣	hfuio
 肣	hfuioa
+皔	hfuioi
 鼾	hfuivv
 翰	hfuo
+豃	hfuoa
+豃	hfuoav
 谽	hfuoi
 翰	hfuoia
 𧮰	hfuoio
@@ -10132,11 +10198,15 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 㘞	hliaa
 㘞	hliaau
 蠖	hliai
+矆	hliaii
 蠖	hliaii
 夥	hliaua
 眓	hliav
 眓	hliava
+矐	hliavo
 藿	hlii
+萿	hliia
+萿	hliiau
 劐	hliii
 劐	hliiii
 蒦	hliiio
@@ -10316,7 +10386,9 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 㿠	hmuii
 皝	hmuiio
 㿠	hmuiio
+皩	hmuio
 遑	hmuioa
+皩	hmuioi
 皇	hmuivv
 徨	hmuu
 艎	hmuuu
@@ -10618,6 +10690,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 嵈	htiauo
 峘	htiav
 睘	htiavo
+瞏	htiavo
 峘	htiavo
 萑	htii
 酄	htiia
@@ -10751,6 +10824,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 婫	hwauoi
 婚	hwauua
 昬	hwav
+睯	hwavi
+睯	hwavia
 焄	hwavo
 昬	hwavoi
 焄	hwavoo
@@ -10764,8 +10839,11 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 黒	hwiaoo
 黑	hwiaoo
 㱄	hwiau
+睧	hwiaua
 㱄	hwiaua
+眃	hwiav
 圂	hwiavu
+眃	hwiavv
 荤	hwiiva
 𬭶	hwio
 倱	hwioi
@@ -10893,7 +10971,9 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 㿠	hxuii
 皝	hxuiio
 㿠	hxuiio
+皩	hxuio
 遑	hxuioa
+皩	hxuioi
 皇	hxuivv
 徨	hxuu
 艎	hxuuu
@@ -11010,6 +11090,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 焢	hyouoo
 吽	hyouv
 灴	hyouvi
+粠	hyouvi
 烘	hyouvi
 吽	hyouvv
 哄	hyov
@@ -11026,7 +11107,11 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 訇	hyuaov
 𫚉	hyuavi
 谼	hyuo
+谾	hyuoo
+谾	hyuooo
+谹	hyuov
 谼	hyuovi
+谹	hyuovu
 轰	hyv
 𮷛	hyva
 轰	hyvaao
@@ -11142,7 +11227,10 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 皞	hzui
 皜	hzuio
 皜	hzuiov
+皡	hzuiu
+皥	hzuiui
 皞	hzuiui
+皡	hzuiui
 皓	hzuiuv
 貉	hzuo
 䜰	hzuou
@@ -11752,6 +11840,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 㳧	jeavii
 尺	jeavuo
 撤	jei
+瞮	jeia
+瞮	jeiaov
 扯	jeiu
 扯	jeiuiv
 偖	jeiuo
@@ -12715,6 +12805,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 皀	jkuiua
 墍	jkuiv
 旣	jkuiva
+皍	jkuiva
 墍	jkuivo
 戟	jkuo
 赍	jkuoa
@@ -13134,11 +13225,13 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 健	jmia
 囝	jmiaa
 囝	jmiaai
+睷	jmiaav
 睑	jmiai
 㡨	jmiaii
 䘋	jmiaii
 睑	jmiaiv
 𬑗	jmiao
+𰥨	jmiaoi
 𬑗	jmiaoi
 见	jmiaua
 𰏕	jmiav
@@ -13730,6 +13823,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 僜	jriao
 畻	jriaou
 僜	jriaou
+睈	jriaov
 峸	jriav
 𡷫	jriavu
 峸	jriavu
@@ -14119,6 +14213,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 姰	jwau
 汮	jwaua
 汮	jwauao
+皹	jwauo	#繁体 ⿰皮军
+皹	jwauoa	#繁体 ⿰皮军
 姰	jwauua
 媋	jwauv
 媋	jwauvv
@@ -14460,6 +14556,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 弨	jzavau
 抄	jzi
 巐	jzia
+眧	jziaa
+眧	jziaau
 巐	jziaov
 仯	jzii
 仦	jziiu
@@ -14529,6 +14627,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 睽	kbia
 睽	kbiaao
 岿	kbiai
+瞆	kbiaia
 岿	kbiaiu
 巙	kbiao
 巙	kbiaou
@@ -14805,6 +14904,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 侃	kfi
 瞰	kfia
 瞰	kfiaav
+矙	kfiao	#繁体 ⿰目阚
+矙	kfiaoi	#繁体 ⿰目阚
 崁	kfiav
 嵁	kfiavi
 嵌	kfiavi
@@ -15018,6 +15119,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 括	kli
 蛞	klia
 蛞	kliauv
+萿	klii
+萿	kliiau
 懖	klio	#繁体 ⿱铦心
 懖	kliooa	#繁体 ⿱铦心
 𢬸	kliu
@@ -15065,7 +15168,10 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 洭	kmavvv
 眶	kmi
 岲	kmia
+眖	kmiao
 岲	kmiaou
+眖	kmiaou
+矌	kmiaov	#繁体 ⿰目广
 眶	kmiavv
 𰽚	kmio
 𰽚	kmioov
@@ -15387,7 +15493,10 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 洭	kxavvv
 眶	kxi
 岲	kxia
+眖	kxiao
 岲	kxiaou
+眖	kxiaou
+矌	kxiaov	#繁体 ⿰目广
 眶	kxiavv
 𰽚	kxio
 𰽚	kxioov
@@ -15706,6 +15815,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 獠	lcuavu
 爒	lcuavu
 尦	lcuo
+豂	lcuoa
+豂	lcuoao
 尦	lcuoua
 簝	lcuv
 簝	lcuvvu
@@ -15747,6 +15858,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 儠	ldiaa
 儠	ldiaaa
 蝼	ldiao
+睙	ldiaoa
 嵝	ldiaou
 䁖	ldiaou
 髅	ldiaou
@@ -16123,6 +16235,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 狑	lguaio
 鲮	lguavo
 朎	lgui
+皊	lguii
+皊	lguiio
 朎	lguioa
 𠗲	lguo
 𣎎	lguoi
@@ -16458,6 +16572,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 蠡	lkaa
 劙	lkaai
 盭	lkaaia
+盠	lkaaia
 蠡	lkaaia
 劙	lkaaii
 缡	lkaao
@@ -16504,6 +16619,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 蜧	lkiaoa
 罹	lkiaoo
 岦	lkiaov
+蝷	lkiaov
 詈	lkiaov
 蜊	lkiau
 峲	lkiauv
@@ -16514,6 +16630,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 𫵷	lkiavu
 峢	lkiavu
 巁	lkiavu	#繁体 ⿰山厉
+𲲟	lkiavu
 蛎	lkiavu
 里	lkiavv
 莉	lkii
@@ -16625,6 +16742,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 猁	lkuauv
 鲡	lkuav
 鲡	lkuavi
+𰤕	lkui
+𰤕	lkuiua
 㸚	lkuo
 貍	lkuoi
 貍	lkuoia
@@ -16638,6 +16757,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 剓	lkuvau
 黎	lkuvi
 黧	lkuvia
+睝	lkuvia
 䵩	lkuvia
 黎	lkuvia
 利	lkuvii
@@ -16914,6 +17034,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 㪾	lluauu
 躶	llui
 躶	lluiia
+𰤕	lluiu
+𰤕	lluiua
 脶	lluo
 脶	lluoia
 𦝼	lluou
@@ -17467,6 +17589,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 𪨧	lwiai
 畾	lwiaia
 𱛍	lwiaiu
+𰲰	lwiaiu
+𬑆	lwiaiu
 囵	lwiaiu
 𪨧	lwiaiu
 罍	lwiau
@@ -17705,6 +17829,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 𬧢	lyui
 𬧢	lyuivu
 𰶑	lyuo
+谾	lyuoo
+谾	lyuooo
 𰶑	lyuovu
 𦨩	lyuu
 衖	lyuuv
@@ -17888,6 +18014,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 岷	mbiaav
 罠	mbiaav
 皿	mbiaii
+盿	mbiao
+盿	mbiaov
 崏	mbiau
 崏	mbiaua
 苠	mbii
@@ -18038,6 +18166,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 幭	mdiaii
 侔	mdiao
 侔	mdiaou
+𱲦	mdiav
+𱲦	mdiavv
 蔑	mdii
 薎	mdiii
 蔑	mdiiia
@@ -18126,6 +18256,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 𧖣	mfiao	#繁体 ⿰虫蛮
 幔	mfiaoi
 𧖣	mfiaov	#繁体 ⿰虫蛮
+睌	mfiau
+睌	mfiaua
 蔓	mfii
 𬜬	mfiio
 蔓	mfiioi
@@ -18154,13 +18286,17 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 熳	mfou
 熳	mfouoi
 蛮	mfov
+𰥠	mfovi
 蛮	mfovia
+𰥠	mfovia
 馒	mfu
 鳗	mfua
 獌	mfuao
 馒	mfuaoi
 鳗	mfuaoi
 獌	mfuaoi
+䜱	mfuo
+䜱	mfuooi
 𥲑	mfuv
 𥲑	mfuvoi
 埋	mfv
@@ -18190,6 +18326,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 瞑	mgiaoa
 螟	mgiaoa
 朙	mgiau
+眳	mgiaua
 眀	mgiauu
 朙	mgiauu
 茗	mgii
@@ -18424,10 +18561,12 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 幎	mkia
 瞇	mkiao
 幎	mkiaoa
+眫	mkiaou
 眯	mkiaou
 瞇	mkiaou
 峚	mkiav
 峚	mkiavu
+𱲦	mkiavv
 蘼	mkii
 蓂	mkiio
 蓂	mkiioi
@@ -18558,7 +18697,9 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 䁼	mliaia
 䘃	mliaia
 冒	mliaia
+瞙	mliaii
 黙	mliao
+眿	mliaoa
 黙	mliaoo
 眽	mliau
 眽	mliauu
@@ -18641,6 +18782,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 劰	mlui
 劰	mluiau
 膜	mluiio
+皌	mluiv
+皌	mluivv
 貘	mluo
 脉	mluoa
 脉	mluoaa
@@ -18708,8 +18851,14 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 湎	mmavui
 眠	mmi
 冕	mmia
+𬑧	mmiaa
+𬑧	mmiaaa
 眠	mmiaav
+睌	mmiau
 冕	mmiaua
+睌	mmiaua
+矈	mmiaui
+矏	mmiaui
 眄	mmiav
 眄	mmiavi
 俛	mmiu
@@ -18808,6 +18957,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 茫	mpi
 蟒	mpia
 蟒	mpiaii
+盳	mpiao
+盳	mpiaov
 䵨	mpiav
 䵨	mpiavu
 莽	mpii
@@ -18882,6 +19033,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 幪	mriai
 㠓	mriaii
 蟒	mriaii
+矒	mriaii
 蠓	mriaii
 幪	mriaii
 虻	mriao
@@ -18994,6 +19146,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 蚂	msiaaa
 㐷	msiaav
 蟆	msiai
+睰	msiaii
 蟆	msiaii
 蔴	msii
 蟇	msiii
@@ -19076,9 +19229,12 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 沬	mwavvi
 嵋	mwi
 嵄	mwia
+睸	mwiaa
 嵋	mwiaai
+睸	mwiaai
 嵄	mwiaou
 黣	mwiau
+矀	mwiauu
 黣	mwiauv
 䵢	mwiav
 眛	mwiavv
@@ -19427,6 +19583,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 那	nea
 那	neavai
 抐	nei
+眲	neia
+眲	neiavi
 抐	neiuia
 讷	neo
 哪	neoa
@@ -19511,6 +19669,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 𪥰	ngau
 𪥰	ngauoo
 拧	ngi
+眝	ngia
+眝	ngiaoo
 苧	ngii
 苧	ngiioo
 佇	ngio
@@ -19680,6 +19840,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 拟	nki
 睨	nkia
 㲻	nkiaa	#全码
+眤	nkiaav
 蜺	nkiau
 睨	nkiaui
 蜺	nkiaui
@@ -20219,7 +20380,9 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 娦	pbauui
 拼	pbi
 𧏖	pbia
+𪾸	pbiao
 𧏖	pbiaoo
+𪾸	pbiaoo
 𬞟	pbii
 𬞟	pbiiiv
 拚	pbiu
@@ -20280,6 +20443,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 旚	pcovu
 旚	pcovuv
 膘	pcu
+皫	pcui
+皫	pcuiov
 徱	pcuu
 徱	pcuuvi
 犥	pcuv
@@ -20360,10 +20525,13 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 洀	pfauua
 盼	pfi
 畔	pfia
+眫	pfiao
 畔	pfiaou
+眫	pfiaou
 蟠	pfiau
 盼	pfiauo
 蟠	pfiauo
+眅	pfiauu
 鑻	pfio	#繁体 ⿰钅攀
 鑻	pfiovu	#繁体 ⿰钅攀
 拌	pfiu
@@ -20470,7 +20638,9 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 焩	pgouuu
 瓶	pgouva
 冯	pgov
+𣳆	pgova
 冯	pgovaa
+𣳆	pgovaa
 呯	pgovo
 𱞎	pgovoa
 慿	pgovoa
@@ -20563,6 +20733,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 𡏋	pjavvo
 扑	pji
 圃	pjia
+瞨	pjiai
+瞨	pjiaii
 圑	pjiav
 圃	pjiavi
 圑	pjiavi
@@ -20687,6 +20859,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 屁	pkavva
 披	pki
 僻	pkia
+睤	pkiai
+睤	pkiaia
 罴	pkiao
 罴	pkiaoo
 睥	pkiau
@@ -21102,6 +21276,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 朋	pru
 匉	prua
 匉	pruavo
+皏	prui
+皏	pruiou
 鹏	pruu
 朋	pruuu	#全码
 鹏	pruuua
@@ -21178,6 +21354,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 㕷	psouia
 叭	psouoo
 爬	psu
+皅	psui
+皅	psuiai
 舥	psuu
 爬	psuuai
 舥	psuuai
@@ -21791,6 +21969,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 𢧐	qfouv
 𢧐	qfouva
 颤	qfov
+皽	qfova
+皽	qfovau
 站	qfoviv
 邅	qfovo
 邅	qfovoa
@@ -22036,6 +22216,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 䍉	qhuvou
 确	qhv
 鹊	qhvi
+皵	qhvia
+皵	qhviau
 䧿	qhvii
 䧿	qhviio
 鹊	qhviua
@@ -22121,6 +22303,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 劅	qjiaii
 斀	qjiaiv
 蛀	qjiao
+𪾣	qjiaoo
 𪐴	qjiaov
 蛀	qjiaov
 蛛	qjiau
@@ -22327,6 +22510,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 𥉐	qkiauo
 岐	qkiauo
 岓	qkiauu
+盵	qkiauv
 崎	qkiav
 𱲾	qkiava
 蜞	qkiavi
@@ -22903,6 +23087,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 迁	qmuvoa
 缼	qmuvu
 缼	qmuvua
+谸	qmuvuo
 圱	qmuvv
 圱	qmuvvo
 牵	qmv
@@ -22981,8 +23166,11 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 镇	qni
 帧	qnia
 畛	qniai
+眕	qniaiu
 畛	qniaiu
 帧	qniaiv
+眹	qniao
+眹	qniaou
 黰	qniau
 甽	qniaui
 黰	qniauo
@@ -23122,6 +23310,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 嶂	qpiao
 幛	qpiaov
 蟑	qpiaov
+瞕	qpiaov
 嶂	qpiaov
 帐	qpiauv
 傽	qpio
@@ -23184,7 +23373,9 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 𰬗	qqaa
 汓	qqaai
 汓	qqaaiv
+𬘕	qqaav
 𰬗	qqaavi
+𬘕	qqaavu
 泅	qqaiai
 巯	qqao
 巯	qqaoov
@@ -23262,6 +23453,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 犰	qquaua
 㐤	qquauo
 鳅	qquauv
+觩	qquav
+觩	qquavi
 丘	qqui
 邱	qquia
 邱	qquiai
@@ -23270,6 +23463,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 鼽	qquiu
 鼽	qquiua
 丘	qquivi
+䜪	qquo
+䜪	qquoua
 鹙	qquv
 媝	qquva
 湬	qquvaa
@@ -23285,6 +23480,10 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 毬	qquvvi
 球	qqv
 裘	qqvi
+皳	qqvia
+皳	qqviau
+盚	qqvii
+盚	qqviia
 逑	qqvio
 逑	qqvioa
 鞧	qqviou
@@ -23332,6 +23531,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 崢	qriauo
 睜	qriauo
 崝	qriav
+眐	qriavi
 崝	qriavv
 蒸	qrii
 蒸	qriiai
@@ -23482,6 +23682,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 峑	qtiai
 巏	qtiaii
 蠸	qtiaii
+矔	qtiaii
 峑	qtiaiv
 圏	qtiao
 圈	qtiaou
@@ -23753,7 +23954,9 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 嬛	qyauia
 茕	qyi
 睘	qyia
+瞏	qyiav
 睘	qyiavo
+瞏	qyiavo
 䓖	qyii
 㑋	qyiia
 茕	qyiiav
@@ -23828,6 +24031,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 䍜	qziai
 䍜	qziaio
 罩	qziaiv
+瞾	qziao
+瞾	qziaoo
 佋	qziau
 佋	qziauo
 钊	qzio
@@ -23858,6 +24063,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 燳	qzouoi
 嘲	qzouoo
 旐	qzov
+皽	qzova
+皽	qzovau
 旐	qzovuv
 朝	qzu
 𬶐	qzua
@@ -24206,8 +24413,10 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 葚	rniivi
 𰽻	rnio
 𰽻	rnioiu
-扨	rniu	#日本汉字
+𬸊	rniu
+扨	rniua	#日本汉字
 扨	rniuau	#日本汉字
+𬸊	rniuua
 栠	rniuv
 任	rniuvi
 栠	rniuvv
@@ -24612,6 +24821,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 叟	sdui
 叟	sduiao
 艘	sduu
+䑹	sduuo
+䑹	sduuoo
 艘	sduuui
 䉤	sduv
 䉤	sduvou
@@ -24915,6 +25126,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 兕	skiau
 四	skiaua
 兕	skiaua
+螔	skiauu
 伺	skiav
 伺	skiavo
 佀	skii
@@ -25288,6 +25500,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 嫂	szau
 嫂	szauui
 搔	szi
+矂	szia
+矂	sziaoo
 䕅	szii
 䕅	sziiau
 掻	sziu
@@ -25308,6 +25522,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 鳋	szua
 鳋	szuaao
 臊	szuooo
+䑹	szuu
+䑹	szuuoo
 埽	szv
 梢	szvi
 梢	szviou
@@ -25317,6 +25533,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 他	t
 推	tb
 退	tba
+𱅙	tbaa
+𱅙	tbaaou
 𬯎	tbai
 𬯎	tbaiia
 娧	tbau
@@ -25960,6 +26178,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 𧋘	tkiao
 𧋘	tkiaou
 崹	tkiaov
+眣	tkiau
+眣	tkiauv
 荑	tkii
 薙	tkiiu
 薙	tkiiuv
@@ -26077,6 +26297,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 驮	tla
 驼	tlaa
 𱅛	tlaao
+𰬉	tlaaoo
 驼	tlaaoo
 𱅛	tlaaou
 𫘞	tlaau
@@ -26223,6 +26444,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 田	tmi
 畋	tmia
 觍	tmiai
+睓	tmiaia
 觍	tmiaia
 睼	tmiao
 睼	tmiaoi
@@ -26339,7 +26561,9 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 漡	tpauva	#繁体 ⿰氵⿱𠂉𠃓
 堂	tpi
 螳	tpia
+𰥹	tpiai
 螳	tpiaio
+𰥹	tpiaio
 螗	tpiao
 嵣	tpiaov
 螗	tpiaov
@@ -26611,6 +26835,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 煓	ttouia
 猯	ttu
 猯	ttuaia
+貒	ttuo
+貒	ttuoia
 𰄞	ttv
 檲	ttvi	#繁体 ⿰木⿴囗专
 檲	ttviav	#繁体 ⿰木⿴囗专
@@ -26699,6 +26925,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 铜	tyi
 瞳	tyia
 峒	tyiai
+眮	tyiaia
 峝	tyiaia
 峒	tyiaia
 瞳	tyiaov
@@ -27010,6 +27237,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 㲋	wduava
 㚟	wduavu
 臭	wdui
+皗	wduiu
+皗	wduiua
 臭	wduivu
 筹	wduv
 牰	wduvi
@@ -27049,6 +27278,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 㳧	weavii
 尺	weavuo
 撤	wei
+瞮	weia
+瞮	weiaov
 扯	weiu
 扯	weiuiv
 偖	weiuo
@@ -27132,8 +27363,11 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 卐	wfaviv
 挽	wfi
 蜿	wfia
+瞣	wfiai
+瞣	wfiaia
 畹	wfiao
 帵	wfiaoo
+睕	wfiaoo
 蜿	wfiaoo
 畹	wfiaoo
 蚖	wfiav
@@ -27322,6 +27556,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 屼	wjiav
 峿	wjiavi
 屼	wjiavu
+𱲦	wjiavv
 芜	wjii
 芴	wjiiu
 芴	wjiiua
@@ -27528,6 +27763,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 蚇	wkiaav
 佁	wkiao
 佁	wkiaoo
+瞝	wkiaov
 螭	wkiaov
 眵	wkiau
 岻	wkiaua
@@ -27715,7 +27951,11 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 蜗	wlia
 幄	wliaa
 幄	wliaav
+矆	wliai
+矆	wliaii
 蜗	wliaoi
+瞃	wliau
+瞃	wliauu
 偓	wliav
 偓	wliavu
 莴	wlii
@@ -27951,6 +28191,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 㒺	wpiao
 罔	wpiaou
 㒺	wpiaou
+盳	wpiaov
 网	wpiauo
 蚟	wpiav
 蚟	wpiavv
@@ -28021,7 +28262,9 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 嵡	wria
 㘢	wriai
 㘢	wriaio
+瞈	wriau
 嵡	wriauo
+瞈	wriauo
 蕹	wrii
 蕹	wriiov
 蓊	wriiuo
@@ -28170,7 +28413,9 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 馇	wsuavo
 猹	wsuavo
 屲	wsui
+膃	wsuia
 屲	wsuiai
+膃	wsuiai
 岔	wsuo
 腽	wsuoi
 岔	wsuoia
@@ -28336,6 +28581,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 帷	wwiai
 蝟	wwiaia
 嵔	wwiaia
+瞆	wwiaia
 蜼	wwiaio
 帷	wwiaio
 遗	wwiao
@@ -28687,6 +28933,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 弨	wzavau
 抄	wzi
 巐	wzia
+眧	wziaa
+眧	wziaau
 巐	wziaov
 仯	wzii
 仦	wziiu
@@ -28747,6 +28995,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 姰	xbauua
 妡	xbauuu
 信	xbi
+盺	xbia
+盺	xbiauu
 薪	xbii
 芯	xbiio
 芯	xbiioa
@@ -28944,6 +29194,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 魈	xcuiio
 皛	xcuiu
 皛	xcuiui
+皢	xcuiv	#繁体 ⿰白尧
+皢	xcuiva	#繁体 ⿰白尧
 孝	xcuo
 孝	xcuoai
 殽	xcuou
@@ -29338,6 +29590,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 𱈚	xeuavi
 匎	xeuavu
 𱂥	xeuavu
+皒	xeui
+皒	xeuiuv
 腭	xeuo
 腭	xeuoov
 鹅	xeuv
@@ -29365,7 +29619,10 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 厄	xevu
 厄	xevuaa
 𥔲	xevuo
+豟	xevuoa
 𥔲	xevuoo
+䝈	xevuv
+䝈	xevuvu
 枙	xevv
 櫮	xevvi
 櫮	xevvio
@@ -29416,6 +29673,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 按	xfiuoo
 揞	xfiuov
 俺	xfiv
+盫	xfivi
+盫	xfivia
 俺	xfivuo
 案	xfo
 谙	xfoa
@@ -29492,6 +29751,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 涬	xgavoo
 省	xgi
 㒷	xgia
+睲	xgiao
+睲	xgiaoi
 㒷	xgiauo
 荥	xgii
 𰌀	xgiia
@@ -29538,6 +29799,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 狌	xguau
 𱇡	xguauv
 狌	xguauv
+皨	xgui
+皨	xguivo
 腥	xguoiu
 行	xguuvv
 箵	xguv
@@ -29600,11 +29863,14 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 彐	xhavvv
 艾	xhi
 岤	xhia
+瞲	xhiaa
+瞲	xhiaao
 嵦	xhiai	#繁体 ⿰山岂
 嵦	xhiaia	#繁体 ⿰山岂
 敱	xhiaiv	#繁体 ⿰岂攴
 岤	xhiaoo
 𮲔	xhiau
+瞹	xhiauo	#繁体 ⿰目爱
 𮲔	xhiauv
 㞽	xhiav
 㞽	xhiava
@@ -29704,7 +29970,11 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 血	xhuiai
 皑	xhuii
 皑	xhuiia
+皧	xhuiu	#繁体 ⿰白爱
+皧	xhuiuo	#繁体 ⿰白爱
 爱	xhuovu
+艝	xhuu	#日本汉字
+艝	xhuuvo	#日本汉字
 矮	xhuv
 𮆞	xhuvu	#无读音
 𮆞	xhuvui	#无读音
@@ -29903,6 +30173,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 巇	xkiaiv
 𡾞	xkiao
 𡾞	xkiaou
+蝷	xkiaov
 蟋	xkiau
 㰩	xkiaua
 螅	xkiaui
@@ -29913,8 +30184,10 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 蟋	xkiauo
 蜥	xkiav
 黖	xkiava
+𰥢	xkiavi
 蟢	xkiavo
 䵱	xkiavo
+瞦	xkiavo
 蜥	xkiavu
 茜	xkii
 蔇	xkiia
@@ -30229,9 +30502,12 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 㳚	xlavuo
 虚	xli
 勖	xlia
+瞲	xliaa
+瞲	xliaao
 勖	xliaau
 偦	xliai
 盢	xliaia
+瞁	xliaia
 偦	xliaiv
 冔	xliao
 冔	xliaov
@@ -30464,6 +30740,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 崄	xmiaiv
 𡸃	xmiaiv
 蚿	xmiao
+𰥨	xmiaoi
 幰	xmiaoo
 䘆	xmiaoo
 蚿	xmiaov
@@ -30816,6 +31093,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 虾	xsia
 翈	xsiaa
 翈	xsiaao
+睱	xsiaav
 㘡	xsiai
 㘡	xsiaia
 虲	xsiaio
@@ -30959,6 +31237,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 翾	xtiaao
 㘣	xtiao
 悬	xtiaoa
+睻	xtiaoo
 㘣	xtiaou
 眩	xtiaov
 矎	xtiau
@@ -31118,6 +31397,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 畃	xwiaua
 峋	xwiaua
 眴	xwiaua
+矄	xwiauv
 荀	xwii
 荨	xwiia
 荨	xwiiav
@@ -31420,6 +31700,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 傲	xzi
 凹	xzia
 岰	xziaa
+眑	xziaaa
 岰	xziaaa
 凹	xziaia
 薁	xzii
@@ -31780,6 +32061,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 幽	ydiaa
 蚴	ydiaaa
 黝	ydiaaa
+眑	ydiaaa
 㽕	ydiaaa
 㐕	ydiaaa	#无读音
 邮	ydiaai
@@ -31893,6 +32175,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 牗	yduiov
 釉	yduo
 釉	yduoia
+貁	yduoo
+貁	yduooo
 繇	yduou
 尣	yduoua
 繇	yduoua
@@ -31956,7 +32240,9 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 野	yeiaao
 𰎑	yeiai
 嶫	yeiaii	#繁体 ⿰山业
+瞸	yeiaii
 𰎑	yeiaii
+𬑓	yeiaiu
 曳	yeiav
 峫	yeiava
 曵	yeiavv
@@ -32032,6 +32318,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 䲜	yeuaua	#繁体 ⿱⿰鱼鱼⿰鱼鱼
 馌	yeuavo
 射	yeui
+皣	yeuii	#繁体 ⿰白华
+皣	yeuiiu	#繁体 ⿰白华
 射	yeuivi
 腋	yeuo
 爷	yeuoai
@@ -32414,7 +32702,9 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 夃	ygaua
 𫝭	ygauao
 夃	ygauao
+盁	ygaui
 盈	ygauia
+盁	ygauia
 媖	ygauii
 英	ygi
 蝇	ygia
@@ -32422,6 +32712,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 𪩎	ygiaao
 𫶕	ygiai
 蝿	ygiaia
+眏	ygiaia
 𫶕	ygiaii
 𠇹	ygiao
 𫜙	ygiaoi
@@ -32565,6 +32856,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 彟	yhavii
 钥	yhi
 曱	yhia
+矆	yhiai
+矆	yhiaii
 黦	yhiao
 蚎	yhiaoi
 黦	yhiaoo
@@ -32776,6 +33069,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 嶷	ykiaua
 黟	ykiaua
 欭	ykiaua
+螔	ykiauu
 蛾	ykiauv
 屹	ykiauv
 伊	ykiav
@@ -33202,6 +33496,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 蝓	yliaiv
 崳	yliaiv
 畭	yliaiv
+睮	yliaiv
 嵛	yliaiv
 愚	yliao
 伃	yliaoa
@@ -33521,8 +33816,10 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 𫵵	ypiaa
 𫵵	ypiaau
 岟	ypiai
+眏	ypiaia
 岟	ypiaia
 蛘	ypiao
+眻	ypiaou
 蛘	ypiaou
 鸯	ypiau
 鸯	ypiaua
@@ -33708,6 +34005,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 鸦	ysvaua
 亚	ysvi
 亜	ysvia
+襾	ysviai
 亜	ysviav
 亚	ysviio
 𱉨	ysviu
@@ -33795,6 +34093,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 螈	ytiav
 螈	ytiavu
 蚖	ytiavv
+盶	ytiavv
 园	ytiavv
 苑	ytii
 薗	ytiii
@@ -33940,6 +34239,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 畇	ywia
 畇	ywiaua
 囩	ywiav
+眃	ywiavv
 囩	ywiavv
 芸	ywii
 蕰	ywiia
@@ -34185,6 +34485,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 药	yzi
 崾	yzia
 𡣠	yziaa
+眑	yziaaa
+矅	yziaao
 𡣠	yziaau
 岆	yziau
 岆	yziauv
@@ -34461,6 +34763,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 侧	zeiaoi
 伬	zeiav
 伬	zeiavu
+瞔	zeiavv	#繁体 ⿰目责
 帻	zeiavv
 択	zeiu	#日本汉字
 择	zeiuao
@@ -34487,6 +34790,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 舴	zeu
 鲗	zeua
 鲗	zeuaao
+𤾀	zeui
+𤾀	zeuivv
 舴	zeuuuv
 迮	zeuv
 迮	zeuvoa
