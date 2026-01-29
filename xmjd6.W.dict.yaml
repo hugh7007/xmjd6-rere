@@ -1,6 +1,6 @@
 ---
 name: xmjd6.W
-version: "20251116"
+version: "Q1"
 sort: original
 import_tables:
   - xmjd6.danzi
