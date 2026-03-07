@@ -1,0 +1,6 @@
+# Rime table
+#@/db_name	xmjd6_user
+#@/db_type	tabledb
+#@/rime_version	1.13.1
+#@/tick	1
+龶	vviv	1

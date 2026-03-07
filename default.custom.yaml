@@ -3,7 +3,7 @@ patch:
   fold_options: false
   option_list_separator: " / "
   schema_list:
-    - {schema: xmjd6}
+    - schema: xmjd6
   "switcher/hotkeys":
     - F4
     - "Control+grave"

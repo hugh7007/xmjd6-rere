@@ -5,6 +5,8 @@
 name: xmjd6.gbk
 version: "Q1"
 sort: original
+import_tables:
+  - xmjd6.cx
 ...
 # 编码各字段以制表符（Tab）分隔
 # ==============================

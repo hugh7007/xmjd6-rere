@@ -13,6 +13,8 @@ sort: by_weight
 use_preset_vocabulary: true
 max_phrase_length: 7
 min_phrase_weight: 100
+import_tables:
+  - xmjd6.danzi
 ...
 
 一	hr

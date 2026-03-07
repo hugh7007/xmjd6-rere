@@ -6,11 +6,6 @@ schema:
   name: 键道6反查·勿选
   version: "1"
 
-switches:
-  - name: ascii_mode
-    reset: 0
-    states: [ 中文, 西文 ]
-    
 engine:
   processors:
     - ascii_composer
@@ -31,7 +26,6 @@ engine:
     - punct_translator
     - table_translator
     - reverse_lookup_translator
-    - lua_translator@*xmjd6/force_gc
   filters:
     - uniquifier
 
