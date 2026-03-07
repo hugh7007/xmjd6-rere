@@ -1429,6 +1429,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 𮐠	bziiuv	#无读音
 堡	bzio
 儤	bzioi
+𨰻	bzioio
 儤	bzioiv
 煲	bzioo
 煲	bzioou
@@ -5585,14 +5586,15 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 覅	fcv
 覅	fcviua
 周	fd
-洲	fda
+粥	fda
 骤	fdaa
 绉	fdaau
 绉	fdaaua
 纣	fdaav
 骤	fdaavi
 纣	fdaavi
-赒	fdao
+洲	fdao
+赒	fdaou
 赒	fdaoua
 洲	fdaouo
 妯	fdau
@@ -5607,10 +5609,9 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 婤	fdauua
 妚	fdauv
 妚	fdauvu
-粥	fdav
+昼	fdav
 帚	fdavi
 帚	fdavia
-昼	fdavo
 昼	fdavoi
 粥	fdavou
 胄	fdi
@@ -9133,6 +9134,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 𠃋	gyaa	#全码
 红	gyaav
 红	gyaavi
+羾	gyao
+羾	gyaovi
 弓	gyavaa
 供	gyi
 蚣	gyia
@@ -9174,6 +9177,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 贡	gyvia
 汞	gyviaa
 䢼	gyviai
+𦏺	gyviao
 贡	gyviao
 功	gyviau
 恭	gyvii
@@ -11118,6 +11122,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 𮷛	hyvava
 鞃	hyvi
 䩑	hyvia
+𦏺	hyviao
 鞃	hyviav
 䩑	hyviav
 瓨	hyviv
@@ -12535,6 +12540,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 楚	jjvvai
 亍	jjvvi
 耡	jjvvia
+耝	jjvvia
 亍	jjvvii
 琡	jjvviv
 樗	jjvvo
@@ -14119,6 +14125,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 姢	jtaua
 姢	jtauao
 娟	jtauou
+㢧	jtav
+㢧	jtavav
 捐	jti
 圈	jtia
 巂	jtiai
@@ -19385,8 +19393,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 旄	mzov
 袤	mzovao
 旄	mzovuv
-贸	mzu
-猫	mzua
+猫	mzu
+贸	mzua
 卯	mzuaa
 乮	mzuaaa
 𬪍	mzuaai
@@ -21926,6 +21934,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 嫸	qfauou
 湛	qfav
 湛	qfavii
+魙	qfavu	#繁体 ⿱渐鬼
+魙	qfavui	#繁体 ⿱渐鬼
 展	qfavvi
 战	qfi
 瞻	qfia
@@ -22900,6 +22910,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 璖	qlvva
 璖	qlvvav
 𱋐	qlvvi
+耝	qlvvia
 𱋐	qlvvia
 璩	qlvviv
 㭕	qlvvo
@@ -23142,7 +23153,9 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 纼	qnaaav
 𬘝	qnaai
 𬘝	qnaaiu
+𰬛	qnaau
 缜	qnaauo
+𰬛	qnaauo
 浈	qnai
 塦	qnaiv	#繁体 ⿱阵土
 阵	qnaiva
@@ -26506,6 +26519,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 䑙	tmuvia
 舑	tmuvia
 𦧝	tmuvu
+舚	tmuvua
 𦧝	tmuvui
 甜	tmuvvi
 舔	tmuvvv
@@ -28605,6 +28619,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 围	wwiavv
 萎	wwii
 偎	wwiia
+𦾡	wwiiau
 蔚	wwiiav
 偎	wwiiav
 𫢭	wwiii
@@ -31235,6 +31250,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 眩	xtia
 翾	xtiaa
 翾	xtiaao
+蠉	xtiai
+蠉	xtiaia
 㘣	xtiao
 悬	xtiaoa
 睻	xtiaoo
@@ -32089,6 +32106,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 莸	ydiiua
 莠	ydiiuv
 攸	ydiiuv
+蒏	ydiiv
+蒏	ydiivi
 铀	ydio
 伔	ydioa
 伔	ydioau
@@ -33711,6 +33730,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 毓	yluvo
 毓	yluvov
 稶	yluvv
+𥫣	yluvva
 稶	yluvvo
 竽	yluvvv
 于	ylv
@@ -34385,6 +34405,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 颙	yyiavu
 苚	yyii
 苚	yyiiua
+蒏	yyiiv
+蒏	yyiivi
 镛	yyio
 傛	yyioo
 傛	yyiooa
@@ -35556,3 +35578,60 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 𥖨	zzvuoo
 璪	zzvv
 璪	zzvvoo
+
+#region <GBK部分>
+	oxboauuvi
+	ofduiuaav
+	ogpviviau
+	osyvivaoa
+	ofdooiuaa
+	okgvivoov
+	ogpviuoia
+	owdaaviav
+	oftuavvvv
+兙	okeviiavu
+	otsoovvuo
+	oysuvvvav
+	oqroiauaa
+	oekviaiua
+	oyfvuauov
+	owhiaviav
+	oqyviiooa
+	opluvvvaa
+	owgoiauou
+	ojcovuouo
+	oldvuaoii
+	ofduiuaai
+	oqgiauovv
+兡	okeviiavu
+嗧	olwauiavu
+	ofdooiuaa
+	ohbvuaoia
+	ocfuviuoa
+	oybuaiavi
+	ojgvvivia
+	oldiavvvo
+	okboaiuoi
+	oqriavvia
+	ojjiavvvv
+	oqgiavvvu
+	oefuvvvao
+	owgiavvia
+	otkuuivau
+	obsvvviuo
+	ofduvvvav
+	ohfiavoia
+	okboaiuoi
+	oefuvvvao
+	owwuaiavi
+	oqquaiavi
+	oyfoaviiv
+	oefuovvio
+	oyjivauva
+	otruavvou
+	opkavuiav
+	osyvivuio
+	obsvvviuo
+	oyjivauva
+	ohfiaviav
+	ojhuvvvai
