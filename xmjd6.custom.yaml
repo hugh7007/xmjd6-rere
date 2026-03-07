@@ -1,58 +1,58 @@
-#功能开关一键配置
+# ==================== 星猫键道自定义配置 ====================
+# 功能开关一键配置文件
+# 修改后需要重新部署 Rime 才能生效
+
 patch:
-  schema/name: 🌟🐈   #修改方案名称，显示在空格上的名字
-  schema/icon: "xmjd6.ico" #任务栏显示星猫键道图标，注释后恢复默认
-  speller/auto_select: false   #自动上屏开关，默认关false开true
-  hint_text: ''    #顶功提示符→在两个<''>中间添加符号，例如hint_text: '🔞'
-  menu/page_size: 5   #候选项数
-  # menu/alternative_select_labels: ["〡", "〢", " 〣", " 〤", " 〥", " 〦", " 〧", " 〨", " 〩", ""]  # 修改候选项标签
+  # ==================== 基础配置 ====================
+  schema/name: 🌟🐈                 # 修改方案名称，显示在空格上的名字
+  schema/icon: "xmjd6.ico"          # 任务栏显示星猫键道图标，注释后恢复默认
+  speller/auto_select: false         # 自动上屏开关，默认关闭
+  hint_text: ''                      # 顶功提示符（在''中间添加符号，例如 '🔞'）
+  menu/page_size: 5                  # 候选项数
+  # menu/alternative_select_labels: ["〡", "〢", " 〣", " 〤", " 〥", " 〦", " 〧", " 〨", " 〩", ""]
   # menu/alternative_select_keys: ASDFGHJKL  # 如编码字符占用数字键，则需另设选字键
-  style/inline_preedit: true   # 行内显示预编辑区：true；false
-  punctuator/digit_separators: ",.:;()[]{}?"
+  style/inline_preedit: true         # 行内显示预编辑区
 
+  # ==================== 功能开关默认状态 ====================
+  # 说明：0=选择第一个状态，1=选择第二个状态
+  switches/@0/reset: 0               # [ 中文, 英文 ]
+  switches/@1/reset: 0               # [ 简体, 繁體 ]
+  switches/@2/reset: 1               # [ 简约, 逐码展示 ]
+  switches/@3/reset: 1               # [ 简约, 表情展示 ]
+  switches/@4/reset: 0               # [ 快符关, 快符开 ]
+  switches/@5/reset: 1               # [ 空顶关, 空顶开 ]
+  switches/@6/reset: 1               # [ 简约, 630提示 ]
+  switches/@7/reset: 1               # [ ;次选关, ;次选开 ]
+  switches/@8/reset: 1               # [ 计算关, 计算开 ]
+  switches/@9/reset: 0               # [ 普通, 嵌入候选 ]
+  switches/@10/reset: 0              # [ 全角, 半角 ]
+  switches/@11/reset: 0              # [ 地球文, 火星文 ]
 
-  #                         0选择第一个,1选择第二个
-  switches/@0/reset: 0     #[ 中文, 西文 ]
-  switches/@1/reset: 0     #[ 全角, 半角 ]
-  switches/@2/reset: 0     #[ 简体, 繁體 ]
-  switches/@3/reset: 0     #[ 地球文, 火星文 ]
-  switches/@4/reset: 1     #[ 简约, 表情展示 ]
-  switches/@5/reset: 0     #[ 正常候选, 内嵌候选  ]
-  switches/@6/reset: 1     #[ 简约, 630提示 ]
-  switches/@7/reset: 1     #[ 简约, 逐码展示 ]
+  # ==================== 模块加载配置 ====================
+  # processors 索引：@0 ascii_composer  @1 recognizer  @2 xmjd6_processor  @3 key_binder
+  #   @4 speller  @5 punctuator  @6 selector  @7 navigator  @8 express_editor
+  # filters 索引：@0 pinyin_simp_lookup  @1 quanpinerfen_lookup  @2 gbk_lookup
+  #   @3 xmjd6_filter  @4 xmjd6_completion  @5 emoji_cn  @6 mars  @7 jffh
+  #   @8 ascii_punct  @9 xmjd6_embeded_cands
+  #   @10 core_lookup_trigger  @11 uniquifier
 
-  #流式功能配置，注释或删掉 <#> 即可 。配置表<↓注意数字>   流式：< 123456>前无<#>。  单字优先< 123456>前面都有<#>。   单字不优先<1>前无<#>  <23456>前面有<#> 中英混输<1><3><6><7>
-  # engine/filters/@4: null                #<1><单字优先> 
-  # engine/processors/@3: null           #<2><流式> 
-  # engine/processors/@4: null           #<3><流式>  
-  # translator/enable_sentence: true     #<4><流式> 本地缓存
-  # translator/enable_user_dict: true    #<5><流式> 用户词库开启
-  # key_binder/bindings/@5: null         #<6><流式> 单引号断开一简字
-  # engine/processors/@8: null           #<7>空码自动上屏前面首选，会影响三码是不是被顶，例如nbnq
+  # 内嵌候选过滤器（禁用可节省内存）
+  # engine/filters/@9: null
 
-#如果需要中英混输,不需要顶功，需要空格才能上屏，就注释<1><3><6><7>，，不自造词，保持固定顺序
+  # ==================== 流式输入配置 ====================
+  # 如需启用流式输入，请取消以下注释（删除行首 # 和空格）
+  # 启用 enable_sentence 后，顶功会自动禁用，;'号只作为分隔符
+  # translator/enable_sentence: true     # 启用整句输入（同时自动禁用顶功）
+  # translator/enable_user_dict: true    # 启用用户词典（流式输入需要）
+  # key_binder/bindings/@5: null         # 单引号断开一简字
+  # 如果需要中英混输（不需要顶功，需要空格上屏），取消 enable_sentence 和 enable_user_dict 的注释
 
-
+  # ==================== 按键切换配置 ====================
   ascii_composer/switch_key:
-    Caps_Lock: clear   #切换大小写，clear是不上屏切换大写，使用commit_code会先上屏小写然后再输入是大写
-    Control_L: noop    #ctrl
-    Control_R: noop    #ctrl
-    Shift_L: commit_code    #先上屏后继续输入，反注释后，shift会失效
-    Shift_R: commit_code    # Mac 系统上的鼠鬚管不能区分左、右，因此只有对 Shift_L, Control_L 的设定起作用
-    # tab: clear   # 会使按tab后，直接选择下一个
-    # Eisu_toggle: clear   #模拟映射
-
-
-
- #switches本地持久化，不会随着部署重置开关，而会保持部署前的设置
- #原因:每次导入词库到输入法，一部署开关就变回去了，如果需要每次重新设置就反注释
- #每次部署开关不会重置了， 你当前保存的是啥样的配置就是啥样的配置
-
- # 已输入编码时按切换键，可以进一步设定输入法中西文切换的形式。 
- # 可选的临时切换策略有三： 
- # inline_ascii 在输入法的临时西文编辑区内输入字母、数字、符号、空格等，回车上屏后自动复位到中文 
- # commit_text 已输入的候选文字上屏並切换至西文输入模式 
- # commit_code 已输入的编码字符上屏並切换至西文输入模式 
- # 设为 noop，屏蔽该切换键 
- # 如果要把 Caps Lock 设爲只改变字母的大小写而不做中西文切换，可将 Caps_Lock 对应的切换方式设为 noop 
- # 如果要以 Caps Lock 切换到西文模式，默认输出小写字母，请至 ascii_composer/good_old_caps_lock: false 
+    Caps_Lock: clear                 # clear=不上屏切换大写，commit_code=先上屏再切换
+    Control_L: noop
+    Control_R: noop
+    Shift_L: commit_code             # 先上屏后继续输入
+    Shift_R: commit_code             # Mac 鼠鬚管不区分左右，仅 Shift_L/Control_L 生效
+    # tab: clear
+    # Eisu_toggle: clear

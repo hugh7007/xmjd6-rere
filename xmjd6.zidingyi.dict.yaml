@@ -6,39 +6,12 @@ sort:	original
 #有需要请自行修改,修改请遵循键道6拆字规则
 #词组→bmmso
 #单字→bb
+#region 是开头，结尾要#endregion
 
 #自定义的词语-按下面的搜索就可以找到对应的词库
-# 水果
-# 吵架语录
-# 化妆美容
-# 错字表
-# 粤拼
-# 修改的单字表zf咱fh摘zfo寁zfi攒
-# 容错单字
-# 叠叠字
-# 有趣俚语
-# 网址
-# 生存八课
-# 好好说话
-# 出师表
-# 感冒常用药
-# 避孕药
-# 心脑血管用药
-# 消炎药
-# 复方药名
-# 咳嗽药
-# 老师们的名单
-# 生鲜和电商
-# 不做修改的词库
-# 一些奇怪的暂时先留着
-# 医学词库
-# 医学词库
-# 四字词库 
-# 保险词库
-# 歇后语
+#点击标题左侧箭头，左键单击可以单个展开，按住ctrl+alt能够全部展开
 
-
-# 水果
+#region (水果)
 爱朵拉	xdluui
 爱朵拉黑提	xdltuu
 爱媛柑	xyguav
@@ -182,7 +155,6 @@ sort:	original
 散豆龙眼	sdly
 三红柚	shyvav
 桑提娜	stnai
-砂糖桔	etjvov
 沙竹	esqjau
 蛇皮果	epgiai
 神仙果	exgoi
@@ -250,7 +222,9 @@ sort:	original
 珍珠芭乐	qqblvv
 指橙	fkjriv
 卓莓	flmwi
+#endregion
 
+#region (吵架语录)
 #骂人不带🐴,伤害如刮痧,请友好交流,请勿随便使用,理论选定字母前三个为固定,但建议选择前两个例如：特么or特马。这样前两个字母是固定的了。只需要修改中间穿插的文字,最后两码结尾即可。
 # 吵架语录-邪道之被动防守反击库
 日宝龙	rblo
@@ -360,9 +334,9 @@ sort:	original
 呆胶布	djbou
 𝒃𝒍𝒊𝒏𝒈	bjlg
 𝒃𝒖𝒍𝒊𝒏𝒈	bjlg
+#endregion
 
-
-# 化妆美容
+#region (化妆美容)
 阿麦图金	xmtjav
 阿莎露	xelaiv
 阿西娜	xxnava
@@ -508,7 +482,7 @@ sort:	original
 大连心元	dlxyv
 大连心元整形	dlxxv
 大连整形	dlqxvv
-大腿减肥术	dtje
+大腿减肥术	dtjev
 大卫杜夫	dwdfv
 丹尼斯博士	dnseu
 淡香精	dxjauo
@@ -1677,10 +1651,33 @@ sort:	original
 自尊冰薄	zzbbu
 棕榈香薰	zlxxvv
 祖蓓夏娃	zbxw
+#endregion
 
-
-
-# 错字表
+#region (错字表)
+似的	skdei
+似shì的（ekdei）	skdei
+而在	xezh
+而ér在（xjqd）	xezh
+而且	xeqdv
+而ér且（xjxe）	xeqdv
+全称	qtjni
+全称chēng（qtjri）	qtjni
+饹馍	lzmlu
+饹gē馍（gemluu）	lzmlu
+饹馍	lemlu
+饹gē馍（gemluu）	lemlu
+裸着	nlfeo
+裸luǒ着（llfeo）	nlfeo
+耐嚼	nhjhv
+耐嚼jiáo（nhjc）	nhjhv
+老参	lzsru
+老参shēn（lzenu）	lzsru
+老参	lzsn
+老参shēn（lzenu）	lzsn
+优劣	ydnd
+优劣liè（ydldi）	ydnd
+亲家	qbjso
+亲qìng家（qgjso）	qbjso
 神祇	endkoo
 神祇qǐ(enqkoo)	endkoo
 掠夺	nhdl
@@ -1749,8 +1746,8 @@ sort:	original
 肉脯pǔ(rdfj)	rdpji
 水渍	ebfkaa
 水渍zhi(ebzka)	ebfkaa
-现宰	xmfh
-现宰zǎi(xmzhv)	xmfh
+现宰	xmfhv
+现宰zǎi(xmzhv)	xmfhv
 口头禅	ktc
 口头禅chán(ktj)	ktc
 债卷	qhjt
@@ -1974,9 +1971,10 @@ sort:	original
 之屑	fkxhoa
 癞疙	lhkeo
 癞疙gē(lhgeo)	lhkeo
+#endregion
 
+#region (粤拼)
 广州	gz
-# 粤拼
 搵	wniu
 搵	wniuia
 係	hhiu
@@ -2011,9 +2009,9 @@ sort:	original
 奏莫狮🦁	zmevi
 幺姑羊🐐	ygyaa
 小懒蛭	xlfioi
+#endregion
 
-
-# 修改的单字表zf咱fh摘zfo寁zfi攒
+#region 修改的单字表zf咱fh摘zfo寁zfi攒
 迅	xwauo
 迅	xwauoo
 曾	crouoi
@@ -2021,16 +2019,16 @@ sort:	original
 怡	yk
 傅	fji
 咱	zf
+做饭	zf
 畊	gri
 畊	griavv
 先	xm
 陷	xm
 咸	xm
+噷	hm
+#endregion
 
-
-
-
-# 容错单字
+#region 容错单字
 幹	gf
 僱	gjioa
 僱	gjioav
@@ -2090,9 +2088,9 @@ sort:	original
 叒	rlaa
 釬	hfivv
 釬	qmivv
+#endregion
 
-
-#叠叠字
+#region 叠叠字
 弌弍弎	yxs
 弌弍弎弐	yxss
 魑魅魍魉	gggguu
@@ -2146,10 +2144,9 @@ sort:	original
 仚xiān屳xiān屲wā冚kǎn	eeeeii
 只要此女	fycno
 嘦jiào姕zī	fycno
+#endregion
 
-
-
-# 有趣俚语
+#region 有趣俚语
 不要二心	byxxvv
 嫑忈嘦姕(brjzvv)	byxxvv
 嫑忈嘦姕	brjzvv
@@ -2159,11 +2156,9 @@ sort:	original
 巭孬嫑夯	gbbdvv
 不是驴不走就是磨不转	belfv
 👋🫏❓👣🔎🪨❓🔄	belfv
+#endregion
 
-
-
-九一	jqykuv
-# 网址
+#region 网址
 𝑭𝑬𝑰𝑺𝑯𝑼.𝑪𝑵	fwej
 𝒁𝑯𝑰𝑯𝑼.𝑪𝑶𝑴	fkhj
 𝑩𝑰𝑳𝑰𝑩𝑰𝑳𝑰.𝑪𝑶𝑴	blbl
@@ -2174,12 +2169,10 @@ sort:	original
 𝒀𝑶𝑼𝑻𝑼𝑩𝑬.𝑪𝑶𝑴	ydgta
 𝑮𝑰𝑻𝑯𝑼𝑩.𝑪𝑶𝑴	khyt
 𝑮𝑰𝑻𝑬𝑬.𝑪𝑶𝑴	khyt
+九一	jqykuv
+#endregion
 
-
-
-
-
-# 生存八课
+#region 生存八课
 第一课人生诸恶穷为首,世间百善富居先。	ercwu
 第二课知人不评人,知理不争论。	ercwu
 第三课听到想到去做到,德到得道方得到。	ercwu
@@ -2188,15 +2181,17 @@ sort:	original
 第六课高手面前需装傻,小人面前要装睡。	ercwu
 第七课利益之下见人格,权色之下见品德。	ercwu
 第八课言语反复必有鬼,热情过度必有求。	ercwu
+#endregion
 
-# 好好说话
+#region 好好说话
 好好说话	hheha
 请尽量描述事实,而非观点。	hhehaa
 如果你要反驳什么,请反驳那个主要的要点,而不是一些旁枝末节。	hhehaa
 如果你要说的话是为了伤害别人,那么请不要说。如果你要说的话,你有预感在将来你会想要删掉它,那你最好不要说。	hhehaa
 回忆一下你看过的电影里的那些正面角色的说话方式·把一件事情好好陈述出来,没办法做到现在就不要说。没有冷笑,没有嘲讽,没有反问,就只是好好说话。	hhehaa
+#endregion
 
-# 出师表
+#region 出师表
 出师表	jebai
 先帝创业未半而中道崩殂,今天下三分,益州疲弊,此诚危急存亡之秋也。然侍卫之臣不懈于内,忠志之士忘身于外者,盖追先帝之殊遇,欲报之于陛下也。诚宜开张圣听,以光先帝遗德,恢弘志士之气,不宜妄自菲薄,引喻失义,以塞忠谏之路也。	jebai
 宫中府中,俱为一体；陟罚臧否,不宜异同。若有作奸犯科及为忠善者,宜付有司论其刑赏,以昭陛下平明之理,不宜偏私,使内外异法也。	jebai
@@ -2206,10 +2201,9 @@ sort:	original
 臣本布衣,躬耕于南阳,苟全性命于乱世,不求闻达于诸侯。先帝不以臣卑鄙,猥自枉屈,三顾臣于草庐之中,咨臣以当世之事,由是感激,遂许先帝以驱驰。后值倾覆,受任于败军之际,奉命于危难之间,尔来二十有一年矣。	jebai
 先帝知臣谨慎,故临崩寄臣以大事也。受命以来,夙夜忧叹,恐托付不效,以伤先帝之明；故五月渡泸,深入不毛。今南方已定,兵甲已足,当奖率三军,北定中原,庶竭驽钝,攘除奸凶,兴复汉室,还于旧都。此臣所以报先帝而忠陛下之职分也。至于斟酌损益,进尽忠言,则攸之.祎.允之任也。	jebai
 愿陛下托臣以讨贼兴复之效,不效,则治臣之罪,以告先帝之灵。若无兴德之言,则责攸之.祎.允等之慢,以彰其咎；陛下亦宜自谋,以咨诹善道,察纳雅言,深追先帝遗诏。臣不胜受恩感激。今当远离,临表涕零,不知所言。	jebai
+#endregion
 
-
-
-#感冒常用药
+#region 感冒常用药
 感冒灵颗粒	gfmz
 板蓝根颗粒	gfmz
 维C银翘片	gfmz
@@ -2225,15 +2219,17 @@ sort:	original
 板蓝根冲剂	gfmzi	#中成药
 双黄连口服液	gfmzi
 连花清瘟颗粒	gfmzi
+#endregion
 
-#避孕药
+#region 避孕药
 左炔诺孕酮片	bkyw
 毓婷	bkyw
 妈富隆	bkyw
 优思明	bkyw
 保仕婷	bkyw
+#endregion
 
-#心脑血管用药
+#region 心脑血管用药
 缬沙坦胶囊	xxgo
 复方丹参片	xxgo
 速效救心丸	xxgo
@@ -2243,8 +2239,9 @@ sort:	original
 非洛地平缓释片	xxgo
 苯磺酸氨氯地平片	xxgo
 尼莫地平片	xxgo
+#endregion
 
-#消炎药
+#region 消炎药
 阿莫西林	xcyf
 头孢克肟	xcyf
 头孢拉定	xcyf
@@ -2255,8 +2252,9 @@ sort:	original
 蒲地蓝消炎片	xcyf
 蒲地蓝消炎口服液	xcyf
 人工牛黄甲硝唑	xcyf
+#endregion
 
-#复方药名
+#region 复方药名
 复方醋酸地塞米松	fjfp
 复方丹参滴丸	fjfp
 复方丹参片	fjfp
@@ -2264,8 +2262,9 @@ sort:	original
 复方黄连素片	fjfp
 复方利血平	fjfp
 复方门冬维甘滴眼液	fjfp
+#endregion
 
-#咳嗽药
+#region 咳嗽药
 止咳糖浆	kesd
 京都念慈庵蜜炼川贝枇杷膏	kesd
 氢溴酸右美沙芬	kesd
@@ -2275,9 +2274,9 @@ sort:	original
 咳清胶囊	kesd
 甘草片	kesd
 咳特灵胶囊	kesd
+#endregion
 
-
-# 老师们的名单-不要跑这个名单，可以增加放码的空间
+#region 老师们的名单-不要跑这个名单，可以增加放码的空间
 苍井空	cjkiv
 河北菜花	hbchai
 川滨奈美	wbnmua
@@ -2390,7 +2389,7 @@ sort:	original
 藤彩香	tcxiu
 藤代流花	tdlhii
 藤崎秋	tqqiiu
-藤森智子	tsfzi
+藤森智子	tsfziv
 天衣美津	tymjvo
 田村麻衣	tcmy
 望月瞳	wytou
@@ -2676,9 +2675,9 @@ sort:	original
 樱井莉亚	yjlyv
 央金拉姆	yjlmi
 福山雅治	feyfo
+#endregion
 
-
-# 生鲜和电商
+#region 生鲜和电商
 支付宝发下	ffbxu
 正在联系快递	qzld
 真的不能再便宜了	qdblu
@@ -2711,8 +2710,9 @@ sort:	original
 本店默认快递	bdmdv
 抱歉不能指定快递	bqbd
 逾期未发货	yqwhi
+#endregion
 
-# 不做修改的词库
+#region 不做修改的词库
 #	常用链接
 星猫键道	xmjdo
 星魔键道	xmjdoo
@@ -2723,7 +2723,9 @@ Proud丶Cat	prou
 千年蟲	qnwuu
 佛振	flqn
 付啸	fjxci
+#endregion
 
+#region 邮箱
 @	xhte
 @163	xhte
 @qq	xhte
@@ -2731,8 +2733,11 @@ Proud丶Cat	prou
 @qq.com	ydxxi
 @outlook.com	ydxxi
 @gmail.com	ydxxi
+#endregion
 
-# 一些奇怪的暂时先留着
+#region 一些奇怪的暂时先留着
+丼	dyvvu
+丼dǎn（dfvv）	dyvvu
 天丼	tmjgvv
 天丼	tmdfvv
 亲子丼	jzdo
@@ -2741,9 +2746,10 @@ Proud丶Cat	prou
 鳗丼	mfdfu
 鳗丼	mfjguv
 鳗丼dǎn(mfdfu)	mfjguv
-牛丼	nqjguv
 牛丼	nqdfuv
-牛丼dǎn(nqdfuv)	nqdfuv
+牛丼	nqjguv
+牛丼dǎn(nqdfuv)	nqjguv
+牛丼dǎn(nqdfuv)	nqdyuv
 吃劲	wkjgoa
 吃劲jìn(wkjbo)	wkjgoa
 𰻝𰻝面	bbmb
@@ -2813,13 +2819,14 @@ Proud丶Cat	prou
 君子论迹不论心	jzlxa
 好奇害死猫	hqhma
 话不说不明	hbemo
-我嘞个豆	wlgdu
+我嘞个豆	wlgduo
 怪奇物语	gqwyo
 梦灯之仪	mdfyvo
 遗老遗少	ylyei
 LGBT	lgbt
+#endregion
 
-
+#region 药品-补充医疗
 辛保桑	xbsoia
 十五味乳鹏	ewwpuv
 博思清	bsqui
@@ -5642,7 +5649,7 @@ LGBT	lgbt
 早春景象	zjjxo
 班蝥素乳膏	bmsgv
 太子金颗粒	tzjlva
-冰梅上清丸	bmewo
+冰梅上清丸	bmewov
 睾丸创伤性切断	gwwdu
 利肝乐	lgluuu
 乙肝基因工程疫苗	ygjma
@@ -7449,7 +7456,7 @@ LGBT	lgbt
 肺部肉芽肿	fbrf
 雷公藤多甙	lgtdvu
 致密管道系统	fmgtvo
-法莫替丁分散片	fmtp
+法莫替丁分散片	fmtpa
 尼扶平	nfpai
 分支酸	ffsuu
 丙酸罗沙米星	bslxvv
@@ -7681,7 +7688,7 @@ LGBT	lgbt
 宁嗽露	nslo
 腔静脉造影	qjmyu
 谷氨酸半醛	gxsq
-乙非他明	yftma
+乙非他明	yftmai
 木质磺酸盐	mfhyv
 锋塞星	fsxioo
 宁嗽糖浆	nstjo
@@ -8859,7 +8866,7 @@ LGBT	lgbt
 来苏糖乙酮醇异构酶	lstm
 风湿圣药	feeyu
 莱拉芒担血红蛋白	llmbii
-乳突球囊	rtqn
+乳突球囊	rtqnu
 枢力达	eldva
 毒毛花苷	dmhgv
 飞滑石	fheaav
@@ -9641,7 +9648,7 @@ LGBT	lgbt
 内障清	nqqia
 金色素	jssiu
 美声喉泰	meht
-仙鹤草素	xhcsi
+仙鹤草素	xhcsio
 柯楠因碱	knyj
 插入移位	wryw
 颅内转移瘤	lnfl
@@ -9762,7 +9769,7 @@ LGBT	lgbt
 鼻舒适片	beep
 银花口服液	yhkyi
 文拉法辛胶囊	wlfno
-完全断耳再植术	wqdeo
+完全断耳再植术	wqdeoi
 草果附姜兼厚朴	cgfp
 银胡抗感口服液	yhkyiu
 尤卓尔软膏	yfxgvi
@@ -10075,7 +10082,7 @@ LGBT	lgbt
 性索间质细胞瘤	xsjlo
 鼻塞病	bsbuoo
 脑室恶性肿瘤	nexl
-疣状皮肤结核	yfph
+疣状皮肤结核	yfpho
 大生瑞丽	derl
 止痢灵	fllio
 次生演替	ceyto
@@ -11648,7 +11655,7 @@ LGBT	lgbt
 乳酸链球菌肽	rslt
 生气通天论篇第三	eqtsu
 滋阴虎潜丸	zyhwa
-三元舒星	syexv
+三元舒星	syexvv
 斯耐普	snpvv
 蒲肯野纤维	pkywii
 良性疟疾	lxnjo
@@ -13930,7 +13937,7 @@ LGBT	lgbt
 电子膀胱刺激器植入	dzpria
 手诊济天下健康创未来	eqjli
 泌尿系统药	mnxy
-胆胃康胶囊	dwkn
+胆胃康胶囊	dwknu
 三磷酸肌醇	slsjv
 去水卫矛醇	qewjv
 塞莱得	sldoi
@@ -14648,7 +14655,7 @@ LGBT	lgbt
 口腔黑斑症	kqhq
 热带花斑癣	rdhx
 益心酮分散片	yxtp
-新生儿痤疮	xexwo
+新生儿痤疮	xexwou
 已破损期	ypsq
 泌淋胶囊	mljna
 原巨红细胞	yjhb
@@ -14960,7 +14967,7 @@ LGBT	lgbt
 益康唑软膏	ykzg
 腹膜从腹壁	fmcb
 显微操作器	xwcqo
-麝香舒活	exeh
+麝香舒活	exeho
 参苓精口服液	cljy
 超敏促甲状腺素	jmcsv
 福尔马林指示卡	fxmk
@@ -17740,7 +17747,7 @@ LGBT	lgbt
 脑干病变脑干功能衰竭	ngbju
 大黄庶虫片	dhepvv
 康尔心	kxxouo
-梅翁退热	mwtrv
+梅翁退热	mwtrvu
 膀胱前壁恶性肿瘤	pgqluu
 深静脉穿刺针	ejmq
 立补舒他脾	lbepoo
@@ -17823,7 +17830,7 @@ LGBT	lgbt
 手脱位闭合性复位术	etwe
 甘薯黑疤霉酸	gehsv
 金红颗粒	jhkl
-妇科分清	fkfq
+妇科分清	fkfqa
 主要组织相容性系统	qyzto
 地枫皮钻地风	dfpfv
 促乳素释放素	crss
@@ -19966,7 +19973,7 @@ LGBT	lgbt
 液状甘油磷酸钾	yfgja
 普卡霉素	pkmso
 连接酶缺乏症	ljmqv
-杏仁止咳颗粒	xrfl
+杏仁止咳颗粒	xrflv
 葡糖环糊精	pthji
 骨骼风痛	ggft
 熊去氧胆酸	xqysa
@@ -20200,7 +20207,7 @@ LGBT	lgbt
 其他传染病病原携带者	qtwfv
 动物磁性	dwcx
 百里香素	blxsv
-倍他舒	bteiii
+倍他舒	bteii
 外侧韧带	wcrd
 促乳素抑制素	crssi
 明目二十五味	mmxw
@@ -20677,7 +20684,7 @@ LGBT	lgbt
 运动觉训练	ydjlvv
 那氟沙星	nfexa
 落花参	lhciia
-里德斯特恩伯格细胞	ldsb
+里德斯特恩伯格细胞	ldsbi
 吡啶酮	bdtoo
 无患子科	whzkv
 去半乳糖	qbrt
@@ -20688,7 +20695,6 @@ LGBT	lgbt
 双极半髋卡式双动头	ejbt
 后期基因	hqjy
 益肾健骨片	yejpoi
-六锐散	lrsoiv
 士的宁注射液	edny
 肿瘤抑制基因	flyyuo
 皮甾五醇	pzwja
@@ -21611,7 +21617,7 @@ LGBT	lgbt
 快速连续尿路造影	kslyo
 眶内脓肿	knnf
 芝麻皮炎	fmpyi
-醋酸麦迪霉素	csms
+醋酸麦迪霉素	csmsv
 工业药剂学	gyyx
 消癖口服液	xpky
 亚硝基脲	yxjnv
@@ -21822,7 +21828,7 @@ LGBT	lgbt
 外耳道闭锁	wxdsu
 体表高频振荡	tbgdi
 异蔗果三糖	yfgtai
-养阴口香	yykxo
+养阴口香	yykxoa
 紫铆黄酮	zmht
 血宁颗粒	xnklu
 鼠尾苷	ewgua
@@ -22837,7 +22843,7 @@ LGBT	lgbt
 亮脑啡肽	lnft
 瑞秦	rbqb
 梭状芽孢杆菌肽酶	sfym
-位点专一性重组	wdfz
+位点专一性重组	wdfzi
 松龄血脉康	slxkvi
 利福昔明干混悬剂	lfxjuo
 花粉祛痒止痛	hfqtio
@@ -23182,7 +23188,7 @@ LGBT	lgbt
 酸酯乙交酯共聚物	sfywvv
 肺动脉高压危象	fdmx
 组氨酸脱氨酶	zxsm
-白细胞抗原相同同胞	bxbb
+白细胞抗原相同同胞	bxbbu
 特美汀	tmtuoa
 克淋通胶囊	kltnu
 金莲花片	jlhpii
@@ -25324,9 +25330,9 @@ LGBT	lgbt
 清眩降压	qxjya
 肾康宁片	eknpi
 无水羊毛脂	weyfva
+#endregion
 
-
-# 四字词库
+#region 补充四字词库
 阿保之功	xbfg
 阿保之劳	xbfla
 阿鼻叫唤	xbjha
@@ -26455,7 +26461,7 @@ LGBT	lgbt
 抱打不平	bdbpi
 包打天下	bdtx
 抱德炀和	bdyhi
-包而不办	bxbbu
+包而不办	bxbbuv
 抱儿当户	bxdhi
 抱法处势	bfjeia
 暴风疾雨	bfjyo
@@ -27815,9 +27821,8 @@ LGBT	lgbt
 不刊之书	bkfevv
 不刊之说	bkfevv
 不堪卒读	bkzdvv
-不亢不卑	bkbb
-不抗不卑	bkbbv
-不可辩驳	bkbbvv
+不亢不卑	bkbbv
+不可辩驳	bkbb
 不可端倪	bkdn
 不可教训	bkjxvv
 不可究诘	bkjjvv
@@ -31117,7 +31122,6 @@ LGBT	lgbt
 待搭不理	ddblui
 待答不理	ddbluu
 戴大帽子	ddmzuv
-呆呆邓邓	ddddoo
 呆呆挣挣	ddqzoo
 怠惰因循	ddyxao
 戴发含齿	dfhwu
@@ -31201,7 +31205,7 @@ LGBT	lgbt
 单步负笈	dbfjoi
 殚财竭力	dcjlv
 殚财劳力	dcllv
-呾叉始罗	dwelo
+呾叉始罗	dweloa
 胆颤心惊	djxjuo
 单车就路	dwjlov
 单车之使	dwfeov
@@ -31592,7 +31596,7 @@ LGBT	lgbt
 刀头舔蜜	dttm
 刀头燕尾	dtywa
 道头知尾	dtfwoo
-道微德薄	dwdb
+道微德薄	dwdbo
 蹈危如平	dwrp
 道无拾遗	dwey
 倒屣而迎	dxxyi
@@ -31750,8 +31754,6 @@ LGBT	lgbt
 登车揽辔	dwlp
 登崇俊良	dwjlai
 磴磴齿齿	ddwc
-邓邓呆呆	ddddaa
-登登笃笃	ddddaa
 邓邓浑浑	ddhha
 噔咚扎咶	ddfho
 灯蛾扑火	dxpho
@@ -31829,7 +31831,7 @@ LGBT	lgbt
 滴滴打打	ddddaa
 滴滴搭搭	ddddaa
 滴滴答答	ddddaa
-滴滴邓邓	ddddaa
+登登笃笃	ddddaa
 滴滴拉拉	ddllaa
 滴滴溜溜	ddllaa
 低低切切	ddqqi
@@ -31960,7 +31962,7 @@ LGBT	lgbt
 低头认罪	dtrz
 低头丧气	dtsq
 低头下心	dtxxio
-敌王所忾	dwsk
+敌王所忾	dwsku
 地网天罗	dwtlvi
 地无遗利	dwylv
 第五纵队	dwzdu
@@ -32071,8 +32073,8 @@ LGBT	lgbt
 点铁成金	dtjji
 颠头播脑	dtbn
 颠头簸脑	dtbnu
-点头称善	dtjei
-点头称是	dtjeio
+点头称善	dtjeio
+点头称是	dtjei
 点头道是	dtdei
 癫头癫脑	dtdno
 点头会意	dthyio
@@ -32378,7 +32380,7 @@ LGBT	lgbt
 东驰西撞	dwxfva
 栋充牛汗	dwnh
 东冲西决	dwxjvo
-东冲西突	dwxt
+东冲西突	dwxtv
 东冲西撞	dwxfvo
 东穿西撞	dwxfvo
 东床佳婿	dwjxv
@@ -32386,7 +32388,6 @@ LGBT	lgbt
 东床姣婿	dwjxvo
 东床娇婿	dwjxvo
 东窗事犯	dwefvo
-东床坦腹	dwtf
 东闯西踱	dwxdv
 东窗消息	dwxxv
 东床择对	dwzdv
@@ -33083,8 +33084,8 @@ LGBT	lgbt
 对薄公堂	dbgtai
 对床风雨	dwfyao
 对床听语	dwtya
-对床夜语	dwyy
-对床夜雨	dwyya
+对床夜语	dwyya
+对床夜雨	dwyyao
 堆垛死尸	ddsev
 堆积成山	djjev
 堆集如山	djrevi
@@ -33113,7 +33114,7 @@ LGBT	lgbt
 钝兵挫锐	dbcri
 顿兵坚城	dbjjv
 顿茶顿饭	dwdfvi
-顿挫抑扬	dcyyv
+顿挫抑扬	dcyyvi
 钝刀慢剐	ddmgia
 钝刀切物	ddqwia
 顿递司酒	ddsjvo
@@ -33368,7 +33369,6 @@ LGBT	lgbt
 扼腕兴嗟	xwxji
 鹅王择乳	xwzr
 鹅项懒凳	xxlduv
-鹗心鹂舌	xxleoo
 恶形恶状	xxxfvv
 鹅行鸭步	xxybuu
 鹅鸭之争	xyfqu
@@ -35161,7 +35161,7 @@ LGBT	lgbt
 附骥攀鸿	fjphaa
 附骥攀鳞	fjpla
 负笈游学	fjyxuu
-富家大室	fjdeo
+富家大室	fjdeoo
 浮家泛宅	fjfqa
 富家巨室	fjjeo
 肤见謭识	fjjeui
@@ -37131,7 +37131,6 @@ LGBT	lgbt
 贵而贱目	gxjmi
 贵耳贱目	gxjmiv
 鬼风疙瘩	gfgduu
-桂馥兰香	gflxvu
 桂馥兰馨	gflxvu
 柜格之松	ggfsv
 归根结柢	ggjdi
@@ -37841,8 +37840,6 @@ LGBT	lgbt
 嚎天喊地	hthdo
 号天叫屈	htjqo
 号天叩地	htkdo
-号天扣地	htkdov
-号天哭地	htkdov
 好天良夜	htlyav
 号天拍地	htpd
 号天啕地	httdo
@@ -39370,7 +39367,6 @@ LGBT	lgbt
 回霜收电	heediv
 彗汜画涂	hsht
 蕙损兰摧	hslc
-恢胎旷荡	htkdou
 挥涕增河	htzhia
 回天倒日	htdriv
 回天挽日	htwri
@@ -39489,7 +39485,7 @@ LGBT	lgbt
 魂劳梦断	hlmdvi
 浑抡吞枣	hltza
 浑沦吞枣	hltzaa
-昏眊重膇	hmfz
+昏眊重膇	hmfzu
 魂梦为劳	hmwlvv
 昏迷不省	hmbxu
 魂飘魄散	hpps
@@ -39993,7 +39989,6 @@ LGBT	lgbt
 蒺藜骨朵	jlgdii
 叽哩咕噜	jlgloo
 吉里骨碌	jlglvi
-咭力骨碌	jlgloa
 唧哩咕噜	jlgloo
 咭哩咕哝	jlgno
 季礼挂剑	jlgju
@@ -43277,7 +43272,7 @@ LGBT	lgbt
 枯骨之余	kgfyvi
 枯骨之馀	kgfyvi
 苦海茫茫	khmmi
-苦海无涯	khwyi
+苦海无涯	khwyia
 枯槐聚蚁	khjyv
 苦集灭道	kjmdi
 苦筋拔力	kjbliu
@@ -44450,12 +44445,12 @@ LGBT	lgbt
 敛后疏前	lheqi
 莲花世界	lhejii
 连环图画	lhthvv
-脸黄肌瘦	lhje
+脸黄肌瘦	lhjeu
 连昏达曙	lhdevu
 连昏接晨	lhjjvu
 连鸡之势	ljfev
 连街倒巷	ljdxv
-连阶累任	ljlr
+连阶累任	ljlrv
 廉静寡欲	ljgyov
 恋酒迷花	ljmho
 恋酒贪杯	ljtbo
@@ -46084,7 +46079,8 @@ LGBT	lgbt
 卖野人头	myrt
 卖友求荣	myqr
 卖狱鬻官	myygu
-迈越常流	myjl
+美艳绝伦	myjl
+迈越常流	myjlv
 麦舟之赠	mfzzv
 卖主求荣	mqqr
 卖嘴料舌	mzleuo
@@ -46114,7 +46110,7 @@ LGBT	lgbt
 满腹牢骚	mflsau
 满腹诗书	mfeeau
 满腹文章	mfwq
-满腹珠玑	mfqja
+满腹珠玑	mfqjau
 蛮歌獠语	mglyov
 满谷满坑	mgmka
 漫漶支离	mhflaa
@@ -46860,7 +46856,7 @@ LGBT	lgbt
 面如槁木	mrgmv
 面如灰土	mrhtv
 面如满月	mrmyv
-面如凝脂	mrnfv
+面如凝脂	mrnfva
 面如死灰	mrsh
 面若死灰	mrshv
 面色如生	msre
@@ -46903,7 +46899,7 @@ LGBT	lgbt
 面折廷争	mftq
 面争庭论	mqtlv
 渺不足道	mbzd
-妙策如神	mcre
+妙策如神	mcrea
 妙策神谋	mcem
 妙处不传	mjbwa
 邈处欿视	mjkeuu
@@ -50192,12 +50188,6 @@ LGBT	lgbt
 钱可使鬼	qkegi
 钱可通神	qktei
 钳口不言	qkby
-箝口侧目	qkcm
-钳口侧目	qkcmi
-钳口挢舌	qkjei
-箝口结舌	qkjeu
-钳口结舌	qkjeio
-钳口吞舌	qkteio
 乾坤一掷	qkyfuv
 乾坤再造	qkzzuv
 迁兰变鲍	qlbbu
@@ -50289,7 +50279,6 @@ LGBT	lgbt
 千人所指	qrsfui
 千仞无枝	qrwfui
 千人一状	qryfui
-倩人捉刀	qrfdi
 千日醉酒	qrzjuo
 潜濡默被	qrmbaa
 潜濡默化	qrmha
@@ -52224,7 +52213,7 @@ LGBT	lgbt
 日暖风恬	rnfto
 日乾夕惕	rqxt
 日亲日近	rqrj
-日亲以察	rqyw
+日亲以察	rqywo
 日清月结	rqyj
 日濡月染	rryr
 日慎一日	reyr
@@ -54228,7 +54217,7 @@ LGBT	lgbt
 声明文物	emwwvo
 声名烜赫	emxhvu
 绳墨之言	emfyai
-圣母神皇	emeha
+圣母神皇	emehaa
 生男育女	enyn
 盛年不再	enbzv
 声偶擿裂	extlv
@@ -54535,7 +54524,7 @@ LGBT	lgbt
 十二辰属	exjeuv
 十二重楼	exwlu
 十二分野	exfyuv
-豕而负涂	exftv
+豕而负涂	exftvv
 十二金钗	exjju
 十二金牌	exjpu
 十二金人	exjru
@@ -55617,7 +55606,7 @@ LGBT	lgbt
 恕我冒昧	ewmma
 梳洗打扮	exdbv
 蜀相军营	exjyi
-书香门户	exmh
+书香门户	exmha
 书香人家	exrjau
 书香世家	exejau
 书香铜臭	extxa
@@ -55725,7 +55714,7 @@ LGBT	lgbt
 双栖双宿	eqesa
 爽然若失	errev
 爽然自失	erzevu
-爽人心脾	erxp
+爽人心脾	erxpv
 爽爽快快	eekkvv
 双套飞车	etfw
 双瞳剪水	etje
@@ -57321,7 +57310,7 @@ LGBT	lgbt
 天下为家	txwj
 天下为笼	txwlv
 天下为一	txwyv
-天下文宗	txwz
+天下文宗	txwzv
 天下匈匈	txxxv
 天下恟恟	txxxvv
 天下汹汹	txxxvv
@@ -57792,7 +57781,8 @@ LGBT	lgbt
 同心一力	txyli
 同心一意	txyy
 通行马牌	txmpa
-通行无阻	txwza
+通行无阻	txwz
+掏心窝子	txwzi
 同休等戚	txdqi
 同休共戚	txgq
 铜臭满身	txme
@@ -58029,7 +58019,6 @@ LGBT	lgbt
 兔缺乌沉	tqwjuu
 兔缺乌沈	tqweu
 土壤细流	trxlv
-土穰细流	trxlvu
 图身忘国	tewg
 土生土养	tetyv
 吐食握发	tewfo
@@ -58870,7 +58859,7 @@ LGBT	lgbt
 危而不持	wxbwu
 威而不猛	wxbmv
 为而不恃	wxbeo
-危而后济	wxhju
+危而后济	wxhjuv
 为法自弊	wfzbo
 为非作恶	wfzxo
 未焚徙薪	wfxxvv
@@ -62242,7 +62231,6 @@ LGBT	lgbt
 修文地下	xwdxi
 修文偃武	xwywi
 修文演武	xwywio
-修修补补	xxbbii
 休休有容	xxyr
 修学务早	xxwzi
 羞以牛后	xynho
@@ -63529,11 +63517,11 @@ LGBT	lgbt
 养贤纳士	yxneo
 洋相百出	yxbja
 佯羞诈鬼	yxfg
-阳煦山立	yxel
+阳煦山立	yxela
 羊续悬鱼	yxxyoa
 怏怏不服	yybfoo
 怏怏不乐	yybloo
-鞅鞅不乐	yyblv
+鞅鞅不乐	yyblvv
 怏怏不平	yybpoo
 怏怏不悦	yybyo
 央央插插	yywci
@@ -63763,7 +63751,7 @@ LGBT	lgbt
 野没遗贤	ymyx
 野鸟入庙	ynrmi
 夜寝夙兴	yqsx
-夜寝早起	yqzq
+夜寝早起	yqzqo
 夜去明来	yqmlo
 野人献曝	yrxpi
 野人献芹	yrxq
@@ -63995,7 +63983,7 @@ LGBT	lgbt
 移船就岸	ywjxu
 移船就泊	ywjpuu
 一串骊珠	ywlqvi
-伊川先生	ywxei
+伊川先生	ywxeiu
 一床两好	ywlhvo
 一槌定音	ywdyvv
 一吹一唱	ywyjvo
@@ -65270,9 +65258,9 @@ LGBT	lgbt
 依希犹记	yxyji
 一昔之期	yxfqvv
 一线不乱	yxblv
-一献三酬	yxsw
+一献三酬	yxswv
 一献三售	yxse
-一线生路	yxelv
+一线生路	yxel
 异县他乡	yxtx
 一现昙华	yxthv
 一线希望	yxxwv
@@ -66506,7 +66494,6 @@ LGBT	lgbt
 有气无烟	yqwyv
 油乾火尽	yqhjau
 油钱香分	yqxfa
-有钱有势	yqyev
 诱秦诓楚	yqkjo
 幽情雅趣	yqyqi
 幽情逸韵	yqyyio
@@ -66516,11 +66503,10 @@ LGBT	lgbt
 有求斯应	yqsyv
 有求辄应	yqfyvv
 有屈无伸	yqweva
-有权有势	yqyevv
 悠然神往	yrew
 悠然自适	yrze
 游刃恢恢	yrhha
-游刃皆虚	yrjx
+游刃皆虚	yrjxa
 游刃余地	yryd
 幽人之风	yrff
 优柔不断	yrbdia
@@ -66712,7 +66698,7 @@ LGBT	lgbt
 有作其芒	yzqmvi
 宥坐之器	yzfqoi
 雨爱云欢	yxyhvu
-于安思危	yxswv
+于安思危	yxsw
 玉白花红	ybhhv
 瑜百瑕一	ybxyvv
 鹬蚌相持	ybxwai
@@ -66987,7 +66973,7 @@ LGBT	lgbt
 娱妻弄子	yqnz
 雨泣云愁	yqywva
 御前会议	yqhy
-余钱剩米	yqem
+余钱剩米	yqemi
 逾千越万	yqywi
 逾墙避命	yqbmi
 逾墙窥蠙	yqkp
@@ -67018,7 +67004,7 @@ LGBT	lgbt
 浴日补天	yrbt
 与日俱积	yrjj
 与日俱进	yrjjv
-与日俱新	yrjxv
+与日俱新	yrjx
 鱼肉百姓	yrbxu
 郁肉漏脯	yrlp
 鱼肉乡里	yrxlui
@@ -71182,7 +71168,7 @@ LGBT	lgbt
 做哑妆矬	zyfci
 作言造语	zyzyi
 做妖撒妖	zysyi
-坐以待旦	zydd
+坐以待旦	zyddi
 坐以待亡	zydwi
 左宜右宜	zyyyv
 左宜右有	zyyyvo
@@ -71219,8 +71205,9 @@ LGBT	lgbt
 作作生芒	zzemi
 作作索索	zzssi
 作作有芒	zzym
+#endregion
 
-# 保险词库
+#region 保险词库
 爱和谊保险公司	xhysuu
 爱和谊财险	xhyxu
 安邦保险	xbbx
@@ -71956,7 +71943,7 @@ LGBT	lgbt
 永安财产保险股份有限公司	yxcso
 永诚财产保险股份有限公司	yjcs
 友邦保险	ybbx
-预期寿命	yqem
+预期寿命	yqema
 预约分保	yyfb
 预约再保险	yyzxa
 运费保险	yfbxv
@@ -72093,8 +72080,9 @@ LGBT	lgbt
 最大补偿原则	zdbzo
 最大诚信	zdjxo
 最大诚信原则	zdjz
+#endregion
 
-# 歇后语
+#region 歇后语
 阿斗当皇帝	xddda
 阿斗的江山	xddeao
 阿公吃黄连	xgwlau
@@ -73489,7 +73477,7 @@ LGBT	lgbt
 斋公吃羊肉	qgwr
 债主找到了负债的	qqqdi
 斩草不除根	qcbgvi
-粘豆粥糊锅	qdfg
+粘豆粥糊锅	qdfgo
 粘米煮山芋	qmqyoo
 沾你的光了	qndla
 粘牙的烧饼	qydbo
@@ -73568,3 +73556,4 @@ LGBT	lgbt
 嘴馋上了当	zjedo
 醉汉过铁索桥	zhgqva
 作用不全	zybq
+#endregion
