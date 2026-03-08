@@ -1,6 +1,6 @@
 -- 天行键统一按键处理器
 -- 作者：@浮生 https://github.com/wzxmer/rime-txjx
--- 优化：2026-02-20
+-- 优化：2026-03-08
 
 local string_sub = string.sub
 local string_byte = string.byte
@@ -148,9 +148,6 @@ local function _smart_process(key_event, env, kn, sf, clean_key, opts)
         if kn and env._sw == kn then env._sw = nil; return kAccepted end
         if ds_on then
             if kn and env._dc == kn then env._dc = nil; return kAccepted end
-            if env._dc ~= kn then
-                if _tdc(_SymCN, kn, sf, env.engine, ctx) then env._dc = kn; return kAccepted end
-            end
             env._dc = nil
         end
         
