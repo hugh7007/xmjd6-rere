@@ -1,7 +1,7 @@
 -- Rime Script >https://github.com/baopaau/rime-lua-collection/blob/master/calculator_translator.lua
 -- 计算器适配版，此版本经过二次优化 
 -- 作者：@浮生 https://github.com/wzxmer/rime-txjx
--- 更新：2026-02-16
+-- 更新：2026-02-21
 -- 簡易計算器（執行任何Lua表達式）
 -- 优化说明：高级数学函数(微积分、统计)改为延迟加载，节省内存；使用沙盒环境增强安全性和性能。
 --
@@ -316,7 +316,7 @@ local function serialize(obj)
     if #parts > 1 then parts[#parts] = nil end
     parts[#parts + 1] = "}"
     return table.concat(parts)
-  elseif pcall(obj) then
+  elseif type(obj) == "function" then
     return "callable"
   end
   return obj

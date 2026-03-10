@@ -209,7 +209,6 @@ local function init(env)
         env.match_b_pattern = "^$"
     end
 
-    env.commit_counter = 0
     env._hint_table = {}
 
     local ctx = env.engine.context
@@ -226,8 +225,13 @@ local function init(env)
     ctx.update_notifier:connect(on_update)
     
     local function on_commit(context)
-        env.commit_counter = (env.commit_counter or 0) + 1
         update_lazy_reverse(env, context, "")
+
+        env._gc_count = (env._gc_count or 0) + 1
+        if env._gc_count >= 100 then
+            collectgarbage("collect")
+            env._gc_count = 0
+        end
     end
     env._commit_handler = on_commit
     ctx.commit_notifier:connect(on_commit)

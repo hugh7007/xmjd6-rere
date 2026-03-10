@@ -1,6 +1,6 @@
 -- 时间与农历模块
 -- 作者：@浮生 https://github.com/wzxmer/rime-txjx
--- 优化：2026-02-23
+-- 优化：2026-03-03
 
 local math_floor = math.floor
 local math_sin = math.sin
@@ -111,8 +111,8 @@ setFromJD = function(JDate, jd,UTC) --儒略日数转公历,UTC=1表示目标公
 end,
 
 setFromStr = function(JDate, s) --设置时间,参数例:"20000101 120000"或"20000101"
-	JDate.Y=string.sub(s, 1,4)	JDate.M=string.sub(s, 5, 6)  JDate.D=string.sub(s,7, 8)
-	JDate.h=string.sub(s, 10, 11) JDate.m=string.sub(s, 12,13) JDate.s=string.sub(s, 14,18)
+	JDate.Y=string_sub(s, 1,4)	JDate.M=string_sub(s, 5, 6)  JDate.D=string_sub(s,7, 8)
+	JDate.h=string_sub(s, 10, 11) JDate.m=string_sub(s, 12,13) JDate.s=string_sub(s, 14,18)
 end,
 toStr = function(JDate) --日期转为串
 	local s = math_floor(JDate.s + 0.5)
@@ -150,8 +150,8 @@ end,
 
 d1_d2 = function(JDate, d1,d2) --计算两个日期的相差的天数,输入字串格式日期,如:"20080101"
 	local Y=JDate.Y local M=JDate.M local D=JDate.D local h=JDate.h local m=JDate.m local s=JDate.s --备份原来的数据
-	JDate.setFromStr(string.sub(d1,1,8)+" 120000")	local jd1=JDate.toJD(0)
-	JDate.setFromStr(string.sub(d2,1,8)+" 120000")	local jd2=JDate.toJD(0)
+	JDate.setFromStr(string_sub(d1,1,8)+" 120000")	local jd1=JDate.toJD(0)
+	JDate.setFromStr(string_sub(d2,1,8)+" 120000")	local jd2=JDate.toJD(0)
 
 	JDate.Y=Y JDate.M=M JDate.D=D JDate.h=h JDate.m=m JDate.s=s --还原
 	if jd1>jd2 then  return  math_floor(jd1-jd2+.0001)
@@ -546,12 +546,12 @@ local jqB={ --节气表
 
 local function JQtest(y)
 	local i,q,s1,s2,jqData  y=tostring(y)
-	local jd=365.2422*(tonumber(y.sub(y,1,4))-2000)
+	local jd=365.2422*(tonumber(string_sub(y,1,4))-2000)
 	for i=0,23 do
 		q=jiaoCal(jd+i*15.2,i*15,0)+J2000+8/24  --计算第i个节气(i=0是春分),结果转为北京时
 		JDate:setFromJD(q,1)  s1=JDate:toStr()  --将儒略日转成世界时
 		JDate:setFromJD(q,0)  s2=JDate:toStr()  --将儒略日转成日期格式(输出日期形式的力学时)
-		jqData=s1.sub(s1.gsub(s1, "^( )", ""),1,10)  jqData=jqData.gsub(jqData, "-", "")
+		jqData=string_sub(string_gsub(s1, "^( )", ""),1,10)  jqData=string_gsub(jqData, "-", "")
 		if (jqData == y) then return "-" .. jqB[i+1] end
 	end
 	return ""
@@ -559,15 +559,15 @@ end
 
 local function GetNextJQ(y)
 	local i,obj,q,s1,s2,jqData  y=tostring(y)
-	local jd=365.2422*(tonumber(y.sub(y,1,4))-2000)
+	local jd=365.2422*(tonumber(string_sub(y,1,4))-2000)
 	obj={}
 	for i=0,23 do
 		q=jiaoCal(jd+i*15.2,i*15,0)+J2000+8/24  --计算第i个节气(i=0是春风),结果转为北京时
 		JDate:setFromJD(q,1)  s1=JDate:toStr()  --将儒略日转成世界时
 		JDate:setFromJD(q,0)  s2=JDate:toStr()  --将儒略日转成日期格式(输出日期形式的力学时)
-		jqData=s1.sub(s1.gsub(s1, "^( )", ""),1,10)  jqData=jqData.gsub(jqData, "-", "")
+		jqData=string_sub(string_gsub(s1, "^( )", ""),1,10)  jqData=string_gsub(jqData, "-", "")
 		if (jqData>=y) then
-			table.insert(obj,jqB[i+1] .." ".. s1.sub(s1.gsub(s1, "^( )", ""),1,10))
+			table.insert(obj,jqB[i+1] .." ".. string_sub(string_gsub(s1, "^( )", ""),1,10))
 	  end
 
 	end
@@ -641,15 +641,15 @@ local function GetNowTimeJq(date)
 	date=tostring(date)
 	if string.len(date)<8 then return "无效日期" end
 	JQtable2=GetNextJQ(date)
-	if tonumber(string.sub(date,5,8))<322 then
-		JQtable1=GetNextJQ(tonumber(string.sub(date,1,4))-1 .. string.sub(date,5,8))
-		if tonumber(string.sub(date,5,8))<108 then 
+	if tonumber(string_sub(date,5,8))<322 then
+		JQtable1=GetNextJQ(tonumber(string_sub(date,1,4))-1 .. string_sub(date,5,8))
+		if tonumber(string_sub(date,5,8))<108 then 
 			for i=20,24 do table.insert(JQtable2,i-19,JQtable1[i]) end
-		elseif tonumber(string.sub(date,5,8))<122 then
+		elseif tonumber(string_sub(date,5,8))<122 then
 			for i=21,24 do table.insert(JQtable2,i-20,JQtable1[i]) end
-		elseif tonumber(string.sub(date,5,8))<206 then
+		elseif tonumber(string_sub(date,5,8))<206 then
 			for i=22,24 do table.insert(JQtable2,i-21,JQtable1[i]) end
-		elseif tonumber(string.sub(date,5,8))<221 then
+		elseif tonumber(string_sub(date,5,8))<221 then
 			for i=23,24 do table.insert(JQtable2,i-22,JQtable1[i]) end
 		else
 			table.insert(JQtable2,1,JQtable1[24])
@@ -851,7 +851,7 @@ end
 local function lunarJzl(y)
     local yidx,midx,didx,hidx
     y=tostring(y)
-    local t = os_time({year=tonumber(y.sub(y,1,4)),month=tonumber(y.sub(y,5,-5)), day=tonumber(y.sub(y,7,-3)),hour=tonumber(y.sub(y,9,-1)),min=4,sec=5})
+    local t = os_time({year=tonumber(string_sub(y,1,4)),month=tonumber(string_sub(y,5,-5)), day=tonumber(string_sub(y,7,-3)),hour=tonumber(string_sub(y,9,-1)),min=4,sec=5})
     local x
     if _gzl_cache_key == t and _gzl_cache_obj then
         x = _gzl_cache_obj
@@ -892,8 +892,8 @@ end
 local function time_to_num(time)
   local pattern = "(%d+):(%d+) +([AP]M)"
   local hours, minutes, am
-  if string.match(time, pattern) ~= nil then
-    hours, minutes, am = string.match(time, pattern)
+  if string_match(time, pattern) ~= nil then
+    hours, minutes, am = string_match(time, pattern)
     if ((am == "AM") and (tonumber(hours) >= 12)) then
       hours = hours - 12
     elseif ((am == "PM") and (tonumber(hours) < 12)) then
@@ -901,7 +901,7 @@ local function time_to_num(time)
     end
   else
     pattern = "(%d+):(%d+)"
-    hours, minutes = string.match(time, pattern)
+    hours, minutes = string_match(time, pattern)
   end
   return (hours*60) + minutes
 end
@@ -926,7 +926,7 @@ local function Dec2bin(n)
 		t=math_floor(t/2)
 		if t==1 then if #tables>0 then table.insert(tables,1,1) else tables[1]=1 end end
 	end
-	return string.gsub(table.concat(tables),"^[0]+","")
+	return string_gsub(table.concat(tables),"^[0]+","")
 end
 
 --2/10/16进制互转
@@ -957,13 +957,13 @@ end
 --农历16进制数据分解
 local function Analyze(Data)
 	local rtn1,rtn2,rtn3,rtn4
-	rtn1=system(string.sub(Data,1,3),16,2)
+	rtn1=system(string_sub(Data,1,3),16,2)
 	if string.len(rtn1)<12 then rtn1="0" .. rtn1 end
-	rtn2=string.sub(Data,4,4)
-	rtn3=system(string.sub(Data,5,5),16,10)
-	rtn4=system(string.sub(Data,-2,-1),16,10)
-	if string.len(rtn4)==3 then rtn4="0" .. system(string.sub(Data,-2,-1),16,10) end
-	--string.gsub(rtn1, "^[0]*", "")
+	rtn2=string_sub(Data,4,4)
+	rtn3=system(string_sub(Data,5,5),16,10)
+	rtn4=system(string_sub(Data,-2,-1),16,10)
+	if string.len(rtn4)==3 then rtn4="0" .. system(string_sub(Data,-2,-1),16,10) end
+	--string_gsub(rtn1, "^[0]*", "")
 	return {rtn1,rtn2,rtn3,rtn4}
 end
 
@@ -979,13 +979,13 @@ end
 local function leaveDate(y)
 	local day,total
 	total=0
-	if IsLeap(tonumber(string.sub(y,1,4)))>365 then day={31,29,31,30,31,30,31,31,30,31,30,31}
+	if IsLeap(tonumber(string_sub(y,1,4)))>365 then day={31,29,31,30,31,30,31,31,30,31,30,31}
 	else day={31,28,31,30,31,30,31,31,30,31,30,31} end
-	if tonumber(string.sub(y,5,6))>1 then
-		for i=1,tonumber(string.sub(y,5,6))-1 do total=total+day[i] end
-		total=total+tonumber(string.sub(y,7,8))
+	if tonumber(string_sub(y,5,6))>1 then
+		for i=1,tonumber(string_sub(y,5,6))-1 do total=total+day[i] end
+		total=total+tonumber(string_sub(y,7,8))
 	else
-		return tonumber(string.sub(y,7,8))
+		return tonumber(string_sub(y,7,8))
 	end
 	return tonumber(total)
 end
@@ -996,16 +996,16 @@ local function diffDate(date1,date2)
 	local t1,t2,n,total
 	total=0 date1=tostring(date1) date2=tostring(date2)
 	if tonumber(date2)>tonumber(date1) then
-		n=tonumber(string.sub(date2,1,4))-tonumber(string.sub(date1,1,4))
+		n=tonumber(string_sub(date2,1,4))-tonumber(string_sub(date1,1,4))
 		if n>1 then
 			for i=1,n-1 do
-				total=total+IsLeap(tonumber(string.sub(date1,1,4))+i)
+				total=total+IsLeap(tonumber(string_sub(date1,1,4))+i)
 			end
-			total=total+leaveDate(tonumber(string.sub(date2,1,8)))+IsLeap(tonumber(string.sub(date1,1,4)))-leaveDate(tonumber(string.sub(date1,1,8)))
+			total=total+leaveDate(tonumber(string_sub(date2,1,8)))+IsLeap(tonumber(string_sub(date1,1,4)))-leaveDate(tonumber(string_sub(date1,1,8)))
 		elseif n==1 then
-			total=IsLeap(tonumber(string.sub(date1,1,4)))-leaveDate(tonumber(string.sub(date1,1,8)))+leaveDate(tonumber(string.sub(date2,1,8)))
+			total=IsLeap(tonumber(string_sub(date1,1,4)))-leaveDate(tonumber(string_sub(date1,1,8)))+leaveDate(tonumber(string_sub(date2,1,8)))
 		else
-			total=leaveDate(tonumber(string.sub(date2,1,8)))-leaveDate(tonumber(string.sub(date1,1,8)))
+			total=leaveDate(tonumber(string_sub(date2,1,8)))-leaveDate(tonumber(string_sub(date1,1,8)))
 		end
 	elseif tonumber(date2)==tonumber(date1) then
 		return 0
@@ -1017,50 +1017,24 @@ end
 
 
 --日期星期几查询
+local MONTH_ACC = {0,31,59,90,120,151,181,212,243,273,304,334}
 local function CXweek(ymd)--8位数日期
-  local z,r,temp;
-  local y=tonumber(string.sub(ymd,1,4))
-  local m=tonumber(string.sub(ymd,5,6))
-  local d=tonumber(string.sub(ymd,7,8))
-  r=(y-1901)/4;
-  if (y%4==0 and m>=3) then
-    r=r+1;
-  end
-  if(m==1) then
-    z=(y-1901)*365+r+d;
-   elseif(m==2)then
-    z=(y-1901)*365+r+31+d;
-   elseif(m==3) then
-    z=(y-1901)*365+r+59+d;
-   elseif(m==4)then
-    z=(y-1901)*365+r+90+d;
-   elseif(m==5)then
-    z=(y-1901)*365+r+120+d;
-   elseif(m==6)then
-    z=(y-1901)*365+r+151+d;
-   elseif(m==7)then
-    z=(y-1901)*365+r+181+d;
-   elseif(m==8)then
-    z=(y-1901)*365+r+212+d;
-   elseif(m==9)then
-    z=(y-1901)*365+r+243+d;
-   elseif(m==10)then
-    z=(y-1901)*365+r+273+d;
-   elseif(m==11)then
-    z=(y-1901)*365+r+304+d;
-   elseif(m==12)then
-    z=(y-1901)*365+r+334+d;
-  end--if
-  temp=z%7;
-  return string.sub(temp+1,1,1)
+  local y=tonumber(string_sub(ymd,1,4))
+  local m=tonumber(string_sub(ymd,5,6))
+  local d=tonumber(string_sub(ymd,7,8))
+  local r=(y-1901)/4
+  if (y%4==0 and m>=3) then r=r+1 end
+  local z=(y-1901)*365+r+MONTH_ACC[m]+d
+  local temp=z%7
+  return string_sub(temp+1,1,1)
 end --function
 
 --日期周数查询
 local function CXweek2(ymd)--8位数日期
-	local yd=tonumber(string.sub(ymd,1,4).."0101")
+	local yd=tonumber(string_sub(ymd,1,4).."0101")
 	local ydw=CXweek(yd)--查询目标日期年份元旦是周几
 	local cj=diffDate(yd,ymd)
-	local W=string.match(tostring((cj+ydw+7)/7),"(.-)%.")
+	local W=string_match(tostring((cj+ydw+7)/7),"(.-)%.")
 	return W
 end-- function
 
@@ -1113,8 +1087,8 @@ local function Date2LunarDate(Gregorian)
 	Gregorian=tostring(Gregorian)
 	ensure_lunar_data()
 	local Year,Month,Day,Pos,Data0,Data1,MonthInfo,LeapInfo,Leap,Newyear,Data2,Data3,Date1,Date2,LYear,thisMonthInfo,LMonth
-	Year =tonumber(Gregorian.sub(Gregorian,1,4))  Month =tonumber(Gregorian.sub(Gregorian,5,6))
-	Day =tonumber(Gregorian.sub(Gregorian,7,8))
+	Year =tonumber(string_sub(Gregorian,1,4))  Month =tonumber(string_sub(Gregorian,5,6))
+	Day =tonumber(string_sub(Gregorian,7,8))
 	if (Year>2100 or Year<1899 or Month>12 or Month<1 or Day<1 or Day>31 or string.len(Gregorian)<8) then
 		return "无效日期"
 	end
@@ -1134,13 +1108,13 @@ local function Date2LunarDate(Gregorian)
 	Date3=Date3+1
 	LYear=Year	--农历年份，就是上面计算后的值
 	if Leap>0 then	--有闰月
-		thisMonthInfo=string.sub(MonthInfo,1,Leap) .. LeapInfo .. string.sub(MonthInfo,Leap+1)
+		thisMonthInfo=string_sub(MonthInfo,1,Leap) .. LeapInfo .. string_sub(MonthInfo,Leap+1)
 	else
 		thisMonthInfo=MonthInfo
 	end
 	local thisMonth,thisDays,LDay,Isleap,LunarYear,LunarMonth
 	for i=1,13 do
-		thisMonth=string.sub(thisMonthInfo,i,i)  thisDays=29+thisMonth
+		thisMonth=string_sub(thisMonthInfo,i,i)  thisDays=29+thisMonth
 		if (Date3>thisDays) then
 			Date3=Date3-thisDays
 		else
@@ -1168,9 +1142,9 @@ end
 local function GettotalDay(Date,dayCount)
 	local Year,Month,Day,days,total,t
 	Date=tostring(Date)
-	Year=tonumber(Date.sub(Date,1,4))
-	Month=tonumber(Date.sub(Date,5,6))
-	Day=tonumber(Date.sub(Date,7,8))
+	Year=tonumber(string_sub(Date,1,4))
+	Month=tonumber(string_sub(Date,5,6))
+	Day=tonumber(string_sub(Date,7,8))
 	if IsLeap(Year)>365 then days={31,29,31,30,31,30,31,31,30,31,30,31}
 	else days={31,28,31,30,31,30,31,31,30,31,30,31} end
 	if dayCount>days[Month]-Day then
@@ -1204,8 +1178,8 @@ local function LunarDate2Date(Gregorian,IsLeap)
 	Gregorian=tostring(Gregorian)
 	ensure_lunar_data()
 	local Year,Month,Day,Pos,Data,MonthInfo,LeapInfo,Leap,Newyear,Sum,thisMonthInfo,GDate
-	Year=tonumber(Gregorian.sub(Gregorian,1,4))  Month=tonumber(Gregorian.sub(Gregorian,5,6))
-	Day=tonumber(Gregorian.sub(Gregorian,7,8))
+	Year=tonumber(string_sub(Gregorian,1,4))  Month=tonumber(string_sub(Gregorian,5,6))
+	Day=tonumber(string_sub(Gregorian,7,8))
 	if (Year>2100 or Year<1900 or Month>12 or Month<1 or Day>30 or Day<1 or string.len(Gregorian)<8) then
 		return "无效日期"
 	end
@@ -1219,14 +1193,14 @@ local function LunarDate2Date(Gregorian,IsLeap)
 	Sum=0
 
 	if Leap>0 then    --有闰月
-		thisMonthInfo=string.sub(MonthInfo,1,Leap) .. LeapInfo .. string.sub(MonthInfo,Leap+1)
+		thisMonthInfo=string_sub(MonthInfo,1,Leap) .. LeapInfo .. string_sub(MonthInfo,Leap+1)
 		if (Leap~=Month and tonumber(IsLeap)==1) then
 			return "该月不是闰月！"
 		end
 		if (Month<=Leap and tonumber(IsLeap)==0) then
-			for i=1,Month-1 do Sum=Sum+29+string.sub(thisMonthInfo,i,i) end
+			for i=1,Month-1 do Sum=Sum+29+string_sub(thisMonthInfo,i,i) end
 		else
-			for i=1,Month do Sum=Sum+29+string.sub(thisMonthInfo,i,i) end
+			for i=1,Month do Sum=Sum+29+string_sub(thisMonthInfo,i,i) end
 		end
 	else
 		if (tonumber(IsLeap)==1) then
@@ -1234,7 +1208,7 @@ local function LunarDate2Date(Gregorian,IsLeap)
 		end
 		for i=1,Month-1 do
 			thisMonthInfo=MonthInfo
-			Sum=Sum+29+string.sub(thisMonthInfo,i,i)
+			Sum=Sum+29+string_sub(thisMonthInfo,i,i)
 		end
 	end
 	Sum=math_floor(Sum+Day-1)
@@ -1292,14 +1266,14 @@ local function QueryLunarInfo(date)
 	local str,LunarDate,LunarGz,result,DateTime,Cweek
 	date=tostring(date) result={}
 	str = date:gsub("^(%u+)","")
-	if string.match(str,"^(20)%d%d+$")~=nil or string.match(str,"^(19)%d%d+$")~=nil then
-		if string.len(str)==4 then str=str..string.sub(os_date("%m%d%H"),1) elseif string.len(str)==5 then str=str..string.sub(os_date("%m%d%H"),2) elseif string.len(str)==6 then str=str..string.sub(os_date("%m%d%H"),3) elseif string.len(str)==7 then str=str..string.sub(os_date("%m%d%H"),4)
-		elseif string.len(str)==8 then str=str..string.sub(os_date("%m%d%H"),5) elseif string.len(str)==9 then str=str..string.sub(os_date("%m%d%H"),6) else str=string.sub(str,1,10) end
-		if tonumber(string.sub(str,5,6))>12 or tonumber(string.sub(str,5,6))<1 or tonumber(string.sub(str,7,8))>31 or tonumber(string.sub(str,7,8))<1 or tonumber(string.sub(str,9,10))>24 then return result end
+	if string_match(str,"^(20)%d%d+$")~=nil or string_match(str,"^(19)%d%d+$")~=nil then
+		if string.len(str)==4 then str=str..string_sub(os_date("%m%d%H"),1) elseif string.len(str)==5 then str=str..string_sub(os_date("%m%d%H"),2) elseif string.len(str)==6 then str=str..string_sub(os_date("%m%d%H"),3) elseif string.len(str)==7 then str=str..string_sub(os_date("%m%d%H"),4)
+		elseif string.len(str)==8 then str=str..string_sub(os_date("%m%d%H"),5) elseif string.len(str)==9 then str=str..string_sub(os_date("%m%d%H"),6) else str=string_sub(str,1,10) end
+		if tonumber(string_sub(str,5,6))>12 or tonumber(string_sub(str,5,6))<1 or tonumber(string_sub(str,7,8))>31 or tonumber(string_sub(str,7,8))<1 or tonumber(string_sub(str,9,10))>24 then return result end
 		LunarDate=Date2LunarDate(str)  LunarGz=lunarJzl(str)  DateTime=LunarDate2Date(str,0)
-		local dateRQ=string.sub(str,1,4).."年"..string.sub(str,5,6).."月"..string.sub(str,7,8).."日"
-		Cweek=chinese_weekday(CXweek(string.sub(str,1,8)))--查询目标日期星期几
-		local Cweek2=string.sub(str,1,4).."年第"..CXweek2(string.sub(str,1,8)).."周 "--查询目标日期周数
+		local dateRQ=string_sub(str,1,4).."年"..string_sub(str,5,6).."月"..string_sub(str,7,8).."日"
+		Cweek=chinese_weekday(CXweek(string_sub(str,1,8)))--查询目标日期星期几
+		local Cweek2=string_sub(str,1,4).."年第"..CXweek2(string_sub(str,1,8)).."周 "--查询目标日期周数
 		if LunarGz~=nil then
 			result={
 				{dateRQ,"〔数字⇉公历〕"}
@@ -1307,45 +1281,45 @@ local function QueryLunarInfo(date)
 				,{LunarDate,"〔公历⇉农历〕"}
 				,{LunarGz,"〔公历⇉干支〕"}
 			}
-			if tonumber(string.sub(str,7,8))<31 then
+			if tonumber(string_sub(str,7,8))<31 then
 				table.insert(result,{DateTime,"〔农历⇉公历〕"})
 
-				local glrq=LunarDate2Date(string.sub(str,1,8),0)--如果是闰月0改成1
-				local m=string.match(glrq,"年(.-)月")
+				local glrq=LunarDate2Date(string_sub(str,1,8),0)--如果是闰月0改成1
+				local m=string_match(glrq,"年(.-)月")
 				if #m==2 then
-					glrq=string.gsub(glrq,"年","","1")
+					glrq=string_gsub(glrq,"年","","1")
 				else
-					glrq=string.gsub(glrq,"年","0","1")
+					glrq=string_gsub(glrq,"年","0","1")
 				end
-					local d=string.match(glrq,"月(.-)日") 
+					local d=string_match(glrq,"月(.-)日") 
 				if #d==2 then
-					glrq=string.gsub(glrq,"月","","1")
+					glrq=string_gsub(glrq,"月","","1")
 				else
-					glrq=string.gsub(glrq,"月","0","1")
+					glrq=string_gsub(glrq,"月","0","1")
 				end
-				glrq=string.gsub(glrq,"日","","1")
-				glrq=glrq..string.sub(str,9,10)
+				glrq=string_gsub(glrq,"日","","1")
+				glrq=glrq..string_sub(str,9,10)
 				table.insert(result,{lunarJzl(glrq),"〔农历⇉干支〕"})
 
 				local leapDate={LunarDate2Date(str,1),"〔农历".."（闰）".."⇉公历〕"}
-				if string.match(leapDate[1],"^(%d+)")~=nil then
+				if string_match(leapDate[1],"^(%d+)")~=nil then
 					table.insert(result,leapDate)
 
-					local glrq=LunarDate2Date(string.sub(str,1,8),1)--如果是闰月0改成1
-					local m=string.match(glrq,"年(.-)月")
+					local glrq=LunarDate2Date(string_sub(str,1,8),1)--如果是闰月0改成1
+					local m=string_match(glrq,"年(.-)月")
 					if #m==2 then
-						glrq=string.gsub(glrq,"年","","1")
+						glrq=string_gsub(glrq,"年","","1")
 					else
-						glrq=string.gsub(glrq,"年","0","1")
+						glrq=string_gsub(glrq,"年","0","1")
 					end
-						local d=string.match(glrq,"月(.-)日") 
+						local d=string_match(glrq,"月(.-)日") 
 					if #d==2 then
-						glrq=string.gsub(glrq,"月","","1")
+						glrq=string_gsub(glrq,"月","","1")
 					else
-						glrq=string.gsub(glrq,"月","0","1")
+						glrq=string_gsub(glrq,"月","0","1")
 					end
-					glrq=string.gsub(glrq,"日","","1")
-					glrq=glrq..string.sub(str,9,10)
+					glrq=string_gsub(glrq,"日","","1")
+					glrq=glrq..string_sub(str,9,10)
 					table.insert(result,{lunarJzl(glrq),"〔农历".."（闰）".."⇉干支〕"})
 
 				end
