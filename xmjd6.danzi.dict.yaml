@@ -16423,7 +16423,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 逯	ljavo
 逯	ljavoa
 淕	ljavou
-卢	lji
+卤	lji
 僇	ljia
 㟤	ljiaa
 睩	ljiaav
@@ -16459,10 +16459,10 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 摝	ljiuo
 摝	ljiuov
 撸	ljiuua
-虏	ljiv
+卢	ljiv
+虏	ljiva
 虏	ljivau
 卢	ljivav
-卤	ljivi
 虜	ljivia
 卤	ljivia
 鸬	ljivu
@@ -35635,3 +35635,4 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 	oyjivauva
 	ohfiaviav
 	ojhuvvvai
+#endregion <GBK部分>
