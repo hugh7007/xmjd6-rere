@@ -1,6 +1,6 @@
 -- 天行键统一按键处理器
 -- 作者：@浮生 https://github.com/wzxmer/rime-txjx
--- 优化：2026-03-08
+-- 更新：2026-03-17
 
 local string_sub = string.sub
 local string_byte = string.byte
@@ -12,8 +12,6 @@ local kNoop = 2
 
 local CHAR_CACHE = {}
 for i = 0, 255 do CHAR_CACHE[i] = string.char(i) end
-
-local ctx_opt_handlers = setmetatable({}, { __mode = "k" })
 
 local function _s2set(str)
     local t = {}
@@ -71,6 +69,7 @@ end
 local function _topup_exec(env)
     if env._tc then
         env._tc = env._tc + 1
+        if env._tc > 200 then env._tc = 81 end
         if env._tc > 80 and env._tc % 3 ~= 0 then return end
     elseif env._tc_pending then
         env._tc_pending = false
@@ -171,7 +170,7 @@ local function _smart_process(key_event, env, kn, sf, clean_key, opts)
 
     env._dc = nil
 
-    if not opts.smarttwo and not ds_on and not sf and kn == "semicolon" then
+    if not env._tu_streaming and not opts.smarttwo and not ds_on and not sf and kn == "semicolon" then
         local inp = ctx.input
         if inp ~= "" and not string.find(inp, ";", 1, true) then 
              if ctx:has_menu() and ctx:get_selected_candidate() then
@@ -205,7 +204,7 @@ local function _smart_process(key_event, env, kn, sf, clean_key, opts)
              if _tdc(_SymCN, kn, sf, env.engine, ctx) then env._dc = kn; return kAccepted end
         end
         
-        if ctx:has_menu() then
+        if not env._tu_streaming and ctx:has_menu() then
             local seg = ctx.composition:back()
             if seg and seg.menu:get_candidate_at(0) and not seg.menu:get_candidate_at(1) then
                 local input = ctx.input
@@ -269,7 +268,7 @@ local function processor(key_event, env)
         return kAccepted
     end
 
-    if opts.auto_fallback and env._alpha[key] then
+    if not env._tu_streaming and opts.auto_fallback and env._alpha[key] then
         local current_input = ctx.input
         if #current_input >= 1 and ctx:get_selected_candidate() then
             if not (opts.direct_symbols and current_input == ";") then
@@ -312,7 +311,6 @@ local function init(env)
     if env._option_handler and ctx.option_update_notifier then
         pcall(function() ctx.option_update_notifier:disconnect(env._option_handler) end)
     end
-    ctx_opt_handlers[ctx] = nil
 
     env._opt = {
         smarttwo = ctx:get_option("smarttwo"),
@@ -327,7 +325,6 @@ local function init(env)
             if env._opt[name] ~= nil then env._opt[name] = context:get_option(name) end
         end
         env._option_handler = on_option
-        ctx_opt_handlers[ctx] = on_option
         ctx.option_update_notifier:connect(on_option)
     end
 
@@ -356,7 +353,6 @@ local function fini(env)
     if ctx and env._option_handler then
         pcall(function() ctx.option_update_notifier:disconnect(env._option_handler) end)
     end
-    ctx_opt_handlers[ctx] = nil
     env._option_handler = nil
     env._opt = nil
     env._ks = nil

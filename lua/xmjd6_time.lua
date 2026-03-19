@@ -1,6 +1,6 @@
 -- 时间与农历模块
 -- 作者：@浮生 https://github.com/wzxmer/rime-txjx
--- 优化：2026-03-03
+-- 优化：2026-03-17
 
 local math_floor = math.floor
 local math_sin = math.sin
@@ -1455,8 +1455,8 @@ local function translator(input, seg)
             local ymd = os_date("%Y%m%d")
             
             -- 将计算结果存入 data 表，而不是直接生成 Candidate
-            table_insert(data, {os_date("%Y年%m月%d日"), ""})
             table_insert(data, {os_date("%Y-%m-%d"), ""})
+            table_insert(data, {os_date("%Y年%m月%d日"), ""})
             table_insert(data, {os_date("%Y%m%d"), ""})
             table_insert(data, {CnDate_translator(ymd), ""})
             table_insert(data, {Date2LunarDate(ymd) .. JQtest(ymd), num_year})

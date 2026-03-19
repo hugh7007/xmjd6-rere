@@ -1,7 +1,7 @@
 -- Rime Script >https://github.com/baopaau/rime-lua-collection/blob/master/calculator_translator.lua
 -- 计算器适配版，此版本经过二次优化 
 -- 作者：@浮生 https://github.com/wzxmer/rime-txjx
--- 更新：2026-02-21
+-- 更新：2026-03-17
 -- 簡易計算器（執行任何Lua表達式）
 -- 优化说明：高级数学函数(微积分、统计)改为延迟加载，节省内存；使用沙盒环境增强安全性和性能。
 --
@@ -88,6 +88,7 @@ end
 Env.irange = irange
 
 Env.range = function (from, to)
+  if to - from > 10000 then return {} end
   return Env.array(irange(from, to))
 end
 
@@ -193,6 +194,7 @@ end
 
 -- Statistics
 Env.fac = function (n)
+  if n > 170 then return math.huge end
   local acc = 1
   for i = 2,n do
     acc = acc * i
@@ -269,6 +271,7 @@ local function load_calculus()
                  a = 0
                end
                local n = Env.round(math.abs(b - a) / delta)
+               if n > 1e6 then n = 1e6 end
                return Env.round(trapzo(f, a, b, n), dc)
              end
     end
@@ -278,7 +281,7 @@ local function load_calculus()
       return function (start_x, start_y, time)
                local x = start_x
                local y = start_y
-               local t = time
+               local t = math.min(time, timestep * 1e6)
                for i = 0, t, timestep do
                  local k1 = f(x, y)
                  local k2 = f(x + (timestep/2), y + (timestep/2)*k1)
@@ -481,10 +484,10 @@ local function calculator_translator(input, seg, env)
   -- 注意：load 的环境参数在 Lua 5.2+ 中支持。Rime 通常使用较新 Lua。
   -- 如果环境不支持，这里可能需要回退，但 Env 方案是最优解。
   local func, load_err
-  if _VERSION >= "Lua 5.2" then
+  local lua_ver = tonumber(_VERSION:match("Lua (%d+%.%d+)")) or 5.1
+  if lua_ver >= 5.2 then
       func, load_err = load("return "..expe, "calc", "t", Env)
   else
-      -- Fallback for Lua 5.1 / LuaJIT
       func, load_err = loadstring("return "..expe)
       if func then setfenv(func, Env) end
   end
