@@ -5,13 +5,15 @@
 patch:
   # ==================== 基础配置 ====================
   schema/name: 🌟🐈                 # 修改方案名称，显示在空格上的名字
-  schema/icon: "xmjd6.ico"          # 任务栏显示星猫键道图标，注释后恢复默认
+  schema/icon: "xmjd6.ico"           # 任务栏显示星猫键道图标，注释后恢复默认
   speller/auto_select: false         # 自动上屏开关，默认关闭
   hint_text: ''                      # 顶功提示符（在''中间添加符号，例如 '🔞'）
   menu/page_size: 5                  # 候选项数
-  # menu/alternative_select_labels: ["〡", "〢", " 〣", " 〤", " 〥", " 〦", " 〧", " 〨", " 〩", ""]
-  # menu/alternative_select_keys: ASDFGHJKL  # 如编码字符占用数字键，则需另设选字键
   style/inline_preedit: true         # 行内显示预编辑区
+  style/horizontal: false            #输入法框的横竖，竖排为false横排为true
+  # menu/alternative_select_labels: ["〡", "〢", " 〣", " 〤", " 〥", " 〦", " 〧", " 〨", " 〩", ""]  # 修改候选项标签
+  # menu/alternative_select_keys: ASDFGHJKL  # 如编码字符占用数字键，则需另设选字键
+
 
   # ==================== 功能开关默认状态 ====================
   # 说明：0=选择第一个状态，1=选择第二个状态
@@ -19,32 +21,26 @@ patch:
   switches/@1/reset: 0               # [ 简体, 繁體 ]
   switches/@2/reset: 1               # [ 简约, 逐码展示 ]
   switches/@3/reset: 1               # [ 简约, 表情展示 ]
-  switches/@4/reset: 0               # [ 快符关, 快符开 ]
+  switches/@4/reset: 1               # [ 快符关, 快符开 ]
   switches/@5/reset: 1               # [ 空顶关, 空顶开 ]
   switches/@6/reset: 1               # [ 简约, 630提示 ]
-  switches/@7/reset: 1               # [ ;次选关, ;次选开 ]
+  switches/@7/reset: 0               # [ ;次选关, ;次选开 ]
   switches/@8/reset: 1               # [ 计算关, 计算开 ]
-  switches/@9/reset: 0               # [ 普通, 嵌入候选 ]
-  switches/@10/reset: 0              # [ 全角, 半角 ]
-  switches/@11/reset: 0              # [ 地球文, 火星文 ]
+  switches/@9/reset: 0               # [ 地球文, 火星文 ]
+  switches/@10/reset: 0              # [ 半角, 全角 ]
 
   # ==================== 模块加载配置 ====================
   # processors 索引：@0 ascii_composer  @1 recognizer  @2 xmjd6_processor  @3 key_binder
   #   @4 speller  @5 punctuator  @6 selector  @7 navigator  @8 express_editor
-  # filters 索引：@0 pinyin_simp_lookup  @1 quanpinerfen_lookup  @2 gbk_lookup
-  #   @3 xmjd6_filter  @4 xmjd6_completion  @5 emoji_cn  @6 mars  @7 jffh
-  #   @8 ascii_punct  @9 xmjd6_embeded_cands
-  #   @10 core_lookup_trigger  @11 uniquifier
-
-  # 内嵌候选过滤器（禁用可节省内存）
-  # engine/filters/@9: null
+  # filters 索引：@0 xmjd6_completion  @1 reverse_lookup  @2 xmjd6_reverse_hint
+  #   @3 xmjd6_filter  @4 xmjd6_opencc_filter  @5 uniquifier
 
   # ==================== 流式输入配置 ====================
   # 如需启用流式输入，请取消以下注释（删除行首 # 和空格）
-  # 启用 enable_sentence 后，顶功会自动禁用，;'号只作为分隔符
-  # translator/enable_sentence: true     # 启用整句输入（同时自动禁用顶功）
+  # 启用 enable_sentence 后，顶功会自动禁用，;'号只作为分隔符，;次选功能强制关闭
+  # translator/enable_sentence: true     # 启用整句输入（同时自动禁用顶功）（切记关次选）
   # translator/enable_user_dict: true    # 启用用户词典（流式输入需要）
-  # key_binder/bindings/@5: null         # 单引号断开一简字
+
   # 如果需要中英混输（不需要顶功，需要空格上屏），取消 enable_sentence 和 enable_user_dict 的注释
 
   # ==================== 按键切换配置 ====================

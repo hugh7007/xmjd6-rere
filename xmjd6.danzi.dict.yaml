@@ -1,10 +1,11 @@
 # Rime dictionary
 # encoding: utf-8
+# 单字码表维护来源@雪松：https://github.com/amorphobia/rime-jiandao/tree/master/dicts
+# 2026年5月4日
 ---
-name: xmjd6.danzi
-version: "1.0"
-sort: original
-url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
+name: txjx.danzi
+version: "2026年5月4日"
+sort: by_weight
 ...
 
 不	b
@@ -14398,18 +14399,17 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 瑃	jwvvvv
 椿	jwvvvv
 将	jx
-江	jxa
+降	jxa
 缰	jxaa
 绛	jxaau
 绛	jxaaua
 缰	jxaavi
-降	jxai
 降	jxaiua
 滰	jxao
 滰	jxaovo
 洚	jxau
 洚	jxauao
-疆	jxav
+江	jxav
 弜	jxava
 強	jxavao
 勥	jxavau
@@ -14420,7 +14420,7 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 弶	jxavov
 犟	jxavu
 犟	jxavuv
-彊	jxavv
+疆	jxavv
 疆	jxavvi
 彊	jxavvi
 蒋	jxi
@@ -16564,6 +16564,8 @@ url: https://github.com/amorphobia/rime-jiandao/blob/master/dicts/01.danzi.txt
 橹	ljvua
 橹	ljvuai
 碌	ljvuav
+硵	ljvui
+硵	ljvuiv
 麓	ljvv
 琭	ljvva
 㯟	ljvvav

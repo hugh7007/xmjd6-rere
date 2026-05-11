@@ -4,9 +4,6 @@ version: "Q1"
 sort: original
 ...
 # 特殊
-*#06#	xjlji
-# 标点
-auto_select_pattern: ^;\w
 ;	;
 ："	;;
 ！	;a

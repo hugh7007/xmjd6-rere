@@ -29,6 +29,7 @@ schema:
     a键开启连打模式，自造词模式。
   version: "20251127"
   dependencies:
+    - xmjd6.core
     - xmjd6.cx
     - pinyin_simp
     - liangfen
@@ -82,14 +83,11 @@ switches:
   - name: jisuanqi  # custom.yaml的开关8
     states: [ 计算关, 计算开 ]
 
-  - name: embeded_cands  # custom.yaml的开关9
-    states: [普通, 嵌入候选]
-
-  - name: ascii_punct  # custom.yaml的开关10
-    states: [ 全角, 半角 ]
-
-  - name: mars  # custom.yaml的开关11
+  - name: mars  # custom.yaml的开关9
     states: [ 地球文, 火星文 ] #火星文
+
+  - name: full_shape  # custom.yaml的开关10
+    states: [ 半角, 全角 ]
 
 engine:
   processors:
@@ -113,8 +111,7 @@ engine:
     - punct_segmentor      # 标点分段
     - fallback_segmentor   # 回退分段
   translators:
-    - lua_translator@*xmjd6_jisuanqi    # 计算器
-    - lua_translator@*xmjd6_time        # 时间转换
+    - lua_translator@*xmjd6_core        # 低频扩展入口（计算器·时间转换）
     - history_translator@repeat_history
     - history_translator@repeat_history2
     - punct_translator
@@ -131,13 +128,10 @@ engine:
   filters:
     - lua_filter@*xmjd6_completion        # 辅助码提示（需在reverse_lookup之前处理comment）
     - reverse_lookup_filter@reverse_lookup    # 统一反查（全拼+二分+GBK+万能符）
-    - lua_filter@*xmjd6_filter            # 630提示（必须在emoji_cn之前，在embeded_cands之前）
-    - simplifier@emoji_cn  # 表情符号（会清空comment，所以630提示不会显示在表情上）
-    - simplifier@mars #火星文
-    - simplifier@jffh      # 简繁转换
-    - simplifier@ascii_punct  # 英文标点
-    - lua_filter@*xmjd6_embeded_cands #嵌入候选
-    - reverse_lookup_filter@core_lookup_trigger
+    - lua_filter@*xmjd6_reverse_hint      # 万能符反查读音补全
+    - lua_filter@*xmjd6_filter            # 630提示（必须在emoji_cn之前）
+    # 原生 OpenCC 过滤器功能不够灵活，改用 lua 实现
+    - lua_filter@*xmjd6_opencc_filter
     - uniquifier         # 去重
 
 #导入符号
@@ -156,17 +150,46 @@ speller:
 
 translator:
   dictionary: xmjd6.extended
+  db_class: tabledb
   enable_charset_filter: false
-  enable_completion: true   #提示码开关，不需要候选词提示请改false
+  enable_completion: true   # 提示码开关；建议在 xmjd6.custom.yaml 中按需覆盖
   enable_encoder: true
-  enable_sentence: false    #要想使用流式请改为true
-  enable_user_dict: false   #要想使用流式请改为true
+  enable_sentence: false    # 如需流式输入，请在 xmjd6.custom.yaml 中取消注释对应配置
+  enable_user_dict: false   # 如需流式输入，请在 xmjd6.custom.yaml 中取消注释对应配置
   encode_commit_history: true
   max_phrase_length: 6
   initial_quality: 0
   comment_format:
 #    - xform|~||
     - xform/[0-9]//  #无数字
+
+xmjd6_opencc_filter:
+  db_name: "lua/xmjd6_opencc_filter"
+  delimiter: "|"
+  comment_format: "〔%s〕"
+  chain: true
+  rules:
+    - option: jffh
+      dataset_name: "xmjd6_s2g"
+      prefix: "jffh/"
+      mode: replace
+      comment_mode: none
+      sentence: true
+      tags: [ abc, quanpinerfen, xmjd6gbk, phrase, sentence, date, time, xgqk, jdqk ]
+    - option: emoji_cn
+      dataset_name: "xmjd6_emoji"
+      prefix: "emoji/"
+      mode: append
+      comment_mode: none
+      split: emoji
+      tags: [ abc, phrase, sentence, date, time, xgqk, jdqk ]
+    - option: mars
+      dataset_name: "xmjd6_martian"
+      prefix: "mars/"
+      mode: replace
+      comment_mode: none
+      sentence: true
+      tags: [ abc, phrase, sentence, date, time, xgqk, jdqk ]
 
 repeat_history:
   input: i #重复上次上屏内容
@@ -177,24 +200,6 @@ repeat_history2:
   input: ;f #重复上次上屏内容
   size: 3
   initial_quality: 10000
-
-emoji_cn:
-  opencc_config: xmjd6/xmjd6_emoji.json
-  option_name: emoji_cn
-  tips: none  # 不显示表情的原文提示（如〔开心〕）
-
-jffh:
-  opencc_config: xmjd6/xmjd6_s2g.json
-  option_name: jffh
-  tags: [ abc, jderfen, xmjd6gbk, phrase, sentence, date, time, xiqy, jwql, "sjx/" ]
-
-mars:
-  opencc_config: xmjd6/xmjd6_martian.json 
-  option_name: mars
-
-ascii_punct:
-  option_name: ascii_punct
-  opencc_config: xmjd6/xmjd6_punct.json
 
 #↓gbk反查方案
 xmjd6gbk:
@@ -239,7 +244,13 @@ reverse_lookup:
   enable_completion: true
   initial_quality: 0.5
   max_phrase_length: 6
-  overwrite_comment: false
+  overwrite_comment: true
+  comment_format:
+    - xform|^\(([^)]+)\) +|($1)★|
+    - xform| +|, |
+    - xform#^\(([^)]+)\)★(.+)$#[$1 | $2]# # 恢复：有读音有编码
+    - xform|^\(([^)]+)\)(★)?$|[$1]|
+    - xform|^([^\[].*)$|[$1]|
 
 xmjdWXYZ:
   tag: xmjdWXYZ
@@ -291,33 +302,16 @@ xmjd6_user:
 #    - xform|~||
   initial_quality: -1  #原始的 -1<关>/999999<开>修改这个会影响自造词是否会变成第一位
 
-# 嵌入候選的顯示配置
-# 默認顯示效果爲:
-# 宇[浩¹]iwl ~淍² ~泃³
-embeded_cands:
-  option_name: embeded_cands                               # 嵌入候選開關
-  index_indicators: [ ¹, ², ³, ⁴, ⁵, ⁶, ⁷, ⁸, ⁹, ⁰ ]       # 嵌入候選的序號顯示格式
-  first_format: "${Stash}[${候選}${Seq}]${Code}${Comment}" # 首選的渲染格式
-  next_format: "${Stash}${候選}${Seq}${Comment}"           # 非首選的渲染格式
-  separator: " "                                           # 候選之間的分隔符
-  stash_placeholder: "~" 
-  
-# punctuator:
-#   import_preset: default
-#   half_shape:
-#     '''' : [ '‘', '’' , '\', '﹨' ]
+dict_keywords: "xmjd6"
 
 key_binder:
 #  import_preset: default
   bian_zi: "slash"
   bindings:
-    - { when: always, accept: "Control+period", toggle: ascii_punct }
     - {accept: minus, send: Page_Up, when: has_menu}
     - {accept: equal, send: Page_Down, when: has_menu}
     # - { when: has_menu, accept: Tab, send: 1 } # tab 首选
     - { when: has_menu, accept: Tab, send: 2 } # tab 次选
-    - {accept: semicolon, send: 2, when: has_menu} #分号次选   # 需要；符号顶直接顶注释本行，并修改第152行
-    - {accept: apostrophe, send: 3, when: has_menu} #撇号三选   # 如果注释348次选，请也注释349，可以使【’】变为选择次选
     # - {accept: comma, send: Page_Up, when: has_menu}     #<,>翻页功能
     # - {accept: period, send: Page_Down, when: has_menu}   #<。>翻页功能
     # - {accept: bracketleft, send: Page_Up, when: has_menu} # [上翻页
@@ -328,7 +322,6 @@ key_binder:
     # - { when: has_menu, accept: "&", toggle: emoji_cn }	#手机快捷切换表情
     # - { when: has_menu, accept: "%", toggle: mars } #手机快捷火星文切换
     # - { when: has_menu, accept: "*", toggle: jffh } #手机快捷简繁切换
-    # - { when: has_menu, accept: "$", toggle: embeded_cands } #手机快捷切换内嵌
     - {accept: KP_0, send: 0, when: composing}
     - {accept: KP_1, send: 1, when: composing}
     - {accept: KP_2, send: 2, when: composing}
@@ -354,12 +347,12 @@ recognizer:
     uppercase: "[A-Z][-_+.'0-9A-Za-z]*$"
     url: "^(www[.]|https?:|ftp[.:]|mailto:|file:).*$|^[a-z]+[.].+$"
     reverse_lookup: "[a-z`]*`+[a-z`]*"
+    expression: "^=[^;']+$"
     punct: "^/([0-9]0?|[a-z]+)$"    # 支持 / 和 ; 开头的符号快符
     xmjdWXYZ: "^a['/a-z][a-z,./:?!']*'?$"
     pinyin_simp: "^u[a-z']*'?$"
     quanpinerfen: "^v[a-z']*'?$"
     xmjd6gbk: "^o[a-z]*?$"
-    jsq: "^=[^;']+$"
 #        xmjdWXYZ: "^'['/a-z][a-z0-9,./:?!']*'?$"
 
 topup:
@@ -369,9 +362,9 @@ topup:
   auto_clear: true
   min_length_danzi: 2
   topup_command: false
-hint_text: ""
+hint_text: "" # 如需修改顶功提示符，建议在 xmjd6.custom.yaml 中设置
 menu:
-  page_size: 5 #请到xmjd6.custom.yaml去修改
+  page_size: 5 # 请到 xmjd6.custom.yaml 去修改
   comment_format: []
 
 
