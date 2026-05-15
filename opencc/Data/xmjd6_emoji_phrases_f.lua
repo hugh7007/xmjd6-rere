@@ -245,7 +245,7 @@ return {
   ["星期日"] = "日曜日 にちようび",
   ["星条旗"] = "🇺🇸",
   ["星條旗"] = "🇺🇸",
-  ["星猫键道"] = "飞书笔记→https://hu0w1jn4xq.feishu.cn/docx/ZgQ8deGPlozhWCxOyeucBvHJnPe 𝑮𝒊𝒕𝒉𝒖𝒃→https://github.com/hugh7007/xmjd6-rere 老手打字网站→https://typer.owenyang.top 键道6新手练习网址→https://api.ihint.me/shuang/ QQ群:767053451",
+  ["星猫键道"] = "飞书笔记→https://hu0w1jn4xq.feishu.cn/docx/ZgQ8deGPlozhWCxOyeucBvHJnPe 𝑮𝒊𝒕𝒉𝒖𝒃→https://github.com/hugh7007/xmjd6-rere  键道6新手练习网址（挂🪜更快）→https://keytao.rea.ink/practice  QQ群:767053451",
   ["星空"] = "🌃 🌌",
   ["星空键道"] = "☆🈳⁶₆⁶",
   ["星系"] = "🌌",

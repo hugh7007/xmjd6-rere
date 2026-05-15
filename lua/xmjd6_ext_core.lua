@@ -1325,6 +1325,16 @@ local function yield_cache(cache_data, type_tag, seg)
     end
 end
 
+local function refresh_time_cache(cache)
+    local curr_key = os_date("%Y%m%d%H%M")
+    if cache.key ~= curr_key then
+        cache.key = curr_key
+        cache.rq = nil
+        cache.nl = nil
+        cache.jq = nil
+    end
+end
+
 local JQ_NAMES = {
     "冬至", "小寒", "大寒", "立春", "雨水", "惊蛰", "春分", "清明", "谷雨", "立夏", "小满", "芒种",
     "夏至", "小暑", "大暑", "立秋", "处暑", "白露", "秋分", "寒露", "霜降", "立冬", "小雪", "大雪"
