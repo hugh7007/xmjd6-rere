@@ -1,6 +1,6 @@
 -- 天行键统一按键处理器
 -- 作者：@浮生 https://github.com/wzxmer/rime-txjx
--- 更新：2026-05-04
+-- 更新：fjerdsjkbs-4
 
 local string_sub = string.sub
 local string_byte = string.byte
@@ -142,6 +142,22 @@ local function _topup_exec(env)
     else
         env.engine.context:commit()
     end
+end
+
+local function _topup_queue_key(env, key, clean_key, kc)
+    env._tu_pending_key = key
+    env._tu_pending_clean = clean_key
+    env._tu_pending_kc = kc
+end
+
+local function _topup_flush_key(env, ctx)
+    local key = env._tu_pending_key
+    if not key then return false end
+    env._tu_pending_key = nil
+    env._tu_pending_clean = nil
+    env._tu_pending_kc = nil
+    ctx:push_input(key)
+    return true
 end
 
 local function _resolve_key(key_event, env)
@@ -379,6 +395,10 @@ local function processor(key_event, env)
     local kc = key_event.keycode
 
     if key_event:release() then
+        if env._tu_pending_key and (clean_key == env._tu_pending_clean or kc == env._tu_pending_kc) then
+            _topup_flush_key(env, ctx)
+            return kAccepted
+        end
         if ctx:has_menu() then
             if kc == 0xffe3 or kc == 0xffe4 then -- Ctrl
                  if _commit_menu_index(ctx, env.engine, 1) then return kAccepted end
@@ -395,6 +415,7 @@ local function processor(key_event, env)
     if kc < 32 or kc >= 127 then return kNoop end
     
     local key = CHAR_CACHE[kc] or clean_key
+    _topup_flush_key(env, ctx)
 
     if opts.direct_symbols and ctx.input == ";" and env._alpha[key] then
         ctx:push_input(key)
@@ -435,9 +456,23 @@ local function processor(key_event, env)
 
         if not (env._tu_cmd and is_ftu) then
              if not (opts.direct_symbols and input_len > 0 and string_byte(current_input, 1) == 59) then
-                if is_ptu and not is_tu then _topup_exec(env)
-                elseif not is_ptu and not is_tu and input_len >= min_len then _topup_exec(env)
-                elseif input_len >= env._tu_max then _topup_exec(env) end
+                if is_ptu and not is_tu then
+                    _topup_exec(env)
+                    if input_len >= 3 then
+                        _topup_queue_key(env, key, clean_key, kc)
+                    else
+                        ctx:push_input(key)
+                    end
+                    return kAccepted
+                elseif not is_ptu and not is_tu and input_len >= min_len then
+                    _topup_exec(env)
+                    _topup_queue_key(env, key, clean_key, kc)
+                    return kAccepted
+                elseif input_len >= env._tu_max then
+                    _topup_exec(env)
+                    _topup_queue_key(env, key, clean_key, kc)
+                    return kAccepted
+                end
              end
         end
     end
@@ -464,6 +499,9 @@ local function init(env)
     env._tu_streaming = config:get_bool("translator/enable_sentence") or false
     env._tc = nil
     env._tc_pending = true
+    env._tu_pending_key = nil
+    env._tu_pending_clean = nil
+    env._tu_pending_kc = nil
 
     local ctx = env.engine.context
     if env._option_handler and ctx.option_update_notifier then
@@ -490,6 +528,9 @@ local function fini(env)
     env._ks = nil
     env._alpha = nil
     env._tu_set = nil
+    env._tu_pending_key = nil
+    env._tu_pending_clean = nil
+    env._tu_pending_kc = nil
     -- 主动GC：释放资源后回收内存
     collectgarbage("step", 200)
 end
