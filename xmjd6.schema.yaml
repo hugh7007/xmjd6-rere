@@ -89,11 +89,17 @@ switches:
   - name: full_shape  # custom.yaml的开关10
     states: [ 半角, 全角 ]
 
+ascii_composer:
+  switch_key:
+    Caps_Lock: noop
+    Shift_L: commit_code
+    Shift_R: commit_code
+
 engine:
   processors:
+    - lua_processor@*xmjd6_processor    # 按键处理（次选·空顶·顶功）
     - ascii_composer
     - recognizer
-    - lua_processor@*xmjd6_processor    # 按键处理（次选·空顶·顶功）
     - key_binder
     - speller              # 拼写处理
     - punctuator           # 标点处理
@@ -357,6 +363,8 @@ recognizer:
 
 topup:
   __include: "layout/topup"
+  topup_this: "bcdefghjklmnpqrstwxyz"
+  topup_with: "avuio;"
   min_length: 4
   max_length: 6
   auto_clear: true
