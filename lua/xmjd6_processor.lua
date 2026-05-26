@@ -127,22 +127,33 @@ local function _tdc(map, kn, sf, engine, ctx)
     return true
 end
 
-local function _topup_exec(env)
+local function _topup_ready(env, ctx)
     if env._tc then
         env._tc = env._tc + 1
         if env._tc > 200 then env._tc = 81 end
-        if env._tc > 80 and env._tc % 3 ~= 0 then return end
     elseif env._tc_pending then
         env._tc_pending = false
-        local rv = env.engine.context:get_property("_rvk")
+        local rv = ctx:get_property("_rvk")
         if not rv or rv == "" then env._tc = 0 end
     end
-    
-    if not env.engine.context:get_selected_candidate() then
-        if env._tu_ac then env.engine.context:clear() end
-    else
-        env.engine.context:commit()
+
+    if env._tc and env._tc >= 80 then
+        if ctx:is_composing() then ctx:clear() end
+        return false
     end
+    return true
+end
+
+local function _topup_exec(env)
+    local ctx = env.engine.context
+    if not _topup_ready(env, ctx) then return false end
+    
+    if not ctx:get_selected_candidate() then
+        if env._tu_ac then ctx:clear() end
+    else
+        ctx:commit()
+    end
+    return true
 end
 
 local function _topup_queue_key(env, key, clean_key, kc)
@@ -151,14 +162,93 @@ local function _topup_queue_key(env, key, clean_key, kc)
     env._tu_pending_kc = kc
 end
 
-local function _topup_flush_key(env, ctx)
-    local key = env._tu_pending_key
-    if not key then return false end
+local function _topup_queue_swap_key(env, key, clean_key, kc)
+    env._tu_swap_key = key
+    env._tu_swap_clean = clean_key
+    env._tu_swap_kc = kc
+end
+
+local function _topup_clear_pending_key(env)
     env._tu_pending_key = nil
     env._tu_pending_clean = nil
     env._tu_pending_kc = nil
+end
+
+local function _topup_clear_swap_key(env)
+    env._tu_swap_key = nil
+    env._tu_swap_clean = nil
+    env._tu_swap_kc = nil
+end
+
+local function _topup_clear_queued_keys(env)
+    _topup_clear_pending_key(env)
+    _topup_clear_swap_key(env)
+    env._tu_swap_skip_kc = nil
+end
+
+local function _topup_flush_key(env, ctx)
+    local key = env._tu_pending_key
+    if not key then return false end
+    _topup_clear_pending_key(env)
+    ctx:push_input(key)
+    env._af_seed = key
+    return true
+end
+
+local function _topup_flush_swap_key(env, ctx)
+    local key = env._tu_swap_key
+    if not key then return false end
+    _topup_clear_swap_key(env)
+    ctx:push_input(key)
+    env._af_seed = key
+    return true
+end
+
+local function _topup_handle_queued_release(env, ctx, clean_key, kc)
+    if env._tu_swap_skip_kc and kc == env._tu_swap_skip_kc then
+        env._tu_swap_skip_kc = nil
+        return true
+    end
+    if env._tu_swap_key and (clean_key == env._tu_swap_clean or kc == env._tu_swap_kc) then
+        return _topup_flush_swap_key(env, ctx)
+    end
+    if env._tu_pending_key and (clean_key == env._tu_pending_clean or kc == env._tu_pending_kc) then
+        return _topup_flush_key(env, ctx)
+    end
+    return false
+end
+
+local function _topup_is_pending_key_event(env, key, kc)
+    return env._tu_pending_key and key == env._tu_pending_key and kc == env._tu_pending_kc
+end
+
+local function _topup_flush_plain_alpha_press(env, ctx, key_event, key, sf, caps_on)
+    if not env._tu_pending_key or key_event:release() or sf or caps_on then return false end
+    if key_event:ctrl() or key_event:alt() or key_event:super() then return false end
+    if type(key) ~= "string" or #key ~= 1 then return false end
+    local b = string_byte(key, 1)
+    if b < 97 or b > 122 or not (env._alpha and env._alpha[key]) then return false end
+    if _topup_is_pending_key_event(env, key, key_event.keycode) then return false end
+    _topup_flush_key(env, ctx)
     ctx:push_input(key)
     return true
+end
+
+local function _topup_handle_swap_key(env, ctx, key)
+    if not (env._tu_swap_key and env._alpha[key]) then return false end
+    local swap_key = env._tu_swap_key
+    local swap_kc = env._tu_swap_kc
+    _topup_clear_swap_key(env)
+    if not env._tu_set[key] and ctx:get_selected_candidate() then
+        if not _topup_exec(env) then return true end
+        ctx:push_input(key)
+        ctx:push_input(swap_key)
+        env._af_seed = key
+        env._tu_swap_skip_kc = swap_kc
+        return true
+    end
+    ctx:push_input(swap_key)
+    return false
 end
 
 local function _rime_api_string(name)
@@ -185,10 +275,11 @@ local function _topup_defer_key()
 end
 
 local function _topup_push_key(env, ctx, key, clean_key, kc, input_len)
-    if env._tu_defer_key and input_len >= 3 then
+    if env._tu_defer_key and input_len >= 2 then
         _topup_queue_key(env, key, clean_key, kc)
     else
         ctx:push_input(key)
+        env._af_seed = key
     end
 end
 
@@ -265,6 +356,185 @@ local function _is_space_key(kc, clean_key, repr)
     return kc == 32 or clean_key == " " or repr_lower == "space"
 end
 
+local function _is_topup_cancel_key(clean_key, repr, kc)
+    if kc == 0xff08 or kc == 0xffff or kc == 0xff1b then return true end
+    local key = type(clean_key) == "string" and string_lower(clean_key) or ""
+    local raw = type(repr) == "string" and string_lower(repr) or ""
+    return key == "backspace" or key == "delete" or key == "escape"
+        or raw == "backspace" or raw == "delete" or raw == "escape"
+end
+
+local function _is_append_delete_key(clean_key, repr, kc)
+    if kc == 0xff08 or kc == 0xffff then return true end
+    local key = type(clean_key) == "string" and string_lower(clean_key) or ""
+    local raw = type(repr) == "string" and string_lower(repr) or ""
+    return key == "backspace" or key == "delete"
+        or raw == "backspace" or raw == "delete"
+end
+
+local function _is_enter_key(clean_key, repr, kc)
+    if kc == 13 or kc == 0xff0d or kc == 0xff8d then return true end
+    local key = type(clean_key) == "string" and string_lower(clean_key) or ""
+    local raw = type(repr) == "string" and string_lower(repr) or ""
+    return key == "return" or key == "enter" or key == "kp_enter"
+        or raw == "return" or raw == "enter" or raw == "kp_enter"
+end
+
+local function _is_shift_key(clean_key, repr, kc)
+    if kc == 0xffe1 or kc == 0xffe2 then return true end
+    local key = type(clean_key) == "string" and string_lower(clean_key) or ""
+    local raw = type(repr) == "string" and string_lower(repr) or ""
+    return key == "shift_l" or key == "shift_r" or key == "shift"
+        or raw == "shift_l" or raw == "shift_r" or raw == "shift"
+end
+
+local function _is_caps_key(clean_key, repr, kc)
+    if kc == 0xffe5 then return true end
+    local key = type(clean_key) == "string" and string_lower(clean_key) or ""
+    local raw = type(repr) == "string" and string_lower(repr) or ""
+    return key == "caps_lock" or key == "capslock" or key == "caps"
+        or raw == "caps_lock" or raw == "capslock" or raw == "caps"
+end
+
+local function _uppercase_char(clean_key, kc)
+    if kc >= 65 and kc <= 90 then return CHAR_CACHE[kc] end
+    if type(clean_key) ~= "string" or #clean_key ~= 1 then return nil end
+    local b = string_byte(clean_key, 1)
+    if b >= 65 and b <= 90 then return clean_key end
+    return nil
+end
+
+local function _alpha_upper_char(clean_key, kc)
+    if kc >= 65 and kc <= 90 then return CHAR_CACHE[kc] end
+    if kc >= 97 and kc <= 122 then return CHAR_CACHE[kc - 32] end
+    if type(clean_key) ~= "string" or #clean_key ~= 1 then return nil end
+    local b = string_byte(clean_key, 1)
+    if b >= 65 and b <= 90 then return clean_key end
+    if b >= 97 and b <= 122 then return CHAR_CACHE[b - 32] end
+    return nil
+end
+
+local function _is_caps_on(key_event)
+    local ok, value = pcall(function() return key_event:caps() end)
+    return ok and value == true
+end
+
+local function _clear_append_candidate(ctx)
+    ctx:set_property("_txjx_append_input", "")
+    ctx:set_property("_txjx_append_suffix", "")
+    ctx:set_option("_hide_candidate", false)
+end
+
+local function _set_append_candidate(ctx, suffix)
+    if not (ctx:is_composing() and suffix and suffix ~= "" and ctx.input and ctx.input ~= "") then
+        _clear_append_candidate(ctx)
+        return false
+    end
+    local comp = ctx.composition and ctx.composition:back()
+    local has_candidate = ctx:has_menu() or (comp and comp.menu and comp.menu:get_candidate_at(0) ~= nil)
+    if not has_candidate then
+        _clear_append_candidate(ctx)
+        return false
+    end
+    ctx:set_property("_txjx_append_input", ctx.input)
+    ctx:set_property("_txjx_append_suffix", suffix)
+    ctx:set_option("_hide_candidate", true)
+    if ctx.refresh_non_confirmed_composition then
+        pcall(function() ctx:refresh_non_confirmed_composition() end)
+    end
+    return true
+end
+
+local function _get_append_suffix(ctx)
+    if ctx:get_property("_txjx_append_input") ~= ctx.input then return nil end
+    local suffix = ctx:get_property("_txjx_append_suffix")
+    if not suffix or suffix == "" then return nil end
+    return suffix
+end
+
+local function _append_state_changed(ctx, source_input, suffix)
+    return not ctx:is_composing()
+        or ctx.input ~= source_input
+        or ctx:get_property("_txjx_append_input") ~= source_input
+        or ctx:get_property("_txjx_append_suffix") ~= suffix
+end
+
+local function _append_candidate_suffix(ctx, suffix)
+    local current = _get_append_suffix(ctx)
+    if not current or not suffix or suffix == "" then return false end
+    ctx:set_property("_txjx_append_suffix", current .. suffix)
+    ctx:set_option("_hide_candidate", true)
+    if ctx.refresh_non_confirmed_composition then
+        pcall(function() ctx:refresh_non_confirmed_composition() end)
+    end
+    return true
+end
+
+local function _pop_append_suffix(ctx)
+    local current = _get_append_suffix(ctx)
+    if not current then return false end
+    if #current <= 1 then
+        _clear_append_candidate(ctx)
+    else
+        ctx:set_property("_txjx_append_suffix", string_sub(current, 1, -2))
+        ctx:set_option("_hide_candidate", true)
+    end
+    if ctx.refresh_non_confirmed_composition then
+        pcall(function() ctx:refresh_non_confirmed_composition() end)
+    end
+    return true
+end
+
+local function _commit_append_candidate(ctx, engine)
+    local suffix = _get_append_suffix(ctx)
+    if not suffix then return false end
+    local source_input = ctx:get_property("_txjx_append_input")
+    if _append_state_changed(ctx, source_input, suffix) then return false end
+    local cand = ctx:get_selected_candidate()
+    if not cand then
+        local comp = ctx.composition and ctx.composition:back()
+        local menu = comp and comp.menu
+        cand = menu and menu:get_candidate_at(0)
+    end
+    if not cand then return false end
+    local base = cand.text or ""
+    if cand.get_genuine then
+        local ok, genuine = pcall(function() return cand:get_genuine() end)
+        if ok and genuine and genuine.text then base = genuine.text end
+    end
+    if _append_state_changed(ctx, source_input, suffix) then return false end
+    if suffix ~= "" and string_sub(base, -#suffix) == suffix then
+        base = string_sub(base, 1, -(#suffix + 1))
+    end
+    local text = base .. suffix
+    ctx:clear()
+    _clear_append_candidate(ctx)
+    engine:commit_text(text)
+    return true
+end
+
+local function _ascii_append_char(kn, sf, caps_on, kc, clean_key, repr)
+    if kc >= 65 and kc <= 90 then return CHAR_CACHE[kc] end
+    if (sf or caps_on) and kc >= 97 and kc <= 122 then return CHAR_CACHE[kc - 32] end
+    if kc >= 97 and kc <= 122 then return CHAR_CACHE[kc] end
+    if kc >= 48 and kc <= 57 then return CHAR_CACHE[kc] end
+    if type(clean_key) == "string" and #clean_key == 1 then
+        local b = string_byte(clean_key, 1)
+        if (sf or caps_on) and b >= 97 and b <= 122 then return CHAR_CACHE[b - 32] end
+        if (b >= 65 and b <= 90) or (b >= 97 and b <= 122) or (b >= 48 and b <= 57) then
+            return clean_key
+        end
+    end
+    if type(repr) == "string" and #repr == 1 then
+        local b = string_byte(repr, 1)
+        if (sf or caps_on) and b >= 97 and b <= 122 then return CHAR_CACHE[b - 32] end
+        if (b >= 65 and b <= 90) or (b >= 97 and b <= 122) or (b >= 48 and b <= 57) then
+            return repr
+        end
+    end
+    return nil
+end
+
 local function _calc_candidate_key(kn, sf, kc, clean_key, repr, allow_space)
     if sf then return nil end
     local repr_lower = type(repr) == "string" and repr:lower() or ""
@@ -283,8 +553,71 @@ local function _has_menu_candidates(ctx)
     if ctx:has_menu() then
         return true
     end
-    local comp = ctx.composition:back()
+    local comp = ctx.composition and ctx.composition:back()
     return comp and comp.menu and comp.menu:get_candidate_at(0) ~= nil
+end
+
+local function _has_selected_or_menu_candidate(ctx)
+    return ctx:get_selected_candidate() ~= nil or _has_menu_candidates(ctx)
+end
+
+local function _is_reverse_input(env, input)
+    if not input or input == "" or not env._rx_prefix then return false end
+    return env._rx_prefix[string_sub(input, 1, 1)] == true
+end
+
+local function _is_alpha_key(env, key, clean_key, kc)
+    if (kc >= 65 and kc <= 90) or (kc >= 97 and kc <= 122) then return true end
+    if type(key) == "string" and env._alpha[string_lower(key)] then return true end
+    if type(clean_key) == "string" and env._alpha[string_lower(clean_key)] then return true end
+    return false
+end
+
+local function _has_uppercase_input(input)
+    return type(input) == "string" and string_match(input, "[A-Z]") ~= nil
+end
+
+local function _passthrough_alpha_key(env, ctx, sf, key, clean_key, kc)
+    if not _is_alpha_key(env, key, clean_key, kc) then return false end
+    return sf or _has_uppercase_input(ctx.input) or _is_reverse_input(env, ctx.input)
+end
+
+local function _topup_should_hold_reverse_key(env, ctx, key, current_input)
+    if not (env._tu_defer_key and env._rx_prefix and env._rx_prefix[key]) then return false end
+    local prev = (current_input ~= "") and string_sub(current_input, -1) or ""
+    return env._tu_set[prev] and ctx:get_selected_candidate()
+end
+
+local function _topup_auto_fallback(env, ctx, key, clean_key, kc, opts)
+    if env._tu_streaming or not opts.auto_fallback or not env._alpha[key] then return false end
+    local current_input = ctx.input
+    if _topup_should_hold_reverse_key(env, ctx, key, current_input) then
+        if not _topup_ready(env, ctx) then return true end
+        _topup_queue_swap_key(env, key, clean_key, kc)
+        return true
+    end
+    if #current_input < 1 or not ctx:get_selected_candidate() then return false end
+    if opts.direct_symbols and current_input == ";" then return false end
+    if not _topup_ready(env, ctx) then return true end
+
+    local seeded = env._af_seed == current_input
+    env._af_seed = nil
+    ctx:push_input(key)
+    if _has_selected_or_menu_candidate(ctx) then return true end
+    if seeded and env._rx_prefix and env._rx_prefix[key] then return true end
+
+    local pushed_input = ctx.input or ""
+    if #pushed_input <= #current_input or string_sub(pushed_input, 1, #current_input) ~= current_input then
+        return true
+    end
+
+    ctx:pop_input(1)
+    if (ctx.input or "") ~= current_input then return true end
+    if not _has_selected_or_menu_candidate(ctx) then return true end
+
+    ctx:commit()
+    _topup_push_key(env, ctx, key, clean_key, kc, #current_input)
+    return true
 end
 
 local function _commit_menu_index(ctx, engine, idx)
@@ -386,7 +719,7 @@ local function _smart_process(key_event, env, kn, sf, clean_key, opts)
              if _tdc(_SymCN, kn, sf, env.engine, ctx) then env._dc = kn; return kAccepted end
         end
         
-        if not env._tu_streaming and ctx:has_menu() then
+        if not env._tu_streaming and ctx:has_menu() and not _is_alpha_key(env, kn, clean_key, key_event.keycode) then
             local seg = ctx.composition:back()
             if seg and seg.menu:get_candidate_at(0) and not seg.menu:get_candidate_at(1) then
                 local input = ctx.input
@@ -414,6 +747,85 @@ end
 local function processor(key_event, env)
     local kn, sf, clean_key, repr = _resolve_key(key_event, env)
     local ctx = env.engine.context
+    local kc = key_event.keycode
+    if ctx:is_composing() and _get_append_suffix(ctx) and _is_append_delete_key(clean_key, repr, kc) then
+        _topup_clear_queued_keys(env)
+        env._af_seed = nil
+        if key_event:release() then return kAccepted end
+        if _pop_append_suffix(ctx) then return kAccepted end
+    end
+    if _is_topup_cancel_key(clean_key, repr, kc) then
+        _topup_clear_queued_keys(env)
+        env._af_seed = nil
+        _clear_append_candidate(ctx)
+        return kNoop
+    end
+    if _is_enter_key(clean_key, repr, kc) then
+        _topup_clear_queued_keys(env)
+        env._af_seed = nil
+        if key_event:release() then return kAccepted end
+        if _commit_append_candidate(ctx, env.engine) then return kAccepted end
+        _clear_append_candidate(ctx)
+        local input = ctx.input
+        if ctx:is_composing() and input and input ~= "" then
+            ctx:clear()
+            env.engine:commit_text(input)
+            return kAccepted
+        end
+        return kNoop
+    end
+    if _is_shift_key(clean_key, repr, kc) then
+        _topup_clear_queued_keys(env)
+        env._af_seed = nil
+        return kNoop
+    end
+    if _is_caps_key(clean_key, repr, kc) then
+        _topup_clear_queued_keys(env)
+        env._af_seed = nil
+        if env._caps_blocked then
+            if key_event:release() then env._caps_blocked = nil end
+            if ctx:is_composing() then return kAccepted end
+            env._caps_blocked = nil
+            return kNoop
+        end
+        if ctx:is_composing() then
+            env._caps_blocked = true
+            return kAccepted
+        end
+        return kNoop
+    end
+    local ascii_mode = ctx:get_option("ascii_mode")
+    local no_modifier = not key_event:ctrl() and not key_event:alt() and not key_event:super()
+    local caps_on = _is_caps_on(key_event)
+    if not ascii_mode and no_modifier and ctx:is_composing() and _get_append_suffix(ctx) then
+        if key_event:release() then return kAccepted end
+        local ch = _ascii_append_char(kn, sf, caps_on, kc, clean_key, repr)
+        if ch and _append_candidate_suffix(ctx, ch) then return kAccepted end
+    end
+    local append_alpha = nil
+    if not ascii_mode and no_modifier and ctx:is_composing() then
+        if sf or caps_on then
+            append_alpha = _alpha_upper_char(clean_key, kc)
+        else
+            append_alpha = _uppercase_char(clean_key, kc)
+        end
+    end
+    if append_alpha then
+        _topup_clear_queued_keys(env)
+        env._af_seed = nil
+        if key_event:release() then return kAccepted end
+        if _set_append_candidate(ctx, append_alpha) then return kAccepted end
+    end
+    local uppercase = (not ascii_mode and not sf and no_modifier and caps_on) and _uppercase_char(clean_key, kc) or nil
+    if uppercase then
+        _topup_clear_queued_keys(env)
+        env._af_seed = nil
+        if key_event:release() then return kAccepted end
+        if ctx:is_composing() then ctx:commit() end
+        env.engine:commit_text(uppercase)
+        return kAccepted
+    end
+    if ascii_mode then return kNoop end
     local opts = {
         smarttwo = ctx:get_option("smarttwo"),
         direct_symbols = ctx:get_option("direct_symbols"),
@@ -424,13 +836,8 @@ local function processor(key_event, env)
     local sm_result = _smart_process(key_event, env, kn, sf, clean_key, opts)
     if sm_result == kAccepted then return kAccepted end
 
-    local kc = key_event.keycode
-
     if key_event:release() then
-        if env._tu_pending_key and (clean_key == env._tu_pending_clean or kc == env._tu_pending_kc) then
-            _topup_flush_key(env, ctx)
-            return kAccepted
-        end
+        if _topup_handle_queued_release(env, ctx, clean_key, kc) then return kAccepted end
         if ctx:has_menu() then
             if kc == 0xffe3 or kc == 0xffe4 then -- Ctrl
                  if _commit_menu_index(ctx, env.engine, 1) then return kAccepted end
@@ -447,7 +854,15 @@ local function processor(key_event, env)
     if kc < 32 or kc >= 127 then return kNoop end
     
     local key = CHAR_CACHE[kc] or clean_key
-    _topup_flush_key(env, ctx)
+    if _topup_flush_plain_alpha_press(env, ctx, key_event, key, sf, caps_on) then
+        return kAccepted
+    end
+    if _passthrough_alpha_key(env, ctx, sf, key, clean_key, kc) then return kNoop end
+    if _topup_handle_swap_key(env, ctx, key) then return kAccepted end
+    if not _topup_is_pending_key_event(env, key, kc) and _topup_flush_key(env, ctx) and env._alpha[key] then
+        ctx:push_input(key)
+        return kAccepted
+    end
 
     if opts.direct_symbols and ctx.input == ";" and env._alpha[key] then
         ctx:push_input(key)
@@ -462,17 +877,8 @@ local function processor(key_event, env)
         return kAccepted
     end
 
-    if not env._tu_streaming and opts.auto_fallback and env._alpha[key] then
-        local current_input = ctx.input
-        if #current_input >= 1 and ctx:get_selected_candidate() then
-            if not (opts.direct_symbols and current_input == ";") then
-                ctx:push_input(key)
-                if ctx:get_selected_candidate() or _has_menu_candidates(ctx) then return kAccepted end
-                if env._rx_prefix and env._rx_prefix[key] then return kAccepted end
-                ctx:pop_input(1); ctx:commit(); ctx:push_input(key)
-                return kAccepted
-            end
-        end
+    if _topup_auto_fallback(env, ctx, key, clean_key, kc, opts) then
+        return kAccepted
     end
 
     if not env._tu_streaming and env._alpha[key] then
@@ -490,15 +896,15 @@ local function processor(key_event, env)
         if not (env._tu_cmd and is_ftu) then
              if not (opts.direct_symbols and input_len > 0 and string_byte(current_input, 1) == 59) then
                 if is_ptu and not is_tu then
-                    _topup_exec(env)
+                    if not _topup_exec(env) then return kAccepted end
                     _topup_push_key(env, ctx, key, clean_key, kc, input_len)
                     return kAccepted
                 elseif not is_ptu and not is_tu and input_len >= min_len then
-                    _topup_exec(env)
+                    if not _topup_exec(env) then return kAccepted end
                     _topup_push_key(env, ctx, key, clean_key, kc, input_len)
                     return kAccepted
                 elseif input_len >= env._tu_max then
-                    _topup_exec(env)
+                    if not _topup_exec(env) then return kAccepted end
                     _topup_push_key(env, ctx, key, clean_key, kc, input_len)
                     return kAccepted
                 end
@@ -528,15 +934,23 @@ local function init(env)
     env._tu_streaming = config:get_bool("translator/enable_sentence") or false
     env._tu_defer_key = _topup_defer_key()
     env._rx_prefix = {}
-    local jderfen_prefix = config:get_string("jderfen/prefix")
-    if type(jderfen_prefix) == "string" and #jderfen_prefix == 1 then env._rx_prefix[jderfen_prefix] = true end
-    local gbk_prefix = config:get_string("gbk/prefix")
-    if type(gbk_prefix) == "string" and #gbk_prefix == 1 then env._rx_prefix[gbk_prefix] = true end
+    local reverse_prefix_paths = {
+        "jderfen/prefix",
+        "gbk/prefix",
+        "quanpinerfen/prefix",
+        "xmjd6gbk/prefix",
+        "pinyin_simp/prefix",
+        "xmjdWXYZ/prefix",
+    }
+    for _, path in ipairs(reverse_prefix_paths) do
+        local prefix = config:get_string(path)
+        if type(prefix) == "string" and #prefix == 1 then env._rx_prefix[prefix] = true end
+    end
     env._tc = nil
     env._tc_pending = true
-    env._tu_pending_key = nil
-    env._tu_pending_clean = nil
-    env._tu_pending_kc = nil
+    _topup_clear_queued_keys(env)
+    env._af_seed = nil
+    env._caps_blocked = nil
 
     local ctx = env.engine.context
     if env._option_handler and ctx.option_update_notifier then
@@ -563,11 +977,11 @@ local function fini(env)
     env._ks = nil
     env._alpha = nil
     env._tu_set = nil
-    env._tu_pending_key = nil
-    env._tu_pending_clean = nil
-    env._tu_pending_kc = nil
+    _topup_clear_queued_keys(env)
     env._tu_defer_key = nil
     env._rx_prefix = nil
+    env._af_seed = nil
+    env._caps_blocked = nil
     -- 主动GC：释放资源后回收内存
     collectgarbage("step", 200)
 end

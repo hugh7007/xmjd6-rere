@@ -1,5 +1,5 @@
 -- 万能符反查读音补全
--- 只在 reverse_lookup 模式下运行，把 xmjd6.cx 中的单字读音拼入注释。
+-- 只在 reverse_lookup 模式下运行，把 txjx.cx 中的单字读音拼入注释。
 -- 作者：@浮生 https://github.com/wzxmer/rime-txjx
 -- 更新：2026-05-08
 
@@ -28,7 +28,7 @@ end
 local function open_reverse(env)
     if reverse_handle then return true end
     if reverse_open_failed then return false end
-    local dict_name = env._cx_dict or "xmjd6.cx"
+    local dict_name = env._cx_dict or "txjx.cx"
     local ok, handle = pcall(ReverseLookup, dict_name)
     if ok and handle then
         reverse_handle = handle
@@ -132,8 +132,8 @@ function M.init(env)
     reverse_open_failed = false
 
     local config = env.engine.schema.config
-    local keyword = config:get_string("dict_keywords") or env.engine.schema.schema_id or "xmjd6"
-    keyword = keyword:match("^[^,%s;|]+") or "xmjd6"
+    local keyword = config:get_string("dict_keywords") or env.engine.schema.schema_id or "txjx"
+    keyword = keyword:match("^[^,%s;|]+") or "txjx"
     env._cx_dict = keyword .. ".cx"
 
     local pron_cache_limit = config:get_int("pron_cache_limit") or DEFAULT_PRON_CACHE_LIMIT

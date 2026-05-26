@@ -1,6 +1,6 @@
 -- 天行键过滤器
 -- 作者：@浮生 https://github.com/wzxmer/rime-txjx
--- 更新：2026-05-03
+-- 更新：2026-05-09
 
 local string_match = string.match
 local string_find = string.find
@@ -12,13 +12,14 @@ local type = type
 local DEFAULT_HINT_CACHE_LIMIT = 256
 local MAX_HINT_CACHE_LIMIT = 512
 local MIN_HINT_CACHE_LIMIT = 64
-local DEFAULT_DICT_KEYWORDS = { "xmjd6" }
+local DEFAULT_DICT_KEYWORDS = { "txjx" }
 local CORE_DICT_SUFFIX = "core"
 
 local shared_hint_cache = {}
 local shared_hint_cache_count = 0
 local active_filter_envs = 0
 local shared_reverse_handles = {}
+local ext_core
 
 local function clear_shared_hint_cache()
     shared_hint_cache = {}
@@ -235,6 +236,18 @@ local function commit_hint(cand, hint_text)
     cand:get_genuine().comment = hint_text .. (cand.comment or "")
 end
 
+local function append_candidate_if_needed(cand, context, input_text, first)
+    if not first then return cand end
+    local source_input = context:get_property("_txjx_append_input")
+    local suffix = context:get_property("_txjx_append_suffix")
+    if source_input ~= input_text or not suffix or suffix == "" then return cand end
+    local text = (cand.text or "") .. suffix
+    local nc = Candidate(cand.type or "append", cand.start, cand._end, text, cand.comment or "")
+    nc.preedit = text
+    nc.quality = cand.quality
+    return nc
+end
+
 local function should_query_core_hint(cand)
     return cand.type == "table"
 end
@@ -275,12 +288,19 @@ local function update_lazy_reverse(env, context, input_text)
         end
     else
         env._reverse_sticky = false
+        env._reverse_refresh_key = nil
     end
     if context:get_option("reverse_lookup") ~= want_reverse then
         context:set_option("reverse_lookup", want_reverse)
-        if context.is_composing and context:is_composing() then
-            context:refresh_non_confirmed_composition()
+        local refresh_key = input_text .. "\0" .. tostring(want_reverse)
+        if env._reverse_refresh_key ~= refresh_key then
+            env._reverse_refresh_key = refresh_key
+            if context.is_composing and context:is_composing() then
+                pcall(function() context:refresh_non_confirmed_composition() end)
+            end
         end
+    else
+        env._reverse_refresh_key = input_text .. "\0" .. tostring(want_reverse)
     end
 end
 
@@ -308,6 +328,11 @@ local function filter(input, env)
 
     if input_text ~= env._last_input_text then
         env._last_input_text = input_text
+        if context:get_property("_txjx_append_input") ~= input_text then
+            context:set_property("_txjx_append_input", "")
+            context:set_property("_txjx_append_suffix", "")
+            context:set_option("_hide_candidate", false)
+        end
         if input_len == 0 then
             env._reverse_sticky = false
             release_hint_state(env, 48, true)
@@ -353,6 +378,7 @@ local function filter(input, env)
             goto continue
         end
 
+        local was_first = first
         if first then
             if show_commit_hint then commit_hint(cand, hint_text) end
             first = false
@@ -372,7 +398,7 @@ local function filter(input, env)
             end
         end
 
-        yield(cand)
+        yield(append_candidate_if_needed(cand, context, input_text, was_first))
         ::continue::
     end
     if reverse_opened then
@@ -394,6 +420,7 @@ local function init(env)
 
     env.reverse_core = nil
     env.core_dict_name = nil
+    env._reverse_refresh_key = nil
 
     env.b = config:get_string("topup/topup_with") or ""
     env.s = config:get_string("topup/topup_this") or ""
@@ -428,12 +455,17 @@ local function init(env)
         if not context:is_composing() then
             env._last_input_text = ""
             env._reverse_sticky = false
+            env._reverse_refresh_key = nil
             release_hint_state(env, 24, true)
         end
     end)
     env._commit_conn = ctx.commit_notifier:connect(function()
         env._last_input_text = ""
         env._reverse_sticky = false
+        env._reverse_refresh_key = nil
+        ctx:set_property("_txjx_append_input", "")
+        ctx:set_property("_txjx_append_suffix", "")
+        ctx:set_option("_hide_candidate", false)
         release_hint_state(env, 32, true)
     end)
 
@@ -453,6 +485,7 @@ local function fini(env)
     env._hint_cache_limit = nil
     env._last_input_text = nil
     env._last_sbb_on = nil
+    env._reverse_refresh_key = nil
     if active_filter_envs > 0 then
         active_filter_envs = active_filter_envs - 1
     end

@@ -1,6 +1,6 @@
 -- 补全候选过滤器
 -- 作者：@浮生 https://github.com/wzxmer/rime-txjx
--- 更新：2026-05-04
+-- 更新：2026-05-05
 local utf8_len = utf8.len
 local type = type
 
@@ -18,13 +18,13 @@ local function is_reverse_lookup_context(ctx)
     end
     if seg.has_tag then
         local ok, has_tag = pcall(function()
-            return seg:has_tag("reverse_lookup") or seg:has_tag("quanpinerfen") or seg:has_tag("xmjd6gbk")
+            return seg:has_tag("reverse_lookup") or seg:has_tag("jderfen") or seg:has_tag("gbk")
         end)
         if ok and has_tag then
             return true
         end
     end
-    return seg.tag == "reverse_lookup" or seg.tag == "quanpinerfen" or seg.tag == "xmjd6gbk"
+    return seg.tag == "reverse_lookup" or seg.tag == "jderfen" or seg.tag == "gbk"
 end
 
 return {

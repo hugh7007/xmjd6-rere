@@ -1,8 +1,8 @@
 -- 天行键低频扩展核心
--- 合并时间/农历与计算器完整逻辑，由 xmjd6_core.lua 按需加载。
+-- 合并时间/农历与计算器完整逻辑，由 txjx_core.lua 按需加载。
 -- 含有日历+计算器原作者未知
 -- 此版本作者：@浮生 https://github.com/wzxmer/rime-txjx
--- 更新：2026-05-04
+-- 更新：2026-05-09
 
 local M = {}
 
@@ -1399,7 +1399,7 @@ local function translator(input, seg)
     end
 
     -- 4. 未命中缓存，执行计算 (此时才加载大表)
-
+    
     -- 日期 (rq)
     if (input == "rq") then
         InitAstro()
@@ -1418,7 +1418,7 @@ local function translator(input, seg)
             table_insert(data, {Date2LunarDate(ymd) .. JQtest(ymd), num_year})
         end)
         FreeAstro()
-
+        
         -- 存入缓存并输出
         cache.rq = data
         yield_cache(data, "date", seg)
@@ -1440,7 +1440,7 @@ local function translator(input, seg)
             table_insert(data, {res3, ""})
         end)
         FreeAstro()
-
+        
         cache.nl = data
         yield_cache(data, "date", seg)
 
@@ -1508,6 +1508,9 @@ end
 
 M.time_func = translator
 M.time_fini = fini
+M.get_jq_data = function()
+    return get_cached_jq_data(_G_CACHE)
+end
 end
 
 -- calculator core ---------------------------------------------------------

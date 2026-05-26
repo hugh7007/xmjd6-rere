@@ -1,7 +1,7 @@
--- 天行键低频扩展轻入口
--- 首次触发时加载 xmjd6_ext_core 并常驻，天文大表按需加载/释放。
+﻿-- 天行键低频扩展轻入口
+-- 首次触发时加载 txjx_ext_core 并常驻，天文大表按需加载/释放。
 -- 作者：@浮生 https://github.com/wzxmer/rime-txjx
--- 更新：2026-05-08
+-- 更新：2026-05-09
 
 local string_sub = string.sub
 

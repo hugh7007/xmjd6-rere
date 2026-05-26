@@ -1,11 +1,10 @@
 -- 文本映射过滤器
--- 参考万象（作者：https://amzxyz.github.io/） super_replacer 的核心实现
 -- 作者：@浮生 https://github.com/wzxmer/rime-txjx
 -- 更新：2026-05-10
 
 local M = {}
 
-local DEFAULT_NAMESPACE = "xmjd6_opencc_filter"
+local DEFAULT_NAMESPACE = "txjx_opencc_filter"
 local DEFAULT_DELIMITER = "|"
 local DEFAULT_COMMENT_FORMAT = "〔%s〕"
 local FMM_CACHE_LIMIT = 2048
