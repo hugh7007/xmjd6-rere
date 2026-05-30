@@ -202,11 +202,11 @@ jobs:
         echo -e "$header" > Rime/xmjd6.header.txt
         
         # 按照指定顺序合并 .txt 文件
-        cat Rime/xmjd6.buchong.txt \
-            Rime/xmjd6.danzi.txt \
+        cat Rime/xmjd6.danzi.txt \
+            Rime/xmjd6.cizu.txt \
             Rime/xmjd6.zidingyi.txt \
             Rime/xmjd6.fjcy.txt \
-            Rime/xmjd6.cizu.txt \
+            Rime/xmjd6.buchong.txt \
             Rime/xmjd6.core.txt > Rime/xmjd6.body.txt
         
         # 将头文件和主体文件合并到一个中间文件
