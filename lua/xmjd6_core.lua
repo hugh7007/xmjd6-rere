@@ -1,11 +1,26 @@
-﻿-- 天行键低频扩展轻入口
--- 首次触发时加载 txjx_ext_core 并常驻，天文大表按需加载/释放。
+-- 天行键低频扩展轻入口
+-- 首次触发时加载当前方案的 ext_core 并常驻，天文大表按需加载/释放。
 -- 作者：@浮生 https://github.com/wzxmer/rime-txjx
 -- 更新：2026-05-09
 
 local string_sub = string.sub
 
 local core
+local fallback_ext_core
+
+local function ext_core_module(env)
+    local source = debug and debug.getinfo and debug.getinfo(1, "S")
+    local source_path = source and source.source or ""
+    local name = source_path:match("([^/\\]+)%.lua$")
+    if name and name:match("_core$") then
+        return name:gsub("_core$", "_ext_core")
+    end
+    if not fallback_ext_core then
+        local schema_id = env and env.engine and env.engine.schema and env.engine.schema.schema_id
+        fallback_ext_core = ((schema_id and schema_id ~= "") and schema_id or "rime") .. "_ext_core"
+    end
+    return fallback_ext_core
+end
 
 local function is_calendar_input(input)
     local n = input:match("^=(%d+)$")
@@ -58,7 +73,7 @@ local function translator(input, seg, env)
         if ctx and ctx.get_option and not ctx:get_option("jisuanqi") then
             return
         end
-        core = core or require("xmjd6_ext_core")
+        core = core or require(ext_core_module(env))
         if core.jisuanqi_func then
             core.jisuanqi_func(input, seg, env)
         end
@@ -69,7 +84,7 @@ local function translator(input, seg, env)
         return
     end
 
-    core = core or require("xmjd6_ext_core")
+    core = core or require(ext_core_module(env))
     core.func(input, seg, env)
 end
 

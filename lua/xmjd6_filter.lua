@@ -1,223 +1,49 @@
 -- 天行键过滤器
 -- 作者：@浮生 https://github.com/wzxmer/rime-txjx
--- 更新：2026-05-09
+-- 更新：2026-05-29
+
+local config_util = require("xmjd6_config")
+local platform = require("xmjd6_platform")
+local candidate_util = require("xmjd6_candidate")
+local reverse = require("xmjd6_reverse")
+local state = require("xmjd6_state")
 
 local string_match = string.match
 local string_find = string.find
 local string_sub = string.sub
-local string_byte = string.byte
 local utf8_len = utf8.len
-local type = type
 
-local DEFAULT_HINT_CACHE_LIMIT = 256
-local MAX_HINT_CACHE_LIMIT = 512
-local MIN_HINT_CACHE_LIMIT = 64
-local DEFAULT_DICT_KEYWORDS = { "txjx" }
-local CORE_DICT_SUFFIX = "core"
-
-local shared_hint_cache = {}
-local shared_hint_cache_count = 0
 local active_filter_envs = 0
-local shared_reverse_handles = {}
-local ext_core
-
-local function clear_shared_hint_cache()
-    shared_hint_cache = {}
-    shared_hint_cache_count = 0
-end
-
-local function clear_shared_reverse_handles()
-    for dict_name in pairs(shared_reverse_handles) do
-        local handle = shared_reverse_handles[dict_name]
-        if handle and handle.close then
-            pcall(function() handle:close() end)
-        end
-        shared_reverse_handles[dict_name] = nil
-    end
-end
-
-local function close_shared_reverse_handle(dict_name)
-    if not dict_name then return end
-    local handle = shared_reverse_handles[dict_name]
-    if handle and handle.close then
-        pcall(function() handle:close() end)
-    end
-    shared_reverse_handles[dict_name] = nil
-end
 
 local function release_hint_state(env, gc_step, close_handle)
-    env.reverse_core = nil
+    local had_state = env.core_dict_name ~= nil
     if close_handle then
-        close_shared_reverse_handle(env.core_dict_name)
+        reverse.close(env.core_dict_name)
         env.core_dict_name = nil
     end
-    if gc_step and gc_step > 0 then
+    if had_state and gc_step and gc_step > 0 then
         collectgarbage("step", gc_step)
     end
+end
+
+local function release_hint_state_for_context(env, ctx, gc_step)
+    local close_handle = not (ctx and ctx.get_option and ctx:get_option("sbb_hint"))
+    release_hint_state(env, gc_step, close_handle)
 end
 
 local function startswith(str, start)
     return string_sub(str, 1, #start) == start
 end
 
-local function get_first_config_string(config, keys)
-    for _, key in ipairs(keys or {}) do
-        local value = config:get_string(key)
-        if value and value ~= "" then
-            return value
-        end
-    end
-    return nil
-end
-
-local function trim(s)
-    if type(s) ~= "string" then
-        return nil
-    end
-    s = s:gsub("^%s+", ""):gsub("%s+$", "")
-    if s == "" then
-        return nil
-    end
-    return s
-end
-
-local function push_unique_value(list, seen, value)
-    value = trim(value)
-    if value and not seen[value] then
-        list[#list + 1] = value
-        seen[value] = true
-    end
-end
-
-local function split_keywords(raw)
-    if type(raw) ~= "string" then
-        return {}
-    end
-    raw = raw:gsub("[，；|]+", ",")
-    local keywords = {}
-    local seen = {}
-    for value in raw:gmatch("[^,%s]+") do
-        push_unique_value(keywords, seen, value)
-    end
-    return keywords
-end
-
-local function build_default_dict_keywords(schema_id)
-    local keywords = {}
-    local seen = {}
-    if schema_id and schema_id ~= "" and schema_id ~= DEFAULT_DICT_KEYWORDS[1] then
-        push_unique_value(keywords, seen, schema_id)
-    end
-    for _, keyword in ipairs(DEFAULT_DICT_KEYWORDS) do
-        push_unique_value(keywords, seen, keyword)
-    end
-    return keywords
-end
-
-local function build_dict_names(keywords, suffix)
-    local dict_names = {}
-    local seen = {}
-    suffix = trim(suffix)
-    if not suffix then
-        return dict_names
-    end
-    for _, keyword in ipairs(keywords or {}) do
-        local dict_name = trim(keyword)
-        if dict_name then
-            dict_name = dict_name .. "." .. suffix
-            if not seen[dict_name] then
-                dict_names[#dict_names + 1] = dict_name
-                seen[dict_name] = true
-            end
-        end
-    end
-    return dict_names
-end
-
-local function resolve_core_dict_names(config, schema_id)
-    local explicit = trim(get_first_config_string(config, { "core_hint/dictionary" }))
-    if explicit then
-        return { explicit }
-    end
-
-    local keywords = split_keywords(get_first_config_string(config, { "dict_keywords", "reverse_dict_keywords" }))
-    if #keywords == 0 then
-        keywords = build_default_dict_keywords(schema_id)
-    end
-    return build_dict_names(keywords, CORE_DICT_SUFFIX)
-end
-
 local function open_reverse(env)
-    if env.core_dict_name then
-        local active = shared_reverse_handles[env.core_dict_name]
-        if active then
-            env.reverse_core = active
-            return
-        end
-    end
-
-    local config = env.engine.schema.config
-    local core_dict_names = resolve_core_dict_names(config, env.schema_id)
-
-    for _, dict_name in ipairs(core_dict_names or {}) do
-        local db = shared_reverse_handles[dict_name]
-        if not db then
-            local ok, opened = pcall(ReverseLookup, dict_name)
-            if ok and opened then
-                db = opened
-                shared_reverse_handles[dict_name] = db
-            end
-        end
-        if db then
-            env.core_dict_name = dict_name
-            env.reverse_core = db
-            return
-        end
-    end
+    if env.core_dict_name then return true end
+    env.core_dict_name = reverse.open_first(env.core_dict_names)
+    return env.core_dict_name ~= nil
 end
 
-local function segment_has_tag(seg, tag)
-    if not seg or not tag or tag == "" then
-        return false
-    end
-    if seg.has_tag then
-        local ok, has_tag = pcall(function()
-            return seg:has_tag(tag)
-        end)
-        if ok and has_tag then
-            return true
-        end
-    end
-    return seg.tag == tag
-end
-
-local function extract_reading(s)
-    if type(s) ~= "string" then return nil end
-    return string_match(s, "%(([^)]+)%)") or string_match(s, "（([^）]+)）")
-end
-
-local function process_hint(cand, env, input_text)
-    local text = cand.text
-    if not text or #text > 24 then return end
-
-    local reverse = env.reverse_core
-    if not reverse then return end
-
-    local cache_key = (env.core_dict_name or "") .. "\0" .. text
-    local lookup_result = shared_hint_cache[cache_key]
-    if lookup_result == nil then
-        lookup_result = reverse:lookup(text)
-        if lookup_result and lookup_result ~= "" then
-            if shared_hint_cache_count >= env._hint_cache_limit then
-                clear_shared_hint_cache()
-            end
-            shared_hint_cache[cache_key] = lookup_result
-            shared_hint_cache_count = shared_hint_cache_count + 1
-        end
-    end
-    if not lookup_result then return end
-
-    local lookup = " " .. lookup_result .. " "
+local function extract_short_hint(raw_text, env, input_text)
+    if type(raw_text) ~= "string" or raw_text == "" then return nil end
+    local lookup = " " .. raw_text .. " "
     local short = string_match(lookup, env.p1) or
                   string_match(lookup, env.p2) or
                   string_match(lookup, env.p3) or
@@ -227,25 +53,57 @@ local function process_hint(cand, env, input_text)
     if short then
         local short_len = utf8_len(short)
         if env._input_len_cache > short_len and not startswith(short, input_text) then
-            cand:get_genuine().comment = (cand.comment or "") .. " = " .. short
+            return short
         end
+    end
+    return nil
+end
+
+local function has_short_hint(comment)
+    return type(comment) == "string" and string_find(comment, " = ", 1, true) ~= nil
+end
+
+local function process_hint(cand, env, input_text)
+    local text = cand.text
+    if not text or #text > 24 or has_short_hint(cand.comment) then return end
+
+    local cache = env._hint_input_cache
+    local cache_key = text
+    local cached = cache and cache[cache_key]
+    if cached ~= nil then
+        if cached then
+            candidate_util.append_comment(cand, " = " .. cached)
+        end
+        return
+    end
+
+    local short = nil
+    local core_result, core_checked = reverse.lookup_core_hint(env.core_dict_names, text)
+    if core_checked then
+        short = extract_short_hint(core_result, env, input_text)
+        if cache then cache[cache_key] = short or false end
+        if short then
+            candidate_util.append_comment(cand, " = " .. short)
+        end
+        return
+    end
+
+    if not short then
+        if not open_reverse(env) then
+            if cache then cache[cache_key] = false end
+            return
+        end
+        short = extract_short_hint(reverse.lookup_hint(env.core_dict_name, text, env._hint_cache_limit), env, input_text)
+    end
+
+    if cache then cache[cache_key] = short or false end
+    if short then
+        candidate_util.append_comment(cand, " = " .. short)
     end
 end
 
 local function commit_hint(cand, hint_text)
-    cand:get_genuine().comment = hint_text .. (cand.comment or "")
-end
-
-local function append_candidate_if_needed(cand, context, input_text, first)
-    if not first then return cand end
-    local source_input = context:get_property("_txjx_append_input")
-    local suffix = context:get_property("_txjx_append_suffix")
-    if source_input ~= input_text or not suffix or suffix == "" then return cand end
-    local text = (cand.text or "") .. suffix
-    local nc = Candidate(cand.type or "append", cand.start, cand._end, text, cand.comment or "")
-    nc.preedit = text
-    nc.quality = cand.quality
-    return nc
+    candidate_util.set_comment(cand, hint_text .. (cand.comment or ""))
 end
 
 local function should_query_core_hint(cand)
@@ -264,39 +122,25 @@ local function update_lazy_reverse(env, context, input_text)
 
         if env._reverse_sticky then
             want_reverse = true
-        else
-            if #input_text > 1 then
-                local b1 = string_byte(input_text, 1)
-                if b1 == 118 or b1 == 111 then
-                    want_reverse = true
-                elseif env.is_xmjd and b1 == 117 then
-                    want_reverse = true
-                end
-            end
+        elseif config_util.input_has_reverse_prefix(input_text, env._reverse_prefixes, 2) then
+            want_reverse = true
         end
 
         if not want_reverse then
-             local seg = context.composition and context.composition:back()
-             if seg then
-                if segment_has_tag(seg, "reverse_lookup")
-                    or segment_has_tag(seg, env.gbk_tag)
-                    or segment_has_tag(seg, env.erfen_tag)
-                    or segment_has_tag(seg, "pinyin_simp") then
-                    want_reverse = true
-                end
-             end
+            want_reverse = config_util.context_has_reverse_tag(context, env._reverse_tags)
         end
     else
         env._reverse_sticky = false
         env._reverse_refresh_key = nil
     end
+
     if context:get_option("reverse_lookup") ~= want_reverse then
         context:set_option("reverse_lookup", want_reverse)
         local refresh_key = input_text .. "\0" .. tostring(want_reverse)
         if env._reverse_refresh_key ~= refresh_key then
             env._reverse_refresh_key = refresh_key
             if context.is_composing and context:is_composing() then
-                pcall(function() context:refresh_non_confirmed_composition() end)
+                platform.refresh(context, env.engine.schema.config)
             end
         end
     else
@@ -314,7 +158,7 @@ local function should_skip_reverse_lookup_grave(cand, seg)
     if not cand or cand.text ~= "`" then
         return false
     end
-    return segment_has_tag(seg, "reverse_lookup")
+    return config_util.segment_has_tag(seg, "reverse_lookup")
 end
 
 local function filter(input, env)
@@ -328,14 +172,13 @@ local function filter(input, env)
 
     if input_text ~= env._last_input_text then
         env._last_input_text = input_text
-        if context:get_property("_txjx_append_input") ~= input_text then
-            context:set_property("_txjx_append_input", "")
-            context:set_property("_txjx_append_suffix", "")
-            context:set_option("_hide_candidate", false)
+        env._hint_input_cache = {}
+        if context:get_property(state.append_input_key(env)) ~= input_text then
+            state.clear_append(env, context)
         end
         if input_len == 0 then
             env._reverse_sticky = false
-            release_hint_state(env, 48, true)
+            release_hint_state_for_context(env, context, 48)
         end
     end
 
@@ -347,11 +190,9 @@ local function filter(input, env)
     end
 
     if input_len == 0 then
-        release_hint_state(env, 16, true)
+        release_hint_state_for_context(env, context, 16)
     elseif not sbb_on then
         sync_reverse_core(env, false)
-    elseif input_len < 4 or input_len > 6 then
-        env.reverse_core = nil
     end
 
     local hint_text = env.hint_text
@@ -371,7 +212,6 @@ local function filter(input, env)
     local hint_count = 0
     local hint_limit = env.engine.schema.page_size or 5
     if hint_limit <= 0 then hint_limit = 5 end
-    local reverse_opened = false
 
     for cand in input:iter() do
         if should_skip_reverse_lookup_grave(cand, current_seg) then
@@ -387,44 +227,42 @@ local function filter(input, env)
         if sbb_on and should_query_core_hint(cand) and hint_count < hint_limit then
             hint_count = hint_count + 1
             if input_len >= 4 and input_len <= 6 then
-                local has_reading = extract_reading(cand.comment)
-                if not has_reading then
-                    if not reverse_opened then
-                        open_reverse(env)
-                        reverse_opened = true
-                    end
+                if not candidate_util.has_reading(cand.comment) then
                     process_hint(cand, env, input_text)
                 end
             end
         end
 
-        yield(append_candidate_if_needed(cand, context, input_text, was_first))
+        yield(state.wrap_append_if_needed(cand, env, context, input_text, was_first))
         ::continue::
-    end
-    if reverse_opened then
-        env.reverse_core = nil
     end
     env._input_len_cache = nil
 end
 
 local function init(env)
-    if env._update_conn then env._update_conn:disconnect() end
-    if env._commit_conn then env._commit_conn:disconnect() end
+    platform.safe_disconnect(env._update_conn)
+    platform.safe_disconnect(env._commit_conn)
 
     local config = env.engine.schema.config
-    env.schema_id = env.engine.schema.schema_id
-    env.is_xmjd = string_find(env.schema_id, "xmjd") ~= nil
-    env.gbk_tag = get_first_config_string(config, { "gbk/tag" }) or "gbk"
-    env.erfen_tag = env.is_xmjd and "quanpinerfen" or "jderfen"
-    active_filter_envs = active_filter_envs + 1
+    env.schema_id = env.engine.schema.schema_id or ""
+    env._reverse_tags, env._reverse_prefixes = config_util.collect_reverse_context(config, env.schema_id, false)
+    state.init_append(env, env.schema_id)
+    if not env._filter_active then
+        active_filter_envs = active_filter_envs + 1
+        env._filter_active = true
+    end
+    if not env._reverse_shared_acquired then
+        reverse.acquire()
+        env._reverse_shared_acquired = true
+    end
 
-    env.reverse_core = nil
     env.core_dict_name = nil
+    env.core_dict_names = config_util.resolve_core_dict_names(config, env.schema_id)
     env._reverse_refresh_key = nil
 
     env.b = config:get_string("topup/topup_with") or ""
     env.s = config:get_string("topup/topup_this") or ""
-    env.hint_text = config:get_string('hint_text') or '🚫'
+    env.hint_text = config:get_string("hint_text") or "🚫"
 
     if env.s ~= "" and env.b ~= "" then
         env.p1 = " ([" .. env.s .. "][" .. env.b .. "]+) "
@@ -432,67 +270,68 @@ local function init(env)
         env.p3 = " ([" .. env.s .. "][" .. env.s .. "][" .. env.b .. "]) "
         env.p4 = " ([" .. env.b .. "][" .. env.b .. "][" .. env.b .. "]) "
         env.p5 = " ([" .. env.s .. "][" .. env.s .. "]) "
-        env.match_s_pattern = "^["..env.s.."]+$"
-        env.match_b_pattern = "^["..env.b.."]+$"
+        env.match_s_pattern = "^[" .. env.s .. "]+$"
+        env.match_b_pattern = "^[" .. env.b .. "]+$"
     else
         env.p1, env.p2, env.p3, env.p4, env.p5 = "^$", "^$", "^$", "^$", "^$"
         env.match_s_pattern = "^$"
         env.match_b_pattern = "^$"
     end
 
-    local hint_cache_limit = config:get_int("hint_cache_limit") or DEFAULT_HINT_CACHE_LIMIT
-    if hint_cache_limit < MIN_HINT_CACHE_LIMIT then
-        hint_cache_limit = MIN_HINT_CACHE_LIMIT
-    elseif hint_cache_limit > MAX_HINT_CACHE_LIMIT then
-        hint_cache_limit = MAX_HINT_CACHE_LIMIT
-    end
-    env._hint_cache_limit = hint_cache_limit
+    env._hint_cache_limit = reverse.cache_limit(config, "hint_cache_limit")
+    env._hint_input_cache = {}
 
     local ctx = env.engine.context
     env._last_input_text = ctx.input or ""
     env._last_sbb_on = ctx:get_option("sbb_hint")
-    env._update_conn = ctx.update_notifier:connect(function(context)
-        if not context:is_composing() then
+
+    local notifier_override = config:get_string("xmjd6/platform/enable_notifier")
+    if notifier_override ~= "false" and notifier_override ~= "0" and notifier_override ~= "no" then
+        env._update_conn = platform.safe_connect(ctx.update_notifier, function(context)
+            if not context:is_composing() then
+                env._last_input_text = ""
+                env._reverse_sticky = false
+                env._reverse_refresh_key = nil
+                release_hint_state_for_context(env, context, 24)
+            end
+        end)
+        env._commit_conn = platform.safe_connect(ctx.commit_notifier, function()
             env._last_input_text = ""
             env._reverse_sticky = false
             env._reverse_refresh_key = nil
-            release_hint_state(env, 24, true)
-        end
-    end)
-    env._commit_conn = ctx.commit_notifier:connect(function()
-        env._last_input_text = ""
-        env._reverse_sticky = false
-        env._reverse_refresh_key = nil
-        ctx:set_property("_txjx_append_input", "")
-        ctx:set_property("_txjx_append_suffix", "")
-        ctx:set_option("_hide_candidate", false)
-        release_hint_state(env, 32, true)
-    end)
+            state.clear_append(env, ctx)
+            release_hint_state_for_context(env, ctx, 32)
+        end)
+    end
 
     ctx:set_property("_rvk", tostring(os.time()))
 end
 
 local function fini(env)
-    if env._update_conn then
-        env._update_conn:disconnect()
-        env._update_conn = nil
-    end
-    if env._commit_conn then
-        env._commit_conn:disconnect()
-        env._commit_conn = nil
-    end
+    platform.safe_disconnect(env._update_conn)
+    platform.safe_disconnect(env._commit_conn)
+    env._update_conn = nil
+    env._commit_conn = nil
+
     release_hint_state(env, 32, true)
     env._hint_cache_limit = nil
+    env._hint_input_cache = nil
     env._last_input_text = nil
     env._last_sbb_on = nil
     env._reverse_refresh_key = nil
-    if active_filter_envs > 0 then
+    env._reverse_tags = nil
+    env._reverse_prefixes = nil
+    env._append_input_key = nil
+    env._append_suffix_key = nil
+    env.core_dict_names = nil
+
+    if env._filter_active and active_filter_envs > 0 then
         active_filter_envs = active_filter_envs - 1
     end
-    if active_filter_envs == 0 then
-        clear_shared_hint_cache()
-        clear_shared_reverse_handles()
-        collectgarbage("step", 64)
+    env._filter_active = nil
+    if env._reverse_shared_acquired then
+        reverse.release()
+        env._reverse_shared_acquired = nil
     end
 end
 
