@@ -1,10 +1,10 @@
-name: Create Release with Zipped Branch Assets and Date
+﻿name: Create Release with Zipped Branch Assets and Date
 
 on:
   workflow_dispatch:
 
 env:
-  ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   release:
@@ -29,7 +29,7 @@ jobs:
 
     - name: Get latest OpenCC pre-release asset URL
       id: get_opencc_url
-      uses: actions/github-script@v7
+      uses: actions/github-script@v8
       with:
         script: |
           // 获取 amorphobia/opencc-tonggui 的发布列表
@@ -104,7 +104,7 @@ jobs:
 
     - name: Get latest release tag
       id: get_tag
-      uses: actions/github-script@v7
+      uses: actions/github-script@v8
       with:
         script: |
           const response = await github.rest.repos.getLatestRelease({
@@ -117,7 +117,7 @@ jobs:
 
     - name: Fetch tags and generate changelog from last release
       id: changelog
-      uses: actions/github-script@v7
+      uses: actions/github-script@v8
       with:
         script: |
           const lastRelease = await github.rest.repos.getLatestRelease({
@@ -175,7 +175,7 @@ jobs:
 
     - name: Convert .dict.yaml files to .txt using Bash
       run: |
-        for dict_file in xmjd6.danzi.dict.yaml xmjd6.cizu.dict.yaml xmjd6.zidingyi.dict.yaml xmjd6.fjcy.dict.yaml xmjd6.buchong.dict.yaml xmjd6.core.schema.yaml
+        for dict_file in xmjd6.danzi.dict.yaml xmjd6.cizu.dict.yaml xmjd6.zidingyi.dict.yaml xmjd6.fjcy.dict.yaml xmjd6.buchong.dict.yaml xmjd6.core.dict.yaml
         do
           base=$(basename "$dict_file")
           if [[ "$base" == *.dict.yaml ]]; then
@@ -207,7 +207,7 @@ jobs:
             Rime/xmjd6.zidingyi.txt \
             Rime/xmjd6.fjcy.txt \
             Rime/xmjd6.cizu.txt \
-            Rime/xmjd6.core.schema.txt > Rime/xmjd6.body.txt
+            Rime/xmjd6.core.txt > Rime/xmjd6.body.txt
         
         # 将头文件和主体文件合并到一个中间文件
         cat Rime/xmjd6.header.txt Rime/xmjd6.body.txt > mb/xmjd6/tmp_xmjd6.txt
