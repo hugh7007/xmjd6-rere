@@ -29,7 +29,6 @@ schema:
     a键开启连打模式，自造词模式。
   version: "20251127"
   dependencies:
-    - xmjd6.core
     - xmjd6.cx
     - pinyin_simp
     - liangfen
@@ -170,7 +169,7 @@ translator:
     - xform/[0-9]//  #无数字
 
 xmjd6_opencc_filter:
-  db_name: "lua/xmjd6_opencc_filter"
+  # db_name 为旧版配置项，当前 Lua 版使用 dataset_name 直接加载 opencc/Data。
   delimiter: "|"
   comment_format: "〔%s〕"
   chain: true
