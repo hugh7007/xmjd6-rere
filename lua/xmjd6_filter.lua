@@ -1,6 +1,6 @@
 -- 天行键过滤器
 -- 作者：@浮生 https://github.com/wzxmer/rime-txjx
--- 更新：2026-05-29
+-- 更新：2026-06-03
 
 local config_util = require("xmjd6_config")
 local platform = require("xmjd6_platform")
@@ -12,8 +12,6 @@ local string_match = string.match
 local string_find = string.find
 local string_sub = string.sub
 local utf8_len = utf8.len
-
-local active_filter_envs = 0
 
 local function release_hint_state(env, gc_step, close_handle)
     local had_state = env.core_dict_name ~= nil
@@ -151,6 +149,8 @@ end
 local function sync_reverse_core(env, on)
     if not on then
         release_hint_state(env, nil, true)
+    else
+        reverse.warm_core_hint(env.core_dict_names)
     end
 end
 
@@ -186,6 +186,8 @@ local function filter(input, env)
         env._last_sbb_on = sbb_on
         if not sbb_on then
             sync_reverse_core(env, false)
+        else
+            sync_reverse_core(env, true)
         end
     end
 
@@ -247,10 +249,6 @@ local function init(env)
     env.schema_id = env.engine.schema.schema_id or ""
     env._reverse_tags, env._reverse_prefixes = config_util.collect_reverse_context(config, env.schema_id, false)
     state.init_append(env, env.schema_id)
-    if not env._filter_active then
-        active_filter_envs = active_filter_envs + 1
-        env._filter_active = true
-    end
     if not env._reverse_shared_acquired then
         reverse.acquire()
         env._reverse_shared_acquired = true
@@ -284,6 +282,9 @@ local function init(env)
     local ctx = env.engine.context
     env._last_input_text = ctx.input or ""
     env._last_sbb_on = ctx:get_option("sbb_hint")
+    if env._last_sbb_on then
+        sync_reverse_core(env, true)
+    end
 
     local notifier_override = config:get_string("xmjd6/platform/enable_notifier")
     if notifier_override ~= "false" and notifier_override ~= "0" and notifier_override ~= "no" then
@@ -325,10 +326,6 @@ local function fini(env)
     env._append_suffix_key = nil
     env.core_dict_names = nil
 
-    if env._filter_active and active_filter_envs > 0 then
-        active_filter_envs = active_filter_envs - 1
-    end
-    env._filter_active = nil
     if env._reverse_shared_acquired then
         reverse.release()
         env._reverse_shared_acquired = nil

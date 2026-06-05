@@ -1,7 +1,7 @@
 -- 反查缓存工具
 -- 统一管理 ReverseLookup 句柄、读音缓存和释放策略。
 -- 作者：@浮生 https://github.com/wzxmer/rime-txjx
--- 更新：2026-05-29
+-- 更新：2026-06-03
 
 local M = {}
 
@@ -173,6 +173,23 @@ local function clear_core_hint_maps()
     core_hint_maps = {}
 end
 
+local function core_hint_module_name(dict_name)
+    local module_name = (dict_name or ""):gsub("[^%w_]", "_")
+    if module_name == "" then return nil end
+    return module_name .. "_hint_data"
+end
+
+local function load_core_hint_module(dict_name)
+    local module_name = core_hint_module_name(dict_name)
+    if not module_name then return nil, false end
+
+    local ok, map = pcall(require, module_name)
+    if ok and type(map) == "table" and next(map) then
+        return map, true
+    end
+    return nil, false
+end
+
 local function load_core_hint_map(dict_name)
     if not dict_name or dict_name == "" then return nil, false end
 
@@ -180,6 +197,12 @@ local function load_core_hint_map(dict_name)
     if cached ~= nil then
         if cached == false then return nil, false end
         return cached, true
+    end
+
+    local module_map, module_available = load_core_hint_module(dict_name)
+    if module_available then
+        core_hint_maps[dict_name] = module_map
+        return module_map, true
     end
 
     local path = find_existing_path(core_dict_candidates(dict_name))
@@ -281,6 +304,16 @@ function M.lookup_core_hint(dict_names, text)
         end
     end
     return nil, checked
+end
+
+function M.warm_core_hint(dict_names)
+    if type(dict_names) == "string" then dict_names = { dict_names } end
+    local checked = false
+    for _, dict_name in ipairs(dict_names or {}) do
+        local _, available = load_core_hint_map(dict_name)
+        if available then checked = true end
+    end
+    return checked
 end
 
 function M.open_first(dict_names)

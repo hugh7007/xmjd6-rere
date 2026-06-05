@@ -3,7 +3,7 @@
 -- Rime Script >https://github.com/baopaau/rime-lua-collection/blob/master/calculator_translator.lua
 -- 计算器适配版，此版本经过二次优化
 -- 作者：@浮生 https://github.com/wzxmer/rime-txjx
--- 更新：2026-05-29
+-- 更新：2026-06-03
 
 local M = {}
 
@@ -300,14 +300,14 @@ end
 -- # System & Output formatting
 
 local function serialize(obj)
-  local type = type(obj)
-  if type == "number" then
+  local obj_type = type(obj)
+  if obj_type == "number" then
     return Env.isinteger(obj) and math.floor(obj) or obj
-  elseif type == "boolean" then
+  elseif obj_type == "boolean" then
     return tostring(obj)
-  elseif type == "string" then
+  elseif obj_type == "string" then
     return '"'..obj..'"'
-  elseif type == "table" then
+  elseif obj_type == "table" then
     local parts = {"{"}
     local i = 1
     for k, v in pairs(obj) do
@@ -321,7 +321,7 @@ local function serialize(obj)
     if #parts > 1 then parts[#parts] = nil end
     parts[#parts + 1] = "}"
     return table.concat(parts)
-  elseif type(obj) == "function" then
+  elseif obj_type == "function" then
     return "callable"
   end
   return obj

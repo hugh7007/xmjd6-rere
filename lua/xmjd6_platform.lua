@@ -1,7 +1,7 @@
 -- Rime 平台兼容工具
 -- 统一处理 librime API 差异、候选刷新、分段标签等跨平台能力。
 -- 作者：@浮生 https://github.com/wzxmer/rime-txjx
--- 更新：2026-05-29
+-- 更新：2026-06-04
 
 local M = {}
 
@@ -33,29 +33,23 @@ function M.detect()
 
     if string_find(marker, "weasel", 1, true) then
         platform.kind = "weasel"
-    elseif string_find(marker, "hamster", 1, true) then
-        platform.kind = "hamster"
-    elseif string_find(marker, "trime", 1, true) then
-        platform.kind = "trime"
-    elseif string_find(marker, "irime", 1, true) then
-        platform.kind = "irime"
+    elseif string_find(marker, "squirrel", 1, true) then
+        platform.kind = "squirrel"
+    elseif string_find(marker, "fcitx", 1, true) then
+        platform.kind = "fcitx"
+    elseif string_find(marker, "ibus", 1, true) then
+        platform.kind = "ibus"
     else
         platform.kind = "unknown"
     end
     return platform
 end
 
-function M.should_defer_topup(config)
+function M.should_defer_topup(config, ctx)
+    if ctx and ctx:get_option("xmjd6_topup_defer") then return true end
     local override = config and config:get_string("xmjd6/platform/topup_defer")
     if override == "always" then return true end
-    if override == "never" then return false end
-
-    local platform = M.detect()
-    if platform.kind == "weasel" then return true end
-    if platform.kind == "hamster" or platform.kind == "trime" or platform.kind == "irime" then
-        return false
-    end
-    return true
+    return false
 end
 
 function M.refresh(ctx, config)

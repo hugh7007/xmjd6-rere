@@ -1,6 +1,6 @@
 -- 文本映射过滤器
 -- 作者：@浮生 https://github.com/wzxmer/rime-txjx
--- 更新：2026-05-10
+-- 更新：2026-06-03
 
 local M = {}
 local config_util = require("xmjd6_config")
@@ -702,14 +702,8 @@ function M.func(input, env)
             allow_emoji,
             dense_emoji_mode
         )
-        if cand.type == "completion" then
-            for _, item in ipairs(processed) do
-                yield(item)
-            end
-        else
-            for _, item in ipairs(processed) do
-                yield(item)
-            end
+        for _, item in ipairs(processed) do
+            yield(item)
         end
     end
 

@@ -1,6 +1,6 @@
 -- 天行键统一按键处理器
 -- 作者：@浮生 https://github.com/wzxmer/rime-txjx
--- 更新：2026-05-29
+-- 更新：2026-06-04
 
 local string_sub = string.sub
 local string_byte = string.byte
@@ -124,6 +124,10 @@ local function _tdc(map, kn, sf, engine, ctx)
     return true
 end
 
+local function _guard_shift_symbol_release(env, sf)
+    if sf then env._shift_symbol_release_guard = true end
+end
+
 local function _topup_ready(env, ctx)
     if env._tc then
         env._tc = env._tc + 1
@@ -170,6 +174,7 @@ end
 local function _space_guard_clear(env)
     env._space_guard_input = nil
     env._space_guard_wait = nil
+    env._space_guard_refreshed_input = nil
 end
 
 local function _space_guard_note(env, ctx, before_input, key)
@@ -209,12 +214,6 @@ local function _topup_queue_key(env, ctx, key, clean_key, kc)
     env._tu_pending_input = ctx and (ctx.input or "") or ""
 end
 
-local function _topup_queue_swap_key(env, key, clean_key, kc)
-    env._tu_swap_key = key
-    env._tu_swap_clean = clean_key
-    env._tu_swap_kc = kc
-end
-
 local function _topup_clear_pending_key(env)
     env._tu_pending_key = nil
     env._tu_pending_clean = nil
@@ -222,16 +221,8 @@ local function _topup_clear_pending_key(env)
     env._tu_pending_input = nil
 end
 
-local function _topup_clear_swap_key(env)
-    env._tu_swap_key = nil
-    env._tu_swap_clean = nil
-    env._tu_swap_kc = nil
-end
-
 local function _topup_clear_queued_keys(env)
     _topup_clear_pending_key(env)
-    _topup_clear_swap_key(env)
-    env._tu_swap_skip_kc = nil
 end
 
 local function _topup_flush_key(env, ctx)
@@ -248,23 +239,7 @@ local function _topup_flush_key(env, ctx)
     return true
 end
 
-local function _topup_flush_swap_key(env, ctx)
-    local key = env._tu_swap_key
-    if not key then return false end
-    _topup_clear_swap_key(env)
-    _push_code_input(env, ctx, key)
-    env._af_seed = key
-    return true
-end
-
 local function _topup_handle_queued_release(env, ctx, clean_key, kc)
-    if env._tu_swap_skip_kc and kc == env._tu_swap_skip_kc then
-        env._tu_swap_skip_kc = nil
-        return true
-    end
-    if env._tu_swap_key and (clean_key == env._tu_swap_clean or kc == env._tu_swap_kc) then
-        return _topup_flush_swap_key(env, ctx)
-    end
     if env._tu_pending_key and (clean_key == env._tu_pending_clean or kc == env._tu_pending_kc) then
         return _topup_flush_key(env, ctx)
     end
@@ -317,7 +292,7 @@ end
 local function _cold_start_push_code_key(env, ctx, key_event, key, sf, caps_on)
     if not env._cold_code_guard or key_event:release() or sf or caps_on then return false end
     if key_event:ctrl() or key_event:alt() or key_event:super() then return false end
-    if env._tu_pending_key or env._tu_swap_key then return false end
+    if env._tu_pending_key then return false end
     if ctx:is_composing() or (ctx.input or "") ~= "" then
         env._cold_code_guard = nil
         return false
@@ -328,26 +303,9 @@ local function _cold_start_push_code_key(env, ctx, key_event, key, sf, caps_on)
     return true
 end
 
-local function _topup_handle_swap_key(env, ctx, key)
-    if not (env._tu_swap_key and env._alpha[key]) then return false end
-    local swap_key = env._tu_swap_key
-    local swap_kc = env._tu_swap_kc
-    _topup_clear_swap_key(env)
-    if not env._tu_set[key] and _selected_is_non_completion(ctx) then
-        if not _topup_exec(env) then return true end
-        _push_code_input(env, ctx, key)
-        _push_code_input(env, ctx, swap_key)
-        env._af_seed = key
-        env._tu_swap_skip_kc = swap_kc
-        return true
-    end
-    _push_code_input(env, ctx, swap_key)
-    return false
-end
-
 local function _topup_push_key(env, ctx, key, clean_key, kc, input_len)
     local max_len = env._tu_max or 6
-    if env._tu_defer_key and input_len >= 2 and input_len < max_len then
+    if platform.should_defer_topup(env.engine and env.engine.schema and env.engine.schema.config, ctx) and input_len >= 2 and input_len < max_len then
         _topup_queue_key(env, ctx, key, clean_key, kc)
         _space_guard_note(env, ctx, ctx and (ctx.input or "") or "", key)
     else
@@ -568,31 +526,14 @@ end
 
 local function _has_non_completion_candidate(ctx)
     local selected = ctx:get_selected_candidate()
-    if selected and not _is_completion_candidate(selected) then return true end
-
-    local comp = ctx.composition and ctx.composition:back()
-    local menu = comp and comp.menu
-    if not menu then return false end
-
-    for i = 0, 9 do
-        local ok, cand = pcall(function() return menu:get_candidate_at(i) end)
-        if ok and cand and not _is_completion_candidate(cand) then
-            return true
-        end
-    end
-    return false
-end
-
-local function _has_any_candidate(ctx)
-    local selected = ctx:get_selected_candidate()
-    if selected then return true end
+    if selected then return not _is_completion_candidate(selected) end
 
     local comp = ctx.composition and ctx.composition:back()
     local menu = comp and comp.menu
     if not menu then return false end
 
     local ok, cand = pcall(function() return menu:get_candidate_at(0) end)
-    return ok and cand ~= nil or false
+    return ok and cand and not _is_completion_candidate(cand) or false
 end
 
 local function _space_guard_selected_current(ctx, input_len)
@@ -613,8 +554,12 @@ end
 local function _space_guard_hold_current(env, ctx, current)
     if not current or current == "" or #current < (env._tu_max or 6) then return false end
     if _space_guard_selected_current(ctx, #current) then return false end
-    platform.refresh(ctx, env.engine.schema.config)
-    return true
+    if env._space_guard_refreshed_input == current then return true end
+    if platform.refresh(ctx, env.engine.schema.config) then
+        env._space_guard_refreshed_input = current
+        return true
+    end
+    return false
 end
 
 local function _space_guard_process(env, ctx, key_event, clean_key, repr, kc, no_modifier)
@@ -675,49 +620,55 @@ local function _passthrough_alpha_key(env, ctx, sf, key, clean_key, kc)
     return sf or _has_uppercase_input(ctx.input) or _is_reverse_input(env, ctx.input)
 end
 
-local function _topup_should_hold_reverse_key(env, ctx, key, current_input)
-    if not (env._tu_defer_key and env._rx_prefix and env._rx_prefix[key]) then return false end
-    local prev = (current_input ~= "") and string_sub(current_input, -1) or ""
-    return env._tu_set[prev] and _has_non_completion_candidate(ctx)
+local function _topup_fixed_rule_would_commit(env, current_input, key, opts)
+    local input_len = #(current_input or "")
+    if input_len < 1 then return false end
+    if opts.direct_symbols and string_byte(current_input, 1) == 59 then return false end
+
+    local first = string_sub(current_input, 1, 1)
+    local prev = string_sub(current_input, -1)
+    local is_tu = env._tu_set[key]
+    local is_ptu = env._tu_set[prev]
+    local is_ftu = env._tu_set[first]
+
+    if env._tu_cmd and is_ftu then return false end
+    if input_len >= (env._tu_max or 6) then return true end
+    if is_ptu and not is_tu then return true end
+    return input_len >= (env._tu_min or 4) and not is_ptu and not is_tu
 end
 
 local function _topup_auto_fallback(env, ctx, key, clean_key, kc, opts)
     if env._tu_streaming or not opts.auto_fallback or not env._alpha[key] then return false end
     local current_input = ctx.input
-    if _topup_should_hold_reverse_key(env, ctx, key, current_input) then
-        if not _topup_ready(env, ctx) then return true end
-        _topup_queue_swap_key(env, key, clean_key, kc)
-        return true
-    end
-    if #current_input < 1 or not _has_non_completion_candidate(ctx) then return false end
+    if #current_input < 1 then return false end
     if opts.direct_symbols and current_input == ";" then return false end
-    if not _topup_ready(env, ctx) then return true end
+    if _topup_fixed_rule_would_commit(env, current_input, key, opts) then return false end
+    if not _has_non_completion_candidate(ctx) then return false end
+    if not _topup_ready(env, ctx) then return kAccepted end
 
-    local seeded = env._af_seed == current_input
     env._af_seed = nil
     _space_guard_clear(env)
+
     ctx:push_input(key)
-    if _has_any_candidate(ctx) then
+    if _has_non_completion_candidate(ctx) then
         _space_guard_note(env, ctx, current_input, key)
-        return true
-    end
-    if seeded and env._rx_prefix and env._rx_prefix[key] then
-        _space_guard_note(env, ctx, current_input, key)
-        return true
+        return kAccepted
     end
 
     local pushed_input = ctx.input or ""
     if #pushed_input <= #current_input or string_sub(pushed_input, 1, #current_input) ~= current_input then
-        return true
+        return kAccepted
     end
 
     ctx:pop_input(1)
-    if (ctx.input or "") ~= current_input then return true end
-    if not _has_non_completion_candidate(ctx) then return true end
+    if (ctx.input or "") ~= current_input then return kAccepted end
+    if not _space_guard_selected_current(ctx, #current_input) and not _has_non_completion_candidate(ctx) then
+        return kAccepted
+    end
 
-    if not _commit_selected_non_completion(ctx) then return true end
+    if not _commit_selected_non_completion(ctx) then return false end
     _topup_push_key(env, ctx, key, clean_key, kc, #current_input)
-    return true
+    return kAccepted
 end
 
 local function _commit_menu_index(ctx, engine, idx)
@@ -756,16 +707,16 @@ local function _smart_process(key_event, env, kn, sf, clean_key, opts)
         end
     end
 
-    local ds_on = not opts.direct_symbols
+    local direct_symbols_off = not opts.direct_symbols
     
     if key_event:release() then
         if kn and env._sw == kn then env._sw = nil; return kAccepted end
-        if ds_on then
+        if direct_symbols_off then
             if kn and env._dc == kn then env._dc = nil; return kAccepted end
             env._dc = nil
         end
         
-        if not ds_on then
+        if not direct_symbols_off then
             local input = ctx.input
             if #input == 2 and string_byte(input, 1) == 59 then 
                 local b2 = string_byte(input, 2)
@@ -789,9 +740,9 @@ local function _smart_process(key_event, env, kn, sf, clean_key, opts)
         return kNoop
     end
 
-    if not env._tu_streaming and not opts.smarttwo and not ds_on and not sf and kn == "semicolon" then
+    if not env._tu_streaming and not opts.smarttwo and not direct_symbols_off and not sf and kn == "semicolon" then
         local inp = ctx.input
-        if inp ~= "" and not string.find(inp, ";", 1, true) then 
+        if inp ~= "" and not string_find(inp, ";", 1, true) then 
              if ctx:has_menu() and _selected_is_non_completion(ctx) then
                 _commit_selected_non_completion(ctx); ctx:push_input(";"); env._sw = kn; return kAccepted
              end
@@ -814,9 +765,13 @@ local function _smart_process(key_event, env, kn, sf, clean_key, opts)
         end
     end
 
-    if ds_on then
+    if direct_symbols_off then
         if not (kn == "equal" and not sf and opts.jisuanqi) then
-             if _tdc(_SymCN, kn, sf, env.engine, ctx) then env._dc = kn; return kAccepted end
+             if _tdc(_SymCN, kn, sf, env.engine, ctx) then
+                _guard_shift_symbol_release(env, sf)
+                env._dc = kn
+                return kAccepted
+             end
         end
         
         if not env._tu_streaming and ctx:has_menu() and not _is_alpha_key(env, kn, clean_key, key_event.keycode) then
@@ -832,12 +787,18 @@ local function _smart_process(key_event, env, kn, sf, clean_key, opts)
 
     if not opts.jisuanqi then
         if (kn == "equal" or kn == "minus") and ctx:has_menu() and not sf then return kNoop end
-        if _tdc(_JsOff, kn, sf, env.engine, ctx) then return kAccepted end
+        if _tdc(_JsOff, kn, sf, env.engine, ctx) then
+            _guard_shift_symbol_release(env, sf)
+            return kAccepted
+        end
     end
 
     if not opts.smarttwo then
         if kn == "semicolon" and not sf then return kNoop end
-        if _tdc(_SmOff, kn, sf, env.engine, ctx) then return kAccepted end
+        if _tdc(_SmOff, kn, sf, env.engine, ctx) then
+            _guard_shift_symbol_release(env, sf)
+            return kAccepted
+        end
     end
 
     return kNoop
@@ -879,6 +840,13 @@ local function processor(key_event, env)
         _topup_clear_queued_keys(env)
         env._af_seed = nil
         _space_guard_clear(env)
+        if key_event:release() and env._shift_symbol_release_guard then
+            env._shift_symbol_release_guard = nil
+            return kAccepted
+        end
+        if not key_event:release() then
+            env._shift_symbol_release_guard = nil
+        end
         return kNoop
     end
     if _is_caps_key(clean_key, repr, kc) then
@@ -991,7 +959,6 @@ local function processor(key_event, env)
         return kAccepted
     end
     if _passthrough_alpha_key(env, ctx, sf, key, clean_key, kc) then return kNoop end
-    if _topup_handle_swap_key(env, ctx, key) then return kAccepted end
     if is_code_key and not _topup_is_pending_key_event(env, key, kc) and _topup_flush_key(env, ctx) then
         _push_code_input(env, ctx, key)
         return kAccepted
@@ -1071,7 +1038,6 @@ local function init(env)
     env._tu_ac = config:get_bool("topup/auto_clear") or false
     env._tu_cmd = config:get_bool("topup/topup_command") or false
     env._tu_streaming = config:get_bool("translator/enable_sentence") or false
-    env._tu_defer_key = platform.should_defer_topup(config)
     local schema_id = env.engine.schema.schema_id or ""
     env._rx_prefix = _collect_reverse_prefixes(config, schema_id, true)
     state.init_append(env, schema_id)
@@ -1083,6 +1049,7 @@ local function init(env)
     _topup_clear_queued_keys(env)
     env._af_seed = nil
     env._caps_blocked = nil
+    env._shift_symbol_release_guard = nil
 
     local ctx = env.engine.context
     if env._option_handler and ctx.option_update_notifier then
@@ -1110,7 +1077,6 @@ local function fini(env)
     env._alpha = nil
     env._tu_set = nil
     _topup_clear_queued_keys(env)
-    env._tu_defer_key = nil
     env._rx_prefix = nil
     env._append_input_key = nil
     env._append_suffix_key = nil
@@ -1119,6 +1085,7 @@ local function fini(env)
     env._space_guard_enabled = nil
     _space_guard_clear(env)
     env._caps_blocked = nil
+    env._shift_symbol_release_guard = nil
     -- 主动GC：释放资源后回收内存
     collectgarbage("step", 200)
 end

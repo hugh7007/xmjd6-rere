@@ -1,7 +1,7 @@
 -- 共享状态工具
 -- 管理追加候选属性键、候选隐藏和候选刷新状态。
 -- 作者：@浮生 https://github.com/wzxmer/rime-txjx
--- 更新：2026-05-29
+-- 更新：2026-06-04
 
 local config = require("xmjd6_config")
 local platform = require("xmjd6_platform")
@@ -25,9 +25,20 @@ end
 
 function M.clear_append(env, ctx)
     if not ctx then return end
-    ctx:set_property(M.append_input_key(env), "")
-    ctx:set_property(M.append_suffix_key(env), "")
-    ctx:set_option("_hide_candidate", false)
+    local changed = false
+    if ctx:get_property(M.append_input_key(env)) ~= "" then
+        ctx:set_property(M.append_input_key(env), "")
+        changed = true
+    end
+    if ctx:get_property(M.append_suffix_key(env)) ~= "" then
+        ctx:set_property(M.append_suffix_key(env), "")
+        changed = true
+    end
+    if ctx:get_option("_hide_candidate") then
+        ctx:set_option("_hide_candidate", false)
+        changed = true
+    end
+    return changed
 end
 
 function M.set_append(env, ctx, suffix)
@@ -41,10 +52,24 @@ function M.set_append(env, ctx, suffix)
         M.clear_append(env, ctx)
         return false
     end
-    ctx:set_property(M.append_input_key(env), ctx.input)
-    ctx:set_property(M.append_suffix_key(env), suffix)
-    ctx:set_option("_hide_candidate", true)
-    platform.refresh(ctx, env.engine and env.engine.schema and env.engine.schema.config)
+    local input_key = M.append_input_key(env)
+    local suffix_key = M.append_suffix_key(env)
+    local changed = false
+    if ctx:get_property(input_key) ~= ctx.input then
+        ctx:set_property(input_key, ctx.input)
+        changed = true
+    end
+    if ctx:get_property(suffix_key) ~= suffix then
+        ctx:set_property(suffix_key, suffix)
+        changed = true
+    end
+    if not ctx:get_option("_hide_candidate") then
+        ctx:set_option("_hide_candidate", true)
+        changed = true
+    end
+    if changed then
+        platform.refresh(ctx, env.engine and env.engine.schema and env.engine.schema.config)
+    end
     return true
 end
 
@@ -66,8 +91,14 @@ end
 function M.append_suffix(env, ctx, suffix)
     local current = M.get_append_suffix(env, ctx)
     if not current or not suffix or suffix == "" then return false end
-    ctx:set_property(M.append_suffix_key(env), current .. suffix)
-    ctx:set_option("_hide_candidate", true)
+    local next_suffix = current .. suffix
+    if current == next_suffix and ctx:get_option("_hide_candidate") then
+        return true
+    end
+    ctx:set_property(M.append_suffix_key(env), next_suffix)
+    if not ctx:get_option("_hide_candidate") then
+        ctx:set_option("_hide_candidate", true)
+    end
     platform.refresh(ctx, env.engine and env.engine.schema and env.engine.schema.config)
     return true
 end
@@ -75,13 +106,23 @@ end
 function M.pop_append_suffix(env, ctx)
     local current = M.get_append_suffix(env, ctx)
     if not current then return false end
+    local changed = false
     if #current <= 1 then
-        M.clear_append(env, ctx)
+        changed = M.clear_append(env, ctx) or changed
     else
-        ctx:set_property(M.append_suffix_key(env), string_sub(current, 1, -2))
-        ctx:set_option("_hide_candidate", true)
+        local next_suffix = string_sub(current, 1, -2)
+        if next_suffix ~= current then
+            ctx:set_property(M.append_suffix_key(env), next_suffix)
+            changed = true
+        end
+        if not ctx:get_option("_hide_candidate") then
+            ctx:set_option("_hide_candidate", true)
+            changed = true
+        end
     end
-    platform.refresh(ctx, env.engine and env.engine.schema and env.engine.schema.config)
+    if changed then
+        platform.refresh(ctx, env.engine and env.engine.schema and env.engine.schema.config)
+    end
     return true
 end
 
