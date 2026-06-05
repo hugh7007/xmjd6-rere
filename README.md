@@ -88,11 +88,10 @@
 
 - **主方案文件：** `xmjd6.schema.yaml`  
 - **快捷功能配置：** `xmjd6.custom.yaml`  
-- **英文快捷：** `xmjd6.yingwen.dict.yaml`  
 - **词库开关：** `xmjd6.extended.dict.yaml`  
 - **扩展词库补充：** `xmjd6.fjcy.dict.yaml`  
 - **符号修改：** `xmjd6.symbols.yaml`  
-- **630规则文件：** `xmjd6.wxw.dict.yaml` 和 `xmjd6.buchong.dict.yaml`  
+- **630规则文件：** `xmjd6.core.dict.yaml` 和 `xmjd6.buchong.dict.yaml`  
 - **快速索引：** `xmjd6.fuhao.dict.yaml`  
 - **自定义词库：** `xmjd6.zidingyi.dict.yaml`  
 - **个人高权限词库：** `xmjd6.user.dict.yaml`（权重最高，请谨慎添加）

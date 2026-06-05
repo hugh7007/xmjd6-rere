@@ -1,5 +1,12 @@
 patch:
-  style/horizontal: false  #竖排为false横排为true 
+  app_options:
+    # Codex中使用顶功异常，顶功后下一词首字母可能被旧串携带上屏；仅在此应用启用延迟补键
+    # 其他软件若有遇到，也可在此添加相同配置启用延迟补键 xmjd6_topup_defer
+    codex.exe:
+      ascii_mode: false
+      xmjd6_topup_defer: true
+
+  style/horizontal: false  #竖排为false横排为true
   style/color_scheme: CatLight # 此处可修改主题，比如wechat_light
   style/color_scheme_dark: CatDark # 此处可修改暗黑模式主题，比如wechat_dark
 
