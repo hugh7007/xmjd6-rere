@@ -12,6 +12,10 @@ patch:
   # menu/alternative_select_labels: ["〡", "〢", " 〣", " 〤", " 〥", " 〦", " 〧", " 〨", " 〩", ""]
   # menu/alternative_select_keys: ASDFGHJKL  # 如编码字符占用数字键，则需另设选字键
   style/inline_preedit: true         # 行内显示预编辑区
+    
+  # 如果在某些环境下顶功出现异常吞字母现象，修改下面配置即可
+  # xmjd6/platform/topup_defer: always # 顶功首字母延迟：always=强制延迟，never=强制不延迟；默认仅 Weasel/Squirrel 延迟
+ 
 
   # ==================== 功能开关默认状态 ====================
   # 说明：0=选择第一个状态，1=选择第二个状态
@@ -22,21 +26,16 @@ patch:
   switches/@4/reset: 1               # [ 快符关, 快符开 ]
   switches/@5/reset: 0               # [ 空顶关, 空顶开 ]
   switches/@6/reset: 1               # [ 简约, 630提示 ]
-  switches/@7/reset: 1               # [ ;次选关, ;次选开 ]
+  switches/@7/reset: 0               # [ ;次选关, ;次选开 ]
   switches/@8/reset: 1               # [ 计算关, 计算开 ]
-  switches/@9/reset: 0               # [ 普通, 嵌入候选 ]
-  switches/@10/reset: 0              # [ 全角, 半角 ]
-  switches/@11/reset: 0              # [ 地球文, 火星文 ]
+  switches/@9/reset: 0               # [ 地球文, 火星文 ]
+  switches/@10/reset: 0              # [ 半角, 全角 ]
 
   # ==================== 模块加载配置 ====================
-  # processors 索引：@0 ascii_composer  @1 recognizer  @2 xmjd6_processor  @3 key_binder
+  # processors 索引：@0 xmjd6_processor  @1 ascii_composer  @2 recognizer  @3 key_binder
   #   @4 speller  @5 punctuator  @6 selector  @7 navigator  @8 express_editor
   # filters 索引：@0 xmjd6_completion  @1 reverse_lookup  @2 xmjd6_reverse_hint
-  #   @3 xmjd6_filter  @4 jffh  @5 emoji_cn  @6 mars  @7 ascii_punct
-  #   @8 uniquifier  @9 xmjd6_embeded_cands
-
-  # 内嵌候选过滤器（禁用可节省内存）
-  # engine/filters/@9: null
+  #   @3 xmjd6_filter  @4 xmjd6_opencc_filter  @5 uniquifier
 
   # ==================== 流式输入配置 ====================
   # 如需启用流式输入，请取消以下注释（删除行首 # 和空格）
