@@ -3,8 +3,8 @@
 # 单字码表维护来源@雪松：https://github.com/amorphobia/rime-jiandao/tree/master/dicts
 # 2026年5月4日
 ---
-name: xmjd6.danzi
-version: "2026年5月4日"
+name: txjx.danzi
+version: "2026年5月5日"
 sort: by_weight
 ...
 
@@ -8850,6 +8850,8 @@ sort: by_weight
 焿	grouo
 羹	grouou
 焿	grouov
+粳	grouv
+粳	grouva
 哽	grov
 赓	grova
 赓	grovao
@@ -23072,7 +23074,7 @@ sort: by_weight
 千	qmu
 欠	qmua
 欠	qmuaii
-鹐	qmuau
+欿	qmuau
 鹐	qmuaua
 匁	qmuauo
 皘	qmui
@@ -27248,10 +27250,6 @@ sort: by_weight
 𱒦	wdovv
 𱒦	wdovvv
 愁	wdu
-㲋	wdua
-㚟	wduav
-㲋	wduava
-㚟	wduavu
 臭	wdui
 皗	wduiu
 皗	wduiua
@@ -28017,10 +28015,14 @@ sort: by_weight
 𪢕	wlov
 𪢕	wlovvi
 斡	wlu
-𰡏	wlua
+㲋	wlua
+𰡏	wluao
 𰡏	wluaoi
 斡	wluoio
 辵	wluu
+㚟	wluav
+㲋	wluava
+㚟	wluavu
 辵	wluuiv
 肟	wluv
 我	wluviv
