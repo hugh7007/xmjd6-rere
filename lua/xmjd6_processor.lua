@@ -41,7 +41,7 @@ local _SymCN = {
     ["period"]     = { plain = "。", shift = "》" },
     ["grave"]      = { plain = "·", shift = "～" },
 }
-local _SmOff = { ["semicolon"] = { plain = ";", shift = "：" }, ["apostrophe"] = { plain = "'", shift = "\"" } }
+local _SmOff = { ["semicolon"] = { plain = ";", shift = "：" }, ["apostrophe"] = { plain = "'", shift = "“" } }
 local _JsOff = { ["equal"] = { plain = "=", shift = "+" } }
 
 local _KC_MAP = {
@@ -111,6 +111,10 @@ local _CalcShiftKey = {
     ["backslash"] = "|", ["semicolon"] = ":", ["apostrophe"] = "\"",
     ["comma"] = "<", ["period"] = ">", ["bracketleft"] = "{",
     ["bracketright"] = "}", ["grave"] = "~",
+}
+local _CalcShiftDigitKey = {
+    [48] = ")", [51] = "#", [52] = "$", [53] = "%",
+    [54] = "^", [55] = "&", [56] = "*", [57] = "(",
 }
 local _CalcSymbolSet = _s2set("+-*/%^#=~<>(){}[].,:$\\|&\"_? ")
 
@@ -357,12 +361,28 @@ local function _resolve_key(key_event, env)
 end
 
 local function _calc_char(kn, sf, kc, clean_key, repr)
-    if kc >= 48 and kc <= 57 then return CHAR_CACHE[kc] end
-    if kc >= 65 and kc <= 90 then return string.char(kc + 32) end
-    if kc >= 97 and kc <= 122 then return CHAR_CACHE[kc] end
+    if sf then
+        local shifted = _CalcShiftDigitKey[kc]
+        if shifted then return shifted end
+    elseif kc >= 48 and kc <= 57 then
+        return CHAR_CACHE[kc]
+    end
 
     local sym = sf and _CalcShiftKey[kn] or _CalcKey[kn]
     if sym then return sym end
+
+    if kc >= 65 and kc <= 90 then return string.char(kc + 32) end
+    if kc >= 97 and kc <= 122 then return CHAR_CACHE[kc] end
+    if type(clean_key) == "string" and #clean_key == 1 then
+        local b = string_byte(clean_key, 1)
+        if b >= 65 and b <= 90 then return CHAR_CACHE[b + 32] end
+        if b >= 97 and b <= 122 then return clean_key end
+    end
+    if type(repr) == "string" and #repr == 1 then
+        local b = string_byte(repr, 1)
+        if b >= 65 and b <= 90 then return string.char(b + 32) end
+        if b >= 97 and b <= 122 then return repr end
+    end
 
     if kc >= 32 and kc <= 126 then
         local ch = CHAR_CACHE[kc]
@@ -372,6 +392,10 @@ local function _calc_char(kn, sf, kc, clean_key, repr)
         return repr
     end
     return nil
+end
+
+local function _is_calc_input_context(ctx, opts)
+    return opts and opts.jisuanqi and ctx and type(ctx.input) == "string" and string_sub(ctx.input, 1, 1) == "="
 end
 
 local function _is_equal_key(kn, sf, kc, clean_key, repr)
@@ -567,6 +591,16 @@ local function _space_guard_process(env, ctx, key_event, clean_key, repr, kc, no
         return nil
     end
 
+    local input_text = ctx and (ctx.input or "") or ""
+    if input_text ~= "" then
+        if string_find(input_text, "`", 1, true) then
+            return nil
+        end
+        if env._rx_prefix and env._rx_prefix[string_sub(input_text, 1, 1)] then
+            return nil
+        end
+    end
+
     if key_event:release() then
         local expected = env._space_guard_wait
         if not expected then return nil end
@@ -707,6 +741,14 @@ local function _smart_process(key_event, env, kn, sf, clean_key, opts)
         end
     end
 
+    if not key_event:release() and _is_calc_input_context(ctx, opts) and not _is_space_key(key_event.keycode, clean_key, key_event:repr()) then
+        local calc_ch = _calc_char(kn, sf, key_event.keycode, clean_key, key_event:repr())
+        if calc_ch then
+            ctx:push_input(calc_ch)
+            return kAccepted
+        end
+    end
+
     local direct_symbols_off = not opts.direct_symbols
     
     if key_event:release() then
@@ -766,6 +808,7 @@ local function _smart_process(key_event, env, kn, sf, clean_key, opts)
     end
 
     if direct_symbols_off then
+        if kn == "period" and not sf then return kNoop end
         if not (kn == "equal" and not sf and opts.jisuanqi) then
              if _tdc(_SymCN, kn, sf, env.engine, ctx) then
                 _guard_shift_symbol_release(env, sf)
@@ -795,6 +838,7 @@ local function _smart_process(key_event, env, kn, sf, clean_key, opts)
 
     if not opts.smarttwo then
         if kn == "semicolon" and not sf then return kNoop end
+        if kn == "apostrophe" then return kNoop end
         if _tdc(_SmOff, kn, sf, env.engine, ctx) then
             _guard_shift_symbol_release(env, sf)
             return kAccepted
