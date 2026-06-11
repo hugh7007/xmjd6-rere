@@ -19,6 +19,7 @@ local ctx_option_handlers = setmetatable({}, { __mode = "k" })
 
 local CHAR_CACHE = {}
 for i = 0, 255 do CHAR_CACHE[i] = string.char(i) end
+local PLAIN_ALPHA = "abcdefghijklmnopqrstuvwxyz"
 
 local function _s2set(str)
     return config_util.s2set(str)
@@ -173,6 +174,14 @@ local function _commit_selected_candidate(ctx)
     if not cand then return false end
     ctx:commit()
     return true
+end
+
+local function _has_semicolon_prefix(input)
+    return type(input) == "string" and #input > 0 and string_byte(input, 1) == 59
+end
+
+local function _is_direct_symbols_input(input)
+    return type(input) == "string" and #input > 1 and string_byte(input, 1) == 59
 end
 
 local function _space_guard_clear(env)
@@ -560,6 +569,132 @@ local function _has_non_completion_candidate(ctx)
     return ok and cand and not _is_completion_candidate(cand) or false
 end
 
+local function _unique_non_completion_candidate(ctx)
+    local comp = ctx and ctx.composition and ctx.composition:back()
+    local menu = comp and comp.menu
+    if not menu then return nil end
+
+    local unique = nil
+    local idx = 0
+    while true do
+        local ok, cand = pcall(function() return menu:get_candidate_at(idx) end)
+        if not ok or not cand then break end
+        if not _is_completion_candidate(cand) then
+            if unique then return nil end
+            unique = cand
+        end
+        idx = idx + 1
+    end
+    return unique
+end
+
+local function _has_unique_non_completion_candidate(ctx)
+    return _unique_non_completion_candidate(ctx) ~= nil
+end
+
+local function _commit_unique_non_completion_candidate(ctx, engine)
+    local unique = _unique_non_completion_candidate(ctx)
+    if not unique then return false end
+
+    local selected = _selected_candidate(ctx)
+    if selected and not _is_completion_candidate(selected) then
+        ctx:commit()
+        return true
+    end
+
+    if not engine then return false end
+    ctx:clear()
+    engine:commit_text(unique.text)
+    return true
+end
+
+local function _direct_symbols_has_real_successor(env, ctx, input)
+    input = input or (ctx and ctx.input) or ""
+    if not _is_direct_symbols_input(input) then return false end
+    env._direct_symbols_successor_cache = env._direct_symbols_successor_cache or {}
+    local cached = env._direct_symbols_successor_cache[input]
+    if cached ~= nil then return cached end
+
+    for i = 1, #PLAIN_ALPHA do
+        local ch = string_sub(PLAIN_ALPHA, i, i)
+        ctx:push_input(ch)
+        local pushed_input = ctx.input or ""
+        local has_successor = #pushed_input > #input
+            and string_sub(pushed_input, 1, #input) == input
+            and _has_non_completion_candidate(ctx)
+        if #pushed_input > #input and string_sub(pushed_input, 1, #input) == input then
+            ctx:pop_input(1)
+        end
+        if (ctx.input or "") ~= input then
+            env._direct_symbols_successor_cache[input] = false
+            return false
+        end
+        if has_successor then
+            env._direct_symbols_successor_cache[input] = true
+            return true
+        end
+    end
+
+    env._direct_symbols_successor_cache[input] = false
+    return false
+end
+
+local function _commit_direct_symbols_unique_if_leaf(env, ctx, engine)
+    local input = ctx and ctx.input or ""
+    if not _is_direct_symbols_input(input) then return false end
+    if not _unique_non_completion_candidate(ctx) then return false end
+    if _direct_symbols_has_real_successor(env, ctx, input) then return false end
+    return _commit_unique_non_completion_candidate(ctx, engine)
+end
+
+local function _handle_direct_symbols_alpha_press(env, ctx, key, clean_key, kc, opts)
+    if env._tu_streaming or not opts.direct_symbols or not env._alpha[key] then return false end
+    local current_input = ctx.input or ""
+    if not _is_direct_symbols_input(current_input) then return false end
+    if not _unique_non_completion_candidate(ctx) then return false end
+
+    env._af_seed = nil
+    _space_guard_clear(env)
+
+    ctx:push_input(key)
+    local pushed_input = ctx.input or ""
+    if #pushed_input > #current_input and string_sub(pushed_input, 1, #current_input) == current_input then
+        if _has_non_completion_candidate(ctx) then
+            _space_guard_note(env, ctx, current_input, key)
+            if _commit_direct_symbols_unique_if_leaf(env, ctx, env.engine) then return kAccepted end
+            return kAccepted
+        end
+        ctx:pop_input(1)
+        if (ctx.input or "") ~= current_input then return kAccepted end
+        if not _commit_unique_non_completion_candidate(ctx, env.engine) then return false end
+        _topup_push_key(env, ctx, key, clean_key, kc, #current_input - 1)
+        return kAccepted
+    end
+
+    return kAccepted
+end
+
+local function _topup_eval_input(current_input, opts)
+    local raw_input = current_input or ""
+    local semicolon_input = opts and opts.direct_symbols and _has_semicolon_prefix(raw_input)
+    local logical_input = raw_input
+    if semicolon_input then
+        logical_input = string_sub(raw_input, 2)
+    end
+    local input_len = #logical_input
+    local first = (input_len > 0) and string_sub(logical_input, 1, 1) or ""
+    local prev = (input_len > 0) and string_sub(logical_input, -1) or ""
+    return {
+        raw_input = raw_input,
+        raw_len = #raw_input,
+        input = logical_input,
+        input_len = input_len,
+        first = first,
+        prev = prev,
+        semicolon_input = semicolon_input,
+    }
+end
+
 local function _space_guard_selected_current(ctx, input_len)
     local cand = _selected_candidate(ctx)
     if not cand then return false end
@@ -655,12 +790,13 @@ local function _passthrough_alpha_key(env, ctx, sf, key, clean_key, kc)
 end
 
 local function _topup_fixed_rule_would_commit(env, current_input, key, opts)
-    local input_len = #(current_input or "")
+    local eval = _topup_eval_input(current_input, opts)
+    local input_len = eval.input_len
     if input_len < 1 then return false end
-    if opts.direct_symbols and string_byte(current_input, 1) == 59 then return false end
+    if eval.semicolon_input then return false end
 
-    local first = string_sub(current_input, 1, 1)
-    local prev = string_sub(current_input, -1)
+    local first = eval.first
+    local prev = eval.prev
     local is_tu = env._tu_set[key]
     local is_ptu = env._tu_set[prev]
     local is_ftu = env._tu_set[first]
@@ -674,8 +810,8 @@ end
 local function _topup_auto_fallback(env, ctx, key, clean_key, kc, opts)
     if env._tu_streaming or not opts.auto_fallback or not env._alpha[key] then return false end
     local current_input = ctx.input
-    if #current_input < 1 then return false end
-    if opts.direct_symbols and current_input == ";" then return false end
+    local eval = _topup_eval_input(current_input, opts)
+    if eval.raw_len < 1 then return false end
     if _topup_fixed_rule_would_commit(env, current_input, key, opts) then return false end
     if not _has_non_completion_candidate(ctx) then return false end
     if not _topup_ready(env, ctx) then return kAccepted end
@@ -701,7 +837,7 @@ local function _topup_auto_fallback(env, ctx, key, clean_key, kc, opts)
     end
 
     if not _commit_selected_non_completion(ctx) then return false end
-    _topup_push_key(env, ctx, key, clean_key, kc, #current_input)
+    _topup_push_key(env, ctx, key, clean_key, kc, eval.input_len)
     return kAccepted
 end
 
@@ -756,22 +892,6 @@ local function _smart_process(key_event, env, kn, sf, clean_key, opts)
         if direct_symbols_off then
             if kn and env._dc == kn then env._dc = nil; return kAccepted end
             env._dc = nil
-        end
-        
-        if not direct_symbols_off then
-            local input = ctx.input
-            if #input == 2 and string_byte(input, 1) == 59 then 
-                local b2 = string_byte(input, 2)
-                if b2 >= 97 and b2 <= 122 then
-                    if ctx:has_menu() then
-                        local comp = ctx.composition:back()
-                        if comp and comp.menu and not comp.menu:get_candidate_at(1) then
-                             local cand = ctx:get_selected_candidate()
-                             if cand and not _is_completion_candidate(cand) and cand.text ~= ";" and cand.text ~= "；" then ctx:commit(); return kAccepted end
-                        end
-                    end
-                end
-            end
         end
         return kNoop
     end
@@ -1010,16 +1130,12 @@ local function processor(key_event, env)
 
     if opts.direct_symbols and ctx.input == ";" and env._alpha[key] then
         _push_code_input(env, ctx, key)
-        
-        if ctx:has_menu() then
-            local seg = ctx.composition:back()
-            if seg and seg.menu:get_candidate_at(0) and not seg.menu:get_candidate_at(1) then
-                _commit_selected_non_completion(ctx)
-            end
-        end
-        
+        if _commit_direct_symbols_unique_if_leaf(env, ctx, env.engine) then return kAccepted end
         return kAccepted
     end
+
+    local direct_symbols_result = _handle_direct_symbols_alpha_press(env, ctx, key, clean_key, kc, opts)
+    if direct_symbols_result then return direct_symbols_result end
 
     if _topup_auto_fallback(env, ctx, key, clean_key, kc, opts) then
         return kAccepted
@@ -1027,32 +1143,31 @@ local function processor(key_event, env)
 
     if not env._tu_streaming and env._alpha[key] then
         local current_input = ctx.input
-        local input_len = #current_input
+        local eval = _topup_eval_input(current_input, opts)
+        local input_len = eval.input_len
         local min_len = env._tu_min
         
-        local prev = (input_len > 0) and string_sub(current_input, -1) or ""
-        local first = (input_len > 0) and string_sub(current_input, 1, 1) or key
+        local prev = eval.prev
+        local first = (input_len > 0) and eval.first or key
         
         local is_tu = env._tu_set[key]
         local is_ptu = env._tu_set[prev]
         local is_ftu = env._tu_set[first]
 
-        if not (env._tu_cmd and is_ftu) then
-             if not (opts.direct_symbols and input_len > 0 and string_byte(current_input, 1) == 59) then
-                if is_ptu and not is_tu then
-                    if not _topup_exec(env) then return kAccepted end
-                    _topup_push_key(env, ctx, key, clean_key, kc, input_len)
-                    return kAccepted
-                elseif not is_ptu and not is_tu and input_len >= min_len then
-                    if not _topup_exec(env) then return kAccepted end
-                    _topup_push_key(env, ctx, key, clean_key, kc, input_len)
-                    return kAccepted
-                elseif input_len >= env._tu_max then
-                    if not _topup_exec(env) then return kAccepted end
-                    _topup_push_key(env, ctx, key, clean_key, kc, input_len)
-                    return kAccepted
-                end
-             end
+        if not eval.semicolon_input and not (env._tu_cmd and is_ftu) then
+            if is_ptu and not is_tu then
+                if not _topup_exec(env) then return kAccepted end
+                _topup_push_key(env, ctx, key, clean_key, kc, input_len)
+                return kAccepted
+            elseif not is_ptu and not is_tu and input_len >= min_len then
+                if not _topup_exec(env) then return kAccepted end
+                _topup_push_key(env, ctx, key, clean_key, kc, input_len)
+                return kAccepted
+            elseif input_len >= env._tu_max then
+                if not _topup_exec(env) then return kAccepted end
+                _topup_push_key(env, ctx, key, clean_key, kc, input_len)
+                return kAccepted
+            end
         end
     end
 
@@ -1089,6 +1204,7 @@ local function init(env)
     env._tc_pending = true
     env._cold_code_guard = true
     env._space_guard_enabled = config:get_string("xmjd6/space_guard") ~= "off"
+    env._direct_symbols_successor_cache = {}
     _space_guard_clear(env)
     _topup_clear_queued_keys(env)
     env._af_seed = nil
@@ -1127,6 +1243,7 @@ local function fini(env)
     env._af_seed = nil
     env._cold_code_guard = nil
     env._space_guard_enabled = nil
+    env._direct_symbols_successor_cache = nil
     _space_guard_clear(env)
     env._caps_blocked = nil
     env._shift_symbol_release_guard = nil
