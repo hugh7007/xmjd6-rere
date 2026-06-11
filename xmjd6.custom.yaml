@@ -13,10 +13,6 @@ patch:
   # menu/alternative_select_keys: ASDFGHJKL  # 如编码字符占用数字键，则需另设选字键
   style/inline_preedit: true         # 行内显示预编辑区
     
-  # 如果在某些环境下顶功出现异常吞字母现象，修改下面配置即可
-  # xmjd6/platform/topup_defer: always # 顶功首字母延迟：always=强制延迟，never=强制不延迟；默认仅 Weasel/Squirrel 延迟
- 
-
   # ==================== 功能开关默认状态 ====================
   # 说明：0=选择第一个状态，1=选择第二个状态
   switches/@0/reset: 0               # [ 中文, 英文 ]

@@ -34,66 +34,7 @@ schema:
     - liangfen
     - xmjd6.gbk
 
-
-# Layout config
-layout:
-  topup:
-    topup_this: "bcdefghjklmnpqrstwxyz"
-    topup_with: "avuio;"
-  algebra:
-    - derive/^[bcdefghjklmnpqrstwxyz;]([bcdefghjklmnpqrstwxyz;][avuio].*)$/`$1/
-    - derive/^([bcdefghjklmnpqrstwxyz;])[bcdefghjklmnpqrstwxyz;]([avuio].*)$/$1`$2/
-    - derive/^([bcdefghjklmnpqrstwxyz;`]{2})[avuio](.*)$/$1`$2/
-    - derive/^([bcdefghjklmnpqrstwxyz;`]{2}[avuio`]).(.*)$/$1`$2/
-    - derive/^([bcdefghjklmnpqrstwxyz;`]{2}[avuio`]{2}).(.*)$/$1`$2/
-    - derive/^([bcdefghjklmnpqrstwxyz;`]{2}[avuio`]{3}).(.*)$/$1`$2/
-    - derive/^([bcdefghjklmnpqrstwxyz;`]{2}[avuio`]{4}).(.*)$/$1`$2/
-    - derive/^([bcdefghjklmnpqrstwxyz;`]{2}[avuio`]{5}).$/$1`/
-    - derive/^[bcdefghjklmnpqrstwxyz;]{2}([avuio`]*)$/``$1/
-
-  patterns:
-    special: "^(?:;?[avuio])[a-z]{0,}"
-
-switches:
-  - name: ascii_mode  # custom.yaml的开关0
-    states: [ 中文, 英文 ]
-
-  - name: jffh  # custom.yaml的开关1
-    states: [ 简体, 繁體 ]
-
-  - name: completion  # custom.yaml的开关2
-    states: [ 简约, 逐码展示 ]
-
-  - name: emoji_cn  # custom.yaml的开关3
-    states: [ 简约, 表情展示 ]
-
-  - name: direct_symbols  # custom.yaml的开关4
-    states: [ 快符关, 快符开 ]
-
-  - name: auto_fallback  # custom.yaml的开关5
-    states: [ 空顶关, 空顶开 ]
-
-  - name: sbb_hint  # custom.yaml的开关6
-    states: [ 简约, 630提示 ]
-
-  - name: smarttwo  # custom.yaml的开关7
-    states: [ ";次选关", ";次选开" ]
-
-  - name: jisuanqi  # custom.yaml的开关8
-    states: [ 计算关, 计算开 ]
-
-  - name: mars  # custom.yaml的开关9
-    states: [ 地球文, 火星文 ] #火星文
-
-  - name: full_shape  # custom.yaml的开关10
-    states: [ 半角, 全角 ]
-
-ascii_composer:
-  switch_key:
-    Caps_Lock: noop
-    Shift_L: commit_code
-    Shift_R: commit_code
-
+# ============ 引擎 ============
 engine:
   processors:
     - lua_processor@*xmjd6_processor    # 按键处理（次选·空顶·顶功）
@@ -105,16 +46,18 @@ engine:
     - selector             # 候选选择
     - navigator            # 导航键
     - express_editor       # 快速编辑
+
   segmentors:
     - ascii_segmentor      # 英文分段
     - matcher              # 模式匹配
-    - affix_segmentor@pinyin_simp  # 拼音反查 
+    - affix_segmentor@pinyin_simp  # 拼音反查
     - affix_segmentor@quanpinerfen # 全拼
     - affix_segmentor@xmjdWXYZ     # 二分前缀
     - affix_segmentor@xmjd6gbk     # GBK前缀
     - abc_segmentor        # 字母分段
     - punct_segmentor      # 标点分段
     - fallback_segmentor   # 回退分段
+
   translators:
     - lua_translator@*xmjd6_core        # 低频扩展入口（计算器·时间转换）
     - history_translator@repeat_history
@@ -130,6 +73,7 @@ engine:
     - script_translator@quanpinerfen
     - script_translator@pinyin_simp
     - script_translator@xmjd6gbk
+
   filters:
     - lua_filter@*xmjd6_completion        # 辅助码提示（需在reverse_lookup之前处理comment）
     - reverse_lookup_filter@reverse_lookup    # 统一反查（全拼+二分+GBK+万能符）
@@ -139,20 +83,54 @@ engine:
     - lua_filter@*xmjd6_opencc_filter
     - uniquifier         # 去重
 
-#导入符号
-punctuator:
-  digit_separator_action: commit
-  # digit_separators: "./"
-  import_preset: xmjd6.symbols
+# ============ 开关 ============
+switches:
+  - name: ascii_mode  # custom.yaml的开关0
+    states: [ 中文, 英文 ]
+  - name: jffh  # custom.yaml的开关1
+    states: [ 简体, 繁體 ]
+  - name: completion  # custom.yaml的开关2
+    states: [ 简约, 逐码展示 ]
+  - name: emoji_cn  # custom.yaml的开关3
+    states: [ 简约, 表情展示 ]
+  - name: direct_symbols  # custom.yaml的开关4
+    states: [ 快符关, 快符开 ]
+  - name: auto_fallback  # custom.yaml的开关5
+    states: [ 空顶关, 空顶开 ]
+  - name: sbb_hint  # custom.yaml的开关6
+    states: [ 简约, 630提示 ]
+  - name: smarttwo  # custom.yaml的开关7
+    states: [ ";次选关", ";次选开" ]
+  - name: jisuanqi  # custom.yaml的开关8
+    states: [ 计算关, 计算开 ]
+  - name: mars  # custom.yaml的开关9
+    states: [ 地球文, 火星文 ] #火星文
+  - name: full_shape  # custom.yaml的开关10
+    states: [ 半角, 全角 ]
+
+ascii_composer:
+  switch_key:
+    Caps_Lock: noop
+    Shift_L: commit_code
+    Shift_R: commit_code
+
+# ============ 拼写 ============
 speller:
   auto_select: false   #true或者false
   alphabet: "zyxwvutsrqponmlkjihgfedcba;'" # 修改为【"zyxwvutsrqponmlkjihgfedcba"】会直接上屏，但无法使用；+字母打快符。记得同步修改key_binder中semicolon和apostrophe绑定
   initials: "abcdefghijklmnopqrstuvwxyz;'"
   delimiter: " '"
-  algebra: 
+  algebra:
     - derive/[0-9]$//  #无数字
     - derive|^;|/|
 
+# ============ 标点 ============
+punctuator:
+  digit_separator_action: commit
+  # digit_separators: "./"
+  import_preset: xmjd6.symbols
+
+# ============ 主词典 ============
 translator:
   dictionary: xmjd6.extended
   db_class: tabledb
@@ -167,6 +145,17 @@ translator:
   comment_format:
 #    - xform|~||
     - xform/[0-9]//  #无数字
+
+# ============ 辅助功能 ============
+repeat_history:
+  input: i #重复上次上屏内容
+  size: 3
+  initial_quality: 10000
+
+repeat_history2:
+  input: ;f #重复上次上屏内容
+  size: 3
+  initial_quality: 10000
 
 xmjd6_opencc_filter:
   # db_name 为旧版配置项，当前 Lua 版使用 dataset_name 直接加载 opencc/Data。
@@ -196,17 +185,7 @@ xmjd6_opencc_filter:
       sentence: true
       tags: [ abc, phrase, sentence, date, time, xgqk, jdqk ]
 
-repeat_history:
-  input: i #重复上次上屏内容
-  size: 3
-  initial_quality: 10000
-
-repeat_history2:
-  input: ;f #重复上次上屏内容
-  size: 3
-  initial_quality: 10000
-
-#↓gbk反查方案
+# ============ 反查与副词典 ============
 xmjd6gbk:
   tag: xmjd6gbk
   dictionary: xmjd6.gbk
@@ -232,7 +211,6 @@ pinyin_simp:
   prefix: "u"
   tips: "〔全拼〕"
 
-#↓二分反查方案
 quanpinerfen:
   tag: quanpinerfen
   dictionary: liangfen
@@ -257,6 +235,7 @@ reverse_lookup:
     - xform|^\(([^)]+)\)(★)?$|[$1]|
     - xform|^([^\[].*)$|[$1]|
 
+# ============ 造词 ============
 xmjdWXYZ:
   tag: xmjdWXYZ
   dictionary: xmjd6.extended
@@ -277,25 +256,28 @@ xmjdWXYZ:
 #    - xform|~||
   prefix: "a"
   tips: "〔造词〕"
-  
+
 xmjdYY:
   __include: /xmjdWXYZ
   tag: xmjdYY
   dictionary: xmjd6.Y
   prefix: "~E"
   tips: "〔Y〕"
+
 xmjdZZ:
   __include: /xmjdWXYZ
   tag: xmjdZZ
   dictionary: xmjd6.Z
   prefix: "~R"
   tips: "〔Z〕"
+
 xmjdWW:
   __include: /xmjdWXYZ
   tag: xmjdWW
   dictionary: xmjd6.W
   prefix: "~T"
   tips: "〔W〕"
+
 xmjd6_user:
   dictionary: ""
   user_dict: xmjd6_user
@@ -309,6 +291,7 @@ xmjd6_user:
 
 dict_keywords: "xmjd6"
 
+# ============ 快捷键 ============
 key_binder:
 #  import_preset: default
   bian_zi: "slash"
@@ -343,8 +326,7 @@ key_binder:
     - {accept: KP_Add, send: +, when: has_menu}  #原始 → KP_Add
     - {accept: KP_Decimal, send: ".", when: has_menu}
 
-
-
+# ============ 模式识别 ============
 recognizer:
   #import_preset: default
   patterns:
@@ -360,6 +342,7 @@ recognizer:
     xmjd6gbk: "^o[a-z]*?$"
 #        xmjdWXYZ: "^'['/a-z][a-z0-9,./:?!']*'?$"
 
+# ============ 顶功 ============
 topup:
   __include: "layout/topup"
   topup_this: "bcdefghjklmnpqrstwxyz"
@@ -369,7 +352,28 @@ topup:
   auto_clear: true
   min_length_danzi: 2
   topup_command: false
+
 hint_text: "" # 如需修改顶功提示符，建议在 xmjd6.custom.yaml 中设置
+
+# ============ 布局 ============
+layout:
+  topup:
+    topup_this: "bcdefghjklmnpqrstwxyz"
+    topup_with: "avuio;"
+  algebra:
+    - derive/^[bcdefghjklmnpqrstwxyz;]([bcdefghjklmnpqrstwxyz;][avuio].*)$/`$1/
+    - derive/^([bcdefghjklmnpqrstwxyz;])[bcdefghjklmnpqrstwxyz;]([avuio].*)$/$1`$2/
+    - derive/^([bcdefghjklmnpqrstwxyz;`]{2})[avuio](.*)$/$1`$2/
+    - derive/^([bcdefghjklmnpqrstwxyz;`]{2}[avuio`]).(.*)$/$1`$2/
+    - derive/^([bcdefghjklmnpqrstwxyz;`]{2}[avuio`]{2}).(.*)$/$1`$2/
+    - derive/^([bcdefghjklmnpqrstwxyz;`]{2}[avuio`]{3}).(.*)$/$1`$2/
+    - derive/^([bcdefghjklmnpqrstwxyz;`]{2}[avuio`]{4}).(.*)$/$1`$2/
+    - derive/^([bcdefghjklmnpqrstwxyz;`]{2}[avuio`]{5}).$/$1`/
+    - derive/^[bcdefghjklmnpqrstwxyz;]{2}([avuio`]*)$/``$1/
+  patterns:
+    special: "^(?:;?[avuio])[a-z]{0,}"
+
+# ============ 菜单 ============
 menu:
   page_size: 5 # 请到 xmjd6.custom.yaml 去修改
   comment_format: []

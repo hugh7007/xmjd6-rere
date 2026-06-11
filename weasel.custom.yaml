@@ -5,6 +5,8 @@ patch:
     codex.exe:
       ascii_mode: false
       xmjd6_topup_defer: true
+    excel.exe:
+      ascii_mode: false
 
   style/horizontal: false  #竖排为false横排为true
   style/color_scheme: CatLight # 此处可修改主题，比如wechat_light
