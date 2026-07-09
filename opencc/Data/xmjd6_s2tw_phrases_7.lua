@@ -1,3 +1,7 @@
+-- 天行键 OpenCC 简入台词组分片数据
+-- 作者：@浮生 https://github.com/wzxmer/rime-txjx
+-- 更新：2026-07-02
+
 return {
   ["万一"] = "萬一",
   ["万一只"] = "萬一只",

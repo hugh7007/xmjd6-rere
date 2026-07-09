@@ -1,3 +1,7 @@
+-- 天行键 OpenCC 简入繁词组分片数据
+-- 作者：@浮生 https://github.com/wzxmer/rime-txjx
+-- 更新：2026-07-02
+
 return {
   ["乏困"] = "乏困",
   ["也不尽然"] = "也不盡然",

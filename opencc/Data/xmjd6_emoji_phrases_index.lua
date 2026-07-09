@@ -1,3 +1,7 @@
+-- 天行键 OpenCC emoji 词组索引数据
+-- 作者：@浮生 https://github.com/wzxmer/rime-txjx
+-- 更新：2026-07-02
+
 return {
   ["1"] = "1",
   ["T"] = "4",

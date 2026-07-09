@@ -1,3 +1,7 @@
+-- 天行键 OpenCC 简入台字表数据
+-- 作者：@浮生 https://github.com/wzxmer/rime-txjx
+-- 更新：2026-07-02
+
 return {
   ["㐷"] = "傌",
   ["㐹"] = "㑶",

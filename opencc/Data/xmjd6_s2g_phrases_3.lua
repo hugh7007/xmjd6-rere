@@ -1,3 +1,7 @@
+-- 天行键 OpenCC 简入繁词组分片数据
+-- 作者：@浮生 https://github.com/wzxmer/rime-txjx
+-- 更新：2026-07-02
+
 return {
   ["七万"] = "七萬",
   ["七万三千"] = "七萬三千",
