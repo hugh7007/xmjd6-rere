@@ -1,3 +1,7 @@
+-- 天行键 自造词状态模块
+-- 作者：@浮生 https://github.com/wzxmer/rime-xmjd6
+-- 更新：2026-07-02
+
 local M = {}
 
 M.fields = {

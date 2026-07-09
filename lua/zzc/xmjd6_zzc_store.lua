@@ -1,3 +1,7 @@
+-- 天行键 自造词存储模块
+-- 作者：@浮生 https://github.com/wzxmer/rime-xmjd6
+-- 更新：2026-07-02
+
 local M = {}
 
 local function new_tx()
@@ -133,11 +137,13 @@ function M.build_effective_projection(input, pending, opts)
                 elseif record.restore then
                     hide_words[record.word] = nil
                     order_rows[#order_rows + 1] = row
+                    keep_words[record.word] = true
+                    seen_words[record.word] = true
                 else
                     order_rows[#order_rows + 1] = row
+                    keep_words[record.word] = true
+                    seen_words[record.word] = true
                 end
-                keep_words[record.word] = true
-                seen_words[record.word] = true
             end
         end
         if order_rows[1] then
@@ -159,11 +165,13 @@ function M.build_effective_projection(input, pending, opts)
                 elseif record.restore then
                     hide_words[record.word] = nil
                     keep_rows[#keep_rows + 1] = row
+                    keep_words[record.word] = true
+                    seen_words[record.word] = true
                 else
                     keep_rows[#keep_rows + 1] = row
+                    keep_words[record.word] = true
+                    seen_words[record.word] = true
                 end
-                keep_words[record.word] = true
-                seen_words[record.word] = true
             end
         end
     end
@@ -187,7 +195,6 @@ function M.effective_state_snapshot(code, cover)
     for _, row in ipairs((cover and cover.append_rows) or {}) do
         snapshot.lines[#snapshot.lines + 1] = table.concat({ "visible", row.word or "", code or "", row.source or "zzc_append" }, "\t")
         effective.append_rows[#effective.append_rows + 1] = row
-        effective.keep_words[row.word] = true
     end
     for word in pairs((cover and cover.hide_words) or {}) do
         snapshot.lines[#snapshot.lines + 1] = table.concat({ "hidden", word or "", code or "", "zzc_restore" }, "\t")

@@ -1,3 +1,7 @@
+-- 天行键 自造词核心模块
+-- 作者：@浮生 https://github.com/wzxmer/rime-xmjd6
+-- 更新：2026-07-02
+
 local M = {}
 local codec = require("zzc.xmjd6_zzc_codec")
 local store = require("zzc.xmjd6_zzc_store")
