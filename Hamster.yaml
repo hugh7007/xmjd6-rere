@@ -1,0 +1,15 @@
+patch:
+  # 键盘运行目录 -> AppGroup / App 目录
+  # 用来把手机刚造的词带回应用目录，避免重新部署丢失
+  regexOnOverrideDictFiles:
+    - '^.*[.]zzc[.]dict[.]yaml$'
+    - '^.*[/\\]zzc_state[/\\]runtime_ops[.]tsv$'
+    - '^.*[/\\]zzc_state[/\\]runtime_exact[.]tsv$'
+    - '^.*[/\\]zzc_state[/\\]effective_state[.]tsv$'
+    - '^.*[/\\]zzc_state[/\\]zzc_reset_seen[.]tsv$'
+
+  # AppGroup / App 目录 -> 键盘运行目录
+  # 用来把合并后的 zzc 和 reset marker 下发到键盘
+  regexOnCopyAppGroupDictFile:
+    - '^.*[.]zzc[.]dict[.]yaml$'
+    - '^.*[/\\]zzc_state[/\\]zzc_reset[.]tsv$'
