@@ -1,3 +1,7 @@
+-- 天行键 核心提示数据模块
+-- 作者：@浮生 https://github.com/wzxmer/rime-xmjd6
+-- 更新：2026-07-02
+
 return {
     ["那又"] = "aa",
     ["那去"] = "av",

@@ -1,4 +1,4 @@
--- xmjd6过滤器
+-- 天行键过滤器
 -- 作者：@浮生 https://github.com/wzxmer/rime-xmjd6
 -- 更新：2026-06-03
 

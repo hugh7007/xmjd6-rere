@@ -8,11 +8,6 @@ local M = {}
 local type = type
 local string_match = string.match
 
-function M.should_defer_topup(_, ctx)
-    if ctx and ctx:get_option("xmjd6_topup_defer") then return true end
-    return false
-end
-
 function M.refresh(ctx, config)
     if not ctx or type(ctx.refresh_non_confirmed_composition) ~= "function" then
         return false

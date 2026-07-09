@@ -1,4 +1,4 @@
--- xmjd6计算器扩展核心
+-- 天行键计算器扩展核心
 -- 从 xmjd6_ext_core.lua 拆分：= 表达式计算器。
 -- Rime Script >https://github.com/baopaau/rime-lua-collection/blob/master/calculator_translator.lua
 -- 计算器适配版，此版本经过二次优化

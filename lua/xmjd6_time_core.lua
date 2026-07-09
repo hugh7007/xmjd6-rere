@@ -1,4 +1,4 @@
--- xmjd6日期时间扩展核心
+-- 天行键日期时间扩展核心
 -- 从 xmjd6_ext_core.lua 拆分：日期、农历、节气、日期查询。
 -- 含有日历原作者未知
 -- 此版本作者：@浮生 https://github.com/wzxmer/rime-xmjd6
