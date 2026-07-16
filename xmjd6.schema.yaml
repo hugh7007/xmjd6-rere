@@ -9,15 +9,14 @@
 # o键超级繁体(全字集)，让繁体字特殊字不再属于形码专利。
 # v键开启二分反查功能（通过键道双拼拆分文字可打全字集）。遇到不会读的字也可以随时随地打出全字集。
 # u键开启全拼反查功能拼音查全码，新增笔画提示。
-# i键开启英文单词联想输入模式。
-# a键开启连打模式。
+
 
 schema:
   schema_id: xmjd6
   name: 星🐈键道
   icon: ""
   author:
-    - 方案维护者：Proud丶Cat、热热佬、千年蟲
+    - 方案维护者：一梦浮生、Proud丶Cat、热热佬、千年蟲
   description: |
     方案溯源：星空键道6.2 →  🐈星猫键道6.3
     本方案特色：
@@ -63,7 +62,6 @@ engine:
     - punct_translator
     - table_translator
     - reverse_lookup_translator
-    - table_translator@xmjd6_user
     - script_translator@quanpinerfen
     - script_translator@pinyin_simp
     - script_translator@xmjd6gbk
@@ -76,6 +74,7 @@ engine:
     - lua_filter@*xmjd6_filter            # 630提示（必须在emoji_cn之前）
     # 原生 OpenCC 过滤器功能不够灵活，改用 lua 实现
     - lua_filter@*xmjd6_opencc_filter
+    - lua_filter@*xmjd6_newline
     - uniquifier         # 去重
 
 # ============ 开关 ============
@@ -158,21 +157,21 @@ xmjd6_opencc_filter:
       mode: replace
       comment_mode: none
       sentence: true
-      tags: [ abc, pinyin_simp, quanpinerfen, xmjd6gbk, reverse_lookup, xmjd6_user, phrase, sentence, date, time, xgqk, jdqk ]
+      tags: [ abc, pinyin_simp, quanpinerfen, xmjd6gbk, reverse_lookup, phrase, sentence, date, time, xgqk, jdqk ]
     - option: emoji_cn
       dataset_name: "xmjd6_emoji"
       prefix: "emoji/"
       mode: append
       comment_mode: none
       split: emoji
-      tags: [ abc, xmjd6_user, phrase, sentence, date, time, xgqk, jdqk ]
+      tags: [ abc, phrase, sentence, date, time, xgqk, jdqk ]
     - option: mars
       dataset_name: "xmjd6_martian"
       prefix: "mars/"
       mode: replace
       comment_mode: none
       sentence: true
-      tags: [ abc, pinyin_simp, quanpinerfen, xmjd6gbk, reverse_lookup, xmjd6_user, phrase, sentence, date, time, xgqk, jdqk ]
+      tags: [ abc, pinyin_simp, quanpinerfen, xmjd6gbk, reverse_lookup, phrase, sentence, date, time, xgqk, jdqk ]
 
 # ============ 反查与副词典 ============
 xmjd6gbk:
@@ -223,17 +222,6 @@ reverse_lookup:
     - xform#^\(([^)]+)\)★(.+)$#[$1 | $2]# # 恢复：有读音有编码
     - xform|^\(([^)]+)\)(★)?$|[$1]|
     - xform|^([^\[].*)$|[$1]|
-
-xmjd6_user:
-  dictionary: ""
-  user_dict: xmjd6_user
-  db_class: stabledb
-  enable_sentence: false
-  enable_completion: true
-  comment_format:
-    - xform/[0-9]//  #无数字
-#    - xform|~||
-  initial_quality: -1  #原始的 -1<关>/999999<开>修改这个会影响自造词是否会变成第一位
 
 dict_keywords: "xmjd6"
 
