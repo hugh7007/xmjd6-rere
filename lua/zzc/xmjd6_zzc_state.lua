@@ -17,7 +17,6 @@ M.fields = {
     replaced = "_xmjd6_zzc_replaced",
     cmd_candidates = "_xmjd6_zzc_cmd_candidates",
     shorten_idx = "_xmjd6_zzc_shorten_idx",
-    finalize = "_xmjd6_zzc_finalize",
 }
 
 M.props = {
@@ -33,7 +32,6 @@ M.props = {
     M.fields.replaced,
     M.fields.cmd_candidates,
     M.fields.shorten_idx,
-    M.fields.finalize,
 }
 
 M.probe_props = {
@@ -47,7 +45,6 @@ M.probe_props = {
     M.fields.origin,
     M.fields.display,
     M.fields.replaced,
-    M.fields.finalize,
 }
 
 function M.new()
@@ -109,7 +106,9 @@ function M.sync(ctx, state, core)
     if ctx and ctx.set_property then
         ctx:set_property(M.fields.stage, state.stage ~= "off" and state.stage or "")
         local current_word = core.buffer_word() or ""
-        if current_word == "" then current_word = state.display_word or "" end
+        if current_word == "" and not (state.stage == "collect" and state.mode == "replace") then
+            current_word = state.display_word or ""
+        end
         ctx:set_property(M.fields.word, current_word)
         ctx:set_property(M.fields.items, core.serialize_items(state.items))
         ctx:set_property(M.fields.mode, state.mode or "make")
@@ -144,8 +143,14 @@ function M.restore_from_context(ctx, state, core)
     local prop_cmd_candidates = ctx:get_property(M.fields.cmd_candidates) or ""
     local prop_shorten_idx = tonumber(ctx:get_property(M.fields.shorten_idx) or "") or 1
     if prop_stage == "" and prop_word == "" and prop_items == "" then return false end
+    local replace_placeholder = prop_stage == "collect"
+        and prop_mode == "replace"
+        and prop_target ~= ""
+        and prop_items == ""
+        and prop_word ~= ""
+        and prop_word == prop_display
     local items = core.deserialize_items(prop_items)
-    if (not items or #items == 0) and prop_word ~= "" then
+    if (not items or #items == 0) and prop_word ~= "" and not replace_placeholder then
         items = core.items_from_text(prop_word) or {}
     end
     state.active = true

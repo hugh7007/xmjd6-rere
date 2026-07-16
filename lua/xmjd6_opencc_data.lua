@@ -209,6 +209,11 @@ local function utf8_first_char(text)
     return s_sub(text, 1, len)
 end
 
+local function utf8_is_single_char(text)
+    local first = utf8_first_char(text)
+    return first ~= nil and #first == #text
+end
+
 local function touch_phrase_shard(module_name)
     local usage = shared_static.phrase_usage
     for i = #usage, 1, -1 do
@@ -354,6 +359,9 @@ function M.create_provider(dataset_name, value_mode)
             local dataset = ensure_dataset_loaded(self.dataset_name)
             if not dataset then
                 return nil
+            end
+            if utf8_is_single_char(text) then
+                return normalize_mapping_value(dataset.chars[text], self.value_mode)
             end
             local shard = get_dataset_phrase_shard(dataset, text)
             if shard then

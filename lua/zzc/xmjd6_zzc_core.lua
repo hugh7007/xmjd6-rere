@@ -756,6 +756,11 @@ end
 
 local function load_pending_cache_current()
     if pending_loaded then
+        local now = os.time()
+        if pending_version_check_second == now then
+            return pending_cache
+        end
+        pending_version_check_second = now
         if read_pending_version() == pending_version then
             return pending_cache
         end

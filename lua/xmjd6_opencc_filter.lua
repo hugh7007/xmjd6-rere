@@ -126,6 +126,21 @@ local function get_utf8_offsets(text)
     return offsets
 end
 
+local function utf8_is_single_char(text)
+    local len = #text
+    if len == 0 then return false end
+    local b = s_byte(text, 1)
+    local char_len = 1
+    if b >= 240 then
+        char_len = 4
+    elseif b >= 224 then
+        char_len = 3
+    elseif b >= 192 then
+        char_len = 2
+    end
+    return len == char_len
+end
+
 local function segment_has_tag(seg, tag)
     return config_util.segment_has_tag(seg, tag)
 end
@@ -358,7 +373,9 @@ local function process_rules(cand, active_rules, split_pat, comment_fmt, is_chai
 
         local query_text = is_chain and current_text or cand.text
         local val = provider_fetch(rule, query_text)
-        local allow_fmm = rule.fmm and not (dense_emoji_mode and rule.split_mode == "emoji")
+        local allow_fmm = rule.fmm
+            and not utf8_is_single_char(query_text)
+            and not (dense_emoji_mode and rule.split_mode == "emoji")
         if not val and allow_fmm then
             local seg_key = (rule.prefix or "") .. "\0" .. query_text
             local seg_result = fmm_cache[seg_key]
@@ -625,12 +642,10 @@ function M.func(input, env)
     local input_len = #(ctx.input or "")
 
     if not ctx:is_composing() or ctx.input == "" then
-        local had_runtime_state = clear_runtime_state()
-        if opencc_data.release_inactive(enabled_datasets) then
-            had_runtime_state = true
+        clear_runtime_state()
+        local released = opencc_data.release_inactive(enabled_datasets)
+        if released then
             clear_runtime_state(true)
-        end
-        if had_runtime_state then
             collectgarbage("step", 120)
         end
         for cand in input:iter() do

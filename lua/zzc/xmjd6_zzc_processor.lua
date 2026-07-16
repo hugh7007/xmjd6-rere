@@ -3,338 +3,55 @@
 -- 更新：2026-07-02
 
 local core = require("zzc.xmjd6_zzc_core")
+local state_model = require("zzc.xmjd6_zzc_state")
+local keys = require("zzc.xmjd6_zzc_keys")
+local candidates = require("zzc.xmjd6_zzc_candidates")
 
 local kAccepted = 1
 local kNoop = 2
 
-local state = { active = false, stage = "off", items = {}, mode = "make", target_code = "", origin_input = "", display_word = "", replaced_word = "", command_candidates = {}, shorten_idx = 1 }
-local current_action_candidate
-local first_candidate
+local state = state_model.new()
 local reset
 local refresh_context
 local command_candidate_snapshot
 local collect_lookup_input
 
-local zzc_props = {
-    "_xmjd6_zzc_stage",
-    "_xmjd6_zzc_word",
-    "_xmjd6_zzc_items",
-    "_xmjd6_zzc_len",
-    "_xmjd6_zzc_pending",
-    "_xmjd6_zzc_mode",
-    "_xmjd6_zzc_target",
-    "_xmjd6_zzc_origin",
-    "_xmjd6_zzc_display",
-    "_xmjd6_zzc_replaced",
-    "_xmjd6_zzc_cmd_candidates",
-    "_xmjd6_zzc_shorten_idx",
-}
-
-local probe_props = {
-    "_xmjd6_zzc_stage",
-    "_xmjd6_zzc_word",
-    "_xmjd6_zzc_items",
-    "_xmjd6_zzc_len",
-    "_xmjd6_zzc_pending",
-    "_xmjd6_zzc_mode",
-    "_xmjd6_zzc_target",
-    "_xmjd6_zzc_origin",
-    "_xmjd6_zzc_display",
-    "_xmjd6_zzc_replaced",
-}
-
+local zzc_props = state_model.props
+local probe_props = state_model.probe_props
 
 local function reset_state_fields()
-    state.active = false
-    state.stage = "off"
-    state.items = {}
-    state.mode = "make"
-    state.target_code = ""
-    state.origin_input = ""
-    state.display_word = ""
-    state.replaced_word = ""
-    state.command_candidates = {}
-    state.shorten_idx = 1
-    core.set_state_items(state.items)
-    core.set_current_stage(state.stage)
+    state_model.reset_fields(state, core)
 end
 
-local function clear_props(ctx, props)
-    if not (ctx and ctx.set_property) then return end
-    for _, name in ipairs(props or zzc_props) do
-        ctx:set_property(name, "")
-    end
-end
+local clear_props = state_model.clear_props
+local snapshot_props = state_model.snapshot_props
+local restore_props = state_model.restore_props
 
-local function snapshot_props(ctx, props)
-    local out = {}
-    if not (ctx and ctx.get_property) then return out end
-    for _, name in ipairs(props or zzc_props) do
-        out[name] = ctx:get_property(name) or ""
-    end
-    return out
-end
-
-local function restore_props(ctx, snapshot, props)
-    if not (ctx and ctx.set_property) then return end
-    for _, name in ipairs(props or zzc_props) do
-        ctx:set_property(name, snapshot and snapshot[name] or "")
-    end
-end
-
-local length_keys = {
-    ["3"] = 3, ["4"] = 4, ["5"] = 5, ["6"] = 6,
-    ["三"] = 3, ["四"] = 4, ["五"] = 5, ["六"] = 6,
-    ["KP_3"] = 3, ["KP_4"] = 4, ["KP_5"] = 5, ["KP_6"] = 6,
-    ["kp_3"] = 3, ["kp_4"] = 4, ["kp_5"] = 5, ["kp_6"] = 6,
-}
-
-local index_keys = {
-    ["1"] = 1, ["2"] = 2, ["3"] = 3, ["4"] = 4, ["5"] = 5,
-    ["6"] = 6, ["7"] = 7, ["8"] = 8, ["9"] = 9,
-    ["KP_1"] = 1, ["KP_2"] = 2, ["KP_3"] = 3, ["KP_4"] = 4, ["KP_5"] = 5,
-    ["KP_6"] = 6, ["KP_7"] = 7, ["KP_8"] = 8, ["KP_9"] = 9,
-    ["kp_1"] = 1, ["kp_2"] = 2, ["kp_3"] = 3, ["kp_4"] = 4, ["kp_5"] = 5,
-    ["kp_6"] = 6, ["kp_7"] = 7, ["kp_8"] = 8, ["kp_9"] = 9,
-}
-
-local collect_select_keys = {
-    [";"] = 2, ["semicolon"] = 2, ["Semicolon"] = 2,
-    ["'"] = 3, ["apostrophe"] = 3, ["Apostrophe"] = 3,
-    ["Tab"] = 2, ["tab"] = 2,
-}
+local length_keys = keys.length_keys
 
 local chinese_index_words = {
     ["一"] = 1, ["二"] = 2, ["三"] = 3, ["四"] = 4, ["五"] = 5,
     ["六"] = 6, ["七"] = 7, ["八"] = 8, ["九"] = 9,
 }
 
-local trigger_keys = {
-    ["\\"] = true,
-    ["backslash"] = true,
-    ["Backslash"] = true,
-    ["bar"] = true,
-    ["|"] = true,
-}
-
-local function normalize_trigger_key(key)
-    if type(key) ~= "string" then return key end
-    local clean = key
-    local changed = true
-    while changed do
-        changed = false
-        local stripped = clean:match("^[Ss]hift%+(.*)")
-            or clean:match("^[Rr]elease%+(.*)")
-        if stripped and stripped ~= clean then
-            clean = stripped
-            changed = true
-        end
-    end
-    local payload = clean:match("^[Cc]haracter%((.*)%)$")
-    if payload == "\\" or payload == "\\\\" or payload == "|" or payload == "backslash" then
-        return "\\"
-    end
-    return clean
-end
-
-local function event_char(key_event)
-    local code = key_event.keycode
-    if code and code >= 0x20 and code < 0x7f then return string.char(code) end
-    return nil
-end
-
-local function resolve_collect_modifier_select_key(key_event, key)
-    if not key_event then return nil end
-    local ctrl = key_event:ctrl()
-    local alt = key_event:alt()
-    local repr = tostring(key or "")
-    local clean = repr:match("^[Cc]ontrol%+(.*)") or repr:match("^[Aa]lt%+(.*)") or repr
-    local lower = clean:lower()
-    local keycode = key_event.keycode
-    local is_ctrl_key = lower == "control_l" or lower == "control_r" or lower == "control"
-        or keycode == 17 or keycode == 0xffe3 or keycode == 0xffe4
-    local is_alt_key = lower == "alt_l" or lower == "alt_r" or lower == "alt"
-        or keycode == 18 or keycode == 0xffe9 or keycode == 0xffea
-    if (ctrl or is_ctrl_key) and not alt and is_ctrl_key then
-        return 2
-    end
-    if (alt or is_alt_key) and not ctrl and is_alt_key then
-        return 3
-    end
-    return nil
-end
-
-local function is_trigger(key, ch)
-    if trigger_keys[ch or ""] or trigger_keys[key or ""] then return true end
-    if type(key) == "string" then
-        local clean = normalize_trigger_key(key)
-        return trigger_keys[clean] or trigger_keys[clean:lower()]
-    end
-    return false
-end
-
-local function is_code_char(ch)
-    return type(ch) == "string" and ch:match("^[A-Za-z;']$") ~= nil
-end
-
-local key_code_char_map = {
-    semicolon = ";",
-    apostrophe = "'",
-}
-
-local function resolve_code_char(key, ch)
-    if is_code_char(ch) then return ch end
-    if type(key) ~= "string" then return nil end
-    local clean = key:match("^[Ss]hift%+(.*)") or key
-    if is_code_char(clean) then return clean end
-    local lower = clean:lower()
-    local mapped = key_code_char_map[lower]
-    if mapped and is_code_char(mapped) then return mapped end
-    return nil
-end
-
-local function strip_zzc_prefix(input)
-    input = input or ""
-    if input:sub(1, 1) == "\\" then return input:sub(2) end
-    return input
-end
-
-local function code_backslash_target(input)
-    input = tostring(input or "")
-    if #input > 1 and input:sub(-1) == "\\" then
-        return input:sub(1, -2)
-    end
-    return nil
-end
-
-local function is_space(key)
-    if type(key) ~= "string" then return false end
-    local clean = key:match("^[Ss]hift%+(.*)") or key
-    return clean:lower() == "space"
-end
-
-local function is_less_key(key, ch)
-    local fullwidth_less = string.char(0xEF, 0xBC, 0x9C)
-    local left_angle = string.char(0xE3, 0x80, 0x8A)
-    if ch == "<" or ch == "," or ch == fullwidth_less or ch == left_angle
-        or key == "less" or key == "Less" or key == "comma" or key == fullwidth_less or key == left_angle then return true end
-    if type(key) == "string" then
-        local clean = key:match("^[Ss]hift%+(.*)") or key
-        return clean == "<" or clean == fullwidth_less or clean == left_angle
-            or clean == "comma" or clean:lower() == "less" or key:match("^[Ss]hift%+comma$")
-    end
-    return false
-end
-
-local function is_minus_key(key, ch)
-    local fullwidth_minus = string.char(0xEF, 0xBC, 0x8D)
-    local minus_sign = string.char(0xE2, 0x88, 0x92)
-    if ch == "-" or ch == fullwidth_minus or ch == minus_sign then return true end
-    if type(key) ~= "string" then return false end
-    local clean = key:match("^[Ss]hift%+(.*)") or key
-    local lower = clean:lower()
-    return lower == "minus" or lower == "hyphen" or clean == "-" or clean == fullwidth_minus or clean == minus_sign
-end
-
-local function is_unshifted_equal_key(key, ch, shifted)
-    if shifted then return false end
-    if ch == "=" then return true end
-    if type(key) ~= "string" then return false end
-    local clean = key:match("^[Ss]hift%+(.*)") or key
-    local lower = clean:lower()
-    return lower == "equal" or clean == "="
-end
-
-local function is_plus_key(key, ch, shifted, keycode)
-    local fullwidth_plus = string.char(0xEF, 0xBC, 0x8B)
-    if ch == "+" or ch == fullwidth_plus then return true end
-    if type(key) ~= "string" then return false end
-    local clean = key:match("^[Ss]hift%+(.*)") or key
-    local lower = clean:lower()
-    if lower == "equal" or clean == "=" then return true end
-    if key:match("^[Ss]hift%+") and (lower == "equal" or clean == "=") then return true end
-    if shifted and (lower == "equal" or clean == "=" or keycode == 61 or keycode == 0xBB or keycode == 43) then return true end
-    return lower == "plus"
-        or lower == "kp_add"
-        or lower == "kp_plus"
-        or lower == "numpad_add"
-        or lower == "numpad_plus"
-        or lower == "add"
-        or keycode == 61
-        or keycode == 0xBB
-        or keycode == 43
-        or clean == "+"
-        or clean == fullwidth_plus
-end
-
-local function is_fullwidth_bang_text(text)
-    return type(text) == "string"
-        and #text == 3
-        and text:byte(1) == 0xEF
-        and text:byte(2) == 0xBC
-        and text:byte(3) == 0x81
-end
-
-local function is_bang_key(key, ch, shifted, keycode)
-    local fullwidth_bang = string.char(0xEF, 0xBC, 0x81)
-    if ch == fullwidth_bang or key == fullwidth_bang then return true end
-    if ch == "!" or is_fullwidth_bang_text(ch) then return true end
-    if shifted and (keycode == 49 or keycode == 0x31) then return true end
-    if type(key) ~= "string" then return false end
-    local shifted_key = key:match("^[Ss]hift%+") ~= nil
-    local clean = key:match("^[Ss]hift%+(.*)") or key
-    local lower = clean:lower()
-    return clean == "!" or clean == "！" or lower == "exclam" or (shifted_key and (clean == "1" or lower == "exclam"))
-end
-
-local function is_backspace(key)
-    return type(key) == "string" and key:lower() == "backspace"
-end
-
-local function is_enter_key(key)
-    if type(key) ~= "string" then return false end
-    local lower = key:lower()
-    return lower == "return" or lower == "enter"
-end
-
-local function is_null_key(key)
-    return key == "0x0000"
-end
-
-local function is_ascii_mode(ctx)
-    return ctx and ctx.get_option and ctx:get_option("ascii_mode")
-end
-
-local symbol_keys = {
-    ["\\"] = true,
-    ["|"] = true,
-    ["backslash"] = true,
-    ["bar"] = true,
-    ["Backslash"] = true,
-    ["Escape"] = true,
-    ["escape"] = true,
-    ["Backspace"] = true,
-    ["backspace"] = true,
-    ["less"] = true,
-    ["Less"] = true,
-    ["<"] = true,
-    ["minus"] = true,
-    ["Minus"] = true,
-    ["hyphen"] = true,
-    ["Hyphen"] = true,
-    ["-"] = true,
-    ["space"] = true,
-    ["Space"] = true,
-    [" "] = true,
-}
-
-local function is_zzc_reserved_key(key, ch)
-    if symbol_keys[key or ""] or symbol_keys[ch or ""] then return true end
-    if type(key) ~= "string" then return false end
-    local clean = key:match("^[Ss]hift%+(.*)") or key
-    return symbol_keys[clean] or symbol_keys[clean:lower()]
-end
-
+local event_char = keys.event_char
+local resolve_collect_modifier_select_key = keys.resolve_collect_modifier_select_key
+local is_trigger = keys.is_trigger
+local is_code_char = keys.is_code_char
+local resolve_code_char = keys.resolve_code_char
+local strip_zzc_prefix = keys.strip_zzc_prefix
+local code_backslash_target = keys.code_backslash_target
+local is_space = keys.is_space
+local is_less_key = keys.is_less_key
+local is_minus_key = keys.is_minus_key
+local is_unshifted_equal_key = keys.is_unshifted_equal_key
+local is_plus_key = keys.is_plus_key
+local is_bang_key = keys.is_bang_key
+local is_backspace = keys.is_backspace
+local is_enter_key = keys.is_enter_key
+local is_null_key = keys.is_null_key
+local is_ascii_mode = keys.is_ascii_mode
+local is_zzc_reserved_key = keys.is_reserved_key
 reset = function(ctx)
     reset_state_fields()
     clear_props(ctx)
@@ -347,24 +64,7 @@ local function clear_state_only(ctx)
 end
 
 local function sync_state(ctx)
-    core.set_state_items(state.items)
-    core.set_current_stage(state.stage)
-    if ctx and ctx.set_property then
-        ctx:set_property("_xmjd6_zzc_stage", state.stage ~= "off" and state.stage or "")
-        local current_word = core.buffer_word() or ""
-        if current_word == "" and not (state.stage == "collect" and state.mode == "replace") then
-            current_word = state.display_word or ""
-        end
-        ctx:set_property("_xmjd6_zzc_word", current_word)
-        ctx:set_property("_xmjd6_zzc_items", core.serialize_items(state.items))
-        ctx:set_property("_xmjd6_zzc_mode", state.mode or "make")
-        ctx:set_property("_xmjd6_zzc_target", state.target_code or "")
-        ctx:set_property("_xmjd6_zzc_origin", state.origin_input or "")
-        ctx:set_property("_xmjd6_zzc_display", state.display_word or "")
-        ctx:set_property("_xmjd6_zzc_replaced", state.replaced_word or "")
-        ctx:set_property("_xmjd6_zzc_cmd_candidates", table.concat(state.command_candidates or {}, "\n"))
-        ctx:set_property("_xmjd6_zzc_shorten_idx", tostring(state.shorten_idx or 1))
-    end
+    state_model.sync(ctx, state, core)
 end
 
 refresh_context = function(ctx)
@@ -393,14 +93,8 @@ local function code_page_key_should_fallthrough(ctx, input, key, ch, shifted)
     return is_minus_key(key, ch) or is_unshifted_equal_key(key, ch, shifted)
 end
 
-local function set_pending_trigger(ctx, enabled)
-    if not (ctx and ctx.set_property) then return end
-    ctx:set_property("_xmjd6_zzc_pending", enabled and "1" or "")
-end
-
-local function pending_trigger(ctx)
-    return ctx and ctx.get_property and ctx:get_property("_xmjd6_zzc_pending") == "1"
-end
+local set_pending_trigger = state_model.set_pending_trigger
+local pending_trigger = state_model.pending_trigger
 
 
 
@@ -416,61 +110,15 @@ local function fallback_to_trigger(ctx)
 end
 
 local function restore_state_from_context(ctx)
-    if not (ctx and ctx.get_property) then return false end
-    local prop_stage = ctx:get_property("_xmjd6_zzc_stage") or ""
-    local prop_word = ctx:get_property("_xmjd6_zzc_word") or ""
-    local prop_items = ctx:get_property("_xmjd6_zzc_items") or ""
-    local prop_mode = ctx:get_property("_xmjd6_zzc_mode") or ""
-    local prop_target = ctx:get_property("_xmjd6_zzc_target") or ""
-    local prop_origin = ctx:get_property("_xmjd6_zzc_origin") or ""
-    local prop_display = ctx:get_property("_xmjd6_zzc_display") or ""
-    local prop_replaced = ctx:get_property("_xmjd6_zzc_replaced") or ""
-    local prop_cmd_candidates = ctx:get_property("_xmjd6_zzc_cmd_candidates") or ""
-    local prop_shorten_idx = tonumber(ctx:get_property("_xmjd6_zzc_shorten_idx") or "") or 1
-    if prop_stage == "" and prop_word == "" and prop_items == "" then return false end
-    local replace_placeholder = prop_stage == "collect"
-        and prop_mode == "replace"
-        and prop_target ~= ""
-        and prop_items == ""
-        and prop_word ~= ""
-        and prop_word == prop_display
-    local items = core.deserialize_items(prop_items)
-    if (not items or #items == 0) and prop_word ~= "" and not replace_placeholder then
-        items = core.items_from_text(prop_word) or {}
-    end
-    state.active = true
-    state.stage = prop_stage ~= "" and prop_stage or "collect"
-    state.items = items or {}
-    state.mode = prop_mode ~= "" and prop_mode or "make"
-    state.target_code = prop_target or ""
-    state.origin_input = prop_origin or ""
-    state.display_word = prop_display ~= "" and prop_display or prop_word or ""
-    state.replaced_word = prop_replaced or ""
-    state.shorten_idx = prop_shorten_idx
-    state.command_candidates = {}
-    for line in prop_cmd_candidates:gmatch("[^\n]+") do
-        state.command_candidates[#state.command_candidates + 1] = line
-    end
-    core.set_state_items(state.items)
-    core.set_current_stage(state.stage)
-    return true
+    return state_model.restore_from_context(ctx, state, core)
 end
 
 local function sync_state_from_context_if_needed(ctx)
-    if not (ctx and ctx.get_property) then return false end
-    local prop_stage = ctx:get_property("_xmjd6_zzc_stage") or ""
-    if prop_stage == "" then return false end
-    if (not state.active) or state.stage ~= prop_stage then
-        return restore_state_from_context(ctx)
-    end
-    return false
+    return state_model.sync_from_context_if_needed(ctx, state, core)
 end
 
 local function context_has_active_state(ctx)
-    if not (ctx and ctx.get_property) then return false end
-    return (ctx:get_property("_xmjd6_zzc_stage") or "") ~= ""
-        or (ctx:get_property("_xmjd6_zzc_word") or "") ~= ""
-        or (ctx:get_property("_xmjd6_zzc_items") or "") ~= ""
+    return state_model.context_has_active_state(ctx)
 end
 
 local function show_selected_code_notice(ctx, word, code)
@@ -518,48 +166,13 @@ local function recover_collect_items(ctx)
     return false
 end
 
-local function menu_candidate_at(menu, index)
-    local ok, cand = pcall(function() return menu:get_candidate_at(index) end)
-    if not ok then return nil end
-    return cand
-end
-
-first_candidate = function(ctx)
-    if not ctx or not ctx.composition or ctx.composition:empty() then return nil end
-    local seg = ctx.composition:back()
-    local menu = seg and seg.menu
-    if not menu then return nil end
-    return menu_candidate_at(menu, 0)
-end
-
-local function selected_candidate(ctx)
-    if not ctx or not ctx.has_menu or not ctx:has_menu() then return nil end
-    local ok, cand = pcall(function() return ctx:get_selected_candidate() end)
-    return ok and cand or nil
-end
-
 local candidate_type = core.candidate_type
 local is_real_candidate = core.is_real_candidate
-
-local function first_real_candidate(ctx)
-    if not ctx or not ctx.composition or ctx.composition:empty() then return nil end
-    local seg = ctx.composition:back()
-    local menu = seg and seg.menu
-    if not menu then return nil end
-    for i = 0, 9 do
-        local cand = menu_candidate_at(menu, i)
-        if not cand then break end
-        if is_real_candidate(cand) then
-            return cand
-        end
-    end
-    return nil
-end
-
-current_action_candidate = function(ctx)
-    local cand = selected_candidate(ctx)
-    if is_real_candidate(cand) then return cand end
-    return first_real_candidate(ctx)
+local menu_candidate_at = candidates.menu_candidate_at
+local first_candidate = candidates.first_candidate
+local selected_candidate = candidates.selected_candidate
+local function current_action_candidate(ctx)
+    return candidates.current_action_candidate(ctx, is_real_candidate)
 end
 
 local function probe_first_candidate(ctx, code)
@@ -1156,17 +769,9 @@ local function startswith(text, prefix)
     return type(text) == "string" and type(prefix) == "string" and text:sub(1, #prefix) == prefix
 end
 
-local function resolve_length_key(key, ch)
-    return length_keys[ch or ""] or length_keys[key or ""]
-end
-
-local function resolve_index_key(key, ch)
-    return index_keys[ch or ""] or index_keys[key or ""]
-end
-
-local function resolve_collect_select_key(key, ch)
-    return resolve_index_key(key, ch) or collect_select_keys[ch or ""] or collect_select_keys[key or ""]
-end
+local resolve_length_key = keys.resolve_length_key
+local resolve_index_key = keys.resolve_index_key
+local resolve_collect_select_key = keys.resolve_collect_select_key
 
 local function waiting_length_confirm(ctx)
     if state.stage ~= "collect" or state.mode == "replace" then return false end
@@ -1388,15 +993,12 @@ local function finalize_with_length(ctx, len, env)
     return finalize_current(ctx, env, { len = len, direct_code = direct_code })
 end
 
-local function handoff_length_to_filter(ctx, len, ch)
-    if not ctx or not len then return kAccepted end
-    if ctx.set_property then ctx:set_property("_xmjd6_zzc_len", tostring(len)) end
-    local suffix = ch and ch ~= "" and ch or tostring(len)
-    local word = core.buffer_word() or state.display_word or ""
-    ctx.input = "\\" .. word .. suffix
-    sync_state(ctx)
-    refresh_context(ctx)
-    return kAccepted
+local function finalize_literal_length(ctx, env, len)
+    if not len or state.stage ~= "collect" or state.mode ~= "make" then return false end
+    if not waiting_length_confirm(ctx) then return false end
+    if ctx and ctx.set_property then ctx:set_property("_xmjd6_zzc_len", tostring(len)) end
+    finalize_current(ctx, env, { len = len })
+    return state.stage ~= "collect"
 end
 
 local function push_code_char(ctx, ch)
@@ -1599,10 +1201,6 @@ local function processor(key_event, env)
     if state.active and not context_has_active_state(ctx) then
         clear_state_only(ctx)
     end
-    if ctx and ctx.get_property and ctx:get_property("_xmjd6_zzc_finalize") == "1" then
-        clear_state_only(ctx)
-        if ctx.set_property then ctx:set_property("_xmjd6_zzc_finalize", "") end
-    end
     local current_input = ctx and ctx.input or ""
     sync_state_from_context_if_needed(ctx)
     local ch = event_char(key_event)
@@ -1632,18 +1230,11 @@ local function processor(key_event, env)
                 if (ctx.input or "") ~= "" and (ctx.input or "") ~= "\\" then
                     capture_current_candidate(ctx)
                 end
-                recover_collect_items(ctx)
                 if #state.items > 0 then
                     return finalize_current(ctx, env, { direct_code = state.target_code })
                 end
                 reset(ctx)
                 return kAccepted
-            end
-            if state.stage == "collect" and state.mode == "make" then
-                recover_collect_items(ctx)
-                if #state.items > 0 then
-                    return finalize_current(ctx, env)
-                end
             end
         end
         return kNoop
@@ -1667,6 +1258,10 @@ local function processor(key_event, env)
     end
     if not state.active then
         restore_state_from_context(ctx)
+    end
+    if state.active and is_enter_key(key) then
+        reset(ctx)
+        return kAccepted
     end
     if state.stage == "resolve_code" then
         if is_backspace(key) or key == "Escape" or key == "escape" then
@@ -1882,7 +1477,7 @@ local function processor(key_event, env)
         local idx = resolve_index_key(key, ch)
         if waiting_length_confirm(ctx) and idx and idx >= 1 and idx <= 9 then
             if direct_len then
-                return handoff_length_to_filter(ctx, direct_len, ch)
+                return finalize_with_length(ctx, direct_len, env)
             end
             if invalid_length_digit(idx, direct_len) then
                 reset(ctx)
@@ -1935,7 +1530,7 @@ local function processor(key_event, env)
         local length_idx = resolve_index_key(key, ch)
         if waiting_length_confirm(ctx) and length_idx and length_idx >= 1 and length_idx <= 9 then
             if direct_len then
-                return handoff_length_to_filter(ctx, direct_len, ch)
+                return finalize_with_length(ctx, direct_len, env)
             end
             if invalid_length_digit(length_idx, direct_len) then
                 reset(ctx)
@@ -1949,7 +1544,7 @@ local function processor(key_event, env)
                 local cand_len, cand_text = selected_length_candidate(ctx, idx)
                 if cand_len then
                     if ctx then ctx:clear() end
-                    return handoff_length_to_filter(ctx, cand_len, cand_text)
+                    return finalize_with_length(ctx, cand_len, env)
                 end
             end
             capture_candidate_at(ctx, idx)
@@ -1958,7 +1553,7 @@ local function processor(key_event, env)
     end
 
     if direct_len and state.mode ~= "replace" and waiting_length_confirm(ctx) then
-        return handoff_length_to_filter(ctx, direct_len, ch)
+        return finalize_with_length(ctx, direct_len, env)
     end
 
     if state.stage == "collect" then
@@ -1982,8 +1577,7 @@ local function processor(key_event, env)
             local cand = current_action_candidate(ctx) or first_candidate(ctx)
             local cand_len = cand and length_from_candidate_text(cand.text)
             if cand_len and ready_for_length(ctx) then
-                ctx:clear()
-                return handoff_length_to_filter(ctx, cand_len, cand.text)
+                return finalize_current(ctx, env, { len = cand_len })
             end
             local text = capture_current_candidate(ctx)
             if not text then return kAccepted end
@@ -2060,4 +1654,5 @@ return {
     fini = fini,
     is_active = module_is_active,
     capture_current_candidate = module_capture_current_candidate,
+    finalize_literal_length = finalize_literal_length,
 }

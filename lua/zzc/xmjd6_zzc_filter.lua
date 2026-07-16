@@ -3,31 +3,11 @@
 -- 更新：2026-07-02
 
 local core = require("zzc.xmjd6_zzc_core")
+local processor = require("zzc.xmjd6_zzc_processor")
+local length_inputs = require("zzc.xmjd6_zzc_keys").length_keys
 local COLLECT_CANDIDATE_LIMIT = 30
-
-
-local length_inputs = {
-    ["3"] = 3, ["4"] = 4, ["5"] = 5, ["6"] = 6,
-    ["三"] = 3, ["四"] = 4, ["五"] = 5, ["六"] = 6,
-}
-local function split_length_input(input)
-    input = input or ""
-    local last_char = input
-    local prefix = ""
-    if utf8 and utf8.len and utf8.len(input) and utf8.len(input) > 1 then
-        local start = utf8.offset(input, -1)
-        last_char = start and input:sub(start) or input
-        prefix = start and input:sub(1, start - 1) or ""
-    elseif #input > 1 then
-        last_char = input:sub(-1)
-        prefix = input:sub(1, -2)
-    end
-    return prefix, length_inputs[last_char]
-end
-
-local function is_cjk_text(text)
-    return text and text:match("[\228-\233][\128-\191][\128-\191]") ~= nil
-end
+local DEFAULT_ZZC_HINT_TEXT = "自造词ing"
+local DEFAULT_ZZC_CANDIDATE_HINT_TEXT = "自造词"
 
 local is_real_candidate = core.is_real_candidate
 
@@ -40,111 +20,38 @@ end
 
 local with_reminder
 
-local function maybe_finalize_from_input(ctx, input_text, env, input)
-    local prefix, len = split_length_input(input_text)
-    local prop_stage = ctx and ctx.get_property and ctx:get_property("_xmjd6_zzc_stage") or ""
-    local prop_word = ctx and ctx.get_property and ctx:get_property("_xmjd6_zzc_word") or ""
-    local prop_items = ctx and ctx.get_property and ctx:get_property("_xmjd6_zzc_items") or ""
-    local literal_prefix = prefix or ""
-    local has_literal_trigger = literal_prefix:sub(1, 1) == "\\"
-    if has_literal_trigger then
-        literal_prefix = literal_prefix:sub(2)
-    end
-    local literal_length_input = has_literal_trigger and literal_prefix ~= "" and is_cjk_text(literal_prefix) and not literal_prefix:match("^[A-Za-z;']+$")
-    if not len or (core.current_stage() == "off" and prop_stage == "" and prop_word == "" and not literal_length_input) then return false end
-    if ctx and ctx.set_property then ctx:set_property("_xmjd6_zzc_len", tostring(len)) end
-    if (not core.state_items or #core.state_items == 0) and prop_items ~= "" then
-        local items = core.deserialize_items(prop_items)
-        if items and #items > 0 then
-            core.set_state_items(items)
-            if core.current_stage() == "off" then core.set_current_stage("collect") end
-        end
-    end
-    if prefix:sub(1, 1) == "\\" then
-        prefix = prefix:sub(2)
-    end
-    if prefix and prefix ~= "" then
-        local current = core.buffer_word() or ""
-        if current == "" or prefix:sub(1, #current) ~= current then
-            if is_cjk_text(prefix) and not prefix:match("^[A-Za-z;']+$") then
-                local items, err = core.items_from_text(prefix)
-                if not items and err and tostring(err):match("^ambiguous_char:") then
-                    items = core.raw_items_from_text(prefix)
-                end
-                if not items then return false end
-                core.set_state_items(items)
-            else
-                if not input then return false end
-                local first
-                for cand in input:iter() do
-                    first = cand
-                    break
-                end
-                if not is_real_candidate(first) or not is_cjk_text(first.text) then return false end
-                local ok = core.append_candidate_text(first.text, nil)
-                if not ok then return false end
-            end
-        end
-    end
-    local word = core.buffer_word() or ""
-    if word == "" and prop_word ~= "" then
-        word = prop_word
-        if not core.state_items or #core.state_items == 0 then
-            local items = core.items_from_text(word)
-            if items then core.set_state_items(items) end
-        end
-    end
-    if word == "" then return false end
-    local direct_code = prefix and prefix:match("^[A-Za-z;']+$") and prefix or nil
-    local code
-    if direct_code and #direct_code == len then
-        code = core.save_word_at_code(core.state_items or {}, direct_code)
+local function literal_length_input(ctx, input_text)
+    if not (ctx and ctx.get_property and type(input_text) == "string") then return nil end
+    if ctx:get_property("_xmjd6_zzc_stage") ~= "collect" or ctx:get_property("_xmjd6_zzc_mode") ~= "make" then return nil end
+    local word = ctx:get_property("_xmjd6_zzc_word") or ""
+    if word == "" then return nil end
+    local suffix
+    if utf8 and utf8.offset then
+        local start = utf8.offset(input_text, -1)
+        suffix = start and input_text:sub(start) or input_text
     else
-        code = core.enqueue_pending(core.state_items or {}, len)
+        suffix = input_text:sub(-1)
     end
-    if not code then
-        local choices = core.code_choices_for_text(word, len, 9)
-        if choices and choices[1] then
-            if #choices == 1 then
-                local choice = choices[1]
-                code = core.save_word_at_code(choice.items or core.state_items or {}, choice.code)
-            end
-        end
-        if not code and choices and choices[1] then
-            local rows = {}
-            for _, choice in ipairs(choices) do
-                rows[#rows + 1] = choice.word .. "\t" .. choice.code
-            end
-            if ctx and ctx.set_property then
-                ctx:set_property("_xmjd6_zzc_stage", "resolve_code")
-                ctx:set_property("_xmjd6_zzc_word", word)
-                ctx:set_property("_xmjd6_zzc_items", core.serialize_items(core.state_items or {}))
-                ctx:set_property("_xmjd6_zzc_len", tostring(len))
-                ctx:set_property("_xmjd6_zzc_mode", "make")
-                ctx:set_property("_xmjd6_zzc_cmd_candidates", table.concat(rows, "\n"))
-            end
-            core.set_current_stage("resolve_code")
-            return false
-        end
-    end
-    if not code then
-        return false
-    end
-    ctx:clear()
-    core.set_state_items({})
-    core.set_current_stage("off")
-    if ctx and ctx.set_property then
-        ctx:set_property("_xmjd6_zzc_stage", "")
-        ctx:set_property("_xmjd6_zzc_word", "")
-        ctx:set_property("_xmjd6_zzc_items", "")
-        ctx:set_property("_xmjd6_zzc_len", "")
-        ctx:set_property("_xmjd6_zzc_finalize", "1")
-    end
-    env.engine:commit_text(word)
-    return true
+    local len = length_inputs[suffix]
+    if not len or input_text ~= "\\" .. word .. suffix then return nil end
+    return len
 end
 
-local function state_candidate(ctx, code)
+local function zzc_hint_text(env)
+    if env and env._zzc_hint_text ~= nil then
+        return env._zzc_hint_text
+    end
+    return DEFAULT_ZZC_HINT_TEXT
+end
+
+local function zzc_candidate_hint_text(env)
+    if env and env._zzc_candidate_hint_text ~= nil then
+        return env._zzc_candidate_hint_text
+    end
+    return DEFAULT_ZZC_CANDIDATE_HINT_TEXT
+end
+
+local function state_candidate(ctx, code, env)
     local prop_stage = ctx and ctx.get_property and ctx:get_property("_xmjd6_zzc_stage") or ""
     local prop_word = ctx and ctx.get_property and ctx:get_property("_xmjd6_zzc_word") or ""
     local prop_mode = ctx and ctx.get_property and ctx:get_property("_xmjd6_zzc_mode") or ""
@@ -225,7 +132,7 @@ local function state_candidate(ctx, code)
     end
     local end_pos = #code
     if end_pos < 1 then end_pos = 1 end
-    local comment = "自造词ing"
+    local comment = zzc_hint_text(env)
     if prop_stage == "resolve_notice" and prop_target ~= "" then
         comment = "已选编码 " .. prop_target
     end
@@ -319,6 +226,8 @@ local function yield_code_choice_candidates(ctx, code)
     local idx = 0
     local yielded = false
     local zero_width_space = string.char(0xE2, 0x80, 0x8B)
+    local length_text = { [3] = "三", [4] = "四", [5] = "五", [6] = "六" }
+    local len = tonumber(ctx and ctx.get_property and ctx:get_property("_xmjd6_zzc_len") or "")
     for line in rows_text:gmatch("[^\n]+") do
         local word, choice_code = line:match("^([^\t]+)\t([^\t%s]+)")
         if word and choice_code then
@@ -328,6 +237,7 @@ local function yield_code_choice_candidates(ctx, code)
                 display_word = word .. zero_width_space:rep(idx - 1)
             end
             local cand = Candidate("zzc_code_choice", 0, #code, display_word, choice_code)
+            cand.preedit = "\\" .. word .. (length_text[len] or tostring(len or ""))
             cand.quality = 10080 - idx
             yield(cand)
             yielded = true
@@ -359,14 +269,14 @@ with_reminder = function(cand)
     return cand
 end
 
-local function yield_zzc_cover_candidates(input_text, cover, preedit_text)
+local function yield_zzc_cover_candidates(input_text, cover, preedit_text, env)
     cover = cover or core.zzc_cover_for_input(input_text)
     if not cover then return nil end
     local first = true
     local yielded = false
     if cover.rows then
         for _, row in ipairs(cover.rows) do
-            local cand = Candidate("zzc_cover", 0, #input_text, row.word, "自造词")
+            local cand = Candidate("zzc_cover", 0, #input_text, row.word, zzc_candidate_hint_text(env))
             cand.quality = 10060
             if first then
                 cand.preedit = preedit_text or cand.preedit
@@ -380,11 +290,11 @@ local function yield_zzc_cover_candidates(input_text, cover, preedit_text)
     return cover
 end
 
-local function yield_append_candidates(input_text, cover)
+local function yield_append_candidates(input_text, cover, env)
     if not cover or not cover.append_rows then return false end
     local yielded = false
     for _, row in ipairs(cover.append_rows) do
-        local cand = Candidate("zzc_append", 0, #input_text, row.word, "自造词")
+        local cand = Candidate("zzc_append", 0, #input_text, row.word, zzc_candidate_hint_text(env))
         cand.quality = 8000
         yield(with_reminder(cand))
         yielded = true
@@ -447,10 +357,14 @@ local function filter(input, env)
     local code = ctx and ctx.input or ""
     local prop_stage = ctx and ctx.get_property and ctx:get_property("_xmjd6_zzc_stage") or ""
     local prop_mode = ctx and ctx.get_property and ctx:get_property("_xmjd6_zzc_mode") or ""
-    if maybe_finalize_from_input(ctx, code, env, input) then
-        return
+    local literal_len = literal_length_input(ctx, code)
+    if literal_len and processor.finalize_literal_length(ctx, env, literal_len) then
+        code = ctx and ctx.input or ""
+        prop_stage = ctx and ctx.get_property and ctx:get_property("_xmjd6_zzc_stage") or ""
+        prop_mode = ctx and ctx.get_property and ctx:get_property("_xmjd6_zzc_mode") or ""
+        if prop_stage ~= "resolve_code" then return end
     end
-    local state_cand = state_candidate(ctx, code)
+    local state_cand = state_candidate(ctx, code, env)
     local prop_target = ctx and ctx.get_property and ctx:get_property("_xmjd6_zzc_target") or ""
     local collect_with_code = prop_stage == "collect"
         and (prop_mode == "replace" or prop_mode == "append")
@@ -497,18 +411,18 @@ local function filter(input, env)
     if code ~= "" and (not state_cand or collect_with_code) then
         local cover = core.zzc_order_for_input and core.zzc_order_for_input(lookup_code) or core.zzc_cover_for_input(lookup_code)
         if cover and cover.has_order then
-            local yielded = yield_zzc_cover_candidates(code, cover, collect_preedit) ~= nil
-            yielded = yield_append_candidates(code, cover) or yielded
+            local yielded = yield_zzc_cover_candidates(code, cover, collect_preedit, env) ~= nil
+            yielded = yield_append_candidates(code, cover, env) or yielded
             yielded = yield_filtered_input_candidates(input, cover, collect_preedit) or yielded
             return
         end
-        cover = yield_zzc_cover_candidates(code, cover, collect_preedit)
+        cover = yield_zzc_cover_candidates(code, cover, collect_preedit, env)
         if cover then
             local yielded = cover.rows and cover.rows[1] ~= nil
             if not yielded then
                 yielded = yield_filtered_input_candidates(input, cover, collect_preedit) or yielded
             end
-            yielded = yield_append_candidates(code, cover) or yielded
+            yielded = yield_append_candidates(code, cover, env) or yielded
             if cover.rows and cover.rows[1] then
                 yielded = yield_filtered_input_candidates(input, cover, collect_preedit) or yielded
             end
@@ -531,5 +445,19 @@ local function filter(input, env)
     local yielded = yield_input_candidates(input, false, false, collect_preedit)
 end
 
-return filter
+local function init(env)
+    if not env then return end
+    local config = env and env.engine and env.engine.schema and env.engine.schema.config
+    if config and config.get_string then
+        env._zzc_hint_text = config:get_string("zzc/hint_text")
+        env._zzc_candidate_hint_text = config:get_string("zzc/candidate_hint_text")
+    end
+    if env._zzc_hint_text == nil then
+        env._zzc_hint_text = DEFAULT_ZZC_HINT_TEXT
+    end
+    if env._zzc_candidate_hint_text == nil then
+        env._zzc_candidate_hint_text = DEFAULT_ZZC_CANDIDATE_HINT_TEXT
+    end
+end
 
+return { init = init, func = filter }
