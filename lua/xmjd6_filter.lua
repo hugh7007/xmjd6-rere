@@ -8,6 +8,7 @@ local candidate_util = require("common.xmjd6_candidate")
 local reverse = require("common.xmjd6_reverse")
 local state = require("common.xmjd6_state")
 local registry = require("common.xmjd6_cache_registry")
+local english_input = require("xmjd6_english_input")
 
 local string_match = string.match
 local string_find = string.find
@@ -219,6 +220,10 @@ local function filter(input, env)
         end
     end
 
+    -- i键英文快捷输入：隐藏前导i，preedit只显示英文部分
+    local english_preedit = (context:get_option("english_input") and english_input.is_english_input(input_text))
+        and string_sub(input_text, 2) or nil
+
     local first = true
     local hint_count = 0
     local hint_limit = env.engine.schema.page_size or 5
@@ -244,7 +249,11 @@ local function filter(input, env)
             end
         end
 
-        yield(state.wrap_append_if_needed(cand, env, context, input_text, was_first))
+        local out_cand = state.wrap_append_if_needed(cand, env, context, input_text, was_first)
+        if english_preedit and out_cand then
+            out_cand.preedit = english_preedit
+        end
+        yield(out_cand)
         ::continue::
     end
     env._input_len_cache = nil

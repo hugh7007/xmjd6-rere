@@ -101,6 +101,8 @@ switches:
     states: [ 地球文, 火星文 ] #火星文
   - name: full_shape  # custom.yaml的开关10
     states: [ 半角, 全角 ]
+  - name: english_input  # custom.yaml的开关11
+    states: [ 英文输入关, 英文输入开 ]
 
 ascii_composer:
   switch_key:
@@ -241,6 +243,7 @@ key_binder:
     - { when: always, accept: F6, select: .next }
     - { when: always, accept: F7, toggle: jffh }  # 电脑的繁体切换
     - { when: always, accept: "Control+backslash", toggle: emoji_cn }  #快捷电脑的快捷
+    - { when: always, accept: "Control+i", toggle: english_input }  # i键英文快捷输入切换
     # - { when: has_menu, accept: "&", toggle: emoji_cn }	#手机快捷切换表情
     # - { when: has_menu, accept: "%", toggle: mars } #手机快捷火星文切换
     # - { when: has_menu, accept: "*", toggle: jffh } #手机快捷简繁切换

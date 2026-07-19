@@ -20,6 +20,8 @@ local punctuation = require("xmjd6_punctuation")
 local kAccepted = 1
 local kNoop = 2
 
+local english_input = require("xmjd6_english_input")
+
 local CHAR_CACHE = key_event_util.char_cache
 
 local function _s2set(str)
@@ -63,6 +65,9 @@ end
 local _topup_eval_input = topup.eval_input
 
 local _space_guard_process = commit_guard.process_space
+local _english_handle_space = english_input.handle_space
+local _english_handle_alpha = english_input.handle_alpha_press
+local _english_handle_backspace = english_input.handle_backspace
 
 local _is_reverse_input = key_event_util.is_reverse_input
 local _passthrough_alpha_key = key_event_util.passthrough_alpha
@@ -95,6 +100,11 @@ local function processor(key_event, env)
         auto_fallback = ctx:get_option("auto_fallback"),
     }
 
+    -- i键英文快捷输入：空格仅上屏英文部分（去掉前导i）
+    local english_enabled = ctx:get_option("english_input")
+    local english_space_result = (english_enabled and not sf) and _english_handle_space(env, ctx, key_event, clean_key, repr, kc, no_modifier) or nil
+    if english_space_result then return english_space_result end
+
     local space_result = (not sf) and _space_guard_process(env, ctx, key_event, clean_key, repr, kc, no_modifier) or nil
     if space_result then return space_result end
 
@@ -123,6 +133,10 @@ local function processor(key_event, env)
     end
     if kc < 32 or kc >= 127 then
         if not _is_space_key(kc, clean_key, repr) then _space_guard_clear(env) end
+        -- i键英文模式：退格处理
+        local english_enabled = ctx:get_option("english_input")
+        local english_backspace = (english_enabled and not sf) and _english_handle_backspace(env, ctx, key_event, clean_key, repr, kc, no_modifier) or nil
+        if english_backspace then return english_backspace end
         return kNoop
     end
     
@@ -142,6 +156,15 @@ local function processor(key_event, env)
 
     local direct_symbols_result = _handle_direct_symbols_alpha_press(env, ctx, key, opts)
     if direct_symbols_result then return direct_symbols_result end
+
+    -- i键英文快捷输入：拦截顶功，阻止i+英文时触发顶功
+    -- 必须在auto_fallback和顶功逻辑之前，否则顶功会先截断i
+    local english_enabled = ctx:get_option("english_input")
+    local english_alpha_result = (english_enabled and not sf and not caps_on) and _english_handle_alpha(env, ctx, key, clean_key, kc, no_modifier) or nil
+    if english_alpha_result then
+        _space_guard_note(env, ctx, ctx.input or "", key)
+        return kAccepted
+    end
 
     local auto_fallback_result = _topup_auto_fallback(env, ctx, key, opts)
     if auto_fallback_result then return auto_fallback_result end

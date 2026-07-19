@@ -36,6 +36,7 @@ patch:
   switches/@8/reset: 1               # [ 简约, 630提示 ]
   switches/@9/reset: 0               # [ 地球文, 火星文 ]
   switches/@10/reset: 0              # [ 半角, 全角 ]
+  switches/@11/reset: 0              # [ 英文输入关, 英文输入开 ]
 
   # ==================== 模块加载配置 ====================
   # processors 索引：@0 xmjd6_zzc_processor  @1 xmjd6_processor  @2 ascii_composer
