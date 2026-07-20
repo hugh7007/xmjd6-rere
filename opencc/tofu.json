@@ -1,0 +1,16 @@
+{
+  "name": "Tofu Characters to Traditional Chinese",
+  "segmentation": {
+    "type": "mmseg",
+    "dict": {
+      "type": "text",
+      "file": "tofu.txt"
+    }
+  },
+  "conversion_chain": [{
+    "dict": {
+      "type": "text",
+      "file": "tofu.txt"
+    }
+  }]
+}

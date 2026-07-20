@@ -1,30 +1,28 @@
-# coding: utf-8
-# 键道6用户词库
-# 该文件以UTF-8编码保存
+#	coding:	utf-8
+#	键道6用户词库
+#	该文件以UTF-8编码保存
 ---
-name: xmjd6.gbk
-version: "Q1"
-sort: original
-import_tables:
-  - xmjd6.cx
+name:	xmjd6.gbk
+version:	"Q1"
+sort:	original
 ...
-# 编码各字段以制表符（Tab）分隔
-# ==============================
-# Tab符（右滑T）或（长按G）点Tab
-# ==============================
-# 示例 （记得把注释符号 # 去掉）：
-# 词组bmmso
-# # 微信表情 # #
-[让我看看]	wkk
-[捂脸]	wwl
-[旺柴]	wwc
-[苦涩]	wkl
+#	编码各字段以制表符（Tab）分隔
+#	==============================
+#	Tab符（右滑T）或（长按G）点Tab
+#	==============================
+#	示例	（记得把注释符号	#	去掉）：
+#	词组	bmmso
+
+
+#	微信表情
+	wxk
 [微笑]	wwx
 [撇嘴]	wpz
 [色]	wse
 [发呆]	wfd
 [得意]	wdy
 [流泪]	wll
+[坏笑]	whx
 [害羞]	whx
 [闭嘴]	wbz
 [睡]	web
@@ -42,7 +40,7 @@ import_tables:
 [愉快]	wyk
 [白眼]	wby
 [傲慢]	wxm
-[困]	wkw
+[困]	kw
 [惊恐]	wjk
 [流汗]	wlh
 [憨笑]	whx
@@ -59,13 +57,11 @@ import_tables:
 [擦汗]	wch
 [抠鼻]	wkb
 [鼓掌]	wgq
-[坏笑]	whx
 [左哼哼]	whh
-[右哼哼]	whhh
+[右哼哼]	whh
 [哈欠]	whq
 [鄙视]	wbe
 [委屈]	wwq
-[快哭了]	wkkl
 [阴险]	wyx
 [亲亲]	wqq
 [可怜]	wkl
@@ -114,20 +110,20 @@ import_tables:
 [加油加油]	wjy
 [哇]	wws
 [红包]	whb
-[發]	wfs
+[发]	wfs
 [福]	wfj
 [翻白眼]	wby
-[666]	wlll
+[666]	w66
 [让我看看]	wkk
 [叹气]	wtq
 [苦涩]	wks
 [裂开]	wlk
-桀桀桀	jjj
-[让我看看]	kk
-[捂脸]	wl
-[旺柴]	wc
-[苦涩]	kl
-〇	lga
+[快哭了]	wkk
+[破涕为笑]	wpt
+🌚	hl
+🌝	bl
+
+#	补充
 冖	a
 讠	a
 礻	aio
@@ -136,7 +132,6 @@ import_tables:
 冘	aua
 日	i
 宀	oa
-辶	oa
 忄	oi
 灬	ooo
 氵	ov
@@ -148,6 +143,14 @@ import_tables:
 丬	vi
 啇	vouia
 疒	vuov
+𧾷	iviv
+
+𧾷	iviv
+𰃮	ouoa
+㐬	vaoui
+𰁜	viiuo
+
+〇	lga
 的	deuiavvuao
 的	dkuiavvuao
 一	ykv

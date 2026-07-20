@@ -1,0 +1,22 @@
+# Rime dictionary
+# encoding: utf-8
+# 由 scripts/apply_candidate_order.py 根据 candidate_order.txt 生成。
+
+---
+name: xmjd6.candidate_order
+version: "2026-07-03"
+sort: original
+columns:
+  - text
+  - code
+...
+
+赵云	qzyw
+兆运	qzywu
+原有	ytyd
+缘由	ytyda
+二选	xjxt
+细菌小体	xjxta
+老蚕	lzcfuv
+AI	ai
+老惨	lzcf

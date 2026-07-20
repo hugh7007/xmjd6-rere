@@ -32,15 +32,18 @@ import_tables:
 ### 内置词库@吅吅大山
 # ---------------------------------------
 # 扩展：单字
-  - xmjd6.user   #为了词频拿到上面来了
-  - xmjd6.zzc
+  - xmjd6.user
   - xmjd6.danzi
 # ---------------------------------------
 # 扩展：词组
   - xmjd6.cizu
+  ## 扩展：525声笔笔词组
+  - xmjd6.wxw
+  - xmjd6.same_code_short_first  # 同码候选短词优先（自动整理生成，需在 wxw 后面）
+  - xmjd6.candidate_order  # 调频固化词库（由 scripts/apply_candidate_order.py 生成）
 # ---------------------------------------
 # 扩展：符号
-  # - xmjd6.fuhao
+  - xmjd6.fuhao
 # ---------------------------------------
 # 扩展：补充码表
   # - xmjd6.buchong
@@ -49,26 +52,33 @@ import_tables:
   # - xmjd6.lianjie
 # ---------------------------------------
 # 扩展：英文词库
-  # - xmjd6.yingwen
+  # - xkjd6.yingwen
 # ---------------------------------------
 # 扩展：超级字词
-  # - xmjd6.chaojizici
+  - xmjd6.chaojizici
 # ---------------------------------------
-## 扩展：525声笔笔词组
-  - xmjd6.core
-# ---------------------------------------
-## 扩展：用户词库
-  # - xmjd6.user   #词频改到上面去了，所以临时注释了
-# ---------------------------------------
-## 扩展：附加词语----
-  - xmjd6.fjcy
-  # - xmjd6.zidingyi
-# ---------------------------------------
-# =======================================
 
+## 扩展：附加词语-
+  - xmjd6.fjcy
+# # =======================================
+  # - xkjd6.ssb1
+# ## 扩展：用户词库
+  # - xkjd6.hanyu
+  # - xkjd6.lanlao
+  # - xkjd6.yinyang
+  # - xkjd6.changyong
+  # - xkjd6.liuxing
+  # - xkjd6.tangshi
+  # - xkjd6.kaifa
+  # - xkjd6.yixue
+  # - xkjd6.jisuanji
+  # - xkjd6.qiche
+  # - xkjd6.liangzi
+  # - xkjd6.lanlao2
+  # 更离谱的诗词
+  - xkjd6.wanne
 ## 自定义词库：自己做的词库，自己维护
-  # - xmjd6.richang
-  
+  # - jdl_Z
 
 # =======================================
 ### 外挂词库

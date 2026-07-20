@@ -1,13 +1,11 @@
 # Rime dictionary
 # encoding: utf-8
-# 单字码表维护来源@雪松：https://github.com/amorphobia/rime-jiandao/tree/master/dicts
-# 2026年5月4日
 ---
 name: xmjd6.danzi
-version: "2026年5月5日"
-sort: by_weight
+version: "Q1"
+sort: original
 ...
-
+#region
 不	b
 宾	bb
 滨	bba

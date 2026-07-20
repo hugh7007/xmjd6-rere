@@ -3,9 +3,14 @@
 
 schema:
   schema_id: xmjd6.cx
-  name: 键道6反查·勿选
+  name: 键道6反查
   version: "1"
 
+switches:
+  - name: ascii_mode
+    reset: 0
+    states: [ 中文, 西文 ]
+    
 engine:
   processors:
     - ascii_composer
@@ -37,12 +42,12 @@ speller:
   auto_select: true
   auto_select_pattern: ^;.$|^\w{6}$
   algebra:
-    - derive/^.(.*)$/`$1/
-    - derive/^(.).(.*)$/$1`$2/
-    - derive/^(..).(.*)$/$1`$2/
-    - derive/^(...).(.*)$/$1`$2/
-    - derive/^(....).(.*)$/$1`$2/
-    - derive/^(.....).$/$1`/
+    - derive/^[a-z;]([a-z;]*)$/`$1/
+    - derive/^([a-z;])[a-z;]([a-z;]*)$/$1`$2/
+    - derive/^([a-z;]{2})[a-z;]([a-z;]*)$/$1`$2/
+    - derive/^([a-z;]{3})[a-z;]([a-z;]*)$/$1`$2/
+    - derive/^([a-z;]{4})[a-z;]([a-z;]*)$/$1`$2/
+    - derive/^([a-z;]{5})[a-z;]$/$1`/
 
 translator:
   dictionary: xmjd6.cx

@@ -1,0 +1,19 @@
+{
+  "name": "Translate Chinese Text to Mars Text",
+  "segmentation": {
+    "type": "mmseg",
+    "dict": {
+      "type": "text",
+      "file": "mars.txt"
+    }
+  },
+  "conversion_chain": [{
+    "dict": {
+      "type": "group",
+      "dicts": [{
+        "type": "text",
+        "file": "./mars.txt"
+      }]
+    }
+  }]
+}

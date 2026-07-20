@@ -1,9 +1,0 @@
-# 此文件用来控制上传到 iCloud 的行为
-# #符号表示注释
-# 其余内容每一行为一个正则表达式，只有匹配正则的文件才会上传至 iCloud
-
-# 手机造词待合并数据上传到 iCloud。
-.*[.]zzc[.]dict[.]yaml$
-
-# 电脑合并后的 reset marker 必须上传到 iCloud，再下发到手机键盘文件。
-.*[/]zzc_state[/]zzc_reset[.]tsv$

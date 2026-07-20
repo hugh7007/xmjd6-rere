@@ -1,0 +1,1 @@
+return require("eng.eng_wrapper").segmentor
