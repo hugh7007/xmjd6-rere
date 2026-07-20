@@ -175,7 +175,7 @@ jobs:
 
     - name: Convert .dict.yaml files to .txt using Bash
       run: |
-        for dict_file in xmjd6.core.dict.yaml xmjd6.danzi.dict.yaml xmjd6.cizu.dict.yaml xmjd6.fjcy.dict.yaml
+        for dict_file in xmjd6.wxw.dict.yaml xmjd6.danzi.dict.yaml xmjd6.cizu.dict.yaml xmjd6.fjcy.dict.yaml
         do
           base=$(basename "$dict_file")
           if [[ "$base" == *.dict.yaml ]]; then
@@ -202,7 +202,7 @@ jobs:
         echo -e "$header" > Rime/xmjd6.header.txt
         
         # 按照指定顺序合并 .txt 文件
-        cat Rime/xmjd6.core.txt \
+        cat Rime/xmjd6.wxw.txt \
             Rime/xmjd6.danzi.txt \
             Rime/xmjd6.cizu.txt \
             Rime/xmjd6.fjcy.txt > Rime/xmjd6.body.txt
