@@ -281,7 +281,7 @@ jobs:
 
     - name: Create Release
       id: create_release
-      uses: shogo82148/actions-create-release@v1
+      uses: shogo82148/actions-create-release@v1.9.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -296,7 +296,7 @@ jobs:
         prerelease: false
 
     - name: Upload Rabbit-xmjd6.zip to Release
-      uses: shogo82148/actions-upload-release-asset@v1
+      uses: shogo82148/actions-upload-release-asset@v1.10.2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -306,7 +306,7 @@ jobs:
         asset_content_type: application/zip
 
     - name: Upload yong-xmjd6.zip to Release
-      uses: shogo82148/actions-upload-release-asset@v1
+      uses: shogo82148/actions-upload-release-asset@v1.10.2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -316,7 +316,7 @@ jobs:
         asset_content_type: application/zip
 
     - name: Upload yong-xmjd6-full.zip to Release
-      uses: shogo82148/actions-upload-release-asset@v1
+      uses: shogo82148/actions-upload-release-asset@v1.10.2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -326,7 +326,7 @@ jobs:
         asset_content_type: application/zip
         
     - name: Upload xmjd6.zip to Release
-      uses: shogo82148/actions-upload-release-asset@v1
+      uses: shogo82148/actions-upload-release-asset@v1.10.2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -336,7 +336,7 @@ jobs:
         asset_content_type: application/zip
         
     - name: Upload dazhu.txt to Release
-      uses: shogo82148/actions-upload-release-asset@v1
+      uses: shogo82148/actions-upload-release-asset@v1.10.2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
