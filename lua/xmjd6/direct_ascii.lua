@@ -106,6 +106,14 @@ local function processor(key_event, env)
         return kNoop
     end
 
+    -- 计算器模式：input 以 = 开头时，所有符号均放行给 speller，
+    -- 让 . , + - * / ( ) 等正常进入编码串参与表达式求值。
+    -- 仅对句号和逗号做此豁免（其他运算符本身已受开关控制或为半角）。
+    if input ~= "" and input:sub(1, 1) == "=" then
+        last_was_number = false
+        return kNoop
+    end
+
     -- 以下是 punct_direct_processor 的符号处理逻辑
     local half_char = punct_info[2]
     local full_char = punct_info[3]

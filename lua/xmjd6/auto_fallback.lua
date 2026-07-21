@@ -97,7 +97,7 @@ local function init(env)
     end
     env.topup_set = string2set(config:get_string("topup/topup_with") or "")
     env.sentence_prefix = config:get_string("sentence_mode/prefix") or "'"
-    env.protected_codes = protected_codes.load()
+    env.protected_codes = protected_codes.load(config)
 end
 
 return { init = init, func = processor }
