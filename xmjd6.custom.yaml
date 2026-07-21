@@ -27,9 +27,6 @@ patch:
   switches/@6/reset: 1                # Emoji
   switches/@7/reset: 1                # 630 简码提示
   switches/@8/reset: 1                # 逐码候选
-  switches/@9/reset: 1                # 动态调频
-  switches/@12/reset: 1               # 英文自动加空格
-  switches/@13/reset: 1               # 连打模式
   switches/@10/reset: 1               # 快符开关,    1=开（候选模式），0=关（直接上屏）
   switches/@14/reset: 1               # 符号\$&/这些会直接上屏；1=开（候选模式），0=关（直接上屏）
   switches/@15/reset: 1               # 等号直接上屏；1=开（候选模式），0=关（直接上屏）
@@ -50,9 +47,9 @@ patch:
   topup/protected_dicts:
     - xmjd6.zidingyi
 
-  # ===== 流式输入（默认关闭） =====
-  # 使用流式输入时，取消下面四行注释。
-  # engine/processors/@13: null       # xmjd6_smart_2
-  # engine/processors/@14: null       # xmjd6_topup_processor
-  # translator/enable_sentence: true
-  # translator/enable_user_dict: true
+  # ==================== 流式输入配置 ====================
+  # 如需启用流式输入，请取消以下注释（删除行首 # 和空格）
+  # 启用 enable_sentence 后，顶功会自动禁用，;'号只作为分隔符
+  # 顶功处理器已整合为 xmjd6_topup_integrated，内部自动检测 enable_sentence
+  # translator/enable_sentence: true     # 启用整句输入
+  # translator/enable_user_dict: true    # 启用用户词典
