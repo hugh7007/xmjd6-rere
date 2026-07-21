@@ -68,6 +68,7 @@ switches:
     states: [ 逐码关, 逐码开 ]
     reset: 1
   - name: candidate_order_enabled
+    states: [ 调频关, 调频开 ]
     reset: 1
   - name: quick_symbol_enabled
     states: [ 快符关, 快符开 ]
@@ -75,8 +76,10 @@ switches:
   - name: embeded_cands
     states: [内嵌正常, 输入框显示候选]
   - name: eng_space
+    states: [ 英文不加空格, 英文自动加空格 ]
     reset: 1
   - name: sentence_mode_enabled
+    states: [ 连打关, 连打开 ]
     reset: 1
   - name: punct_direct_enabled   # 符号直接上屏开关
     states: [ 符号直接上屏, 符号编辑模式 ]
@@ -106,7 +109,9 @@ engine:
     - lua_processor@*xmjd6/eng_quick_processor # i 前缀英文：空格分词、双空格/回车上屏
     - recognizer
     - key_binder    
-    - lua_processor@*xmjd6/xmjd6_topup_integrated  # 整合顶功+空码回退；enable_sentence=true 时自动禁用顶功
+    - lua_processor@*xmjd6/xmjd6_smart_2    # ; 和 ' 均放行给 speller；保留占位以稳定配置索引
+    - lua_processor@*xmjd6/xmjd6_topup_processor   #这个注释后不会顶功，使用流式请注释这两行
+    - lua_processor@*xmjd6/auto_fallback   #空码自动上屏前面首选
     - lua_processor@*xmjd6/add_ge
     - lua_processor@*xmjd6/bianzi
     - speller
