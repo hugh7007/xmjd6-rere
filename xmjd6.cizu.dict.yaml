@@ -4795,6 +4795,7 @@ sort: original
 补土	bjtjo
 不土	bjtjvv
 不提	bjtk
+步梯	bjtki
 不踢	bjtkvo
 不拖	bjtl
 不脱	bjtlv
@@ -10473,7 +10474,9 @@ HarryWinston	brwda
 保钓	bzdcii
 包掉	bzdcu
 暴跌	bzdd
-爆豆	bzddo
+爆痘	bzddo
+爆豆	bzddov
+包豆	bzdduv
 包的	bzde
 包得	bzde
 薄的	bzdei
@@ -12241,7 +12244,8 @@ HarryWinston	brwda
 才担	chdfvi
 裁定	chdg
 彩带	chdh
-才读	chdj
+才读	chdjvo
+才堵	chdj
 菜地	chdk
 裁夺	chdl
 踩点	chdm
@@ -21337,7 +21341,11 @@ DJ音效	djyx
 踱着	dlfeo
 多着	dlfeu
 多这	dlfeuo
-多番	dlff
+多番	dlffuu
+多反	dlffu
+多贩	dlffua
+多烦	dlff
+大力飞砖	dlffva
 躲债	dlfh
 到了之后	dlfhv
 多债	dlfhu
@@ -27434,6 +27442,7 @@ big胆	dsdf
 尚不能	ebni
 水泥	ebnk
 水逆	ebnka
+水你	ebnkai
 睡你	ebnki
 受不鸟了	ebnl
 水碾	ebnm
@@ -27795,6 +27804,11 @@ big胆	dsdf
 首词	edcko
 受此	edcku
 受挫	edcl
+手搓	edcli
+收撮	edclai
+收错	edcla
+守错	edclo
+受错	edclu
 收藏	edcp
 收存	edcw
 收操	edcz
@@ -44820,7 +44834,9 @@ VanCleef&Arpels	fkybv
 房贴	fptdoa
 防偷	fptd
 方头	fptdo
-防特	fpte
+防特	fptea
+房特	fpteo
+方特	fpte
 访谈	fptf
 防贪	fptfa
 放炭	fptfo
@@ -47057,6 +47073,7 @@ VanCleef&Arpels	fkybv
 非法	fwfs
 废渣	fwfso
 飞转	fwft
+飞砖	fwfta
 反物质	fwfu
 复仇者	fwfui
 服务费	fwfuu
@@ -51228,9 +51245,9 @@ VanCleef&Arpels	fkybv
 国防大学	gfdx
 感动	gfdy
 感到	gfdz
-干到	gfdzv
+干到	gfdzvv
 干道	gfdzvo
-赶到	gfdzvv
+赶到	gfdzv
 广州市	gfe
 敢睡	gfeb
 感受	gfed
@@ -51861,7 +51878,7 @@ VanCleef&Arpels	fkybv
 怪低	ggdko
 拐抵	ggdki
 怪点	ggdmoi
-乖点	ggdm
+乖点	ggdmu
 拐点	ggdm
 杠杠的	ggdv
 感光度	ggdvi
@@ -69142,10 +69159,11 @@ VanCleef&Arpels	fkybv
 洪亮	hylx
 洪量	hylxa
 宏亮	hylxo
-轰龙	hyly
+轰隆	hyly
+轰龙	hylyv
 会越来越	hylyi
 胡言乱语	hylyu
-轰𠾐	hylyv
+轰𠾐	hyly
 洪涝	hylz
 薅羊毛	hym
 好郁闷	hyma
@@ -88463,7 +88481,9 @@ Cartier	kdyiv
 抗癌	kpxh
 康熙	kpxk
 康县	kpxm
-炕下	kpxs
+抗啊	kpxsi
+扛下	kpxs
+炕下	kpxso
 开篇语	kpy
 糠油	kpyd
 开篇伊始	kpye
@@ -95742,7 +95762,9 @@ k线	kxm
 颅内检索	lnjs
 利尿剂	lnju
 老年机	lnjuu
-龙内裤	lnk
+老年卡	lnk
+露内裤	lnkv
+龙内裤	lnkvi
 两年来	lnl
 老娘们	lnm
 老娘们儿	lnmx
@@ -96158,6 +96180,7 @@ k线	kxm
 柳橙	lqjrv
 柳城	lqjrvv
 六家	lqjs
+六架	lqjso
 六军	lqjw
 硫醇	lqjwv
 流浆	lqjx
@@ -99781,6 +99804,7 @@ k线	kxm
 秒贷	mcdh
 描黛	mcdhi
 瞄到	mcdz
+秒到	mcdzu
 妙道	mcdza
 苗刀	mcdzi
 秒睡	mceb
@@ -99791,7 +99815,9 @@ k线	kxm
 描述	mcej
 藐视	mcek
 秒说	mcel
-瞄上	mcep
+秒伤	mcep
+秒上	mcepu
+瞄上	mcepi
 秒杀	mces
 秒啥	mcesu
 名存实亡	mcew
@@ -109927,7 +109953,9 @@ mua~	mjms
 钮子	nqzki
 牛杂	nqzs
 能别	nrbda
-能不	nrbj
+能捕	nrbjai
+能补	nrbj
+能不	nrbja
 能变	nrbm
 能本	nrbn
 能奔	nrbna
@@ -113665,11 +113693,13 @@ LosslessScaling	phqia
 牌墙	phqx
 拍照	phqz
 牌照	phqzu
+陪护人	phr
+陪护人员	phry
 排入	phrj
 排日	phrk
-派人	phrna
-拍人	phrn
-排人	phrni
+派人	phrn
+拍人	phrni
+排人	phrnii
 派任	phrnai
 拍死	phsk
 派送	phsy
@@ -117747,7 +117777,9 @@ LosslessScaling	phqia
 这辆	qelx
 折拢	qely
 切身利益	qelyv
-这说明	qem
+缺什么	qemu
+长寿面	qem
+这说明	qemo
 这么	qeme
 遮瞒	qemf
 这名	qemg
@@ -117757,11 +117789,12 @@ LosslessScaling	phqia
 找上门来	qemli
 这面	qemm
 这门	qemn
-这上面	qemo
+这上面	qemoi
 掌上明珠	qemq
 遮蒙	qemr
 朝生暮死	qems
-真善美	qemu
+真实面	qemuov
+真善美	qemuo
 这枚	qemw
 欺上瞒下	qemx
 其实没有	qemy
@@ -123630,6 +123663,7 @@ LosslessScaling	phqia
 真凶	qnxy
 前女友	qny
 震音	qnyb
+真阴	qnybu
 真有	qnyd
 去你丫的	qnydvi
 真野	qnye
@@ -123837,6 +123871,7 @@ LosslessScaling	phqia
 前平举	qpjo
 长长	qpjp
 章程	qpjr
+涨成	qpjra
 长成	qpjru
 涨价	qpjs
 张家	qpjsa
@@ -135796,8 +135831,8 @@ LosslessScaling	phqia
 投光	tdgmii
 土地革命	tdgmv
 铁杠	tdgp
-铁罐	tdgt
-铁管	tdgti
+铁罐	tdgti
+铁管	tdgt
 天地盖	tdgvv
 铁棍	tdgw
 透光	tdgx
@@ -138553,7 +138588,7 @@ LosslessScaling	phqia
 吐了	tjle
 图灵	tjlg
 图铃	tjlgi
-图赖	tjlh
+图赖	tjlhiv
 掏出来	tjli
 投简历	tjliu
 吐露	tjlj
@@ -138644,6 +138679,8 @@ LosslessScaling	phqia
 厅局长	tjqvau
 太紧张	tjqvi
 涂去	tjql
+吐去	tjqlo
+突去	tjqlov
 图真	tjqni
 土阵	tjqn
 屠镇	tjqna
@@ -154817,6 +154854,7 @@ Chopard	xcbpi
 小结	xcjdi
 小节	xcjdii
 小街	xcjdiu
+小杰	xcjdiv
 心存芥蒂	xcjdo
 小车	xcje
 校车	xcjev
@@ -168161,6 +168199,7 @@ U盘	ydpf
 幼月	ydyhau
 有约	ydyh
 越短越好	ydyhvu
+越低越好	ydyhvi
 越多越好	ydyhv
 越大越好	ydyhvv
 邮递员	ydyi
@@ -187734,7 +187773,9 @@ MIKIMOTO	ymbuvv
 衡盖	hrgh
 近多	jbdlu
 都暗	ddxfu
-涂完	tjwf
+吐完	tjwf
+涂完	tjwfa
+突完	tjwfo
 兵豆	bgddu
 别瞒	bdmf
 仁斯	rnski
@@ -193197,7 +193238,8 @@ MIKIMOTO	ymbuvv
 该料	ghlco
 使脏	ekzpi
 每饿	mwxeu
-仍认	rrrn
+扔人	rrrn
+仍认	rrrni
 别棒	bdbpo
 武慧	wjhbvv
 泰智	thfkvu
@@ -194590,6 +194632,7 @@ MIKIMOTO	ymbuvv
 测全	ceqt
 将匀	jxywo
 才赌	chdjv
+才毒	chdjvv
 陈信	jnxba
 承吊	jrdca
 俱为	jlwwi
@@ -197772,7 +197815,8 @@ MIKIMOTO	ymbuvv
 绿蹄	lltka
 万算	wfst
 墀头	wktdvo
-能鄙	nrbk
+能比	nrbk
+能鄙	nrbkao
 疣病	ydbgo
 宣备	xtbw
 近剖	jbpd
@@ -200872,7 +200916,10 @@ MIKIMOTO	ymbuvv
 垛庄	dlfmv
 叫刷	jceq
 省琼	erqy
-苗山	mcef
+苗山	mcefi
+描扇	mcefio
+秒闪	mcefu
+秒删	mcef
 一拧	ykngv
 水变	ebbma
 歇马	xdms
@@ -218849,7 +218896,7 @@ MIKIMOTO	ymbuvv
 港头	gptda
 毛杜	mzdju
 悬椅	xtyki
-售错	edcli
+售错	edclii
 头鬼	tdgbo
 棒钢	bpgp
 枉说	wpelv
@@ -219865,7 +219912,10 @@ MIKIMOTO	ymbuvv
 风怀	frhg
 涂雅	tjysav
 舒伊	ejykii
-苗分	mcfn
+秒分	mcfn
+苗分	mcfni
+喵粉	mcfno
+秒粉	mcfnu
 秋本	qqbnu
 着藏	fecpo
 着藏	qecpo
@@ -227913,7 +227963,9 @@ MIKIMOTO	ymbuvv
 柏翠	bhcb
 法甚	fsenav
 帐钉	qpdg
-突来	tjlho
+突来	tjlh
+图来	tjlhi
+吐来	tjlho
 共涨	gyqpva
 石莲	eklmv
 树瘤	ejlqv
@@ -228113,7 +228165,8 @@ MIKIMOTO	ymbuvv
 椒疮	jcwxv
 椒疮	jcwmv
 形解	xgjdv
-给诺	gwnl
+给女	gwnl
+给诺	gwnla
 羽轩	ylxta
 污伤	wjepa
 进迫	jbplv
@@ -228124,7 +228177,9 @@ MIKIMOTO	ymbuvv
 只巨	fkjlov
 了劲	lejba
 了劲	lejga
-坏醮	hgjc
+坏脚	hgjc
+坏叫	hgjcv
+坏醮	hgjcvv
 她白	tsbha
 木驴	mjllv
 里基	lkjkiv
@@ -235566,7 +235621,13 @@ MIKIMOTO	ymbuvv
 从盆	cypn
 低兵	dkbgi
 王秉	wpbg
-将审	jxen
+降身	jxen
+降神	jxena
+将神	jxenoo
+将伸	jxenoi
+将申	jxenoi
+将身	jxenou
+将审	jxeno
 宋景	syjgoo
 语卉	ylhbou
 君道	jwdza
@@ -237611,7 +237672,8 @@ MIKIMOTO	ymbuvv
 情难	qgnf
 训我	xwwl
 怀渎	hgdjo
-胀给	qpgw
+涨给	qpgw
+胀给	qpgwu
 银兰	yblf
 云前	ywqmv
 贴啦	tdlsa
@@ -238724,7 +238786,9 @@ MIKIMOTO	ymbuvv
 合躺	hetpiu
 桃原	tzytvv
 邵丹	ezdf
-苗生	mcer
+秒生	mcer
+秒声	mceru
+苗生	mceri
 等调	drtc
 等调	drdc
 挺耍	tgeq
@@ -241303,7 +241367,10 @@ MIKIMOTO	ymbuvv
 就吸	jqxko
 先吖	xmysu
 华磊	hqlwiv
-能拨	nrbl
+能播	nrbl
+能拨	nrbla
+能博	nrblau
+能波	nrblaa
 丰儿	frxjv
 门光	mngxo
 盼亲	pfqbi
@@ -249509,7 +249576,10 @@ MIKIMOTO	ymbuvv
 西光	xkgxv
 叶民	yembo
 亲绿	qbll
-禹鹏	ylpr
+雨蓬	ylprvi
+雨篷	ylprv
+雨棚	ylpr
+禹鹏	ylpruu
 稻麦	dzmhu
 鸟纹	ncwn
 改慢	ghmfa
@@ -251053,7 +251123,7 @@ MIKIMOTO	ymbuvv
 表体	bctkv
 来能	lhnrv
 以咁	ykgfao
-滚女	gwnla
+滚女	gwnlaa
 快烧	kgezo
 睿双	rbexi
 睿双	rbemi
@@ -259747,7 +259817,8 @@ MIKIMOTO	ymbuvv
 棉裙	mmqw
 菜卷	chjti
 斜畔	xdpfi
-苗峒	mcdy
+秒懂	mcdy
+苗峒	mcdyi
 每厚	mwhd
 猜这	chfeu
 猜这	chqeu
@@ -260536,7 +260607,6 @@ MIKIMOTO	ymbuvv
 羞啦	xqlso
 女带	nldha
 被博	bwblo
-刘驾	lqjso
 每咬	mwyzu
 津波	jbbla
 收宫	edgyao
@@ -260820,7 +260890,6 @@ MIKIMOTO	ymbuvv
 晚说	wfel
 砸来	zslh
 东影	dyygvo
-张承	qpjra
 范堑	ffqmi
 弄拌	nybfv
 我掉	wldc
@@ -272900,7 +272969,6 @@ MIKIMOTO	ymbuvv
 嵌平	qmpgiv
 亥宫	hhgyo
 屋村	wjcwa
-图来	tjlhi
 敬个	jggei
 内说	nwel
 皮饰	pkekau
@@ -275913,7 +275981,7 @@ MIKIMOTO	ymbuvv
 体行	tkxgiu
 出瞳	jjtyai
 火须	hlxlou
-步提	bjtki
+步提	bjtkii
 而恰	xjqs
 土厂	tjjpv
 世淳	ekjwva
@@ -278094,7 +278162,7 @@ MIKIMOTO	ymbuvv
 余亚	ylysi
 抹丢	mldq
 孙琳	swlba
-多泛	dlffu
+多泛	dlffua
 对鲁	dblja
 连港	lmgpv
 近飘	jbpcu
@@ -278272,7 +278340,6 @@ MIKIMOTO	ymbuvv
 复部	fjbju
 照转	qzft
 照转	fzft
-给女	gwnlaa
 亩红	mjhy
 操驾	czjsi
 起嗖	qksd
@@ -280438,7 +280505,7 @@ MIKIMOTO	ymbuvv
 想拷	xxkzvi
 勿住	wjqjui
 齿饰	wkekiu
-张峻	qpjw
+张峻	qpjwa
 热浸	rejbi
 卷甲	jtjso
 手似	edekii
@@ -281620,7 +281687,8 @@ MIKIMOTO	ymbuvv
 圣耀	eryza
 埋位	mhww
 错很	clhn
-钱敏	qmmb
+浅抿	qmmb
+钱敏	qmmbi
 挺决	tgjhio
 扬潭	yptfi
 老詹	lzqfu
@@ -307628,7 +307696,8 @@ MIKIMOTO	ymbuvv
 庙渠	mcqlo
 许颂	xlsyou
 乖起	ggqkuv
-加揍	jszda
+架走	jszda
+加揍	jszdai
 着好	fehzoa
 着好	qehzoa
 贺昌	hejpao
@@ -312994,7 +313063,7 @@ MIKIMOTO	ymbuvv
 杨南	ypnf
 没绕	mwrza
 则死	zeska
-仍任	rrrni
+仍任	rrrnii
 扇翘	efqco
 爱荷	xhheui
 童村	tycwo
@@ -317617,7 +317686,7 @@ MIKIMOTO	ymbuvv
 嗄嘶	xsskoo
 景娥	jgxeoa
 南是	nfeku
-甚讲	enjx
+甚讲	enjxv
 个为	gewwio
 会怪	hbggi
 步车	bjwei
@@ -321304,7 +321373,9 @@ MIKIMOTO	ymbuvv
 尉他	wwtsai
 恭帝	gydkvo
 被俗	bwsjo
+神降	enjx
 身将	enjxu
+慎将	enjxoo
 曼奥	mfxzou
 度写	djxdo
 水前	ebqmao
@@ -322238,7 +322309,8 @@ MIKIMOTO	ymbuvv
 弹议	dfykao
 战帖	qftdi
 草扎	czfsii
-妙风	mcfr
+妙风	mcfra
+秒封	mcfr
 平彤	pgtyv
 顺不	ewbju
 谷欣	gjxbuu
@@ -322249,6 +322321,7 @@ MIKIMOTO	ymbuvv
 满烦	mfffa
 裁口	chkdu
 郑赫	qrheov
+秒怪	mcgg
 杨岐	ypqkv
 服待	fjdhuu
 闲放	xmfpoo
@@ -327793,7 +327866,7 @@ MIKIMOTO	ymbuvv
 尚山	epefii
 张尧	qpyzav
 恰亏	qskb
-真淫	qnybu
+真淫	qnybua
 给瑞	gwrb
 邹蓓	zdbwui
 等谁	drebuo
@@ -343040,7 +343113,8 @@ MIKIMOTO	ymbuvv
 农居	nyjlo
 烤到	kzdzo
 像死	xxskiv
-掌军	qpjwi
+掌军	qpjw
+涨均	qpjwa
 碧彤	bktyvu
 键标	jmbci
 别爬	bdpso
@@ -368711,7 +368785,8 @@ MIKIMOTO	ymbuvv
 倘甸	tpdmi
 即彼	jkbkau
 然乃	rfnh
-真乘	qnjru
+真成	qnjru
+真乘	qnjruu
 村最	cwzb
 祖望	zjwpo
 哑姑	ysgjo
@@ -383369,7 +383444,9 @@ MIKIMOTO	ymbuvv
 用嘴说	yzeu
 哐哐撞大墙	kkfq
 魔鬼筋肉人	mgjro
-铁头惩恶扬善	ttje
+团车	ttwe
+团车	ttje
+涛涛江水	ttjea
 返杭	ffhpuv
 裸伤	llepo
 好物节	hwja
