@@ -1,0 +1,6 @@
+# This file is deprecated and no longer loaded.
+# Emoji phrases are now split into shards: xmjd6_emoji_phrases_0.lua ~ _f.lua
+# with index in xmjd6_emoji_phrases_index.lua
+# This file is kept as .bak for rollback safety.
+# Safe to delete after confirming the new system works.
+return {}

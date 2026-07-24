@@ -10,6 +10,10 @@
 --   1) 开关关闭后,第一次空闲过 idle_timeout 秒,释放字典 + 触发 GC
 --   2) Rime 销毁该 filter 实例时(fini)立即释放
 --
+-- emoji 分片按需加载（参考浮生方案）:
+--   chars 表全量加载, phrases 按首字母分片 LRU 缓存
+--   不再使用单个大 phrases 文件,降低常驻内存
+--
 -- 在 schema 里使用:
 --   filters:
 --     - lua_filter@*xmjd6/lazy_simplifier@emoji_cn
@@ -36,30 +40,116 @@ end
 
 -- 预编译 Lua 表文件名映射
 -- txt 文件 → 预编译 lua 表文件（位于 opencc/Data/ 下）
+-- emoji.txt 的 phrases 走分片按需加载,不在此全量加载
 local LUA_TABLE_MAP = {
     ["mars.txt"]  = { mode = "char",  files = { "Data/xmjd6_mars_chars.lua" } },
     ["tofu.txt"]  = { mode = "char",  files = { "Data/xmjd6_tofu_chars.lua" } },
-    ["emoji.txt"] = { mode = "word",  files = { "Data/xmjd6_emoji_chars.lua", "Data/xmjd6_emoji_phrases.lua" } },
+    ["emoji.txt"] = { mode = "word",  files = { "Data/xmjd6_emoji_chars.lua" } },
 }
 
+-- emoji 分片按需加载（参考浮生方案）
+local PHRASE_SHARD_LIMIT = 8  -- 最多同时驻留 8 个分片
+local phrase_shards = {}      -- module_name → table
+local phrase_usage = {}       -- LRU 顺序
+local phrase_index = nil      -- 首字母→分片号 索引表
+
+local function get_opencc_base()
+    local source = debug.getinfo(1).source or ""
+    local script_dir = source:match("@?(.*/)")
+    if not script_dir then return nil end
+    return script_dir .. "../../opencc/"
+end
+
+local function load_lua_file(base, rel)
+    if not base or not rel then return nil end
+    local path = base .. rel
+    local chunk = loadfile(path)
+    if not chunk then return nil end
+    local ok, tbl = pcall(chunk)
+    if ok and type(tbl) == "table" then return tbl end
+    return nil
+end
+
+local function utf8_first_char(text)
+    if not text or text == "" then return nil end
+    local b = text:byte(1)
+    if not b then return nil end
+    local len = 1
+    if b >= 0xF0 then len = 4
+    elseif b >= 0xE0 then len = 3
+    elseif b >= 0xC0 then len = 2
+    end
+    return text:sub(1, len)
+end
+
+local function touch_shard(module_name)
+    for i = #phrase_usage, 1, -1 do
+        if phrase_usage[i] == module_name then
+            table.remove(phrase_usage, i)
+            break
+        end
+    end
+    table.insert(phrase_usage, module_name)
+    while #phrase_usage > PHRASE_SHARD_LIMIT do
+        local expired = table.remove(phrase_usage, 1)
+        if expired and expired ~= module_name then
+            phrase_shards[expired] = nil
+        end
+    end
+end
+
+local function get_phrase_shard(base, first_char)
+    if not base or not first_char then return nil end
+    if not phrase_index then
+        phrase_index = load_lua_file(base, "Data/xmjd6_emoji_phrases_index.lua") or {}
+    end
+    local bucket = phrase_index[first_char]
+    if not bucket then return nil end
+    local module_name = "xmjd6_emoji_phrases_" .. bucket .. ".lua"
+    if phrase_shards[module_name] then
+        touch_shard(module_name)
+        return phrase_shards[module_name]
+    end
+    local shard = load_lua_file(base, "Data/" .. module_name)
+    if not shard then return nil end
+    phrase_shards[module_name] = shard
+    touch_shard(module_name)
+    return shard
+end
+
+-- emoji 专用: 分片按需查询
+local function emoji_lookup(base, chars, text)
+    if not text or text == "" then return nil end
+    local first = utf8_first_char(text)
+    if not first then return nil end
+    if #first == #text then
+        return chars and chars[text]
+    end
+    local shard = get_phrase_shard(base, first)
+    if shard then
+        local val = shard[text]
+        if val then return val end
+    end
+    return chars and chars[text]
+end
+
+local function clear_phrase_cache()
+    phrase_shards = {}
+    phrase_usage = {}
+    phrase_index = nil
+end
+
 local function load_dict(filename, mode)
-    -- 优先尝试加载预编译 Lua 表
     local lua_map = LUA_TABLE_MAP[filename]
     if lua_map then
-        local source = debug.getinfo(1).source or ""
-        local script_dir = source:match("@?(.*/)")
-        if script_dir then
-            local base = script_dir .. "../../opencc/"
+        local base = get_opencc_base()
+        if base then
             local combined = {}
             for _, rel in ipairs(lua_map.files) do
-                local path = base .. rel
-                local chunk = loadfile(path)
-                if chunk then
-                    local tbl = chunk()
-                    if type(tbl) == "table" then
-                        for k, v in pairs(tbl) do
-                            combined[k] = v
-                        end
+                local tbl = load_lua_file(base, rel)
+                if tbl then
+                    for k, v in pairs(tbl) do
+                        combined[k] = v
                     end
                 end
             end
@@ -126,6 +216,9 @@ local function release_if_idle(env)
         if os.difftime(os.time(), env.last_use_time) > env.idle_timeout then
             env.dict = nil
             env.last_use_time = nil
+            if env.is_emoji then
+                clear_phrase_cache()
+            end
             collectgarbage("collect")
         end
     end
@@ -141,15 +234,18 @@ function M.init(env)
     env.option_name   = cfg:get_string(ns .. "/option_name") or ns
     env.dict_file     = cfg:get_string(ns .. "/dict_file") or ""
     env.mode          = cfg:get_string(ns .. "/mode") or "char"
-    env.force_comment = cfg:get_string(ns .. "/force_comment")  -- nil 表示继承原 comment
+    env.force_comment = cfg:get_string(ns .. "/force_comment")
     env.idle_timeout  = cfg:get_int(ns .. "/idle_timeout") or DEFAULT_IDLE_TIMEOUT
     env.dict = nil
     env.last_use_time = nil
     env.disabled = (env.dict_file == "")
-    -- 注册到统一清理：iOS 键盘收起 sentinel 到达时释放字典
+    env.is_emoji = (env.dict_file == "emoji.txt" and env.mode == "word")
     env.mem_release = mem_cleaner.register(function()
         env.dict = nil
         env.last_use_time = nil
+        if env.is_emoji then
+            clear_phrase_cache()
+        end
     end)
 end
 
@@ -158,6 +254,7 @@ function M.fini(env)
     env.mem_release = nil
     env.dict = nil
     env.last_use_time = nil
+    clear_phrase_cache()
     collectgarbage("collect")
 end
 
@@ -182,13 +279,43 @@ function M.func(input, env)
     local force_comment = env.force_comment
 
     if env.mode == "word" then
-        for cand in input:iter() do
-            yield(cand)
-            local list = env.dict[cand.text]
-            if list then
-                local cmt = force_comment or cand:get_genuine().comment
-                for _, v in ipairs(list) do
-                    yield(Candidate(cand.type, cand.start, cand._end, v, cmt))
+        if env.is_emoji then
+            -- emoji 分片按需加载模式
+            local base = get_opencc_base()
+            local chars = env.dict
+            for cand in input:iter() do
+                yield(cand)
+                local val = emoji_lookup(base, chars, cand.text)
+                if val then
+                    local cmt = force_comment or cand:get_genuine().comment
+                    -- val 可能是 string 或 table
+                    if type(val) == "string" then
+                        -- 浮生格式: 空格分隔的值
+                        for v in val:gmatch("%S+") do
+                            if v ~= cand.text then
+                                yield(Candidate(cand.type, cand.start, cand._end, v, cmt))
+                            end
+                        end
+                    elseif type(val) == "table" then
+                        -- 旧格式: table 列表
+                        for _, v in ipairs(val) do
+                            if v ~= cand.text then
+                                yield(Candidate(cand.type, cand.start, cand._end, v, cmt))
+                            end
+                        end
+                    end
+                end
+            end
+        else
+            -- 普通 word 模式
+            for cand in input:iter() do
+                yield(cand)
+                local list = env.dict[cand.text]
+                if list then
+                    local cmt = force_comment or cand:get_genuine().comment
+                    for _, v in ipairs(list) do
+                        yield(Candidate(cand.type, cand.start, cand._end, v, cmt))
+                    end
                 end
             end
         end
