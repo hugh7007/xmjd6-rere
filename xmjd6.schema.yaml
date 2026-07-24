@@ -95,6 +95,7 @@ switches:
 
 engine:
   processors:
+    - lua_processor@*xmjd6/typing_stats_processor  # 打字统计计键：始终放行，须在一切可能吞键的 processor 之前
     - lua_processor@*xmjd6/xmjd6_select_character  # 以词定字
     - lua_processor@*xmjd6/dict_search_trigger    # ? 触发：词库模糊查询（尽量靠前避免被截胡）
     - lua_processor@*xmjd6/text_transform        # Ctrl+G：捕获当前候选并打开 =wrap 加工面板
@@ -138,6 +139,7 @@ engine:
     - lua_translator@*xmjd6/quick_symbol_translator # 快捷符号唯一候选提示
     - lua_translator@*xmjd6/text_transform_translator # =wrap / =join/N 文本加工
     - lua_translator@*xmjd6/xmjd6_tools      # = 工具集：=uuid / =pw密码 / =mem内存 / =时间戳
+    - lua_translator@*xmjd6/typing_stats_translator  # =tj 打字统计：字数/码长/退格/连打占比
     - lua_translator@*xmjd6/number_tools     # 金额、进制、单位转换
     - lua_translator@*xmjd6/xmjd6_jisuanqi
     - lua_translator@*xmjd6/xmjd6_shijian
