@@ -61,7 +61,7 @@ patch:
   style/label_font_point: 14 #★序号字号，小于等于候选字号
   style/hide_candidates_when_single: false      #★preedit_inline时，只有一个候选时隐藏候选框不绘制
   style/preedit_type: composition #隐藏候选窗(margin_x或margin_y为负数，负数即可)+ style/preedit_type: preview_all
-  style/display_tray_icon: false  #显示托盘图标
+  style/display_tray_icon: true  #显示托盘图标
   style/label_format: "%s." #编号规则
   style/layout/align_type: bottom #★文字偏置，主要影响label和comment居上/居中/居下布置，尤其是label和comment字体比候选字小的时候，bottom/center/top, 
   style/layout/min_width: 0  #候选栏最小宽度
@@ -78,5 +78,5 @@ patch:
   style/layout/shadow_radius: 0
   style/layout/shadow_offset_x: 4
   style/layout/shadow_offset_y: 4
-  style/layout/style/layout/min_width: 30  
+  style/layout/min_width: 30
   style/layout/border: 0
