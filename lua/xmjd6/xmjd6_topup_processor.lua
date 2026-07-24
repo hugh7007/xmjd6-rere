@@ -20,46 +20,52 @@ local function topup(env)
     end
 end
 
+local kNoop = 2
+
 local function processor(key_event, env)
+    if env.enable_sentence then
+        return kNoop
+    end
+
     if key_event:release() or key_event:ctrl() or key_event:alt() then
-        return 2
+        return kNoop
     end
 
     local ch = key_event.keycode
     if ch < 0x20 or ch >= 0x7f then
-        return 2
+        return kNoop
     end
 
     local context = env.engine.context
     local input = context.input
-    if not input then return 2 end
+    if not input then return kNoop end
 
     -- 功能引导符开头的输入（=计算器/工具、\转字体、&Unicode）不参与顶功，
     -- 否则 =uuid、=floor(2) 这类字母输入会在第4码被强制上屏截断
     local lead = input:sub(1, 1)
     if lead == "=" or lead == "\\" or lead == "&" then
-        return 2
+        return kNoop
     end
 
     local key = string.char(ch)
     if not env.alphabet[key] then
-        return 2
+        return kNoop
     end
 
     local next_code = input .. key
     if env.protected_codes[next_code] then
-        return 2
+        return kNoop
     end
     if candidate_order_ok and candidate_order_core
         and candidate_order_core.is_enabled(env)
         and candidate_order_core.has_code_prefix
         and candidate_order_core.has_code_prefix(next_code) then
-        return 2
+        return kNoop
     end
 
     local first = #input > 0 and input:sub(1, 1) or key
     if env.topup_command and env.topup_set[first] then
-        return 2
+        return kNoop
     end
 
     local input_len = utf8.len(input) or 0
@@ -79,11 +85,12 @@ local function processor(key_event, env)
         topup(env)
     end
 
-    return 2
+    return kNoop
 end
 
 local function init(env)
     local config = env.engine.schema.config
+    env.enable_sentence = config:get_bool("translator/enable_sentence") or false
     env.topup_set = string2set(config:get_string("topup/topup_with") or "")
     env.alphabet = string2set(config:get_string("speller/alphabet") or "abcdefghijklmnopqrstuvwxyz")
     env.topup_min = math.max(1, config:get_int("topup/min_length") or 4)
@@ -95,6 +102,7 @@ local function init(env)
 end
 
 local function fini(env)
+    env.enable_sentence = nil
     env.topup_set = nil
     env.alphabet = nil
     env.protected_codes = nil
