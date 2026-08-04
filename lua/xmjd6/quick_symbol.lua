@@ -222,6 +222,38 @@ local function key_to_char(key)
     return nil
 end
 
+local function get_sentence_prefix(env)
+    local config = get_config(env)
+    if not config or not config.get_string then return nil end
+    local ok, value = pcall(function() return config:get_string("sentence_mode/prefix") end)
+    if ok and type(value) == "string" and #value == 1 then return value end
+    return nil
+end
+
+local function is_sentence_mode(env)
+    local context = get_context(env)
+    local ok, value = pcall(function() return context:get_option("sentence_mode_enabled") end)
+    if ok and value == true then return true end
+    return false
+end
+
+-- 在整句模式下，input 形如 axxyzdszk;w，需要提取尾部 ;w 作为快符码
+local function extract_tail_symbol_code(input, data)
+    if type(input) ~= "string" or input == "" then return nil, nil end
+    -- 从末尾往前找最后一个 ; 的位置
+    local last_semicolon = input:reverse():find(";")
+    if not last_semicolon then return nil, nil end
+    last_semicolon = #input - last_semicolon + 1
+    local tail = input:sub(last_semicolon)
+    -- tail 必须以 ; 开头且长度 >= 2
+    if #tail < 2 then return nil, nil end
+    -- 尾部不能包含 '（整句分隔符）
+    if tail:find("'") then return nil, nil end
+    local symbol = M.unique_symbol(tail, data)
+    if not symbol then return nil, nil end
+    return symbol, tail
+end
+
 function M.processor(key, env)
     if not key or key:release() or key:ctrl() or key:alt() or key:super() then
         return kNoop
@@ -237,19 +269,53 @@ function M.processor(key, env)
     end
 
     local current_input = context.input or ""
-    if current_input:sub(1, 1) ~= ";" then
-        return kNoop
+
+    -- 原有逻辑：input 以 ; 开头时直接匹配快符
+    if current_input:sub(1, 1) == ";" then
+        local ch = key_to_char(key)
+        if not ch then return kNoop end
+        local next_input = current_input .. ch
+        local symbol = M.unique_symbol(next_input, M.load_symbols(env))
+        if not symbol then
+            return kNoop
+        end
+        engine:commit_text(symbol)
+        if context.clear then context:clear() end
+        return kAccepted
     end
+
+    -- 新增逻辑：整句模式下，input 以 sentence_mode prefix 开头时
+    -- 检查尾部 ;xxx 是否匹配唯一快符码
+    local prefix = get_sentence_prefix(env)
+    if not prefix then return kNoop end
+    if current_input:sub(1, 1) ~= prefix then return kNoop end
+    if not is_sentence_mode(env) then return kNoop end
 
     local ch = key_to_char(key)
     if not ch then return kNoop end
 
     local next_input = current_input .. ch
-    local symbol = M.unique_symbol(next_input, M.load_symbols(env))
+    local data = M.load_symbols(env)
+    local symbol, tail = extract_tail_symbol_code(next_input, data)
     if not symbol then
         return kNoop
     end
 
+    -- 整句模式下上屏符号：先提交去掉尾部快符码后的候选，再上屏符号
+    -- 这样 axxyzdszk;w 会输出 想要打字？
+    -- 从 next_input 中移除尾部快符码，得到前面的部分
+    local prefix_input = next_input:sub(1, #next_input - #tail)
+    -- 去掉末尾的整句分隔符（如果有的话）
+    while #prefix_input > 1 and prefix_input:sub(-1) == "'" do
+        prefix_input = prefix_input:sub(1, -2)
+    end
+    -- 只有当前面有实际编码内容（不止 prefix）时才提交候选
+    if #prefix_input > #prefix then
+        context.input = prefix_input
+        if context.commit then
+            context:commit()
+        end
+    end
     engine:commit_text(symbol)
     if context.clear then context:clear() end
     return kAccepted
@@ -266,12 +332,25 @@ function M.translator(input, seg, env)
         return
     end
 
-    local symbol = M.unique_symbol(input, M.load_symbols(env))
-    if not symbol then
+    -- 原有逻辑：input 本身就是快符码（; 开头）
+    if input:sub(1, 1) == ";" then
+        local symbol = M.unique_symbol(input, M.load_symbols(env))
+        if symbol then
+            yield(make_candidate(seg, symbol))
+        end
         return
     end
 
-    yield(make_candidate(seg, symbol))
+    -- 整句模式下：input 形如 xxyzdszk;w，提取尾部快符码
+    local prefix = get_sentence_prefix(env)
+    if not prefix then return end
+    if not is_sentence_mode(env) then return end
+
+    local data = M.load_symbols(env)
+    local symbol = extract_tail_symbol_code(input, data)
+    if symbol then
+        yield(make_candidate(seg, symbol))
+    end
 end
 
 function M.func(key, env)

@@ -1544,7 +1544,7 @@ end
 
 local function translator(input, seg)
     -- 日期
-    if (input == "rq") then
+    if (input == "rq" or input == "eo") then
         date = os.date("%Y-%m-%d")
         num_year = os.date("%j/") .. IsLeap(os.date("%Y"))
         candidate = Candidate("date", seg.start, seg._end, date, num_year)
@@ -1597,7 +1597,7 @@ local function translator(input, seg)
         yield(candidate)
 
         -- 农历
-    elseif (input == "nl") then
+    elseif (input == "nl" or input == "nylk") then
         date = Date2LunarDate(os.date("%Y%m%d")) .. JQtest(os.date("%Y%m%d"))
         candidate = Candidate("date", seg.start, seg._end, date, "")
         yield(candidate)

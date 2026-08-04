@@ -8,7 +8,9 @@
 --   回车            → 上屏整句（good tea）
 --   i 空码          → 不拦截，express_editor 上屏 i 字母
 --
--- 注意：context.input 包含 i 前缀（如 igood'tea），上屏时需去掉 i 前缀和末尾分隔符。
+-- 排除表：命中时上屏保留 i 前缀（如 ima → 上屏 ima，而非 ma）。
+--   排除表逻辑在 eng_quick_exclude 公共模块中，两个文件共用。
+--   空格/回车均通过 keycode 判断，兼容手机端。
 
 local M = {}
 
@@ -18,27 +20,47 @@ local kNoop = 2
 local PREFIX = "i"
 local SEP = "'"
 
+-- keycode 常量（跨平台）
+local KEY_SPACE = 32    -- 0x20
+local KEY_RETURN = 13   -- 0x0d
+
+local exclude = require("xmjd6/eng_quick_exclude")
+
 local function to_commit(input)
     if not input or input == "" then return "" end
-    -- 去掉 i 前缀
     local s = input
     if s:sub(1, #PREFIX) == PREFIX then
         s = s:sub(#PREFIX + 1)
     end
-    -- 去掉末尾的分隔符
     s = s:gsub(SEP .. "$", "")
-    -- 分隔符转空格
     return s:gsub(SEP, " ")
 end
 
 local function is_eng_quick_input(input)
-    -- input 以 i 开头且后面有内容
     return input and #input >= #PREFIX + 1 and input:sub(1, #PREFIX) == PREFIX
 end
 
 local function is_valid_query(query)
-    -- 去掉 i 前缀后的部分，允许纯字母或字母+分隔符+字母
     return query and query:match("^[%a']+$") ~= nil
+end
+
+-- 判断是否空格键（兼容 repr 和 keycode）
+local function is_space(key)
+    local repr = key:repr()
+    if repr == "space" then return true end
+    -- fallback: keycode 32
+    local ok, code = pcall(key.keycode, key)
+    if ok and code == KEY_SPACE then return true end
+    return false
+end
+
+-- 判断是否回车键（兼容 repr 和 keycode）
+local function is_return(key)
+    local repr = key:repr()
+    if repr == "Return" or repr == "Lock+Return" then return true end
+    local ok, code = pcall(key.keycode, key)
+    if ok and code == KEY_RETURN then return true end
+    return false
 end
 
 local function processor(key, env)
@@ -49,15 +71,15 @@ local function processor(key, env)
         return kNoop
     end
 
-    local repr = key:repr()
-    if repr ~= "space" and repr ~= "Return" and repr ~= "Lock+Return" then
+    local is_sp = is_space(key)
+    local is_ret = is_return(key)
+    if not is_sp and not is_ret then
         return kNoop
     end
 
     local ctx = env.engine.context
     local input = ctx.input or ""
 
-    -- 不处理空码 i（留给 repeat_history / express_editor）
     if not is_eng_quick_input(input) then
         return kNoop
     end
@@ -67,7 +89,16 @@ local function processor(key, env)
         return kNoop
     end
 
-    if repr == "space" then
+    -- 排除表：命中时空格和回车都直接上屏 i + 排除词
+    if exclude.is_excluded(query) then
+        local clean_query = query:gsub(SEP .. "$", "")
+        local text = PREFIX .. clean_query:gsub(SEP, " ")
+        env.engine:commit_text(text)
+        ctx:clear()
+        return kAccepted
+    end
+
+    if is_sp then
         local last_char = input:sub(-1)
         if last_char == SEP then
             -- 双空格：上屏整句
@@ -85,7 +116,7 @@ local function processor(key, env)
         end
     end
 
-    if repr == "Return" or repr == "Lock+Return" then
+    if is_ret then
         local text = to_commit(input)
         if text and text ~= "" then
             env.engine:commit_text(text)

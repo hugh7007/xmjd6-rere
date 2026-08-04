@@ -6,7 +6,7 @@
 --   . 句号：固定直接上屏（不受开关控制）
 --   = 等号：独立开关控制（equal_direct_enabled）
 --   ; 分号：复用快符开关（quick_symbol_enabled）
---   & 符号：固定直接上屏，中英文均输出 & 半角（不受开关控制）
+--   & 符号：固定直接上屏（空码时），有候选时放行给 key_binder 切换 emoji_cn
 --   / \ * $ ' 等符号：受符号开关控制（punct_direct_enabled）
 --
 -- 开关语义：
@@ -33,7 +33,7 @@ local punct_by_keycode = {
     [0x2F] = { "slash",     "/", "/", "punct_direct_enabled" },   -- / 斜杠
     [0x5C] = { "backslash", "\\", "、", "punct_direct_enabled" }, -- \ 反斜杠
     [0x2A] = { "asterisk",  "*", "*", "punct_direct_enabled" },   -- * 星号
-    [0x26] = { "ampersand", "&", "&", nil },   -- & 中文英文均半角（不受开关控制）
+    [0x26] = { "ampersand", "&", "&", nil, true },   -- & 空码直接上屏；有候选时放行给 key_binder toggle emoji_cn
     [0x24] = { "dollar",    "$", "￥", "punct_direct_enabled" },  -- $ (Shift+4)
     [0x27] = { "apostrophe","'", "'", "punct_direct_enabled" },   -- ' 单引号
 }
@@ -75,18 +75,21 @@ local function processor(key_event, env)
     local input = context.input or ""
 
     -- 记录数字键输入（0-9），让后续符号能判断是否跟随在数字后面
+    -- 注意：只有数字真正作为字符上屏时才标记 last_was_number；
+    --       数字用于选重（有候选）时不标记，否则会导致选词后句号误判为半角。
     if ch >= 0x30 and ch <= 0x39 then
         if key_event:shift() then
             -- Shift+数字交给后面的符号处理逻辑
-        else
-            last_was_number = true
+            last_was_number = false
+            return kNoop
         end
         -- 空码时数字直接上屏（原 direct_ascii 逻辑）
         if input == "" and not context:get_option("ascii_mode") and digits_enabled(env) then
             engine:commit_text(tostring(ch - 0x30))
+            last_was_number = true  -- 仅在数字真正上屏后才标记
             return kAccepted
         end
-        -- 有候选时数字用于选重，不处理
+        -- 有候选时数字用于选重，不标记 last_was_number
         return kNoop
     end
 
@@ -118,6 +121,13 @@ local function processor(key_event, env)
     local half_char = punct_info[2]
     local full_char = punct_info[3]
     local switch_name = punct_info[4]  -- 开关名称，nil 表示不受控制
+    local pass_when_has_menu = punct_info[5]  -- true=有候选时放行给 key_binder
+
+    -- 有候选时放行（如 & 需要交给 key_binder toggle emoji_cn）
+    if pass_when_has_menu and input ~= "" then
+        last_was_number = false
+        return kNoop
+    end
 
     -- 检查开关状态：true=编辑模式（不处理），false=直接上屏
     if switch_name and context.get_option then

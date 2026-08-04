@@ -5,15 +5,18 @@ local M = {}
 
 local WRAPPERS = {
     double_quote = { "“", "”" },
-    corner = { "「", "」" },
-    white_corner = { "『", "』" },
-    book = { "《", "》" },
     full_paren = { "（", "）" },
-    full_bracket = { "【", "】" },
     bracket = { "[", "]" },
+    full_bracket = { "【", "】" },
+    book = { "《", "》" },
+    corner = { "「", "」" },
+    code = { "‘", "’" },
     paren = { "(", ")" },
-    code = { "`", "`" },
     markdown_bold = { "**", "**" },
+    white_corner = { "『", "』" },
+    jianbian = { "░▒▓", "▓▒░" },
+    huali = { "꧁", "꧂" },
+    xinghen = { "༺", "༻" },
 }
 
 function M.wrap(text, wrapper_id)
@@ -115,15 +118,18 @@ end
 
 local WRAPPER_ORDER = {
     "double_quote",
-    "corner",
-    "white_corner",
-    "book",
     "full_paren",
-    "full_bracket",
     "bracket",
-    "paren",
+    "full_bracket",
+    "book",
+    "corner",
     "code",
+    "jianbian",
+    "huali",
+    "xinghen",
+    "paren",
     "markdown_bold",
+    "white_corner",
 }
 
 local staged_source = nil
@@ -241,6 +247,67 @@ function M.processor(key, env)
             end
         end
     end
+
+    -- =wrap 加工面板内的按键处理：翻页 + 数字选词
+    if input == "=wrap" and not key:ctrl() and not key:alt() and not key:super() then
+        local keycode = key.keycode or 0
+
+        -- 获取 page_size
+        local page_size = 5
+        if env.engine and env.engine.schema then
+            local ok_ps, ps = pcall(function() return env.engine.schema.page_size end)
+            if ok_ps and type(ps) == "number" and ps > 0 then page_size = ps end
+        end
+
+        local comp = context.composition and context.composition:back()
+
+        -- 翻页：- 和 ， 左翻页；= 和 。 右翻页
+        if repr == "minus" or keycode == 0xBD or repr == "comma" or keycode == 0xBC then
+            if comp then
+                local ok_si, si = pcall(function() return comp.selected_index end)
+                local cur = (ok_si and type(si) == "number") and si or 0
+                local new_idx = math.max(0, cur - page_size)
+                pcall(function() comp.selected_index = new_idx end)
+            end
+            return 1
+        end
+        if repr == "equal" or keycode == 0xBB or repr == "period" or keycode == 0xBE then
+            if comp then
+                local ok_si, si = pcall(function() return comp.selected_index end)
+                local cur = (ok_si and type(si) == "number") and si or 0
+                local new_idx = cur + page_size
+                -- 只有目标页确实有候选时才翻过去
+                local ok_cand, cand = pcall(function() return comp:get_candidate_at(new_idx) end)
+                if ok_cand and cand then
+                    pcall(function() comp.selected_index = new_idx end)
+                end
+            end
+            return 1
+        end
+
+        -- 数字 1-9：基于当前页选择对应候选
+        if keycode >= 0x31 and keycode <= 0x39 then
+            local local_index = keycode - 0x31  -- 1→0, 2→1, ..., 9→8
+            if comp then
+                -- 计算当前页的起始绝对索引
+                local ok_si, si = pcall(function() return comp.selected_index end)
+                local cur = (ok_si and type(si) == "number") and si or 0
+                local page_start = math.floor(cur / page_size) * page_size
+                local abs_index = page_start + local_index
+                local ok_cand, cand = pcall(function() return comp:get_candidate_at(abs_index) end)
+                if ok_cand and cand and type(cand.text) == "string" and cand.text ~= "" then
+                    local commit_text = cand.text
+                    clear_staged_property(context)
+                    staged_source = nil
+                    context:clear()
+                    env.engine:commit_text(commit_text)
+                    return 1
+                end
+            end
+            return 1  -- 即使候选不存在也吞键，避免数字进入编码串
+        end
+    end
+
     local hotkey = config_string(env, "text_transform/hotkey", "Control+g")
     local sentence_hotkey = config_string(env, "text_transform/sentence_hotkey", "slash")
     local sentence_prefix = config_string(env, "text_transform/sentence_prefix", "'")

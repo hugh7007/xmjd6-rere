@@ -1,6 +1,10 @@
 -- typing_stats.lua
--- 打字统计：按天聚合记录汉字数、击键数、上屏次数、退格数、连打字数，
--- =stats 查看今日 / 近7天 / 累计的字数、码长（击键÷字数）、退格与连打占比。
+-- 打字统计：按天聚合记录汉字数、击键数、上屏次数、退格数、活跃打字秒数与计速字数，
+-- =tj 查看今日 / 近7天 / 累计的字数、码长（击键÷字数）、退格与打字速度。
+-- 速度 = 计速字数 ÷ 活跃时长。两者从同一时刻起配对累计（活跃时长按相邻按键
+-- 间隔 ≤ IDLE_GAP 秒累加、每段打字另计 1 秒起步，计速字数只含时长记录期间
+-- 上屏的字），避免分子含无时长记录的旧字导致速度虚高。速度属估算值，显示带
+-- "约"；统计范围内存在未计速的字（旧数据）时另加小字"（可能不准）"。
 --
 -- 存储：user_data_dir/typing_stats.txt，每天固定一行（当日行原地累加，非流水日志），
 -- 仅保留最近 MAX_DAYS 行，文件大小恒定在几十 KB 以内。
@@ -20,6 +24,9 @@ local FLUSH_IDLE = 60  -- 距上次落盘超过 N 秒也落盘
 
 local XK_BACKSPACE = 0xff08
 
+local IDLE_GAP = 5        -- 相邻按键间隔超过 N 秒视为停顿，不计入活跃打字时长
+local MIN_SPEED_SECS = 30 -- 活跃时长不足 N 秒不显示速度，样本太小没有意义
+
 local function state()
     if not _G.__typing_stats then
         _G.__typing_stats = {
@@ -28,7 +35,7 @@ local function state()
             today = nil,   -- 今日累计行
             dirty = 0,
             last_flush = 0,
-            last_head_apostrophe = false, -- 最近一次按键时 input 是否 ' 开头（连打态快照）
+            last_key_time = nil, -- 上一次计键时刻，用于估算活跃打字时长
         }
     end
     return _G.__typing_stats
@@ -43,7 +50,9 @@ local function today_str()
 end
 
 local function new_row(day)
-    return { day = day, chars = 0, keys = 0, commits = 0, backspaces = 0, sent_chars = 0 }
+    -- sent_chars 为旧版"连打字数"，已停止累计，仅为兼容旧文件保留列位
+    return { day = day, chars = 0, keys = 0, commits = 0, backspaces = 0,
+        sent_chars = 0, active_secs = 0, timed_chars = 0 }
 end
 
 local function load(st)
@@ -54,9 +63,13 @@ local function load(st)
     local f = io.open(stats_path(), "r")
     if f then
         for line in f:lines() do
-            local day, c, k, cm, b, s =
-                line:match("^(%d%d%d%d%-%d%d%-%d%d)\t(%d+)\t(%d+)\t(%d+)\t(%d+)\t(%d+)")
+            local day, c, k, cm, b, s, a, tc =
+                line:match("^(%d%d%d%d%-%d%d%-%d%d)\t(%d+)\t(%d+)\t(%d+)\t(%d+)\t(%d+)\t?(%d*)\t?(%d*)")
             if day then
+                -- 旧 6 列文件无时长列；7 列过渡格式只有时长没有配对的计速字数，
+                -- 用它算速度会虚高，时长一并作废，从 8 列格式起重新累计
+                local timed = tonumber(tc)
+                local secs = timed and (tonumber(a) or 0) or 0
                 local row = {
                     day = day,
                     chars = tonumber(c) or 0,
@@ -64,6 +77,8 @@ local function load(st)
                     commits = tonumber(cm) or 0,
                     backspaces = tonumber(b) or 0,
                     sent_chars = tonumber(s) or 0,
+                    active_secs = secs,
+                    timed_chars = timed or 0,
                 }
                 if day == today then
                     st.today = row
@@ -88,7 +103,8 @@ local function flush(st)
     if not f then return end
     local function write_row(r)
         f:write(r.day, "\t", r.chars, "\t", r.keys, "\t", r.commits, "\t",
-            r.backspaces, "\t", r.sent_chars, "\n")
+            r.backspaces, "\t", r.sent_chars or 0, "\t", r.active_secs or 0, "\t",
+            r.timed_chars or 0, "\n")
     end
     for _, row in ipairs(st.history) do write_row(row) end
     write_row(st.today)
@@ -135,20 +151,29 @@ function M.processor(key, env)
     if is_ascii_mode(env) then return kNoop end
 
     local code = tonumber(key.keycode or 0) or 0
+    local is_backspace = (code == XK_BACKSPACE)
+    if not is_backspace and not (code >= 0x20 and code < 0x7f) then return kNoop end
+
     local st = state()
-    if code == XK_BACKSPACE then
-        load(st)
-        roll_day(st)
-        st.today.backspaces = st.today.backspaces + 1
-        return kNoop
+    load(st)
+    roll_day(st)
+
+    -- 活跃时长：相邻按键间隔在 IDLE_GAP 秒内按实际间隔累计；首键或长停顿后
+    -- 视为新一段打字，按 1 秒起步成本计。os.time() 只有秒级精度，聊天式的
+    -- 短爆发若只记"首键到末键"跨度会严重少记时间、速度虚高
+    local now = os.time()
+    local gap = st.last_key_time and (now - st.last_key_time) or -1
+    if gap >= 0 and gap <= IDLE_GAP then
+        st.today.active_secs = st.today.active_secs + gap
+    else
+        st.today.active_secs = st.today.active_secs + 1
     end
-    if code >= 0x20 and code < 0x7f then
-        load(st)
-        roll_day(st)
+    st.last_key_time = now
+
+    if is_backspace then
+        st.today.backspaces = st.today.backspaces + 1
+    else
         st.today.keys = st.today.keys + 1
-        local ctx = env and env.engine and env.engine.context
-        local input = ctx and tostring(ctx.input or "") or ""
-        st.last_head_apostrophe = (input:sub(1, 1) == "'")
     end
     return kNoop
 end
@@ -165,12 +190,8 @@ function M.on_commit(ctx)
     local han = count_han(text)
     st.today.commits = st.today.commits + 1
     st.today.chars = st.today.chars + han
-    -- 连打判定：commit 瞬间 input 仍为 ' 开头，或最近按键快照处于连打态
-    local input = tostring(ctx.input or "")
-    if han > 0 and (input:sub(1, 1) == "'" or st.last_head_apostrophe) then
-        st.today.sent_chars = st.today.sent_chars + han
-    end
-    st.last_head_apostrophe = false
+    -- 计速字数与活跃时长同期累计，保证速度的分子分母来自同一段时间
+    st.today.timed_chars = (st.today.timed_chars or 0) + han
 
     st.dirty = st.dirty + 1
     if st.dirty >= FLUSH_EVERY or os.time() - (st.last_flush or 0) >= FLUSH_IDLE then
@@ -211,7 +232,8 @@ local function sum_rows(rows, from_day)
             acc.keys = acc.keys + r.keys
             acc.commits = acc.commits + r.commits
             acc.backspaces = acc.backspaces + r.backspaces
-            acc.sent_chars = acc.sent_chars + r.sent_chars
+            acc.active_secs = acc.active_secs + (r.active_secs or 0)
+            acc.timed_chars = acc.timed_chars + (r.timed_chars or 0)
         end
     end
     return acc
@@ -222,9 +244,17 @@ local function code_len(r)
     return string.format("%.2f", r.keys / r.chars)
 end
 
-local function pct(part, total)
-    if total == 0 then return "0%" end
-    return string.format("%d%%", math.floor(part / total * 100 + 0.5))
+-- 速度 = 计速字数 ÷ 活跃时长。活跃时长是估算值，一律带"约"；
+-- 范围内有未计速的字（旧数据）时速度只代表有记录部分，加注"（可能不准）"。
+local function speed_str(r)
+    local secs = r.active_secs or 0
+    local timed = r.timed_chars or 0
+    if secs < MIN_SPEED_SECS or timed == 0 then return "-" end
+    local s = string.format("约%d字/分", math.floor(timed / secs * 60 + 0.5))
+    if timed < r.chars then
+        s = s .. "（可能不准）"
+    end
+    return s
 end
 
 function M.translator(input, seg, env)
@@ -247,8 +277,8 @@ function M.translator(input, seg, env)
     for i, item in ipairs(rows) do
         local label, r = item[1], item[2]
         local text = string.format("%s %d 字 · 码长 %s", label, r.chars, code_len(r))
-        local comment = string.format("击键 %d · 上屏 %d · 退格 %d · 连打 %s",
-            r.keys, r.commits, r.backspaces, pct(r.sent_chars, r.chars))
+        local comment = string.format("击键 %d · 上屏 %d · 退格 %d · 速度 %s",
+            r.keys, r.commits, r.backspaces, speed_str(r))
         if label == "累计" then
             comment = comment .. " · 自 " .. first_day
         end

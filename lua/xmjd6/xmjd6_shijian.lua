@@ -11,9 +11,11 @@ local IMPL_MODULE = "xmjd6.shijian_impl"
 -- 精确触发码（与 shijian_impl.lua 内 translator 的分支一一对应）
 local TRIGGERS = {
     rq = true,       -- 日期
+    eo = true,       -- 日期（同 rq）
     ej = true,       -- 时间
     xq = true,       -- 星期
     nl = true,       -- 农历
+    nylk = true,     -- 农历（同 nl）
     jq = true,       -- 节气
     ["sjx/"] = true, -- 生日/节日倒计时
 }
