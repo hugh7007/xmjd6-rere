@@ -478,6 +478,16 @@ style:
    horizontal: false #竖排为false  横true
 menu:
   page_size: 5 # 候選項數量
-  # alternative_select_labels: [ "1.", "2.", "", "", "", "", "", "" ]
-  # alternative_select_labels: [ "", "", "", "", "", "", "", "" ]
-  alternative_select_labels: [ "〡 ", "〢 ", "〣 ", "〤 ", "〥 ", "〦", "〧", "〨", "〩" ]
+  # alternative_select_labels: ["壹","贰","叁","肆","伍","陆","柒","捌","玖"]
+  # alternative_select_labels: ["弌","弍","弎","亖","卌","丗","柒","捌","玖"]
+  # alternative_select_labels: ["Ⅰ","Ⅱ","Ⅲ","Ⅳ","Ⅴ","Ⅵ","Ⅶ","Ⅷ","Ⅸ"]
+  # alternative_select_labels: ["ⅰ","ⅱ","ⅲ","ⅳ","ⅴ","ⅵ","ⅶ","ⅷ","ⅸ"]
+  # alternative_select_labels: ["①","②","③","④","⑤","⑥","⑦","⑧","⑨"]
+  # alternative_select_labels: ["⓵","⓶","⓷","⓸","⓹","⓺","⓻","⓼","⓽"]
+  # alternative_select_labels: ["١","٢","٣","٤","٥","٦","٧","٨","٩"]
+  # alternative_select_labels: ["१","२","३","४","५","६","७","८","९"]
+  # alternative_select_labels: [ "〡 ", "〢 ", "〣 ", "〤 ", "〥 ", "〦", "〧", "〨", "〩" ]
+  # alternative_select_labels: ["¥", "€", "$", "£", "¢", "₽", "₩"]
+  alternative_select_labels: ["♩", "♪", "♫", "♬", "♭", "♯"]
+  # alternative_select_labels: ["♂", "♀", "⚣", "⚢", "⚤", "⚥", "☿️"]
+  # alternative_select_labels: ["⚣", "⚢", "⚤", "⚥", "☿️", "⚯"]

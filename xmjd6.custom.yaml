@@ -15,13 +15,14 @@ patch:
   embeded_cands/max_candidates: 50    # 输入框内嵌候选上限；0 表示不限
 
   # ===== 功能总开关 =====
-  candidate_order/enabled: true       # 动态调频；false 时按 0 不调频
-  quick_symbol/enabled: true          # 快捷符号
-  direct_ascii/symbols: ".,:!?"      # 空码直接上屏；避免加入 ; ' / = \
-  direct_ascii/digits: true           # 空码数字直接上屏
-  text_transform/hotkey: "Control+g" # 当前候选进入文本加工面板
-  text_transform/sentence_hotkey: "slash" # 有候选时按 / 加工当前内容
-  text_transform/sentence_prefix: "a"      # 整句模式前缀（与 sentence_mode/prefix 同步）
+  candidate_order/enabled: true             # 动态调频；false 时按 0 不调频
+  quick_symbol/enabled: true                # 快捷符号
+  direct_ascii/symbols: ".,:!?"             # 空码直接上屏；避免加入 ; ' / = \
+  direct_ascii/digits: true                 # 空码数字直接上屏
+  text_transform/hotkey: "Control+g"        # 当前候选进入文本加工面板
+  text_transform/sentence_hotkey: "slash"   # 有候选时按 / 加工当前内容
+  text_transform/sentence_prefix: "a"       # 整句模式前缀（与 sentence_mode/prefix 同步）
+  direct_ascii/empty_code_topup: true       # 顶功模式是否追顶
 
   # ===== 各状态开关的默认值 =====
   # switches 序号来自 xmjd6.schema.yaml；1=默认开启，0=默认关闭。
@@ -30,7 +31,7 @@ patch:
   switches/@7/reset: 1                # 630 简码提示
   switches/@8/reset: 1                # 逐码候选
   switches/@10/reset: 1               # 快符开关,    1=开（候选模式），0=关（直接上屏）
-  switches/@14/reset: 1               # 符号\$&/这些会直接上屏；1=开（候选模式），0=关（直接上屏）
+  switches/@14/reset: 1               # 符号\$*/这些会直接上屏；1=开（候选模式），0=关（直接上屏）；& 已独立，不受此开关控制
   switches/@15/reset: 1               # 等号直接上屏；1=开（候选模式），0=关（直接上屏）
   # switches/@11/reset: 0             # 输入框内嵌候选；需要默认关闭时取消注释
   # switches/@9/reset: 1            # 动态调频
