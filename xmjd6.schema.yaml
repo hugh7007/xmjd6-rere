@@ -402,7 +402,7 @@ key_binder:
   select_first_character: "bracketleft"  # 左中括号 [
   select_last_character: "bracketright"  # 右中括号 ]
   add_ge: "backslash"
-  bian_zi: "bar"  # ｜：辫子模式；/ 留给 ' 连打整句加工
+  bian_zi: "bar"  # |：辫子模式；/ 留给 ' 连打整句加工
   bindings:
     - { when: always, accept: "Control+period", toggle: ascii_punct }
     - {accept: minus, send: Page_Up, when: has_menu}

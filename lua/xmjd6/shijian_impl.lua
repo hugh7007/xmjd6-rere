@@ -1545,12 +1545,18 @@ end
 local function translator(input, seg)
     -- 日期
     if (input == "rq" or input == "eo") then
-        date = os.date("%Y-%m-%d")
+        -- eo 首选显示当前时间，rq 不显示
+        if input == "eo" then
+            local cur_time = string.gsub(os.date("%H:%M:%S"), "^0+", "")
+            yield(Candidate("time", seg.start, seg._end, cur_time, "当前时间"))
+        end
+
+        date = os.date("%Y%m%d")
         num_year = os.date("%j/") .. IsLeap(os.date("%Y"))
         candidate = Candidate("date", seg.start, seg._end, date, num_year)
         yield(candidate)
 
-        date = os.date("%Y年%m月%d日")
+        date = os.date("%Y年") .. tonumber(os.date("%m")) .. "月" .. tonumber(os.date("%d")) .. "日"
         candidate = Candidate("date", seg.start, seg._end, date, "")
         yield(candidate)
 
