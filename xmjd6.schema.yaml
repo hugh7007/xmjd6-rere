@@ -180,6 +180,7 @@ engine:
     - lua_filter@*xmjd6/add_space # | 替换成空格
     - lua_filter@*xmjd6/add_en_space # 英文上屏自动加空格
     - lua_filter@*xmjd6/text_transform_preedit # 隐藏 / 加工面板内部使用的 =wrap 编码
+    - lua_filter@*xmjd6/jieqi_countdown # 节气候选追加倒计时
     - uniquifier
 
 #导入符号

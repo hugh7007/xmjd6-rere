@@ -1,4 +1,4 @@
--- shijian_impl.lua —— 时间/农历/节气 translator 的真正实现
+﻿-- shijian_impl.lua —— 时间/农历/节气 translator 的真正实现
 -- 本文件由 xmjd6_shijian.lua 按需 require：只有输入命中 rq/ej/xq/nl/jq/=日期/sjx/ 时才加载，
 -- iOS 清内存 sentinel 会从 package.loaded 卸载它，避免天文历法数据表常驻内存。
 -- _ENV 沙箱：原脚本的全局函数/变量全部落入本模块私有环境表，不再污染共享的 _G；
@@ -1635,10 +1635,10 @@ local function translator(input, seg)
 
         for i = 1, #jqs do
             if i <= 2 then
+                -- 倒计时由 jieqi_countdown.lua filter 统一追加，这里只输出原候选
                 yield(Candidate("jwql", seg.start, seg._end, jqs[i], ""))
             end
         end
-        -- yield(Candidate("jwql", seg.start, seg._end, string.sub(jqs[i],1,6), string.sub(jqs[i],7,-1)))
         -- 日历查询
     elseif string.sub(input, 1, 1) == "=" then
         local n = string.sub(input, 2)
