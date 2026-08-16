@@ -1,5 +1,5 @@
 ﻿-- shijian_impl.lua —— 时间/农历/节气 translator 的真正实现
--- 本文件由 xmjd6_shijian.lua 按需 require：只有输入命中 rq/ej/xq/nl/jq/=日期/sjx/ 时才加载，
+-- 本文件由 xmjd6_shijian.lua 按需 require：只有输入命中 rq/ej/xq/nl/jq/=日期/dje 时才加载，
 -- iOS 清内存 sentinel 会从 package.loaded 卸载它，避免天文历法数据表常驻内存。
 -- _ENV 沙箱：原脚本的全局函数/变量全部落入本模块私有环境表，不再污染共享的 _G；
 -- 标准库与 librime-lua API（os/math/string/Candidate/yield 等）经 __index 透传读取。
@@ -1652,7 +1652,7 @@ local function translator(input, seg)
                 end
             end
         end -- if tonumber
-    elseif (input == "sjx/") then
+    elseif (input == "dje") then
         local list = load_anniversaries()
         if #list > 0 then
             -- 计算每条的剩余天数，按"最近要过的"升序输出
@@ -1685,17 +1685,17 @@ local function translator(input, seg)
                 return a.idx < b.idx -- 同天数按文件行序，保证排序稳定
             end)
             for _, it in ipairs(items) do
-                yield(Candidate("sjx/", seg.start, seg._end, it.text, it.tip))
+                yield(Candidate("dje", seg.start, seg._end, it.text, it.tip))
             end
         else
             -- 未配置 anniversaries.txt 时保留内置示例
             local today = os.date("%Y%m%d")
             local sr = "距离下次生日还有" .. diffDate2(today, "20001031") .. "天"
-            yield(Candidate("sjx/", seg.start, seg._end, sr, ""))
+            yield(Candidate("dje", seg.start, seg._end, sr, ""))
             local qrj = "距离下次情人节还有" .. diffDate2(today, "20210214") .. "天"
-            yield(Candidate("sjx/", seg.start, seg._end, qrj, ""))
+            yield(Candidate("dje", seg.start, seg._end, qrj, ""))
             local qx = "距离下次七夕节还有" .. nl_shengri2("2021", "07", "07") .. "天"
-            yield(Candidate("sjx/", seg.start, seg._end, qx, ""))
+            yield(Candidate("dje", seg.start, seg._end, qx, ""))
         end
     end -- if
 end -- function

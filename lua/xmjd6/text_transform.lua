@@ -332,7 +332,7 @@ function M.processor(key, env)
     -- Slash is syntax inside every '=' tool/command (for example calculator
     -- division and =add/=del paths), so it must never be stolen by the text
     -- processing palette while such an input is being composed.
-    if slash_wrap and (input == "sjx" or input:sub(1, 1) == "=") then
+    if slash_wrap and (input:sub(1, 3) == "dje" or input:sub(1, 1) == "=") then
         return 2
     end
 

@@ -17,7 +17,7 @@ local TRIGGERS = {
     nl = true,       -- 农历
     nylk = true,     -- 农历（同 nl）
     jq = true,       -- 节气
-    ["sjx/"] = true, -- 生日/节日倒计时
+    dje = true,       -- 生日/节日倒计时
 }
 
 -- 模块级注册：sentinel 到达时卸载 impl，释放其全部函数与天文数据表

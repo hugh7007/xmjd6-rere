@@ -457,7 +457,7 @@ recognizer:
     quanpinerfen: "^v[a-z']*'?$"
     xmjd6gbk: "^o[a-z]*?$"
     jsq: "^=[^;']+$"
-    sjx: "^sjx/$"    # 纪念日倒计时：输入 sjx 后按 / 触发（缺此 pattern 时 / 进不了编码串）
+    dje: "^dje$"    # 纪念日倒计时：输入 dje 直接触发
     zhuan: "^\\\\.*$" # 不加这句后面不能跟数字
     unicode: "^&+.*$"
     app_launcher: "^=o[a-z0-9]*$"
