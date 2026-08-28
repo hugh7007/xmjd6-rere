@@ -108,7 +108,7 @@ jobs:
       with:
         script: |
           const response = await github.rest.repos.getLatestRelease({
-            owner: 'amorphobia',
+            owner: 'rimeinn',
             repo: 'rabbit',
           });
           const tagName = response.data.tag_name;
@@ -143,7 +143,7 @@ jobs:
       
     - name: Download the release asset
       run: |
-        curl -L -o rabbit-${{ env.RELEASE_TAG }}.zip https://github.com/amorphobia/rabbit/releases/download/${{ env.RELEASE_TAG }}/rabbit-${{ env.RELEASE_TAG }}-x64.zip
+        curl -L -o rabbit-${{ env.RELEASE_TAG }}.zip https://github.com/rimeinn/rabbit/releases/download/${{ env.RELEASE_TAG }}/rabbit-${{ env.RELEASE_TAG }}-x64.zip
       
     - name: Unzip Rabbit
       run: |
