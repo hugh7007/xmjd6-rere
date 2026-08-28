@@ -16,7 +16,6 @@ local TRIGGERS = {
     xq = true,       -- 星期
     nl = true,       -- 农历
     nylk = true,     -- 农历（同 nl）
-    jq = true,       -- 节气
     dje = true,       -- 生日/节日倒计时
 }
 

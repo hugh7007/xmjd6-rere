@@ -1616,29 +1616,6 @@ local function translator(input, seg)
         candidate = Candidate("date", seg.start, seg._end, date, "")
         yield(candidate)
 
-        -- 节气
-    elseif (input == "jq") then
-        local jqs = GetNowTimeJq(os.date("%Y%m%d")) -- 获取节气，从下个节气开始
-        -- 当下个节气过远时(大于7天)，增加显示上个节气
-        if tonumber(diffDate(os.date("%Y%m%d"), string.gsub(jqs[1]:sub(8, -1), "-", ""))) > 7 then
-            a = string.gsub(jqs[1]:sub(8, -1), "-", "")
-            if a:sub(7, 8) > "17" then
-                a = a - 17
-            elseif a:sub(5, 6) > "01" then
-                a = a - 100 + 13
-            else
-                a = a - 10000 + 1100 + 13
-            end
-            a = tostring(a):sub(1, -3)
-            jqs = GetNowTimeJq(a)
-        end
-
-        for i = 1, #jqs do
-            if i <= 2 then
-                -- 倒计时由 jieqi_countdown.lua filter 统一追加，这里只输出原候选
-                yield(Candidate("jwql", seg.start, seg._end, jqs[i], ""))
-            end
-        end
         -- 日历查询
     elseif string.sub(input, 1, 1) == "=" then
         local n = string.sub(input, 2)
