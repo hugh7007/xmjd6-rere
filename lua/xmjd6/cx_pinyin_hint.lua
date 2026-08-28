@@ -294,24 +294,19 @@ function M.func(input, env)
 
     local map = get_map(env.cx_pinyin_hint_path or DEFAULT_DICT_FILE)
     for cand in input:iter() do
-        -- shape_lookup 翻译器产出的候选(type="shape")已自带拼音，跳过以免重复
-        if cand.type == "shape" then
-            yield(cand)
-        else
-            local text = cand.text
-            if M.should_hint(text, env.cx_pinyin_hint_only_single_char) then
-                local pinyin = map[text]
-                if pinyin then
-                    local ok, genuine = pcall(function() return cand:get_genuine() end)
-                    if ok and genuine then
-                        genuine.comment = M.append_comment(genuine.comment or cand.comment or "", pinyin)
-                    else
-                        cand.comment = M.append_comment(cand.comment or "", pinyin)
-                    end
+        local text = cand.text
+        if M.should_hint(text, env.cx_pinyin_hint_only_single_char) then
+            local pinyin = map[text]
+            if pinyin then
+                local ok, genuine = pcall(function() return cand:get_genuine() end)
+                if ok and genuine then
+                    genuine.comment = M.append_comment(genuine.comment or cand.comment or "", pinyin)
+                else
+                    cand.comment = M.append_comment(cand.comment or "", pinyin)
                 end
             end
-            yield(cand)
         end
+        yield(cand)
     end
 end
 
