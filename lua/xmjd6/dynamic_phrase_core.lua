@@ -299,6 +299,20 @@ function M.load_entries(path)
     return entries
 end
 
+function M.search_entries(query, path)
+    query = trim(query)
+    local code_query = query:lower()
+    local out = {}
+    for _, entry in ipairs(M.load_entries(path)) do
+        if query == ""
+            or entry.text:find(query, 1, true)
+            or entry.code:lower():find(code_query, 1, true) then
+            out[#out + 1] = { text = entry.text, code = entry.code }
+        end
+    end
+    return out
+end
+
 function M.load_index(path)
     local entries, by_code, by_root = get_cached_entries(path)
     return {
