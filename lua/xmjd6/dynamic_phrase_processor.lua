@@ -209,6 +209,23 @@ local function processor(key, env)
 
     -- Space/Return in management mode: fall through (do not resolve as command)
     if in_management then
+        -- Enter on bare ''' commits the literal three-apostrophe string directly,
+        -- regardless of which candidate is highlighted. Mirrors the '' apostrophe
+        -- behavior: space commits the highlighted candidate (first dynamic phrase),
+        -- while Enter commits the symbol ''' itself. Functional sub-states
+        -- (delete confirm / notice) keep their current behavior.
+        local k = key.keycode
+        local repr = key.repr and key:repr() or ""
+        local is_return = (k == 0x0d or repr == "Return" or repr == "KP_Enter")
+        if is_return and input == "'''" then
+            local pd = state.pending_delete
+            local mn = state.manager_notice
+            if not (pd and pd.input == input) and not (mn and mn.input == input) then
+                env.engine:commit_text("'''")
+                context:clear()
+                return kAccepted
+            end
+        end
         -- If the highlighted candidate is a status message (empty list, delete
         -- notice, or delete confirm), close the window instead of committing it.
         local ok, selected = pcall(function() return context:get_selected_candidate() end)
