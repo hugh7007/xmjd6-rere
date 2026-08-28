@@ -559,6 +559,58 @@ local function build_data(records, errors)
     return data
 end
 
+local function copy_record(rec)
+    if not rec then return nil end
+    return {
+        promoted = rec.promoted,
+        old_code = rec.old_code,
+        displaced = rec.displaced,
+        target_code = rec.target_code,
+        new_code = rec.new_code,
+        same_code = rec.same_code,
+        line_no = rec.line_no,
+    }
+end
+
+local function record_matches_query(rec, query)
+    if query == "" then return true end
+    local needle = query:lower()
+    for _, value in ipairs({
+        rec.promoted,
+        rec.old_code,
+        rec.displaced,
+        rec.target_code,
+        rec.new_code,
+    }) do
+        if type(value) == "string" and value:lower():find(needle, 1, true) then
+            return true
+        end
+    end
+    return false
+end
+
+function M.search_records(query, filename)
+    query = trim(query)
+    local records = load_orders_uncached(M.store_path(filename or M.default_filename))
+    local out = {}
+    for _, rec in ipairs(records) do
+        if record_matches_query(rec, query) then
+            out[#out + 1] = copy_record(rec)
+        end
+    end
+    return out
+end
+
+function M.record_at_line(line_no, filename)
+    line_no = tonumber(line_no)
+    if not line_no then return nil end
+    local records = load_orders_uncached(M.store_path(filename or M.default_filename))
+    for _, rec in ipairs(records) do
+        if rec.line_no == line_no then return copy_record(rec) end
+    end
+    return nil
+end
+
 function M.load(filename)
     local base_dir = M.user_data_dir()
     local order_path = M.store_path(filename or M.default_filename)
@@ -1173,6 +1225,71 @@ local function is_chain_side_effect(rec, removed_rec)
         and rec.promoted == removed_rec.promoted
         and rec.old_code == removed_rec.old_code
         and rec.target_code ~= removed_rec.target_code
+end
+
+function M.remove_record_and_dependents(record, path)
+    if type(record) ~= "table" then return false, 0 end
+    path = path or M.store_path(M.default_filename)
+
+    local lines = {}
+    local parsed_by_index = {}
+    local f = io.open(path, "r")
+    if not f then return true, 0 end
+    for line in f:lines() do
+        lines[#lines + 1] = line
+        parsed_by_index[#lines] = M.parse_line(line, #lines)
+    end
+    f:close()
+
+    local selected_index = nil
+    local preferred_line = tonumber(record.line_no)
+    if preferred_line and parsed_by_index[preferred_line]
+        and same_record(parsed_by_index[preferred_line], record) then
+        selected_index = preferred_line
+    else
+        for i = 1, #lines do
+            local rec = parsed_by_index[i]
+            if rec and same_record(rec, record) then
+                selected_index = i
+                break
+            end
+        end
+    end
+    if not selected_index then return true, 0 end
+
+    local remove = { [selected_index] = true }
+    local removed_records = { parsed_by_index[selected_index] }
+    local changed = true
+    while changed do
+        changed = false
+        for i = 1, #lines do
+            local rec = parsed_by_index[i]
+            if rec and not remove[i] then
+                for _, removed_rec in ipairs(removed_records) do
+                    if is_chain_side_effect(rec, removed_rec) then
+                        remove[i] = true
+                        removed_records[#removed_records + 1] = rec
+                        changed = true
+                        break
+                    end
+                end
+            end
+        end
+    end
+
+    local kept = {}
+    for i, line in ipairs(lines) do
+        if not remove[i] then kept[#kept + 1] = line end
+    end
+
+    local wf = io.open(path, "w")
+    if not wf then return false, 0 end
+    if #kept > 0 then wf:write(table.concat(kept, "\n"), "\n") end
+    local ok = wf:close()
+    if ok == false then return false, 0 end
+
+    clear_cache()
+    return true, #removed_records
 end
 
 function M.remove_records_for_texts(texts, path, codes)

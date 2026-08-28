@@ -7,6 +7,9 @@ local core = require("xmjd6.candidate_order_core")
 local kAccepted = 1
 local kNoop = 2
 
+_G.__candidate_order_manager_state = _G.__candidate_order_manager_state or {}
+local manager_state = _G.__candidate_order_manager_state
+
 local function get_store_file(env)
     if env and env.engine and env.engine.schema and env.engine.schema.config then
         local file = env.engine.schema.config:get_string("candidate_order/store_file")
@@ -48,6 +51,102 @@ local function is_hotkey(key, hotkey)
 
     if repr == hotkey then return true end
     return false
+end
+
+local function is_plain_zero(key)
+    if not key or key:release() or key:ctrl() or key:alt() or key:super() then
+        return false
+    end
+    local repr = key:repr() or ""
+    return key.keycode == string.byte("0") or repr == "0"
+end
+
+local function is_plain_press(key)
+    return key and not key:release() and not key:ctrl() and not key:alt() and not key:super()
+end
+
+local function management_query(input)
+    if type(input) ~= "string" then return nil end
+    return input:match("^=tp(.*)$")
+end
+
+local function refresh_context(context)
+    if context and type(context.refresh_non_confirmed_composition) == "function" then
+        pcall(function() context:refresh_non_confirmed_composition() end)
+    end
+end
+
+local function cancel_stale_manager_state(context, key, key_is_zero)
+    if not is_plain_press(key) then return false end
+    local input = context and context.input or ""
+    local pending = manager_state.pending_delete
+    if pending and pending.input ~= input then
+        manager_state.pending_delete = nil
+        refresh_context(context)
+        return key_is_zero
+    end
+    if pending and not key_is_zero then
+        manager_state.pending_delete = nil
+        refresh_context(context)
+    end
+    local notice = manager_state.manager_notice
+    if notice and (notice.input ~= input or not key_is_zero) then
+        manager_state.manager_notice = nil
+    end
+    return false
+end
+
+local function selected_manager_record(context, store_file)
+    if not context or type(context.get_selected_candidate) ~= "function" then return nil end
+    local ok, cand = pcall(function() return context:get_selected_candidate() end)
+    if not ok or not cand or cand.type ~= "candidate_order_manager" then return nil end
+    local line_no = (cand.comment or ""):match("〔调频·第(%d+)行·按0撤销〕$")
+    if not line_no then return nil end
+    local rec = core.record_at_line(tonumber(line_no), store_file)
+    if not rec then return nil end
+    local expected_text = rec.target_code .. "：" .. rec.promoted .. "置顶"
+    if cand.text ~= expected_text then return nil end
+    return rec
+end
+
+local function handle_manager_zero(context, env)
+    local input = context and context.input or ""
+    if management_query(input) == nil then return kNoop end
+
+    local pending = manager_state.pending_delete
+    if pending and pending.input == input and pending.record then
+        local rec = pending.record
+        local ok, removed = core.remove_record_and_dependents(
+            rec,
+            core.store_path(get_store_file(env))
+        )
+        manager_state.pending_delete = nil
+        local message
+        if not ok then
+            message = "撤销失败：无法写入 candidate_order.txt"
+        elseif removed == 0 then
+            message = "未找到该调频，文件可能已被其他设备更新"
+        else
+            message = "已撤销调频：" .. rec.target_code .. " / " .. rec.promoted
+                .. "；共清理" .. tostring(removed) .. "条"
+        end
+        manager_state.manager_notice = {
+            input = input,
+            message = message,
+            ok = ok and removed > 0,
+        }
+        refresh_context(context)
+        return kAccepted
+    end
+
+    local rec = selected_manager_record(context, get_store_file(env))
+    if rec then
+        manager_state.pending_delete = { input = input, record = rec }
+        manager_state.manager_notice = nil
+        refresh_context(context)
+    end
+    -- Never let 0 select or commit a helper candidate in management mode.
+    return kAccepted
 end
 
 local function selected_index(context)
@@ -144,11 +243,21 @@ local function choose_old_code(text, target_code, env)
 end
 
 local function processor(key, env)
+    local engine = env and env.engine
+    local context = engine and engine.context
+    if not context then return kNoop end
+
+    local key_is_zero = is_plain_zero(key)
+    if cancel_stale_manager_state(context, key, key_is_zero) then
+        return kAccepted
+    end
+    if key_is_zero and management_query(context.input or "") ~= nil then
+        return handle_manager_zero(context, env)
+    end
+
     if not core.is_enabled(env) then return kNoop end
     if not is_hotkey(key, get_hotkey(env)) then return kNoop end
 
-    local engine = env and env.engine
-    local context = engine and engine.context
     if not context or not context:has_menu() then return kNoop end
 
     local target_code = context.input or ""

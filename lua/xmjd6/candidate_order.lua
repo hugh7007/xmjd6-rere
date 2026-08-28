@@ -11,15 +11,81 @@ local function get_store_file(env)
     return core.default_filename
 end
 
-local function make_candidate(seg, text, comment, quality)
-    local cand = Candidate("candidate_order", seg.start, seg._end, text, comment or "")
+local function make_candidate(seg, text, comment, quality, cand_type)
+    local cand = Candidate(cand_type or "candidate_order", seg.start, seg._end, text, comment or "")
     cand.quality = quality or 260000
     return cand
 end
 
+local function management_query(input)
+    if type(input) ~= "string" then return nil end
+    return input:match("^=tp(.*)$")
+end
+
+local function management_comment(rec)
+    local moved = "下移"
+    if rec.new_code and rec.new_code ~= "" then moved = "→" .. rec.new_code end
+    return "原码" .. rec.old_code .. "；" .. rec.displaced .. moved
+        .. "〔调频·第" .. tostring(rec.line_no) .. "行·按0撤销〕"
+end
+
+local function yield_management_candidates(input, seg, env)
+    local query = management_query(input)
+    if query == nil then return false end
+
+    local state = _G.__candidate_order_manager_state or {}
+    local pending = state.pending_delete
+    if pending and pending.input == input and pending.record then
+        local rec = pending.record
+        yield(make_candidate(
+            seg,
+            "确认撤销：" .. rec.target_code .. " / " .. rec.promoted,
+            "恢复" .. rec.displaced .. "〔再按0确认，其他键取消〕",
+            600000,
+            "candidate_order_delete_confirm"
+        ))
+        return true
+    end
+
+    local notice = state.manager_notice
+    if notice and notice.input == input and notice.message and notice.message ~= "" then
+        yield(make_candidate(
+            seg,
+            notice.message,
+            notice.ok and "〔调频管理〕" or "〔撤销失败〕",
+            600000,
+            "candidate_order_manager_notice"
+        ))
+    end
+
+    local records = core.search_records(query, get_store_file(env))
+    if #records == 0 then
+        yield(make_candidate(
+            seg,
+            query == "" and "暂无动态调频" or "没有匹配的动态调频",
+            "candidate_order.txt",
+            500000,
+            "candidate_order_manager_empty"
+        ))
+        return true
+    end
+
+    for i, rec in ipairs(records) do
+        yield(make_candidate(
+            seg,
+            rec.target_code .. "：" .. rec.promoted .. "置顶",
+            management_comment(rec),
+            500000 - i,
+            "candidate_order_manager"
+        ))
+    end
+    return true
+end
+
 local function translator(input, seg, env)
-    if not core.is_enabled(env) then return end
     if type(input) ~= "string" or input == "" then return end
+    if yield_management_candidates(input, seg, env) then return end
+    if not core.is_enabled(env) then return end
     if not input:match("^[a-z]+$") then return end
 
     local target_records, new_records, data = core.records_for_input(input, get_store_file(env))
