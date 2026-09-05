@@ -669,7 +669,9 @@ sort: original
 了	l
 啦	l
 啊	o
+哦	o
 着	o
+口	o
 有	v
 木	v
 士	v
@@ -907,4 +909,20 @@ sort: original
 匸	va
 衤	oa
 礻	oa
+#endregion
+
+
+
+#region 英语 （排除表）
+MIKIMOTO	ymbuvv
+ima	ima
+ip	ip
+idea	idea
+id	id
+𝑷𝒓𝒐𝑴𝒂𝒙	p
+𝑷𝒓𝒐	p
+𝑷𝒍𝒖𝒔	p
+ii	ii
+iii	iii
+iiii	iiii
 #endregion
