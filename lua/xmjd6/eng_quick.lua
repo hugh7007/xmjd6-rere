@@ -8,6 +8,9 @@
 --
 -- 排除表：命中时候选显示保留 i 前缀（如 input=ma → 候选显示 ima）。
 --   排除表逻辑在 eng_quick_exclude 公共模块中，两个文件共用。
+--
+-- 含汉字的 i 码（io/ii/iu/ia …）：完全不出候选，交回主词典，
+--   否则 金钅⺗㣺、〢艹刂、扌手リ 这类部首笔画永远被英文候选压住。
 
 local M = {}
 
@@ -37,6 +40,11 @@ local function translator(input, seg, env)
 
     local display = to_display(input)
     if display == "" then return end
+
+    -- 含汉字的 i 码（io→金钅⺗㣺、ii→〢艹刂、iu→扌手リ）：直接让路给主词典
+    if exclude.is_pass_through(input) then
+        return
+    end
 
     -- 排除表：命中时候选显示 i + 排除词
     if exclude.is_excluded(input) then

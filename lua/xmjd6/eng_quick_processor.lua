@@ -11,6 +11,9 @@
 -- 排除表：命中时上屏保留 i 前缀（如 ima → 上屏 ima，而非 ma）。
 --   排除表逻辑在 eng_quick_exclude 公共模块中，两个文件共用。
 --   空格/回车均通过 keycode 判断，兼容手机端。
+--
+-- 含汉字的 i 码（io/ii/iu/ia …）：空格与回车一律不拦截，
+--   交回主词典的选字/顶功流程，否则会被上屏成 i+码 的字面量。
 
 local M = {}
 
@@ -86,6 +89,11 @@ local function processor(key, env)
 
     local query = input:sub(#PREFIX + 1)
     if not is_valid_query(query) then
+        return kNoop
+    end
+
+    -- 含汉字的 i 码（io→金钅⺗㣺、ii→〢艹刂、iu→扌手リ）：不拦截，交给主词典
+    if exclude.is_pass_through(query) then
         return kNoop
     end
 
