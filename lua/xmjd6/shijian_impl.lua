@@ -1542,31 +1542,83 @@ local function next_jieqi_days(name)
     return nil
 end
 
-local function translator(input, seg)
-    -- 日期
-    if (input == "rq" or input == "eo") then
-        -- eo 首选显示当前时间，rq 不显示
-        if input == "eo" then
-            local cur_time = string.gsub(os.date("%H:%M:%S"), "^0+", "")
-            yield(Candidate("time", seg.start, seg._end, cur_time, "当前时间"))
-        end
+-- 古代时刻：一个时辰 = 2 小时 = 8 刻，每刻 15 分钟。
+-- 前 4 刻称"初"、后 4 刻称"正"，如 11:36 -> 午初二刻，11:45 -> 午初三刻（即常说的"午时三刻"）。
+-- 仅供 eo 分支使用，不影响 nl / nylk 等其它分支。
+local function GetSichenKe(h, m)
+    local names = { "子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥" }
+    local ke_num = { "初", "一", "二", "三" }
+    h = tonumber(h) or 0
+    m = tonumber(m) or 0
+    local idx = math.floor((h + 1) / 2) + 1    -- 子时(23:00-01:00) 记为 1
+    if idx > 12 then idx = idx - 12 end
+    local start_h = (23 + (idx - 1) * 2) % 24  -- 该时辰的起始小时
+    local elapsed = ((h - start_h) * 60 + m) % 1440
+    if elapsed < 0 then elapsed = elapsed + 1440 end
+    local k = math.floor(elapsed / 15)         -- 0..3 属"初"，4..7 属"正"
+    if k < 4 then
+        return names[idx] .. "初" .. ke_num[k + 1] .. "刻"
+    end
+    return names[idx] .. "正" .. ke_num[k - 3] .. "刻"
+end
 
-        date = os.date("%Y%m%d")
+local function translator(input, seg)
+    -- 日期（rq）
+    if (input == "rq") then
+        -- 1) 标签
+        yield(Candidate("date", seg.start, seg._end, "日期", ""))
+
+        -- 年内第几天/全年天数，第 2、4 项共用
         num_year = os.date("%j/") .. IsLeap(os.date("%Y"))
+
+        -- 2) 2026-09-04
+        date = os.date("%Y-%m-%d")
         candidate = Candidate("date", seg.start, seg._end, date, num_year)
         yield(candidate)
 
+        -- 3) 2026年9月4日
         date = os.date("%Y年") .. tonumber(os.date("%m")) .. "月" .. tonumber(os.date("%d")) .. "日"
         candidate = Candidate("date", seg.start, seg._end, date, "")
         yield(candidate)
 
+        -- 4) 20260904，同样带天数注释
+        date = os.date("%Y%m%d")
+        candidate = Candidate("date", seg.start, seg._end, date, num_year)
+        yield(candidate)
+
+        -- 5) 二〇二六年九月四日
         date = CnDate_translator(os.date("%Y%m%d"))
         candidate = Candidate("date", seg.start, seg._end, date, "")
         yield(candidate)
 
+        -- 6) 农历（含节气）
         date = Date2LunarDate(os.date("%Y%m%d")) .. JQtest(os.date("%Y%m%d"))
         candidate = Candidate("date", seg.start, seg._end, date, "")
         yield(candidate)
+
+        -- 日期 + 时间（eo 专用：只改这里，rq / ej / nl / nylk / dje 均不受影响）
+    elseif (input == "eo") then
+        -- 取一次时间快照，保证下面几项秒数一致
+        local cur_time = string.gsub(os.date("%H:%M:%S"), "^0+", "")
+
+        -- 1) 标签
+        yield(Candidate("time", seg.start, seg._end, "时间", ""))
+
+        -- 2) 当前时间，小字注释"当前时间"
+        yield(Candidate("time", seg.start, seg._end, cur_time, "当前时间"))
+
+        -- 3) 日期-时间，小字注释为年内第几天/全年天数
+        date = os.date("%Y%m%d")
+        num_year = os.date("%j/") .. IsLeap(os.date("%Y"))
+        yield(Candidate("date", seg.start, seg._end, date .. "-" .. cur_time, num_year))
+
+        -- 4) 中文日期紧跟时间
+        date = os.date("%Y年") .. tonumber(os.date("%m")) .. "月" .. tonumber(os.date("%d")) .. "日" .. cur_time
+        yield(Candidate("date", seg.start, seg._end, date, ""))
+
+        -- 5) 农历 + 古代时刻
+        date = Date2LunarDate(os.date("%Y%m%d")) .. GetSichenKe(os.date("%H"), os.date("%M"))
+        yield(Candidate("date", seg.start, seg._end, date, ""))
 
         -- 时间
     elseif (input == "ej") then
