@@ -1,0 +1,54 @@
+# Rime default settings
+# 注意：此文件可能会被 Rime 重新部署时覆盖
+# 建议将自定义设置放在 default.custom.yaml 中
+
+config_version: "0.40"
+
+schema_list:
+  - schema: xmjd6
+  - schema: english
+
+switcher:
+  caption: "〔方案選單〕"
+  hotkeys:
+    - Control+Escape
+    - Control+F4
+    - F4
+  save_options:
+    - full_shape
+    - jffh
+    - tofu
+    - embeded_cands
+    - emoji_cn
+    - ascii_punct
+    - wxw_hint
+    - completion
+    - eng_space
+
+menu:
+  page_size: 6
+
+ascii_composer:
+  good_old_caps_lock: true
+  switch_key:
+    Caps_Lock: null
+    Control_L: noop
+    Control_R: noop
+    Shift_L: null
+    Shift_R: null
+
+key_binder:
+  bindings:
+    - { when: composing, accept: Escape, send: Escape }
+    - { when: has_menu, accept: minus, send: Page_Up }
+    - { when: has_menu, accept: equal, send: Page_Down }
+
+punctuator:
+  full_shape:
+    " ": { commit: "　" }
+  half_shape:
+    " ": { commit: " " }
+
+recognizer:
+  patterns:
+    uppercase: "[A-Z][-_+.'0-9A-Za-z]*$"
