@@ -1,0 +1,13 @@
+# Rime dictionary: xmjd6.o
+# encoding: utf-8
+#
+# O 模式常用层：去掉音码后的 viuoa 笔画 + 原有微信表情别名。
+---
+name: xmjd6.o
+version: "1.0"
+sort: by_weight
+use_preset_vocabulary: true
+max_phrase_length: 1
+import_tables:
+  - xmjd6.ostroke_common
+...
