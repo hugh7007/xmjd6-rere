@@ -58,7 +58,7 @@ local function filter(input, env)
         end
     end
 
-    local no_commit = (s ~= "" and b ~= "") and (
+    local no_commit = not input_text:match("^o[a-z0-9]+$") and (s ~= "" and b ~= "") and (
         (input_text:len() < 4 and input_text:match("^[" .. s .. "]+$")) or
         input_text:match("^[" .. b .. "]+$")
     )
@@ -77,7 +77,7 @@ local function filter(input, env)
         if cand.type == 'table' then
             -- 630 提示只针对本次纯字母编码。前面带有“2.”等内容时，
             -- 候选照常显示，但不追加短码提示。
-            if is_hint_on and input_text:match("^[a-z]+$")
+            if is_hint_on and not input_text:match("^o[a-z0-9]+$") and input_text:match("^[a-z]+$")
                 and (env.max_hint == 0 or hinted < env.max_hint) then
                 if hint(cand, input_text, short_code(cand, env)) then
                     hinted = hinted + 1

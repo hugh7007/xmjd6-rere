@@ -94,7 +94,10 @@ end
 local function split_pinyin_parts(pinyin)
     local parts = {}
     local inner = strip_brackets(pinyin)
-    for part in inner:gmatch("[^_/%s]+") do
+    -- Do not use %s here: under a UTF-8 locale Lua's byte-oriented pattern
+    -- may classify continuation byte 0xA0 (as in à) as whitespace and split
+    -- a valid UTF-8 character.  Pinyin metadata only uses ASCII separators.
+    for part in inner:gmatch("[^_/ \t\r\n]+") do
         parts[#parts + 1] = part
     end
     return parts
@@ -182,7 +185,7 @@ function M.is_reverse_lookup_input(input)
     if input:find("`", 1, true) then return true end
     if input:match("^u[a-z']*'?$") then return true end
     if input:match("^v[a-z']*'?$") then return true end
-    if input:match("^o[a-z]*$") then return true end
+    if input:match("^o[a-z0-9]+$") then return true end
     return false
 end
 

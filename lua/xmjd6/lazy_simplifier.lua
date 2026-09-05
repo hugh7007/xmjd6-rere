@@ -271,6 +271,21 @@ function M.func(input, env)
         return
     end
 
+    -- 反查模式（` / u / v / o）下全 suppress：emoji / mars / tofu 都不追加
+    -- 整句连打（a 前缀）下仅 suppress emoji，mars / tofu 照常生效
+    --   （此 M.func 被 @emoji_cn / @mars / @tofu 三实例共用，
+    --    反查要原始字符故全跳；整句只去 emoji，手机缺字替换与火星文不应受影响）
+    local ctx_input = env.engine.context.input or ""
+    local is_reverse = ctx_input:find("`", 1, true)
+        or ctx_input:match("^u[a-z']*'?$")
+        or ctx_input:match("^v[a-z']*'?$")
+        or ctx_input:match("^o[a-z0-9]+$")
+    local is_sentence = ctx_input:match("^a[a-z']*$")
+    if is_reverse or (is_sentence and env.is_emoji) then
+        for cand in input:iter() do yield(cand) end
+        return
+    end
+
     if not env.dict then
         env.dict = load_dict(env.dict_file, env.mode)
     end
