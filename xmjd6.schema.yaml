@@ -104,6 +104,7 @@ engine:
     - lua_processor@*xmjd6/quick_symbol        # ;q/~ ;a/! ;w/? 等唯一符号码自动上屏
     - lua_processor@*xmjd6/direct_ascii        # 空码数字和英文句点直接上屏：2. 不再等待空格
     - ascii_composer
+    - lua_processor@*xmjd6/o_number_select       # o 模式：数字 1~9 选中当页候选并上屏（须早于 recognizer/topup）
     - lua_processor@*xmjd6/sentence_mode_toggle # Switcher 关闭连打时，空码 ' 输出普通撇号
     - lua_processor@*xmjd6/sentence_buffer # 空格/'/顶功暂存；双空格整句上屏；回车上屏原编码
     - lua_processor@*xmjd6/eng_quick_processor # i 前缀英文：空格分词、双空格/回车上屏
@@ -307,6 +308,14 @@ xmjd6gbk:
   enable_user_dict: false
   prefix: "o"
 
+# o 模式的数字选重（o_number_select.lua）
+o_number_select:
+  prefix: "o"        # 只对以该前缀开头的编码串生效
+  tag: xmjd6gbk      # 只在该 tag 的分段里生效
+  page_size: 0       # 0 = 自动读 menu/page_size（当前 5）
+  max_index: 9       # 第一页时 1~9 都能直接选（不必翻页）
+  debug: true        # 诊断用：写 %TEMP%\o_number_select.log；稳定后改 false
+
 pinyin_simp_lookup:
   tags: [pinyin_simp]
   dictionary: xmjd6.cx #反查其码
@@ -453,7 +462,7 @@ recognizer:
     eng_quick_mode: "^i(?!(?:aiiv|aivu|iuvo|ovuo|voou|iao|ioa|vao|viv|ou|a|i|o|u)$)[a-z']*$"
     pinyin_simp: "^u[a-z']*'?$"
     quanpinerfen: "^v[a-z']*'?$"
-    xmjd6gbk: "^o[a-z0-9]+$"
+    xmjd6gbk: "^o[a-z]+$"
     jsq: "^=[^;']+$"
     dje: "^dje$"    # 纪念日倒计时：输入 dje 直接触发
     zhuan: "^\\\\.*$" # 不加这句后面不能跟数字

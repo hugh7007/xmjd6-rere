@@ -10,4 +10,5 @@ use_preset_vocabulary: true
 max_phrase_length: 1
 import_tables:
   - xmjd6.ostroke_common
+  - xmjd6.oemoji          # 微信表情层：2 位拼音首字母码，与笔画层 avuio 零冲突
 ...

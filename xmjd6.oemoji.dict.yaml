@@ -1,0 +1,122 @@
+# Rime dictionary: xmjd6.oemoji
+# encoding: utf-8
+#
+# o 模式·微信表情层：编码 = 2 位拼音首字母，字符集 6bcdefghjklmnopqrstwxyz。
+# 与五笔画层 avuio 完全不相交 → 零冲突；o+两字母直接出表情，同码多个靠数字选。
+# 由 gen_oemoji.py 重建：源文件 104/107 行缺制表符，已补回。格式：文本	编码。
+# 正文按编码 a-z 排序；同码多条（如 fd→发呆/奋斗/炸弹/发抖）保持源文件相对顺序。
+---
+name: xmjd6.oemoji
+version: "1.0"
+sort: by_weight
+use_preset_vocabulary: false
+...
+
+
+[666]	ll
+[便便]	bb
+[鄙视]	be
+[抱拳]	b
+🌝	bl
+[白眼]	by
+[翻白眼]	by
+[闭嘴]	bz
+[菜刀]	cd
+[擦汗]	c
+[呲牙]	cy
+[蛋糕]	dg
+[大哭]	dk
+[打脸]	dl
+[凋谢]	dx
+[得意]	d
+[睡]	eb
+[衰]	eg
+[社会社会]	e
+[胜利]	el
+[Emm]	em
+[发呆]	f
+[奋斗]	fd
+[炸弹]	fd
+[发抖]	fd
+[福]	fj
+[抓狂]	fk
+[皱眉]	fm
+[咒骂]	fm
+[发怒]	fn
+[转圈]	fq
+[发]	fs
+[尴尬]	g
+[鼓掌]	gq
+[勾引]	gy
+[红包]	hb
+[汗]	hf
+[左哼哼]	hh
+[右哼哼]	hh
+[嘿哈]	hh
+🌚	hl
+[哈欠]	hq
+[坏笑]	h
+[害羞]	hx
+[憨笑]	hx
+[机智]	jf
+[惊恐]	jk
+[奸笑]	jx
+[惊讶]	jy
+[囧]	jy
+[加油]	jy
+[加油加油]	j
+[抠鼻]	kb
+[咖啡]	kf
+[让我看看]	k
+[快哭了]	kk
+[骷髅]	kl
+[可怜]	kl
+[苦涩]	ks
+[困]	kw
+[流汗]	lh
+[裂开]	lk
+[流泪]	ll
+[玫瑰]	mg
+[难过]	ng
+[OK]	ok
+[啤酒]	pj
+[破涕为笑]	pt
+[撇嘴]	p
+[敲打]	qd
+[亲亲]	qq
+[猪头]	qt
+[拳头]	qt
+[强]	q
+[弱]	r
+[色]	s
+[吐]	tj
+[调皮]	tp
+[叹气]	tq
+[跳跳]	tt
+[偷笑]	t
+[天啊]	tx
+[太阳]	ty
+[握手]	we
+[吃瓜]	wg
+[旺柴]	wj
+[捂脸]	w
+[委屈]	wq
+[哇]	ws
+[微笑]	wx
+[西瓜]	xg
+[怄火]	xh
+	xk
+[嘘]	x
+[傲慢]	xm
+[心碎]	xs
+[爱心]	xx
+[拥抱]	yb
+[耶]	ye
+[愉快]	yk
+[月亮]	yl
+[疑问]	yw
+[晕]	y
+[悠闲]	yx
+[阴险]	yx
+[再见]	z
+[嘴唇]	zj
