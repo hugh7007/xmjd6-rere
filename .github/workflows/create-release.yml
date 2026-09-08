@@ -175,7 +175,7 @@ jobs:
 
     - name: Convert .dict.yaml files to .txt using Bash
       run: |
-        for dict_file in xmjd6.danzi.dict.yaml xmjd6.cizu.dict.yaml xmjd6.fjcy.dict.yaml
+        for dict_file in xmjd6.wxw.dict.yaml xmjd6.danzi.dict.yaml xmjd6.cizu.dict.yaml xmjd6.fjcy.dict.yaml xkjd6.wanne.dict.yaml
         do
           base=$(basename "$dict_file")
           if [[ "$base" == *.dict.yaml ]]; then
@@ -185,6 +185,10 @@ jobs:
           fi
           txt_file="Rime/$txt_name"
           awk -F'\t' '
+          # 跳过「英语（排除表）」整节：那是英文单词，不是码表词条
+          /^#region.*英语/ { skip = 1; next }
+          /^#endregion/    { skip = 0; next }
+          skip { next }
           /^[^#]/ {
             if ($0 ~ /^---|name:|version:|sort:|\.\.\.$/) next;
             if ($1 ~ /^[A-Za-z0-9\s]+$/) {
@@ -202,9 +206,11 @@ jobs:
         echo -e "$header" > Rime/xmjd6.header.txt
         
         # 按照指定顺序合并 .txt 文件
-        cat Rime/xmjd6.danzi.txt \
+        cat Rime/xmjd6.wxw.txt \
+            Rime/xmjd6.danzi.txt \
             Rime/xmjd6.cizu.txt \
-            Rime/xmjd6.fjcy.txt > Rime/xmjd6.body.txt
+            Rime/xmjd6.fjcy.txt \
+            Rime/xkjd6.wanne.txt > Rime/xmjd6.body.txt
         
         # 将头文件和主体文件合并到一个中间文件
         cat Rime/xmjd6.header.txt Rime/xmjd6.body.txt > mb/xmjd6/tmp_xmjd6.txt
