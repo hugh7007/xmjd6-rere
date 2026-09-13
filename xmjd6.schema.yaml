@@ -94,7 +94,7 @@ switches:
 
 engine:
   processors:
-    - lua_processor@*xmjd6/typing_stats_processor  # 打字统计计键：始终放行，须在一切可能吞键的 processor 之前
+    - lua_processor@*xmjd6/key_counter  # 打字统计计键（内存版）：始终放行，须在一切可能吞键的 processor 之前
     - lua_processor@*xmjd6/xmjd6_select_character  # 以词定字
     - lua_processor@*xmjd6/dict_search_trigger    # ? 触发：词库模糊查询（尽量靠前避免被截胡）
     - lua_processor@*xmjd6/text_transform        # Ctrl+G：捕获当前候选并打开 =wrap 加工面板
@@ -140,7 +140,7 @@ engine:
     - lua_translator@*xmjd6/quick_symbol_translator # 快捷符号唯一候选提示
     - lua_translator@*xmjd6/text_transform_translator # =wrap / =join/N 文本加工
     - lua_translator@*xmjd6/xmjd6_tools      # = 工具集：=uuid / =pw密码 / =mem内存 / =时间戳
-    - lua_translator@*xmjd6/typing_stats_translator  # =tj 打字统计：字数/码长/退格/连打占比
+    - lua_translator@*xmjd6/input_statistics  # 打字统计面板：=tj全部/=jt今日/=qt七日/=by卅日/=bn本年/=jq本设备/=rq查某天/=wk段位皮肤
     - lua_translator@*xmjd6/number_tools     # 金额、进制、单位转换
     - lua_translator@*xmjd6/xmjd6_jisuanqi
     - lua_translator@*xmjd6/xmjd6_shijian
@@ -443,6 +443,42 @@ key_binder:
     # - {accept: Left, send: "2", when: has_menu}  #← 次选, 手机上用的
     # - {accept: Right, send: "3", when: has_menu} #→ 三选
 
+
+# ══════════════════════════════════════
+# 打字统计（lua/xmjd6/input_statistics.lua + lua/xmjd6/key_counter.lua）
+#
+# 面板指令（全部以 = 触发）：
+#   =tj 全部   =jt 今日   =qt 七日   =by 卅日   =bn 本年   =jq 本设备
+#   =rq 查某天：=rq20260801 / =rq202608 / =rq2026 / =rq20260101t20260201
+#   =wk 段位+皮肤   =wkda~=wkdb 切段位   =wkpa~=wkph 切皮肤
+#
+# 下面这一整块都可以删掉，删掉就用脚本顶部的默认值。
+# 注意：段位/皮肤是「=wk 指令写文件」持久化的，不在这里配置，避免部署后被覆盖。
+# ══════════════════════════════════════
+input_stats:
+  db_name: stats                     # LevelDB 库名 → user_data_dir/stats.userdb/（部署后自动创建）
+  code_len_of_auto_commit: 4         # 只用于「打开顶功分布面板」；键道6 是变长顶功，此值不参与顶屏判定
+  average_gap_ms: 5000               # 会话间隔：两次上屏间隔超过它 = 上一个会话结束
+  peak_window_ms: 10000              # 峰速窗口：一段连续输入累计满这么长才算一个峰速样本
+                                     #   → 同时决定 UserDb 里的桶名 speed_peak_window_10s；
+                                     #     改这里会自动换桶名并清掉旧桶，不会新旧混算（范围 3000~60000）
+  peak_gap_ms: 5000                  # 峰速窗口切断间隙：停顿超过它窗口结算（不足 peak_window_ms 则作废）
+                                     #   建议与 average_gap_ms 保持一致——"连续输入"全模块只留一个定义
+  continuous_gap_ms: 1000            # 连续输入判定间隙
+  minimum_average_session_ms: 1000   # 短于此长度的会话不计入均速
+  minimum_average_total_ms: 15000    # 会话总时长不足此值，均速显示 --
+  max_speed_commit_length: 10        # 单次上屏超过这么多字不参与速度统计（排除粘贴）
+  speed_history_days: 0              # =tj「全部」的速度统计窗口（0 = 不限，用全部历史）
+                                     #   只决定「统计多少天」，不会删除任何记录（范围 0~3650）
+                                     #   =jt/=qt/=by/=bn/=rq 各有自己的区间，不受此值影响
+  triggers:
+    total: "=tj"
+    today: "=jt"
+    week: "=qt"
+    month: "=by"
+    year: "=bn"
+    local_total: "=jq"
+    history: "=rq"
 
 recognizer:
   #import_preset: default
