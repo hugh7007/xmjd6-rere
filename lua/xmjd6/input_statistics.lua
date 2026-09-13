@@ -1028,31 +1028,37 @@ local function format_summary(title, subtitle, data, env)
     local realm_name, realm_comment = realm_of(peak_speed)
     local zwsp = "\226\128\139"
 
-    -- 第 2 行只有「境界 · 修炼生涯 N 字」，不单列时段标签。
-    -- 例外：subtitle 非空的 =jq / =wx 把设备号 / 日期带出来，否则查了哪天根本看不出来。
+    -- [0914] 用户指定版式（第 3 版）：时段前缀 <xx> 加在 **境界 / 均速 / 峰速 / 上屏 / 字数 / 比例**
+    --   这 6 处；评语 / 心法 / 功法 / 标题 / 方案名 不带前缀。
+    --   第 2 行由「🌾<境界> · 修炼生涯 N 字」改为「<xx>境界 → <境界名>」，
+    --   修炼生涯不再单列——=qb 面板的「全部字数」就是生涯累计，信息不丢。
+    --   例外：subtitle 非空的 =jq / =wx 仍把设备号 / 日期接在境界行尾，否则查了哪天根本看不出来。
+    local xx = title
     local day_tail = ""
     if subtitle and subtitle ~= "" then day_tail = " · " .. subtitle end
 
-    -- [0913] 面板版式：6 组、共 9 行，组间空一行（空行只放零宽空格，防止被候选窗折叠）。
-    --   组1 标题 + 境界生涯 / 组2 均速峰速 + 上屏字数 / 组3 评语 /
+    -- [0914] 面板版式：6 组、共 9 行，组间空一行（空行只放零宽空格，防止被候选窗折叠）。
+    --   组1 标题 + 境界 / 组2 评语 / 组3 均速峰速 + 上屏字数 /
     --   组4 心法 + 功法 / 组5 比例 / 组6 方案名
+    --   ⚠️ 第 3 版起：评语组由「均速/上屏之后」提到「境界之后」（按用户交付稿的行序）。
     local groups = {
         {
             "📖 键盘之道·以击键炼字为修行",
-            "🌾" .. realm_name .. day_tail
-                .. " · 修炼生涯 " .. math.floor(data.lifetime_characters or 0) .. " 字",
-        },
-        {
-            -- 左列值补到 6 个半角宽，"　｜　" 分隔，两行的 ｜ 才会对齐
-            "均速" .. pad_val(average_speed and tostring(average_speed) or "--", 6)
-                .. "　｜　峰速" .. pad_val(peak_speed and tostring(peak_speed) or "--", 6),
-            "上屏" .. pad_val(tostring(math.floor(data.commits)), 6)
-                .. "　｜　字数" .. pad_val(tostring(math.floor(data.characters)), 6),
+            xx .. "境界 → " .. realm_name .. day_tail,
         },
         {
             -- 用户指定：评语行的分隔符是「｜」（不是 心法/功法 那样的全角空格），
             -- 且不带 📜 图标；未入道的评语本身也含一个 ｜。
             "评语｜" .. realm_comment,
+        },
+        {
+            -- 左列值补到 6 个半角宽，"　｜　" 分隔，两行的 ｜ 才会对齐
+            xx .. "均速" .. pad_val(average_speed and tostring(average_speed) or "--", 6)
+                .. "　｜　" .. xx .. "峰速"
+                .. pad_val(peak_speed and tostring(peak_speed) or "--", 6),
+            xx .. "上屏" .. pad_val(tostring(math.floor(data.commits)), 6)
+                .. "　｜　" .. xx .. "字数"
+                .. pad_val(tostring(math.floor(data.characters)), 6),
         },
         {
             "心法　码长 " .. string.format("%.2f", average_code)
@@ -1063,8 +1069,8 @@ local function format_summary(title, subtitle, data, env)
                 math.floor(space_ratio + 0.5), math.floor(auto_ratio + 0.5)),
         },
         {
-            string.format("比例　单 %d %% %s %d %% 词",
-                math.floor(single_pct + 0.5), draw_bar6(single_pct, env),
+            string.format("%s比例　单 %d %% %s %d %% 词",
+                xx, math.floor(single_pct + 0.5), draw_bar6(single_pct, env),
                 math.floor(word_pct + 0.5)),
         },
         {
@@ -1146,20 +1152,20 @@ local function history_report(input, env)
     if y then
         prepare_report(env)
         local day = y .. m .. d
-        return aggregate_statistics(env, day, day), "单日",
+        return aggregate_statistics(env, day, day), "当日",
             string.format("%s.%s.%s", y, m, d), "※ 这一天没有留下打字记录哦"
     end
     y, m = query:match("^(%d%d%d%d)(%d%d)$")
     if y then
         prepare_report(env)
         return aggregate_statistics(env, y .. m .. "01", y .. m .. "31"),
-            "月份", string.format("%s年%s月", y, m), "※ 该月没有留下打字记录哦"
+            "当月", string.format("%s年%s月", y, m), "※ 该月没有留下打字记录哦"
     end
     y = query:match("^(%d%d%d%d)$")
     if y then
         prepare_report(env)
         return aggregate_statistics(env, y .. "0101", y .. "1231"),
-            "年度", string.format("%s年", y), "※ 该年没有留下打字记录哦"
+            "当年", string.format("%s年", y), "※ 该年没有留下打字记录哦"
     end
     return false, query:find("t", 1, true) and "※ 正在输入区间查询..."
         or "※ 正在查询中... 请继续输入完整的年/月/日", "⏳"
