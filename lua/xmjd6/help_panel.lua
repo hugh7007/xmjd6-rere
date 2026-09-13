@@ -1,19 +1,23 @@
 -- help_panel.lua
--- =? 功能帮助面板的快捷操作 processor：
+-- =? / ojd 功能帮助面板的快捷操作 processor：
+--   = 或 .   → 下一页；- 或 ,  → 上一页（翻页键在面板内被本处理器吞掉，
+--             不再依赖 key_binder —— direct_ascii 的符号直上屏排在 key_binder 之前，
+--             原生 Page_Up/Page_Down 绑定在这个面板里到不了位）
 --   空格      → 执行当前高亮帮助项对应的功能（把输入串替换为该项触发码）
---   数字 1~9  → 执行当前页第 N 项对应的功能（当页 = 高亮项所在页）
--- 仅当输入串恰为 =? 时接管按键，其余一律放行；
--- 文档型条目（help_items.lua 中无触发码）不接管，保持原生「上屏说明文字」行为。
--- 翻页仍用原生 key_binder 绑定：- = Page_Up / Page_Down（xmjd6.schema.yaml key_binder）。
+--   数字 1~5  → 执行当页第 N 项对应的功能
 --
--- API 均用本方案已有先例（o_number_select.lua / candidate_order_processor.lua / text_transform.lua）：
---   ctx.composition:back() → seg；seg.selected_index（0 基属性）；seg:get_candidate_at(i)（0 基）
---   ctx.input = text（单次更新替换输入串）；回退 ctx:clear() + ctx:push_input(text)
+-- 翻页实现：页面状态编码在输入串尾（base + 若干个 =，净页偏 = 页码-1），
+-- 改写输入串触发重新翻译，xmjd6_tools.lua 按页切片输出候选。
+-- base = =? 或 ojd；只依赖 ctx.input 赋值（text_transform.lua 先例），
+-- pcall 失败回退 ctx:clear() + ctx:push_input()。
+--
+-- 仅当输入串匹配 ^(=?|ojd)[-=]*$ 时接管按键，其余一律放行；
+-- 文档型条目（help_items.lua 中无触发码）不接管，保持原生「上屏说明文字」行为。
 --
 -- 挂载位置（xmjd6.schema.yaml / engine/processors）：key_counter 之后——
---   早于 direct_ascii / topup / selector，保证空格与数字最先到达本处理器；
---   早挂 + 「input 恰为 =?」强守卫，对其他任何状态零影响。
+--   早于 direct_ascii / quick_symbol / punctuator 等，保证 =/-/,/. 与空格数字最先到达。
 
+local kAccepted = 1
 local kNoop = 2
 
 local help = require("xmjd6.help_items")
@@ -21,6 +25,8 @@ local help = require("xmjd6.help_items")
 local M = {}
 
 local KEY_SPACE = 0x20
+local PAGE_UP_KEYS = { [0x2D] = true, [0x2C] = true }   -- - 和 ,
+local PAGE_DOWN_KEYS = { [0x3D] = true, [0x2E] = true } -- = 和 .
 
 local function digit_of(keycode)
     if keycode >= 49 and keycode <= 57 then          -- 主键盘 '1'..'9'
@@ -32,6 +38,21 @@ local function digit_of(keycode)
     return nil
 end
 
+-- 解析面板状态：返回 base（=? 或 ojd）与净页偏（#= − #-）；非面板输入返回 nil
+local function panel_state(input)
+    input = tostring(input or "")
+    local base, marks = input:match("^(=%?)([-=]*)$")
+    if not base then
+        base, marks = input:match("^(ojd)([-=]*)$")
+    end
+    if not base then
+        return nil
+    end
+    local _, n_eq = marks:gsub("=", "")
+    local _, n_minus = marks:gsub("%-", "")
+    return base, n_eq - n_minus
+end
+
 -- 单次更新替换整个输入串（text_transform.lua 的做法，避免 clear+push 两次通知）
 local function replace_input(ctx, text)
     local ok = pcall(function() ctx.input = text end)
@@ -41,6 +62,25 @@ local function replace_input(ctx, text)
     ctx:clear()
     ctx:push_input(text)
     return true
+end
+
+local function page_size(env)
+    if env.help_page_size then
+        return env.help_page_size
+    end
+    local n = 5
+    pcall(function()
+        local v = env.engine.schema.config:get_int("menu/page_size")
+        if v and v > 0 then
+            n = v
+        end
+    end)
+    env.help_page_size = n
+    return n
+end
+
+local function total_pages(env)
+    return math.ceil(#help.items / page_size(env))
 end
 
 local function active_seg(ctx)
@@ -67,9 +107,12 @@ local function candidate_at(seg, index)
     return nil
 end
 
--- 执行序号（0 基）对应条目：有触发码 → 替换输入串并返回 true
-local function execute_index(ctx, seg, idx0)
-    local cand = candidate_at(seg, idx0)
+-- 执行菜单第 n 行（1 基）对应的帮助条目：有触发码 → 替换输入串并返回 true
+local function execute_row(ctx, seg, n)
+    if not seg then
+        return false
+    end
+    local cand = candidate_at(seg, n - 1)
     if not cand or cand.type ~= "tools" then
         return false
     end
@@ -82,13 +125,7 @@ local function execute_index(ctx, seg, idx0)
 end
 
 function M.init(env)
-    env.help_page_size = 5
-    pcall(function()
-        local v = env.engine.schema.config:get_int("menu/page_size")
-        if v and v > 0 then
-            env.help_page_size = v
-        end
-    end)
+    env.help_page_size = nil -- 首次按键时从配置读
 end
 
 function M.func(key, env)
@@ -96,40 +133,52 @@ function M.func(key, env)
         return kNoop
     end
     local ctx = env.engine.context
-    if not ctx or tostring(ctx.input or "") ~= "=?" then
+    if not ctx then
+        return kNoop
+    end
+    local base, offset = panel_state(ctx.input)
+    if not base then
         return kNoop
     end
 
-    local seg = active_seg(ctx)
-    if not seg then
-        return kNoop
+    local ps = page_size(env)
+    local pages = total_pages(env)
+
+    -- 翻页：=/. 下一页，-/, 上一页；页偏编码进输入串（统一归一化为若干个 =）
+    if PAGE_UP_KEYS[key.keycode] or PAGE_DOWN_KEYS[key.keycode] then
+        local dir = PAGE_DOWN_KEYS[key.keycode] and 1 or -1
+        local off = offset + dir
+        if off < 0 then off = 0 end
+        if off > pages - 1 then off = pages - 1 end
+        if off ~= offset then
+            replace_input(ctx, base .. string.rep("=", off))
+        end
+        return kAccepted
+    end
+
+    -- 数字 1~页大小：执行当页第 N 行
+    local digit = digit_of(key.keycode)
+    if digit then
+        if digit > ps then
+            return kNoop -- 当页没有该序号，保持原生行为
+        end
+        if execute_row(ctx, active_seg(ctx), digit) then
+            return kAccepted
+        end
+        return kNoop -- 文档型 / 越界 → 原生「选中并上屏说明文字」
     end
 
     -- 空格：执行高亮项
     if key.keycode == KEY_SPACE then
-        local sel = highlighted_index(seg)
-        if execute_index(ctx, seg, sel) then
-            return 1 -- kAccepted
+        local seg = active_seg(ctx)
+        if seg then
+            local sel = highlighted_index(seg)
+            if sel < 0 then sel = 0 end
+            if execute_row(ctx, seg, sel + 1) then
+                return kAccepted
+            end
         end
         return kNoop
-    end
-
-    -- 数字 1~9：执行当页第 N 项
-    local digit = digit_of(key.keycode)
-    if digit then
-        if digit > env.help_page_size then
-            return kNoop -- 当页没有该序号，保持原生行为
-        end
-        local sel = highlighted_index(seg)
-        local page = math.floor(sel / env.help_page_size)
-        local target0 = page * env.help_page_size + (digit - 1)
-        if target0 < 0 then
-            target0 = 0
-        end
-        if execute_index(ctx, seg, target0) then
-            return 1 -- kAccepted
-        end
-        return kNoop -- 文档型 / 越界 → 原生「选中并上屏说明文字」
     end
 
     return kNoop

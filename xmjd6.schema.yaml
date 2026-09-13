@@ -497,7 +497,8 @@ recognizer:
     eng_quick_mode: "^i(?!(?:aiiv|aivu|iuvo|ovuo|voou|iao|ioa|vao|viv|ou|a|i|o|u)$)[a-z']*$"
     pinyin_simp: "^u[a-z']*'?$"
     quanpinerfen: "^v[a-z']*'?$"
-    xmjd6gbk: "^o[a-z]+$"
+    help_panel: "^ojd[-=]*$"    # ojd：=? 功能帮助面板别名（尾部 -= 为页偏标记）
+    xmjd6gbk: "^o([a-ik-z][a-z]*|oj|j[a-ce-z][a-z]*|jd[a-z]+)$"    # O 模式五笔画（排除 ojd，否则被抢占）
     jsq: "^=[^;']+$"
     dje: "^dje$"    # 纪念日倒计时：输入 dje 直接触发
     zhuan: "^\\\\.*$" # 不加这句后面不能跟数字
