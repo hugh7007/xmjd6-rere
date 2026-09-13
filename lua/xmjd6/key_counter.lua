@@ -16,8 +16,8 @@
 --   5) 「= 指令输入的按键」在 processor 侧逐键作废（input 以 "=" 开头即 reset，
 --      该键不计数）。指令键不会产生上屏，不清理就会残留、污染下一次真实上屏的码长；
 --      下沉到 processor 是为了不打扰下面的数字守卫。
---   6) 附带「=rq 日期查询数字守卫」：带候选时按 1~9 会被 selector 当成选中候选，
---      导致查询日期首位数字被吃掉（如 =rq19910501）。命中历史查询前缀时，数字
+--   6) 附带「=wx 日期查询数字守卫」：带候选时按 1~9 会被 selector 当成选中候选，
+--      导致查询日期首位数字被吃掉（如 =wx19910501）。命中历史查询前缀时，数字
 --      直接推进输入串并吞掉按键（kAccepted），保证数字一定进入编码串。
 --
 -- 记录类型（与面板口径一致）：
@@ -32,7 +32,7 @@ local XK_BACKSPACE = 0xff08
 local XK_ESCAPE = 0xff1b
 
 -- 历史查询触发器默认值；init/首次调用时从 input_stats/triggers/history 读取覆盖
-local HISTORY_TRIGGER_DEFAULT = "=rq"
+local HISTORY_TRIGGER_DEFAULT = "=wx"
 
 -- 提交类按键：会直接上屏或选定候选的键（本方案键位，见 xmjd6.schema.yaml key_binder）
 --   空格 / 回车 / Tab(次选, key_binder send:2) / [ ](以词定字) / \(add_ge) / |(辫子)
@@ -68,7 +68,7 @@ local function state()
             pending = {},          -- 本次上屏尚未结算的按键类型序列
             total_keys = 0,        -- 累计按键数（只增不减，面板「键数」与挂载检测用）
             commit_handler = nil,  -- input_statistics 注册的上屏回调
-            history_trigger = nil, -- 历史查询前缀（默认 =rq）
+            history_trigger = nil, -- 历史查询前缀（默认 =wx）
         }
         _G.__xmjd6_key_counter_state = st
     end
@@ -106,7 +106,7 @@ local function has_candidate(context)
     return ok and cand ~= nil
 end
 
--- 输入串是否处于「历史查询」模式（=rq20260801 / =rq19910501）
+-- 输入串是否处于「历史查询」模式（=wx20260801 / =wx19910501）
 local function is_history_query(input)
     local trigger = state().history_trigger
     if not trigger or trigger == "" or not input or input == "" then return false end
@@ -159,15 +159,15 @@ function M.func(key_event, env)
 
     local input = context.input or ""
 
-    -- 指令输入（=tj / =jt / =rq20260801 / =wkpa …）：
+    -- 指令输入（=tj / =qb / =wx20260801 / =wkpa …）：
     -- 这些键不属于任何一次"上屏"，逐键作废，绝不会残留进下一次真实上屏的码长。
     -- 放在这里（而不是 translator 侧）的原因：
     --   a) translator 每键都会 reset，会把数字守卫刚推进输入串的数字一并清掉；
     --   b) processor 能拿到"按键尚未写进输入串"的那一瞬间，判定更干净。
     if input:sub(1, 1) == "=" then
         M.reset()
-        -- =rq 日期查询数字守卫：输入串已是历史查询前缀时，数字必须直接进输入串，
-        -- 否则会被 selector 当成"选中第 N 个候选"吃掉（如 =rq19910501 的首位 1）。
+        -- =wx 日期查询数字守卫：输入串已是历史查询前缀时，数字必须直接进输入串，
+        -- 否则会被 selector 当成"选中第 N 个候选"吃掉（如 =wx19910501 的首位 1）。
         -- 吞掉按键（kAccepted），且不计数——整串指令键稍后会被整体丢弃。
         if ch >= 0x30 and ch <= 0x39 and is_history_query(input) then
             context:push_input(string.char(ch))

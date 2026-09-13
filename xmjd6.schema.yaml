@@ -141,7 +141,7 @@ engine:
     - lua_translator@*xmjd6/quick_symbol_translator # 快捷符号唯一候选提示
     - lua_translator@*xmjd6/text_transform_translator # =wrap / =join/N 文本加工
     - lua_translator@*xmjd6/xmjd6_tools      # = 工具集：=uuid / =pw密码 / =mem内存 / =时间戳
-    - lua_translator@*xmjd6/input_statistics  # 打字统计面板：=tj全部/=jt今日/=qt七日/=by卅日/=bn本年/=jq本设备/=rq查某天/=wk段位皮肤
+    - lua_translator@*xmjd6/input_statistics  # 打字统计面板：=tj今日/=qb全部/=yf七日/=yy卅日/=yn本年/=jq本设备/=wx查某天/=wk段位皮肤
     - lua_translator@*xmjd6/number_tools     # 金额、进制、单位转换
     - lua_translator@*xmjd6/xmjd6_jisuanqi
     - lua_translator@*xmjd6/xmjd6_shijian
@@ -447,8 +447,8 @@ key_binder:
 # 打字统计（lua/xmjd6/input_statistics.lua + lua/xmjd6/key_counter.lua）
 #
 # 面板指令（全部以 = 触发）：
-#   =tj 全部   =jt 今日   =qt 七日   =by 卅日   =bn 本年   =jq 本设备
-#   =rq 查某天：=rq20260801 / =rq202608 / =rq2026 / =rq20260101t20260201
+#   =tj 今日   =qb 全部   =yf 七日   =yy 卅日   =yn 本年   =jq 本设备
+#   =wx 查某天：=wx20260801 / =wx202608 / =wx2026 / =wx20260101t20260201
 #   =wk 段位+皮肤   =wkda~=wkdb 切段位   =wkpa~=wkph 切皮肤
 #
 # 下面这一整块都可以删掉，删掉就用脚本顶部的默认值。
@@ -467,17 +467,17 @@ input_stats:
   minimum_average_session_ms: 1000   # 短于此长度的会话不计入均速
   minimum_average_total_ms: 15000    # 会话总时长不足此值，均速显示 --
   max_speed_commit_length: 10        # 单次上屏超过这么多字不参与速度统计（排除粘贴）
-  speed_history_days: 0              # =tj「全部」的速度统计窗口（0 = 不限，用全部历史）
+  speed_history_days: 0              # =qb「全部」的速度统计窗口（0 = 不限，用全部历史）
                                      #   只决定「统计多少天」，不会删除任何记录（范围 0~3650）
-                                     #   =jt/=qt/=by/=bn/=rq 各有自己的区间，不受此值影响
+                                     #   =tj/=yf/=yy/=yn/=wx 各有自己的区间，不受此值影响
   triggers:
-    total: "=tj"
-    today: "=jt"
-    week: "=qt"
-    month: "=by"
-    year: "=bn"
+    today: "=tj"
+    total: "=qb"
+    week: "=yf"
+    month: "=yy"
+    year: "=yn"
     local_total: "=jq"
-    history: "=rq"
+    history: "=wx"
 
 recognizer:
   #import_preset: default

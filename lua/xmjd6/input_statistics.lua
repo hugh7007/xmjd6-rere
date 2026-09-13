@@ -3,9 +3,9 @@
 --   engine.processors  第一行    - lua_processor@*xmjd6/key_counter
 --
 --  面板指令（全部以 = 触发，无 o 前缀别名）：
---  =tj  全部        =jt  今日        =qt  七日
---  =by  卅日        =bn  本年        =jq  本设备
---  =rq  查某天 20260801（也支持 202608、2026、20260101t20260201）
+--  =tj  今日        =qb  全部        =yf  七日
+--  =yy  卅日        =yn  本年        =jq  本设备
+--  =wx  查某天 20260801（也支持 202608、2026、20260101t20260201）
 --  =wk  查看（段位 + 皮肤）
 --  =wkda/=wkdb      切段位（=[=wk]+[d]+[字母]）
 --  =wkpa~=wkpi      切皮肤（=[=wk]+[p]+[字母]，字母按表内顺序对应编号）
@@ -80,11 +80,11 @@ local MINIMUM_AVERAGE_TOTAL_MS = 15000
 --   范围：1 ~ 10，默认 10
 local MAX_SPEED_COMMIT_LENGTH = 10
 
--- 速度统计窗口（天）：=tj「全部」面板在这么长的窗口里算 均速 / 峰速 / 击键。
+-- 速度统计窗口（天）：=qb「全部」面板在这么长的窗口里算 均速 / 峰速 / 击键。
 --   0 = 不限（用全部历史）。
 --   **它只决定"统计多少天"，不会删除任何记录**——原始数据一直在 stats.userdb 里，
 --   调大/调小随时能看回来。（旧注释写的"更早自动清理"是错的，代码里没有任何按日期删除的逻辑。）
---   注意：=jt/=qt/=by/=bn/=rq 各有自己的区间，不受这个值影响。
+--   注意：=tj/=yf/=yy/=yn/=wx 各有自己的区间，不受这个值影响。
 --   范围：0 ~ 3650，默认 0（不限）
 local SPEED_HISTORY_DAYS = 0
 
@@ -580,7 +580,7 @@ end
 
 local function observe_input_activity(env, input)
     local timestamp_ms = monotonic_ms()
-    -- "=" 开头的输入是指令（=tj/=jt/…），不是打字节奏，不参与速度采样
+    -- "=" 开头的输入是指令（=tj/=qb/…），不是打字节奏，不参与速度采样
     if not input or input == "" or input:sub(1, 1) == "=" then
         finish_stale(env, timestamp_ms)
         env.last_observed_input = input or ""
@@ -1029,7 +1029,7 @@ local function format_summary(title, subtitle, data, env)
     local zwsp = "\226\128\139"
 
     -- 第 2 行只有「境界 · 修炼生涯 N 字」，不单列时段标签。
-    -- 例外：subtitle 非空的 =jq / =rq 把设备号 / 日期带出来，否则查了哪天根本看不出来。
+    -- 例外：subtitle 非空的 =jq / =wx 把设备号 / 日期带出来，否则查了哪天根本看不出来。
     local day_tail = ""
     if subtitle and subtitle ~= "" then day_tail = " · " .. subtitle end
 
@@ -1099,7 +1099,7 @@ local function standard_report(input, env)
     local today = day_id()
     -- 「卅日」窗口：固定 30 天，**与速度统计窗口无关**。
     -- 原先这里和下面共用同一个 recent，是个耦合错误：一旦把 speed_history_days 调成 0（不限），
-    -- =by 的 start_day 也会变成 nil，卅日面板会跟着塌成"全部"。
+    -- =yy 的 start_day 也会变成 nil，卅日面板会跟着塌成"全部"。
     local month_start = day_id(os.time() - 29 * 86400)
     -- 速度统计窗口：只作用于「均速 / 峰速 / 击键」的聚合范围。
     -- speed_history_days <= 0 → speed_start = nil → aggregate_statistics 不限下限，从最早一天算起。
@@ -1354,18 +1354,18 @@ local function ensure_env(env)
         env.initialized = true
     end
     -- ── 面板指令：一律 "=" 触发（key_binder / punctuator / recognizer 均已放行 "="）
-    -- =tj 全部   =jt 今日   =qt 七日   =by 卅日   =bn 本年   =jq 本设备
-    -- =rq 查某天（=rq20260801 / =rq202608 / =rq2026 / =rq20260101t20260201）
+    -- =tj 今日   =qb 全部   =yf 七日   =yy 卅日   =yn 本年   =jq 本设备
+    -- =wx 查某天（=wx20260801 / =wx202608 / =wx2026 / =wx20260101t20260201）
     -- =wk 查看段位与皮肤   =wkd[a~b] 切段位   =wkp[a~h] 切皮肤
     if env.triggers == nil then
         env.triggers = {
-            total=cfg_str(config, "input_stats/triggers/total", "=tj"),
-            today=cfg_str(config, "input_stats/triggers/today", "=jt"),
-            week=cfg_str(config, "input_stats/triggers/week", "=qt"),
-            month=cfg_str(config, "input_stats/triggers/month", "=by"),
-            year=cfg_str(config, "input_stats/triggers/year", "=bn"),
+            today=cfg_str(config, "input_stats/triggers/today", "=tj"),
+            total=cfg_str(config, "input_stats/triggers/total", "=qb"),
+            week=cfg_str(config, "input_stats/triggers/week", "=yf"),
+            month=cfg_str(config, "input_stats/triggers/month", "=yy"),
+            year=cfg_str(config, "input_stats/triggers/year", "=yn"),
             local_total=cfg_str(config, "input_stats/triggers/local_total", "=jq"),
-            history=cfg_str(config, "input_stats/triggers/history", "=rq"),
+            history=cfg_str(config, "input_stats/triggers/history", "=wx"),
         }
     end
     -- 上屏回调注册（幂等）：key_counter 的 processor 侧负责转接 commit_notifier，
@@ -1508,7 +1508,7 @@ local function translator(input, seg, env)
     end
     -- 指令输入的按键清理已下沉到 key_counter 的 processor 里（它能拿到"还没进输入串"的
     -- 那一下按键，比 translator 更早、覆盖更全），这里不再逐键 reset，
-    -- 免得把 =rq 数字守卫刚推进输入串的数字又清掉。
+    -- 免得把 =wx 数字守卫刚推进输入串的数字又清掉。
     local title, subtitle, start_day, end_day, device_id,
         speed_start_day, speed_end_day = standard_report(input, env)
     local data
