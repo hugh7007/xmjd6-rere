@@ -1028,39 +1028,39 @@ local function format_summary(title, subtitle, data, env)
     local realm_name, realm_comment = realm_of(peak_speed)
     local zwsp = "\226\128\139"
 
-    -- [0914] 用户指定版式（第 3 版）：时段前缀 <xx> 加在 **境界 / 均速 / 峰速 / 上屏 / 字数 / 比例**
-    --   这 6 处；评语 / 心法 / 功法 / 标题 / 方案名 不带前缀。
-    --   第 2 行由「🌾<境界> · 修炼生涯 N 字」改为「<xx>境界 → <境界名>」，
-    --   修炼生涯不再单列——=qb 面板的「全部字数」就是生涯累计，信息不丢。
+    -- [0914] 用户指定版式（第 6 版）：**时段前缀改挂到标题上**——标题 = `📖 键盘之道·【<xx>】数据`。
+    --   于是 境界 / 均速 / 峰速 / 上屏 / 字数 / 比例 这 6 处**不再带前缀**（第 3~5 版是带的）。
+    --   境界行 = `境界 → <境界名> ·已修炼 N 字`——「修炼生涯字数」回来了（第 3 版曾去掉），
+    --   N = 累计上屏字数（data.lifetime_characters，不受区间限制的全量累计）。
     --   例外：subtitle 非空的 =jq / =wx 仍把设备号 / 日期接在境界行尾，否则查了哪天根本看不出来。
     local xx = title
+    local lifetime = math.floor(data.lifetime_characters or 0)
     local day_tail = ""
     if subtitle and subtitle ~= "" then day_tail = " · " .. subtitle end
 
-    -- [0914] 面板版式（第 5 版，用户编排）：**5 组、9 个内容行 + 4 个空行 = 13 物理行**。
-    --   组1 标题 / 组2 境界 + 评语 / 组3 均速峰速 + 上屏字数 + 心法 + 功法 /
+    -- [0914] 面板版式（第 6 版）：**5 组、9 个内容行 + 4 个空行 = 13 物理行**。
+    --   组1 标题（含【时段】） / 组2 境界 + 评语 / 组3 均速峰速 + 上屏字数 + 心法 + 功法 /
     --   组4 比例 / 组5 方案名；组间空一行（空行只放零宽空格，防止被候选窗折叠）。
     --   ⚠️ 沿革：第 3 版 6 组 / 5 空行 → 第 4 版全去掉空行（用户反馈"太紧凑了"）
-    --   → 第 5 版按用户新编排改回带空行：境界与评语合成一组、心法功法并进中间大组，
-    --   于是空行从 5 个减到 4 个。
+    --   → 第 5 版 5 组 / 4 空行 → 第 6 版沿用 5 组 / 4 空行，只改标题与境界行的内容。
     --   ⚠️ 第 3 版起：评语由「均速/上屏之后」提到「境界之后」（按用户交付稿的行序）。
     local groups = {
         {
-            "📖 键盘之道·以击键炼字为修行",
+            "📖 键盘之道·【" .. xx .. "】数据",
         },
         {
-            xx .. "境界 → " .. realm_name .. day_tail,
+            "境界 → " .. realm_name .. " ·已修炼" .. lifetime .. "字" .. day_tail,
             -- 用户指定：评语行的分隔符是「｜」（不是 心法/功法 那样的全角空格），
             -- 且不带 📜 图标；未入道的评语本身也含一个 ｜。
             "评语｜" .. realm_comment,
         },
         {
             -- 左列值补到 6 个半角宽，"　｜　" 分隔，两行的 ｜ 才会对齐
-            xx .. "均速" .. pad_val(average_speed and tostring(average_speed) or "--", 6)
-                .. "　｜　" .. xx .. "峰速"
+            "均速" .. pad_val(average_speed and tostring(average_speed) or "--", 6)
+                .. "　｜　峰速"
                 .. pad_val(peak_speed and tostring(peak_speed) or "--", 6),
-            xx .. "上屏" .. pad_val(tostring(math.floor(data.commits)), 6)
-                .. "　｜　" .. xx .. "字数"
+            "上屏" .. pad_val(tostring(math.floor(data.commits)), 6)
+                .. "　｜　字数"
                 .. pad_val(tostring(math.floor(data.characters)), 6),
             "心法　码长 " .. string.format("%.2f", average_code)
                 .. " · 击键 " .. kps_str .. "/s",
@@ -1070,8 +1070,8 @@ local function format_summary(title, subtitle, data, env)
                 math.floor(space_ratio + 0.5), math.floor(auto_ratio + 0.5)),
         },
         {
-            string.format("%s比例　单 %d %% %s %d %% 词",
-                xx, math.floor(single_pct + 0.5), draw_bar6(single_pct, env),
+            string.format("比例　单 %d %% %s %d %% 词",
+                math.floor(single_pct + 0.5), draw_bar6(single_pct, env),
                 math.floor(word_pct + 0.5)),
         },
         {
