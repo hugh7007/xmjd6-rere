@@ -1,6 +1,7 @@
 -- xmjd6_tools.lua
 -- "=" 引导的小工具集（与计算器/数字大写/日历查询共用 = 前缀，互不冲突）：
 --   =?            显示需要输入码触发的功能帮助候选
+--                 （- / = 翻页；空格执行高亮功能；数字 1~9 直选当页功能，见 help_panel.lua）
 --   =uuid         生成 UUID v4（小写/大写候选）
 --   =pw / =pw20   生成随机密码（默认 16 位，可指定 8~64 位，候选含符号/纯字母数字两种）
 --   =mem          查看当前 Lua 堆内存与已注册缓存数（配合 iOS 内存调试）
@@ -8,62 +9,12 @@
 --   =1718160000   10/13 位 Unix 时间戳转日期时间（13 位按毫秒解析）
 
 local mem_cleaner = require("xmjd6.mem_cleaner")
+local help_items = require("xmjd6.help_items")
+local HELP_ITEMS = help_items.items
 
 math.randomseed(os.time())
 
 local unpack_fn = table.unpack or unpack
-
-local HELP_ITEMS = {
-    { "=?", "功能帮助：列出需要输入码触发的功能" },
-    { "=??", "快符速查表：列出 ; 引导的快捷符号" },
-    { "=tj", "打字统计（全部）：均速 / 峰速 / 码长 / 击键 / 上屏分布" },
-    { "=jt  =qt", "打字统计：今日 / 七日" },
-    { "=by  =bn", "打字统计：卅日 / 本年" },
-    { "=jq", "打字统计：本设备" },
-    { "=rq20260801", "查某天打字统计（也支持 =rq202608、=rq2026、=rq20260101t20260201）" },
-    { "=wk", "查看段位与皮肤；=wkda~=wkdb 切段位，=wkpa~=wkph 切皮肤" },
-    { "rq", "日期：横线式 / 中文式 / 大写式 / 农历节气" },
-    { "ej", "时间、日期时间、Unix 时间戳" },
-    { "xq", "星期、周数、英文星期" },
-    { "nl", "农历、干支、时辰" },
-    { "dje", "纪念日 / 节日 / 节气倒计时" },
-    { "=19910501", "日历查询：公历农历干支星期互转" },
-    { "=uuid", "UUID v4（小写 / 大写）" },
-    { "=pw / =pw24", "随机密码：默认16位，可指定8~64位" },
-    { "=mem", "查看当前 Lua 堆内存与已注册缓存数" },
-    { "=memc", "释放已注册缓存并执行 GC" },
-    { "=1718160000", "Unix 时间戳转日期时间（10/13位）" },
-    { "=1+1", "计算器：Lua 表达式、函数、链式调用" },
-    { "=123", "数字 / 金额大写读法" },
-    { "' + 整句编码", "连打模式：空格/顶功自动追加 ' 分隔，双空格上屏" },
-    { "连打开 / 连打关", "在方案选单中控制空码 ' 是否进入整句连打" },
-    { "'模式中再按 '", "分隔一简、不能顶功或容易歧义的前后编码" },
-    { "有候选时按 /", "加工当前候选；连打模式中加工完整句子" },
-    { "Ctrl+G / =wrap", "普通候选或最近历史的文本加工入口" },
-    { "|", "辫子模式：用 ᥬ ᩤ 包裹当前候选" },
-    { "=join/3", "合并最近3段上屏内容，可选顿号、逗号、空格或换行" },
-    { "=rmb1234.56", "人民币金额大写；小数也可直接输入 =1234.56" },
-    { "=255>16 / =16:ff>10", "二至三十六进制转换" },
-    { "=5~3", "按位异或：候选含十进制、十六进制、二进制" },
-    { "=10km>mi", "长度：mm/cm/m/km/in/ft/yd/mi" },
-    { "=1kg>lb", "重量：mg/g/kg/oz/lb" },
-    { "=1024mb>gb", "数据容量：b/kb/mb/gb/tb（按1024换算）" },
-    { "=100c>f", "温度：c/f/k" },
-    { "'上几次输入'编码;", "动态自造词：把最近几次上屏内容加入该编码" },
-    { "''词'编码;", "动态自造词：精确删除词+编码" },
-    { "'''", "自造词管理：输入后列出全部，上下选中后按 ' 删除" },
-    { "0", "动态调频：把第二/高亮候选提到首选" },
-    { "=tp", "调频管理：输入后列出全部调频，上下选中后按 0 撤销" },
-    { "coerr", "动态调频：查看 candidate_order.txt 解析错误" },
-    { "\\abc123", "字符工具：数学斜体小写" },
-    { "\\\\abc123", "字符工具：数学斜体大写" },
-    { "\\\\\\abc", "字符工具：无衬线粗体" },
-    { "&62fc", "Unicode 码点查字，候选含相邻码点" },
-    { "打字后按 ?", "词库模糊搜索：按当前首选词查词库编码" },
-    { "u + 全拼", "全拼反查键道编码" },
-    { "v + 两分", "两分 / 拆字反查" },
-    { "o + 编码", "GBK 全字集查询" },
-}
 
 local function uuid4()
     local b = {}
@@ -97,10 +48,33 @@ local function day_start(t)
     return os.time(d)
 end
 
+-- 读菜单页大小（menu/page_size，默认 5）；weasel 不保证调用 init，故惰性求值并缓存
+local function page_size_of(env)
+    if env.help_page_size then
+        return env.help_page_size
+    end
+    local n = 5
+    pcall(function()
+        local v = env.engine.schema.config:get_int("menu/page_size")
+        if v and v > 0 then n = v end
+    end)
+    env.help_page_size = n
+    return n
+end
+
 local function tools(input, seg, env)
     if input == "=?" then
-        for _, item in ipairs(HELP_ITEMS) do
-            yield(Candidate("tools", seg.start, seg._end, item[1], item[2]))
+        -- 翻页：- / =（key_binder 已绑定 Page_Up / Page_Down，原生翻页）
+        -- 每页第一条的说明尾带【第n页/共m页】标记；空格/数字直选执行功能由 help_panel.lua 接管
+        local ps = page_size_of(env)
+        local pages = math.ceil(#HELP_ITEMS / ps)
+        for i, item in ipairs(HELP_ITEMS) do
+            local comment = item[2]
+            if (i - 1) % ps == 0 then
+                local pg = math.floor((i - 1) / ps) + 1
+                comment = comment .. "｜【第" .. pg .. "页/共" .. pages .. "页】"
+            end
+            yield(Candidate("tools", seg.start, seg._end, item[1], comment))
         end
         return
     end

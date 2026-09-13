@@ -95,6 +95,7 @@ switches:
 engine:
   processors:
     - lua_processor@*xmjd6/key_counter  # 打字统计计键（内存版）：始终放行，须在一切可能吞键的 processor 之前
+    - lua_processor@*xmjd6/help_panel   # =? 帮助面板：空格执行高亮功能、数字 1~9 直选当页功能（仅 input 恰为 =? 时接管）
     - lua_processor@*xmjd6/xmjd6_select_character  # 以词定字
     - lua_processor@*xmjd6/dict_search_trigger    # ? 触发：词库模糊查询（尽量靠前避免被截胡）
     - lua_processor@*xmjd6/text_transform        # Ctrl+G：捕获当前候选并打开 =wrap 加工面板
