@@ -161,13 +161,11 @@ engine:
     - script_translator@pinyin_simp
     - table_translator@xmjd6gbk       # O 模式五笔画（viuoa）查字
   filters:
-    # - lua_filter@*xmjd6/xmjd6_filter
     - simplifier
     - reverse_lookup_filter@pinyin_simp_lookup
     - reverse_lookup_filter@quanpinerfen_lookup
     - lua_filter@*xmjd6/cx_pinyin_hint # 反查/单字候选追加拼音提示，拼音只从源注释读取，不进入 prism
-    # - lua_filter@*xmjd6/xmjd6_single_char #候选单字优先，已关闭以减少 bq/te 等大候选码卡顿
-    - lua_filter@*xmjd6/candidate_order_filter # 隐藏 candidate_order.txt 中被挪走的原候选；放在单字优先后避免 bq/te 海量候选卡顿
+    - lua_filter@*xmjd6/candidate_order_filter # 隐藏 candidate_order.txt 中被挪走的原候选；尽早执行避免 bq/te 海量候选卡顿
     - lua_filter@*xmjd6/lazy_simplifier@emoji_cn #按需加载的 emoji,降低常驻内存
     - lua_filter@*xmjd6/for_hint
     - simplifier@jffh

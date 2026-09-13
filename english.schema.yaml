@@ -53,16 +53,13 @@ engine:
     - punct_segmentor
     - fallback_segmentor
   translators:
-    #- lua_translator@*eng/eng_translator    # 暫時未使用
     - punct_translator
     - table_translator
     - script_translator@xmjd6
   filters:
     - simplifier
     - uniquifier
-    # 以下兩個二選一
     - lua_filter@*eng/eng_filter             # 速度快，但詞議相同拼寫相近單詞可能會被Rime略去
-    #- lua_filter@*eng/eng_filter0           # 速度稍慢，但詞典中允許出現拼寫或詞義相同單詞
     
 speller:
   algebra:                                  # 本輸入法需要用到，不能增刪改
