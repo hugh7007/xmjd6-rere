@@ -6,6 +6,12 @@
 --   空格      → 执行当前高亮帮助项对应的功能（把输入串替换为该项触发码）
 --   数字 1~5  → 执行当页第 N 项对应的功能
 --
+-- 翻页键共三类：
+--   ① - , 与 Page_Up      → 上一页（无条件）
+--   ② = . 与 Page_Down    → 下一页（无条件）
+--   ③ ↑ / ↓               → 仅在高亮位于当页首行 / 末行时翻页（其余情况放行给 selector
+--                            移动高亮，故当页内仍可用箭头逐行选择，符合常规输入法习惯）
+--
 -- 翻页实现：页面状态编码在输入串尾（base + 若干个 =，净页偏 = 页码-1），
 -- 改写输入串触发重新翻译，xmjd6_tools.lua 按页切片输出候选。
 -- base = =? 或 ojd；只依赖 ctx.input 赋值（text_transform.lua 先例），
@@ -25,8 +31,10 @@ local help = require("xmjd6.help_items")
 local M = {}
 
 local KEY_SPACE = 0x20
-local PAGE_UP_KEYS = { [0x2D] = true, [0x2C] = true }   -- - 和 ,
-local PAGE_DOWN_KEYS = { [0x3D] = true, [0x2E] = true } -- = 和 .
+local PAGE_UP_KEYS = { [0x2D] = true, [0x2C] = true, [0xFF55] = true }   -- - 和 , 和 Page_Up
+local PAGE_DOWN_KEYS = { [0x3D] = true, [0x2E] = true, [0xFF56] = true } -- = 和 . 和 Page_Down
+local ARROW_UP = 0xFF52                                                   -- ↑：高亮在首行才翻上页
+local ARROW_DOWN = 0xFF54                                                 -- ↓：高亮在末行才翻下页
 
 local function digit_of(keycode)
     if keycode >= 49 and keycode <= 57 then          -- 主键盘 '1'..'9'
@@ -81,6 +89,15 @@ end
 
 local function total_pages(env)
     return math.ceil(#help.items / page_size(env))
+end
+
+-- 指定页（1 基）实际行数：末页可能不满
+local function rows_on_page(env, page)
+    local ps = page_size(env)
+    local left = #help.items - (page - 1) * ps
+    if left < 0 then left = 0 end
+    if left > ps then left = ps end
+    return left
 end
 
 local function active_seg(ctx)
@@ -144,7 +161,7 @@ function M.func(key, env)
     local ps = page_size(env)
     local pages = total_pages(env)
 
-    -- 翻页：=/. 下一页，-/, 上一页；页偏编码进输入串（统一归一化为若干个 =）
+    -- 翻页：=/. /Page_Down 下一页，-/, /Page_Up 上一页；页偏编码进输入串（统一归一化为若干个 =）
     if PAGE_UP_KEYS[key.keycode] or PAGE_DOWN_KEYS[key.keycode] then
         local dir = PAGE_DOWN_KEYS[key.keycode] and 1 or -1
         local off = offset + dir
@@ -153,6 +170,34 @@ function M.func(key, env)
         if off ~= offset then
             replace_input(ctx, base .. string.rep("=", off))
         end
+        return kAccepted
+    end
+
+    -- ↑ / ↓：高亮在当页首行 / 末行时翻页，其余放行给 selector 移动高亮
+    if key.keycode == ARROW_UP or key.keycode == ARROW_DOWN then
+        local seg = active_seg(ctx)
+        if not seg then
+            return kNoop
+        end
+        local rows = rows_on_page(env, offset + 1)
+        local sel = highlighted_index(seg)
+        if key.keycode == ARROW_DOWN then
+            if rows <= 0 or sel < rows - 1 then
+                return kNoop -- 当页还能往下走 → 交给 selector
+            end
+            if offset + 1 >= pages then
+                return kAccepted -- 已是末页末行，吞掉不越界
+            end
+            replace_input(ctx, base .. string.rep("=", offset + 1))
+            return kAccepted
+        end
+        if sel > 0 then
+            return kNoop -- 当页还能往上走 → 交给 selector
+        end
+        if offset <= 0 then
+            return kAccepted -- 已是首页首行，吞掉不越界
+        end
+        replace_input(ctx, base .. string.rep("=", offset - 1))
         return kAccepted
     end
 
