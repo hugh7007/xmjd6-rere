@@ -3,8 +3,10 @@
 --   = 或 .   → 下一页；- 或 ,  → 上一页（翻页键在面板内被本处理器吞掉，
 --             不再依赖 key_binder —— direct_ascii 的符号直上屏排在 key_binder 之前，
 --             原生 Page_Up/Page_Down 绑定在这个面板里到不了位）
---   空格      → 执行当前高亮帮助项对应的功能（把输入串替换为该项触发码）
+--   空格      → 高亮在**首行**时关闭面板（清空输入串，候选框收起，不上屏）；
+--               其余行执行该行对应的功能（把输入串替换为该项触发码）
 --   数字 1~5  → 执行当页第 N 项对应的功能
+--   回车      → 原生行为：把当前输入串（=? / ojd）当字母直接上屏（本处理器不接管）
 --
 -- 翻页键共三类：
 --   ① - , 与 Page_Up      → 上一页（无条件）
@@ -124,6 +126,20 @@ local function candidate_at(seg, index)
     return nil
 end
 
+-- 关闭面板（空格 + 高亮在首行）：清空输入串让候选框收起，**不上屏**任何字符。
+-- 为什么先手动 reset 计数：空格是 key_counter 的「提交类按键」，而 key_counter 挂在本
+-- 处理器之前，已经为这次空格 bump 过一次计数；面板期间的按键本就不该算进码长 / 上屏
+-- （ojd 路线的 o/j/d 还会被记成 3 个编码键）。不清掉就会漏进下一次真实上屏。
+-- 状态表在 _G.__xmjd6_key_counter_state，所以拿哪一份副本都行。
+local function close_panel(env)
+    local kc = _G.__xmjd6_key_counter
+    if kc and type(kc.reset) == "function" then
+        pcall(function() kc.reset() end)
+    end
+    pcall(function() env.engine.context:clear() end)
+    return kAccepted
+end
+
 -- 执行菜单第 n 行（1 基）对应的帮助条目：有触发码 → 替换输入串并返回 true
 local function execute_row(ctx, seg, n)
     if not seg then
@@ -213,12 +229,21 @@ function M.func(key, env)
         return kNoop -- 文档型 / 越界 → 原生「选中并上屏说明文字」
     end
 
-    -- 空格：执行高亮项
+    -- 空格：高亮在首行 → 关闭面板；其余行 → 执行该行对应的功能
     if key.keycode == KEY_SPACE then
         local seg = active_seg(ctx)
         if seg then
             local sel = highlighted_index(seg)
             if sel < 0 then sel = 0 end
+            if sel == 0 then
+                -- 只有确实是本面板的候选才当「关闭」处理：menu 为空、或混进了别的候选
+                -- （如 O 模式漏进来的）时保持放行，别吞掉原生行为。
+                local cand = candidate_at(seg, 0)
+                if cand and cand.type == "tools" then
+                    return close_panel(env)
+                end
+                return kNoop
+            end
             if execute_row(ctx, seg, sel + 1) then
                 return kAccepted
             end
