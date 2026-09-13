@@ -1037,19 +1037,19 @@ local function format_summary(title, subtitle, data, env)
     local day_tail = ""
     if subtitle and subtitle ~= "" then day_tail = " · " .. subtitle end
 
-    -- [0914] 面板版式：6 组、共 9 行。
-    --   组1 标题 + 境界 / 组2 评语 / 组3 均速峰速 + 上屏字数 /
-    --   组4 心法 + 功法 / 组5 比例 / 组6 方案名
-    --   ⚠️ 第 3 版起：评语组由「均速/上屏之后」提到「境界之后」（按用户交付稿的行序）。
-    --   ⚠️ 第 4 版起：**去掉全部组间空行**（用户交付稿是紧凑 9 行）——所以现在
-    --   9 个内容行 = 9 个物理行（\n 计数 8）。groups 结构保留只为了让"语义分组"好读，
-    --   渲染时直接顺序铺平，不再插空行。
+    -- [0914] 面板版式（第 5 版，用户编排）：**5 组、9 个内容行 + 4 个空行 = 13 物理行**。
+    --   组1 标题 / 组2 境界 + 评语 / 组3 均速峰速 + 上屏字数 + 心法 + 功法 /
+    --   组4 比例 / 组5 方案名；组间空一行（空行只放零宽空格，防止被候选窗折叠）。
+    --   ⚠️ 沿革：第 3 版 6 组 / 5 空行 → 第 4 版全去掉空行（用户反馈"太紧凑了"）
+    --   → 第 5 版按用户新编排改回带空行：境界与评语合成一组、心法功法并进中间大组，
+    --   于是空行从 5 个减到 4 个。
+    --   ⚠️ 第 3 版起：评语由「均速/上屏之后」提到「境界之后」（按用户交付稿的行序）。
     local groups = {
         {
             "📖 键盘之道·以击键炼字为修行",
-            xx .. "境界 → " .. realm_name .. day_tail,
         },
         {
+            xx .. "境界 → " .. realm_name .. day_tail,
             -- 用户指定：评语行的分隔符是「｜」（不是 心法/功法 那样的全角空格），
             -- 且不带 📜 图标；未入道的评语本身也含一个 ｜。
             "评语｜" .. realm_comment,
@@ -1062,8 +1062,6 @@ local function format_summary(title, subtitle, data, env)
             xx .. "上屏" .. pad_val(tostring(math.floor(data.commits)), 6)
                 .. "　｜　" .. xx .. "字数"
                 .. pad_val(tostring(math.floor(data.characters)), 6),
-        },
-        {
             "心法　码长 " .. string.format("%.2f", average_code)
                 .. " · 击键 " .. kps_str .. "/s",
             -- [0913] 「空格 / 顶屏」改口径名「非顶 / 顶功」：
@@ -1081,11 +1079,11 @@ local function format_summary(title, subtitle, data, env)
             "—  " .. env.schema_name .. " —",
         },
     }
-    -- [0914] 第 4 版起不再插组间空行：9 行顺序铺平。
-    -- 每行行尾仍补零宽空格（沿用旧面板习惯，防止候选窗把行长当换行处理）。
+    -- 组间插空行；每行行尾补零宽空格（沿用旧面板习惯，防止候选窗把行长当换行处理）。
     -- 面板首字符是 "📖"，on_commit 的「机器文本」识别串必须含 📖。
     local out = {}
     for gi = 1, #groups do
+        if gi > 1 then out[#out + 1] = zwsp end     -- 组间空行（只有零宽空格，不显示字符）
         for li = 1, #groups[gi] do
             out[#out + 1] = groups[gi][li] .. zwsp
         end
