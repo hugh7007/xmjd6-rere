@@ -1,4 +1,4 @@
-﻿-- shijian_impl.lua —— 时间/农历/节气 translator 的真正实现
+-- shijian_impl.lua —— 时间/农历/节气 translator 的真正实现
 -- 本文件由 xmjd6_shijian.lua 按需 require：只有输入命中 rq/ej/xq/nl/jq/=日期/dje 时才加载，
 -- iOS 清内存 sentinel 会从 package.loaded 卸载它，避免天文历法数据表常驻内存。
 -- _ENV 沙箱：原脚本的全局函数/变量全部落入本模块私有环境表，不再污染共享的 _G；
@@ -1483,8 +1483,8 @@ local function load_anniversaries()
     for _, dir in ipairs(dirs) do
         local f = io.open(dir .. "/anniversaries.txt", "r")
         if f then
-            for line in f:lines() do
-                line = line:gsub("\r$", "") -- 容忍 CRLF
+            for raw_line in f:lines() do
+                local line = raw_line:gsub("\r$", "") -- 容忍 CRLF
                 if line ~= "" and line:sub(1, 1) ~= "#" then
                     local name, typ, md = line:match("^([^\t]+)\t([^\t]+)\t(%d%d%d%d)%s*$")
                     if name and typ and md then
