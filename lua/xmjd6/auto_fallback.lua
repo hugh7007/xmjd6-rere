@@ -8,8 +8,9 @@
 
 local kAccepted = 1
 local kNoop = 2
-local protected_codes = require("xmjd6.protected_codes")
-local candidate_order_ok, candidate_order_core = pcall(require, "xmjd6.candidate_order_core")
+local protected_codes = require("xmjd6.xmjd6_topup_processor").protected_codes
+local candidate_order_ok, candidate_order_mod = pcall(require, "xmjd6.candidate_order")
+local candidate_order_core = candidate_order_ok and candidate_order_mod and candidate_order_mod.core or nil
 
 local function empty_code_topup_enabled(env)
     local config = env and env.engine and env.engine.schema and env.engine.schema.config

@@ -1,6 +1,61 @@
+local M = {}
+
+-- 模块级共享缓存：auto_fallback 与 topup_processor 都会 load()，
+-- 只读一次文件、共用同一张表，避免每个组件实例各持一份
+local cache = nil
+
+local function get_script_dir()
+    local source = debug.getinfo(1).source or ""
+    return source:match("@?(.*/)")
+end
+
+local function is_ascii_text(text)
+    if not text or text == "" then
+        return false
+    end
+    for i = 1, #text do
+        if text:byte(i) > 127 then
+            return false
+        end
+    end
+    return true
+end
+
+function M.load()
+    if cache then return cache end
+    local codes = {}
+    local script_dir = get_script_dir()
+    if not script_dir then
+        return codes
+    end
+
+    local path = script_dir .. "../../xmjd6.zidingyi.dict.yaml"
+    local file = io.open(path, "r")
+    if not file then
+        return codes
+    end
+
+    for line in file:lines() do
+        local text, code = line:match("^([^\t]+)\t([a-z]+)")
+        if text and code and is_ascii_text(text) then
+            codes[code] = true
+        end
+    end
+
+    file:close()
+    cache = codes
+    return codes
+end
+
+-- ════════════════════════════════════════════════════════════════
+-- 以下为顶功 processor（原 xmjd6_topup_processor.lua 主体，2026-09-14 合并）：
+--   protected_codes 表不再单独成文件；auto_fallback 改用 require(...).protected_codes。
+-- ════════════════════════════════════════════════════════════════
+
 -- 顶功处理器
-local protected_codes = require("xmjd6.protected_codes")
-local candidate_order_ok, candidate_order_core = pcall(require, "xmjd6.candidate_order_core")
+local protected_codes = M
+local candidate_order_ok, candidate_order_mod = pcall(require, "xmjd6.candidate_order")
+local candidate_order_core = candidate_order_ok and candidate_order_mod and candidate_order_mod.core or nil
 
 local function string2set(str)
     local t = {}
@@ -108,4 +163,5 @@ local function fini(env)
     env.protected_codes = nil
 end
 
-return { init = init, func = processor, fini = fini }
+return { init = init, func = processor, fini = fini,
+    protected_codes = M }  -- [0914] 暴露给 auto_fallback（require(...).protected_codes）

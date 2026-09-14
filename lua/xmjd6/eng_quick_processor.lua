@@ -27,7 +27,7 @@ local SEP = "'"
 local KEY_SPACE = 32    -- 0x20
 local KEY_RETURN = 13   -- 0x0d
 
-local exclude = require("xmjd6/eng_quick_exclude")
+local exclude = require("xmjd6.eng_quick").exclude
 
 local function to_commit(input)
     if not input or input == "" then return "" end

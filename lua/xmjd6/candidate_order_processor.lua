@@ -2,7 +2,7 @@
 -- Hotkey runtime candidate promotion for candidate_order.txt.
 -- Default: 0. If a non-first candidate is highlighted, promote it; otherwise promote the second candidate.
 
-local core = require("xmjd6.candidate_order_core")
+local core = require("xmjd6.candidate_order").core
 
 local kAccepted = 1
 local kNoop = 2

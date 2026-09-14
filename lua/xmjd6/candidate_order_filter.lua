@@ -1,7 +1,7 @@
 -- candidate_order_filter.lua
 -- Hide original candidates superseded by candidate_order.txt.
 
-local core = require("xmjd6.candidate_order_core")
+local core = require("xmjd6.candidate_order").core
 
 local function get_store_file(env)
     if env and env.engine and env.engine.schema and env.engine.schema.config then

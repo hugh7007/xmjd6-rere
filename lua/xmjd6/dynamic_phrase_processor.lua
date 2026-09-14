@@ -2,7 +2,7 @@
 -- Applies '/'' dynamic phrase commands when user confirms with space/enter.
 -- Also handles ''' management mode: list phrases, press 0 to delete.
 
-local core = require("xmjd6.dynamic_phrase_core")
+local core = require("xmjd6.dynamic_phrase").core
 
 local kAccepted = 1
 local kNoop = 2
