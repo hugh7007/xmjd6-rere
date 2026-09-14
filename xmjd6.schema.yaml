@@ -141,7 +141,7 @@ engine:
     - lua_translator@*xmjd6/quick_symbol_translator # 快捷符号唯一候选提示
     - lua_translator@*xmjd6/text_transform_translator # =wrap / =join/N 文本加工
     - lua_translator@*xmjd6/xmjd6_tools      # = 工具集：=uuid / =pw密码 / =mem内存 / =时间戳
-    - lua_translator@*xmjd6/input_statistics  # 打字统计面板：=tj今日/=qb全部/=yf七日/=yy卅日/=yn本年/=jq本设备/=wx查某天/=wk段位皮肤
+    - lua_translator@*xmjd6/input_statistics  # 打字统计面板：=tj今日/=qb全部/=yf7天/=yy30天/=yn365天/=jq本设备/=wx查某天/=wk文字皮肤
     - lua_translator@*xmjd6/number_tools     # 金额、进制、单位转换
     - lua_translator@*xmjd6/xmjd6_jisuanqi
     - lua_translator@*xmjd6/xmjd6_shijian
@@ -447,12 +447,13 @@ key_binder:
 # 打字统计（lua/xmjd6/input_statistics.lua + lua/xmjd6/key_counter.lua）
 #
 # 面板指令（全部以 = 触发）：
-#   =tj 今日   =qb 全部   =yf 七日   =yy 卅日   =yn 本年   =jq 本设备
+#   =tj 今日   =qb 全部   =yf 7天   =yy 30天   =yn 365天   =jq 本设备
 #   =wx 查某天：=wx20260801 / =wx202608 / =wx2026 / =wx20260101t20260201
-#   =wk 段位+皮肤   =wkda~=wkdb 切段位   =wkpa~=wkph 切皮肤
+#   =wk 文字皮肤   =wk+字母 切换（a 键道修仙 / b 末世求生 / c 江湖侠客 /
+#                  d 秘境探险 / e 魔法学院 / f 卡牌收集；=wkd/=wkp 旧段位·进度条皮肤已删除）
 #
 # 下面这一整块都可以删掉，删掉就用脚本顶部的默认值。
-# 注意：段位/皮肤是「=wk 指令写文件」持久化的，不在这里配置，避免部署后被覆盖。
+# 注意：文字皮肤是「=wk 指令写文件 lua/text_skin.txt」持久化的，不在这里配置，避免部署后被覆盖。
 # ══════════════════════════════════════
 input_stats:
   db_name: stats                     # LevelDB 库名 → user_data_dir/stats.userdb/（部署后自动创建）
