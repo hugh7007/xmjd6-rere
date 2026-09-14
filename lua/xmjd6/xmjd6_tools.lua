@@ -1,8 +1,9 @@
 -- xmjd6_tools.lua
 -- "=" 引导的小工具集（与计算器/数字大写/日历查询共用 = 前缀，互不冲突）：
---   =? / ojd      显示需要输入码触发的功能帮助候选（按页切片输出）
---                 （=/. 下一页、-/, 上一页，页偏编码在输入串尾；空格执行高亮功能、
---                  数字直选当页功能，均见 help_panel.lua）
+--   =? / ojd      显示需要输入码触发的功能帮助候选：从「起始页」全量输出到清单末尾，
+--                 供前端原生分页（手机滑动 / 桌面 Page 键 / ↑↓ 到边界）真正翻页；
+--                 桌面 =/. 下一页、-/, 上一页仍由 help_panel.lua 改写输入串把起始页前移；
+--                 空格执行高亮功能、数字直选当页功能，均见 help_panel.lua。
 --   =uuid         生成 UUID v4（小写/大写候选）
 --   =pw / =pw20   生成随机密码（默认 16 位，可指定 8~64 位，候选含符号/纯字母数字两种）
 --   =mem          查看当前 Lua 堆内存与已注册缓存数（配合 iOS 内存调试）
@@ -10,8 +11,11 @@
 --   =1718160000   10/13 位 Unix 时间戳转日期时间（13 位按毫秒解析）
 
 local mem_cleaner = require("xmjd6.mem_cleaner")
-local help_items = require("xmjd6.help_items")
-local HELP_ITEMS = help_items.items
+-- [0914] 清单数据已并入 help_panel.lua（原 help_items.lua 撤销），从处理器模块取 `M.items`。
+--   注意：librime-lua 每创建一个组件都会清 package.loaded 再 require，所以本 translator
+--   拿到的是**自己的那份** help_panel 实例；两边都只读清单，不需要跨实例通信。
+local help_panel = require("xmjd6.help_panel")
+local HELP_ITEMS = help_panel.items
 
 math.randomseed(os.time())
 
@@ -81,17 +85,23 @@ end
 local function tools(input, seg, env)
     local base, offset = help_panel_state(input)
     if base then
-        -- 帮助面板按页切片输出：- / = 与 , / . 翻页由 help_panel.lua 改写输入串完成
+        -- 帮助面板：从「起始页」一路输出到清单末尾，**不再只出当页 5 条**。
+        -- 为什么必须全出：手机（仓输入法 swipePaging: true）的滑动翻页由前端直接在 UI 层
+        -- 翻菜单页，不走按键事件 → help_panel.lua 收不到；菜单里只有一页时前端无处可翻。
+        -- 全出之后前端原生分页（手机滑动 / 桌面 Page 键）才真正翻得动；
+        -- 桌面 - = , . ↑↓ 仍由 help_panel.lua 改写输入串把「起始页」前移，行为不变。
         local ps = page_size_of(env)
         local total = #HELP_ITEMS
         local pages = math.ceil(total / ps)
         local page = math.max(1, math.min(pages, 1 + offset))
         local first = (page - 1) * ps
-        for i = first + 1, math.min(first + ps, total) do
+        for i = first + 1, total do
             local item = HELP_ITEMS[i]
             local comment = item[2]
-            if i == first + 1 then
-                comment = comment .. "｜【第" .. page .. "页/共" .. pages .. "页】"
+            -- 页码标记打在每个「页首行」上（全局序号 ≡ 1 mod ps）：前端原生翻页后
+            -- 标记也始终落在当页第一行，不会因翻页而错位。
+            if (i - 1) % ps == 0 then
+                comment = comment .. "｜【第" .. math.floor((i - 1) / ps) + 1 .. "页/共" .. pages .. "页】"
             end
             yield(Candidate("tools", seg.start, seg._end, item[1], comment))
         end
