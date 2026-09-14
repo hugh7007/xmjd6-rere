@@ -3,12 +3,13 @@
 --   engine.processors  第一行    - lua_processor@*xmjd6/key_counter
 --
 --  面板指令（全部以 = 触发，无 o 前缀别名）：
---  =tj  今日        =qb  全部        =yf  七日
---  =yy  卅日        =yn  本年        =jq  本设备
+--  =tj  今日        =qb  全部        =yf  7天
+--  =yy  30天        =yn  365天       =jq  本设备
 --  =wx  查某天 20260801（也支持 202608、2026、20260101t20260201）
---  =wk  查看（段位 + 皮肤）
---  =wkda/=wkdb      切段位（=[=wk]+[d]+[字母]）
---  =wkpa~=wkpi      切皮肤（=[=wk]+[p]+[字母]，字母按表内顺序对应编号）
+--  =wk  查看/切换【文字皮肤】（一款皮肤 = 一整套面板文案）
+--  =wk+字母        切换皮肤：a 键道修仙 / b 末世求生 / c 江湖侠客 /
+--                  d 秘境探险 / e 魔法学院 / f 卡牌收集（见文件顶部 TEXT_SKINS）
+--  （旧的 =wkd 段位 / =wkp 进度条皮肤已删除：=wkd 现在就是切到 d 款皮肤）
 --
 -- 数据：LevelDB（input_stats/db_name，默认 stats），按「天 × 设备」聚合。
 -- 计键：key_counter.lua 内存通道，每键 0 次磁盘 IO。
@@ -20,28 +21,169 @@ local AUTO_COMMIT_CODE_LEN = 4
 --   四码固定顶屏方案 = 4     三码顶屏方案 = 3     全拼/双拼 = 0
 local TOPUP_MODE = true
 -- ══════════════════════════════════════
---★★★这里修改默认段位和皮肤，输入框里也可以用 =wk 系列指令随时切换，重新部署后恢复默认。
-local DEFAULT_TITLE_THEME = "classic"
--- classic 原版段位（=wkda）    xiuxian 修仙段位（=wkdb）
+--★★★这里修改默认文字皮肤；输入框里 =wk 查看、=wk+字母 切换（重新部署后回到这里的默认值）。
+local DEFAULT_TEXT_SKIN = "a"
+local TEXT_SKIN_FILE = "lua/text_skin.txt"
 
---classic  🌱→🌟→🚀→💨→✨→⌨️
---   初学→渐入→运指→行云→出神→登峰
---xiuxian  🔥→⛰️→☀️→👁→🔮→👑→⌨️
---  炼气→筑基→金丹→元婴→化神→金仙→天人
+-- ══════════ 【文字皮肤表】══════════
+-- 一款皮肤 = 一整套面板文案：图标 / 标题 / 时段词 / 10 档境界名 + 评语 / 标签 / 进度条字符。
+-- 新增一款：在下面数组里追加一块（letter 顺延 g、h…），其余代码不用动。
+--   面板行序（第 8 版版式）：
+--     <icon> <title_name>·<title_metric>N字
+--     【<时段>】<period_word> → <境界名>
+--     评语｜<境界评语>
+--     均速 …｜峰速 …
+--     上屏 …｜字数 …
+--     <code_label>　码长 x · 击键 y/s
+--     <mode_label>　非顶 x% · 顶功 y%
+--     比例　单 x % ▰▰▱▱▱▱ y % 词
+--     —  <方案名> —
+-- realms 十档的**阈值与顺序固定**（15/30/…/150），只换名字与评语：
+--   ①15~29 ②30~44 ③45~59 ④60~74 ⑤75~89 ⑥90~104 ⑦105~119 ⑧120~134 ⑨135~149 ⑩≥150
+--   （阈值写在下方 REALM_THRESHOLDS，改它会影响所有皮肤，慎动。）
+local TEXT_SKINS = {
+    {   -- a：键道修仙（原版面板，默认）
+        letter = "a", label = "键道修仙",
+        icon = "📖", title_name = "键盘之道", title_metric = "总修炼",
+        period_word = "修炼数据",
+        code_label = "心法", mode_label = "功法",
+        no_realm = "【未入道】", no_realm_comment = "以文字为道｜击字炼心方能入道",
+        realms = {
+            { "识符境", "初识字符，辨认字根" },
+            { "运指境", "熟悉布局，缓慢敲出文字" },
+            { "缀文境", "连贯打出，单字不卡顿" },
+            { "顺章境", "整句流畅，指法初养成" },
+            { "凝心境", "眼到手到，心神专注" },
+            { "御字境", "节奏稳定，持续输入" },
+            { "通章境", "整篇文稿，一气呵成" },
+            { "合契境", "心神与文字相融" },
+            { "化文境", "念头一动文字即出" },
+            { "道成境", "字道圆满，随心而输，快慢由心" },
+        },
+    },
+    {   -- b：末世求生
+        letter = "b", label = "末世求生",
+        icon = "⚔️💀", title_name = "末世求生", title_metric = "总求生",
+        period_word = "求生异能",
+        code_label = "能耗", mode_label = "储备",
+        no_realm = "【未觉醒】", no_realm_comment = "以文字为矛｜击字求生方能觉醒",
+        realms = {
+            { "拾荒", "废土拾字，辨认残卷" },
+            { "辨字", "熟悉残文，缓慢敲出" },
+            { "缀码", "字块拼缀，单字不卡" },
+            { "顺句", "整句成形，指法初稳" },
+            { "凝神", "心手合一，专注戒备" },
+            { "御字", "节奏稳定，持续输入" },
+            { "通录", "一气录完，废土成篇" },
+            { "合流", "指尖铸字，废土求生" },
+            { "化废", "念头一动，文字即出" },
+            { "火种", "火种不灭，随心而输，快慢由心" },
+        },
+    },
+    {   -- c：江湖侠客
+        letter = "c", label = "江湖侠客",
+        icon = "🗡️📃", title_name = "侠笔录字", title_metric = "总誊写",
+        period_word = "笔墨修为",
+        code_label = "内息", mode_label = "剑招",
+        no_realm = "【未入门】", no_realm_comment = "以文字为剑｜落字成招方能入门",
+        realms = {
+            { "识帖", "初识笔帖，辨认字根" },
+            { "运笔", "熟悉笔路，缓慢落墨" },
+            { "缀文", "字字相连，单字不滞" },
+            { "顺招", "整句如招，笔势初成" },
+            { "凝神", "眼到手到，心神专注" },
+            { "御笔", "落笔稳定，持续书写" },
+            { "通篇", "一气誊成，行云流水" },
+            { "合璧", "落字如剑，笔墨行江湖" },
+            { "化墨", "念动笔随，文字即出" },
+            { "剑心", "笔墨通神，随心而输，快慢由心" },
+        },
+    },
+    {   -- d：秘境探险
+        letter = "d", label = "秘境探险",
+        icon = "🗺️🔦", title_name = "秘境手记", title_metric = "总记录",
+        period_word = "探索等级",
+        code_label = "体能", mode_label = "行囊",
+        no_realm = "【未探明】", no_realm_comment = "以文字为图｜笔录成路方能探明",
+        realms = {
+            { "识文", "初识符号，辨认线条" },
+            { "运图", "熟悉地图，缓慢前行" },
+            { "缀记", "线索相连，单字不停" },
+            { "顺迹", "整句成图，指法初成" },
+            { "凝神", "眼到手到，心神专注" },
+            { "御录", "记录稳定，持续探索" },
+            { "通探", "一气记完，秘境在握" },
+            { "解密", "笔录线索，破解秘境玄机" },
+            { "化境", "念动文成，线索自现" },
+            { "寻宝", "秘境尽览，随心而录，快慢由心" },
+        },
+    },
+    {   -- e：魔法学院
+        letter = "e", label = "魔法学院",
+        icon = "🪄📖", title_name = "咒文典籍", title_metric = "总诵录",
+        period_word = "咒文修为",
+        code_label = "魔力", mode_label = "咒式",
+        no_realm = "【未入学】", no_realm_comment = "以文字为咒｜书咒成式方能入学",
+        realms = {
+            { "识咒", "初识咒符，辨认魔文" },
+            { "运杖", "熟悉杖势，缓慢吟出" },
+            { "缀文", "咒字相连，单字不滞" },
+            { "顺典", "整句成咒，指法初成" },
+            { "凝神", "眼到手到，心神专注" },
+            { "御咒", "吟诵稳定，持续施术" },
+            { "通篇", "一气诵完，典籍通明" },
+            { "合鸣", "指尖书咒，唤文字魔力" },
+            { "化法", "念动咒成，文字即出" },
+            { "大魔导", "咒法圆满，随心而书，快慢由心" },
+        },
+    },
+    {   -- f：卡牌收集
+        letter = "f", label = "卡牌收集",
+        icon = "🃏🪙", title_name = "字卡图鉴", title_metric = "总收录",
+        period_word = "卡牌等级",
+        code_label = "牌能", mode_label = "卡组",
+        no_realm = "【未成套】", no_realm_comment = "以文字为卡｜组字成牌方能成套",
+        realms = {
+            { "识卡", "初识卡面，辨认字根" },
+            { "运筹", "熟悉牌序，缓慢出牌" },
+            { "缀组", "卡牌相连，单卡不滞" },
+            { "顺局", "整局顺畅，指法初成" },
+            { "凝神", "眼到手到，心神专注" },
+            { "御牌", "出牌稳定，持续构筑" },
+            { "通鉴", "一气打完，图鉴渐满" },
+            { "合击", "组字成卡，构筑手牌" },
+            { "化金", "念动牌出，文字即现" },
+            { "收藏家", "图鉴圆满，随心而收，快慢由心" },
+        },
+    },
+}
+-- 十档阈值（所有皮肤共用；改这里会让每款皮肤的第 N 档一起挪）
+local REALM_THRESHOLDS = { 15, 30, 45, 60, 75, 90, 105, 120, 135, 150 }
+-- 比例条字符（所有皮肤共用；旧版那 9 款进度条皮肤已随 =wkp 一并删除）
+local BAR_FIELD, BAR_EMPTY = "▰", "▱"
+-- 字母 → 皮肤（a→第 1 款、b→第 2 款 …）
+local function skin_by_letter(letter)
+    for _, s in ipairs(TEXT_SKINS) do
+        if s.letter == letter then return s end
+    end
+    return nil
+end
 
-local DEFAULT_SKIN = 1
--- a ▓▓▓▓▓░░░░░  原版皮肤
--- b ✭✭✭✭✭✩✩✩✩✩
--- c ★★★★★☆☆☆☆☆
--- d ●●●●●○○○○○
--- e ━━━━━┄┄┄┄┄
--- f ◆◆◆◆◆◇◇◇◇◇
--- g ■■■■■□□□□□
--- h ◆◆◆◆◆┄┄┄┄┄
--- ═════════════════════════════════════
--- （=wkp[a~h] 切皮肤、=wkd[a~b] 切段位，字母按上面列表顺序 1:1 对应，无需改这里）
--- 段位主题固定顺序（=wkd + 字母，从 a 开始逐个数）
-local TITLE_THEME_ORDER = { "classic", "xiuxian" }
+-- [0914] 「机器文本」识别（on_commit 用）：面板/提示的首字符一律算机器文本——
+--   即使被误上屏也不记成一次真实打字。皮肤图标会换（⚔️💀 / 🗡️📃 …），
+--   所以不能只写死 📖，这里把每款皮肤的图标前缀一并收进来，按前缀逐个比对。
+--   （不用 Lua 字节字符类 [※📖…]：那个按字节匹配，会把所有同首字节的字都误判。）
+local MACHINE_PREFIXES = { "※", "◉", "🏆", "📊", "⚡", "📈" }
+for _, s in ipairs(TEXT_SKINS) do
+    MACHINE_PREFIXES[#MACHINE_PREFIXES + 1] = s.icon
+end
+local function is_machine_text(text)
+    if not text or text == "" then return true end
+    for _, p in ipairs(MACHINE_PREFIXES) do
+        if text:sub(1, #p) == p then return true end
+    end
+    return false
+end
 -- ═════════════════════════════════════
 -- ═════════════════════════════════════
 -- 【可修改】速度统计参数（改这里即可）
@@ -95,7 +237,121 @@ local SPEED_HISTORY_DAYS = 0
 local function peak_key_prefix(window_ms)
     return string.format("speed_peak_window_%ds", math.floor(window_ms / 1000 + 0.5))
 end
-local userdb = require("xmjd6.userdb")
+-- [0914] userdb 包装器原为独立文件，现并入此处（唯一消费者就是本模块）
+local META_KEY_PREFIX = "\001" .. "/"
+
+-- UserDb 缓存，使用弱引用表，不阻止垃圾回收并能自动清理
+local db_pool = setmetatable({}, { __mode = "v" })
+
+---@class WrappedUserDb: UserDb
+---@field meta_query fun(self: self, prefix: string): DbAccessor
+---@field meta_fetch fun(self: self, key: string): string|nil
+---@field meta_update fun(self: self, key: string, value: string): boolean
+---@field meta_erase fun(self: self, key: string): boolean
+---@field query_with fun(self: self, prefix: string, handler: fun(key: string, value: string))
+---@field empty fun(self: self, include_metafield?: boolean) -- 清空数据库
+
+-- 用于存放包装器对象的自定义方法
+local extends = {}
+
+--- @param key string
+--- @return string|nil
+function extends:meta_fetch(key)
+  return self._db:fetch(META_KEY_PREFIX .. key)
+end
+
+--- @param key string
+--- @param value string
+--- @return boolean
+function extends:meta_update(key, value)
+  return self._db:update(META_KEY_PREFIX .. key, value)
+end
+
+--- @param key string
+--- @return boolean
+function extends:meta_erase(key)
+  return self._db:erase(META_KEY_PREFIX .. key)
+end
+
+--- @param prefix string
+--- @return DbAccessor
+function extends:meta_query(prefix)
+  return self._db:query(META_KEY_PREFIX .. prefix)
+end
+
+function extends:query_with(prefix, handler)
+  local da = self._db:query(prefix)
+  if da then
+    for key, value in da:iter() do
+      handler(key, value)
+    end
+  end
+  da = nil
+  collectgarbage()
+end
+
+--- @param include_metafield boolean 是否也清理元数据。
+function extends:empty(include_metafield)
+  self:query_with("", function(key, _)
+    local is_metafield = key:find(META_KEY_PREFIX, 1, true) == 1
+    if include_metafield or not is_metafield then
+      self._db:erase(key)
+    end
+  end)
+end
+
+local mt = {
+  __index = function(wrapper, key)
+    -- 优先使用自定义方法
+    if extends[key] then
+      return extends[key]
+    end
+
+    -- 不是自定义方法，委托给真实的 UserDb 对象
+    local real_db = wrapper._db
+    local value = real_db[key]
+
+    if type(value) == "function" then
+      return function(_, ...)
+        return value(real_db, ...)
+      end
+    end
+
+    return value
+  end,
+}
+
+local userdb = {}
+
+--- @param db_name string
+--- @param db_class "userdb" | "plain_userdb" | nil
+--- @return WrappedUserDb
+function userdb.UserDb(db_name, db_class)
+  db_class = db_class or "userdb"
+  local key = db_name .. "." .. db_class
+
+  ---@type UserDb
+  local db = db_pool[key]
+  if not db then
+    db = UserDb(db_name, db_class)
+    db_pool[key] = db
+  end
+
+  local wrapper = {
+    _db = db,
+    _pool_key = key,
+  }
+
+  return setmetatable(wrapper, mt)
+end
+
+function userdb.LevelDb(db_name)
+  return userdb.UserDb(db_name, "userdb")
+end
+
+function userdb.TableDb(db_name)
+  return userdb.UserDb(db_name, "plain_userdb")
+end
 -- 击键器（可选，未挂载 processor 时会自动退回码长统计）
 -- 这里拿到的只是「模块句柄」，用来看 key_counter 能不能用。**真正的数据共享不靠它**：
 -- librime-lua 每个组件创建时都会清模块缓存，processor 与 translator 各自 require 一次，
@@ -124,7 +380,6 @@ key_counter = _G.__xmjd6_key_counter or key_counter
 -- 模块私有数据库池：同名数据库共享包装器和生命周期。
 local DB_POOL = {}
 
-local SOFTWARE_NAME = rime_api.get_distribution_code_name()
 local RECORD_SEPARATOR = " \t"
 local STATS_C_MAX = 2147483000
 local BATCH_INTERVAL = 5
@@ -155,42 +410,6 @@ local LEGACY_FIELDS = {
     _l4="commit_length/4",
     _l_gt4="commit_length/5_plus",
 }
--- [0813] 段位主题表（高→低：500万/100万/50万/10万/5万/1万/0）
--- classic（原版，默认）/ xiuxian（修仙）；/01 /02 切换
-local TITLE_THEMES = {
-    xiuxian = {
-        {5000000, "☯️·天人合一"}, {1000000, "👑·金仙期"},
-        {500000, "🔮·化神期"}, {100000, "👁·元婴期"},
-        {50000, "☀️·金丹期"}, {10000, "⛰️·筑基期"},
-        {0, "🔥·炼气期"},
-    },
-    classic = {
-        {5000000, "⌨️·天人合一"}, {1000000, "⌨️·登峰造极"},
-        {500000, "✨·出神入化"}, {100000, "💨·行云流水"},
-        {50000, "🚀·运指如飞"}, {10000, "🌟·渐入佳境"},
-        {0, "🌱·初学乍练"},
-    },
-}
--- 默认段位/皮肤在文件顶部配置区设置（DEFAULT_TITLE_THEME / DEFAULT_SKIN）
-local TITLE_THEME_FILE = "lua/title_theme.txt"
-local THEME_LABELS = { xiuxian = "修仙", classic = "原版" }
-
--- [0813] 进度条皮肤（=wk 查看，=wkp+字母 切换）
--- [0913] 新版面板只剩「比例」一条 6 格条，默认皮肤改成 ▰▱（与设计稿一致）；
---        旧的原版 ▓░▒ 挪到末位，仍可用 =wkp 切回。
-local skinList = {
-    { field = "▰", empty = "▱" }, -- 001 默认（新版面板比例条）
-    { field = "✭", empty = "✩" }, -- 002（原22）
-    { field = "★", empty = "☆" }, -- 003（原21）
-    { field = "●", empty = "○", half = "◐" }, -- 004（原03）
-    { field = "━", empty = "┄" }, -- 005（原02）
-    { field = "◆", empty = "◇" }, -- 006（原06）
-    { field = "■", empty = "□" }, -- 007（原04）
-    { field = "◆", empty = "┄" }, -- 008（原16）
-    { field = "▓", empty = "░", half = "▒" }, -- 009 旧原版皮肤（原001）
-}
-local SKIN_FILE = "lua/skin_word.txt"
-
 local function read_text_file(path)
     local f = io.open(path, "r")
     if not f then return nil end
@@ -820,148 +1039,40 @@ local function migrate_database(env)
     for _, raw_key in ipairs(obsolete) do db:erase(raw_key) end
 end
 
-local function platform_info(name, version)
-    local names = {
-        Weasel="小狼毫", trime="同文输入法", hamster3="元书输入法",
-        hamster="仓输入法", lyraime="灵韵输入法", xime="曦码输入法",
-        ["Cobra​"]="元书输入法(PC)", default="超越输入法",
-    }
-    version = tostring(version or "")
-    return names[name] or name or "",
-        version:match("^([vV]?%d+%.%d+%.%d+)") or version
-end
+-- [0914] 已删除的死代码（随「文字皮肤」改造一并清掉，均无调用点）：
+--   platform_info() / SOFTWARE_NAME（末行早已只留方案名，不再显示设备与前端）
+--   ensure_titles() / user_title()（段位主题 =wkd 已取消；面板的境界改用 TEXT_SKINS[].realms）
+--   draw_bar()（10 格旧版进度条）、speed_level() / SPEED_LEVELS / SPEED_CN（金山十级，0913 弃用）
 
-local function ensure_titles(env)
-    if env.titles then return env.titles end
-    local titles = {}
-    local configured = env.engine.schema.config:get_list("input_stats/titles")
-    if configured then
-        for i = 0, configured.size - 1 do
-            local item = configured:get_value_at(i)
-            local value = item and item.value
-            if value then
-                local threshold, name = value:match("^(%d+):(.+)$")
-                if threshold and name then
-                    titles[#titles + 1] = {tonumber(threshold), name}
-                end
-            end
-        end
-    end
-    if #titles == 0 then
-        local theme = TITLE_THEMES[env.title_theme] or TITLE_THEMES[DEFAULT_TITLE_THEME]
-        env.titles = theme
-    else
-        table.sort(titles, function(a, b) return a[1] > b[1] end)
-        env.titles = titles
-    end
-    return env.titles
-end
-
--- [0820] 金山打字通速度等级（峰速查表）
--- [0913] 面板改版后已弃用：评语改由 REALMS 表的「今日境界」给出（保留代码以防回退）
--- 标准对照（网上金山打字通十级划分）：10/40/70/100/120/140/160/180/200/300 字/分
-local SPEED_LEVELS = {
-    {300, "传说级·人键合一"},
-    {200, "神之领域，豹变传奇"},
-    {180, "行云流水的打字高手"},
-    {160, "鹰击长空，键指如飞"},
-    {140, "跟上节拍的节奏大师"},
-    {120, "兔跃轻舞，速度渐起"},
-    {100, "打字如龟速爬行中"},
-    {70, "一指禅，敲出千古韵"},
-    {40, "处于边打字边打盹状态Zzz"},
-    {10, "再慢也是一种态度"},
-}
-local SPEED_CN = {"一", "二", "三", "四", "五", "六", "七", "八", "九", "十"}
--- 返回：等级名（"四级"）、评语、图标（1-2级🐌 / 3-4级🐢 / 5-6级🐇 / 7-8级🦅 / 9-10级🐆）
-local function speed_level(peak)
-    for i, lv in ipairs(SPEED_LEVELS) do
-        if peak and peak >= lv[1] then
-            local n = 11 - i
-            local icon = "🐆"
-            if n <= 2 then icon = "🐌"
-            elseif n <= 4 then icon = "🐢"
-            elseif n <= 6 then icon = "🐇"
-            elseif n <= 8 then icon = "🦅" end
-            return SPEED_CN[n] .. "级", lv[2], icon
-        end
-    end
-    return "一级", SPEED_LEVELS[10][2], "🐌"
-end
-
-local function user_title(env, characters)
-    -- 返回 (段位名, 从低到高的序号, 总段位数)，如 渐入佳境 → (…, 2, 7)
-    local titles = ensure_titles(env)
-    for i, item in ipairs(titles) do
-        if characters >= item[1] then
-            return item[2], #titles - i + 1, #titles
-        end
-    end
-    return "初学乍练", 1, #titles
-end
-
-local function draw_bar(percent, env)
-    local skin = skinList[(env and env.skin_word) or DEFAULT_SKIN]
-        or skinList[DEFAULT_SKIN]
-    if skin.half then
-        -- [0827] 个位数 1-9 显示半格：整格数 = 十位数；有零头（非整格）就补半格
-        local full = math.floor(percent / 10)
-        local rem = percent - full * 10
-        if rem >= 1 and full < 10 then
-            return string.rep(skin.field, full) .. skin.half
-                .. string.rep(skin.empty, 9 - full)
-        end
-        return string.rep(skin.field, full) .. string.rep(skin.empty, 10 - full)
-    end
-    -- 无半格字符的皮肤：10 格整数（每格 10%，向下取整）
-    local filled = math.floor(percent / 10)
-    return string.rep(skin.field, filled) .. string.rep(skin.empty, 10 - filled)
-end
-
--- [0913] 比例条（新版面板专用）：固定 6 格，字符仍走皮肤（=wkp 可切）
-local function draw_bar6(percent, env)
-    local skin = skinList[(env and env.skin_word) or DEFAULT_SKIN]
-        or skinList[DEFAULT_SKIN]
+-- [0913] 比例条（新版面板专用）：固定 6 格
+local function draw_bar6(percent)
     local filled = math.floor(percent * 6 / 100 + 0.5)
     if filled < 0 then filled = 0 elseif filled > 6 then filled = 6 end
-    return string.rep(skin.field, filled) .. string.rep(skin.empty, 6 - filled)
+    return string.rep(BAR_FIELD, filled) .. string.rep(BAR_EMPTY, 6 - filled)
 end
 
--- [0913] 打字境界：只看「峰速」，峰速每多 15 字/分 进一境（原本是 10，用户改为 15）。
---   15~29 → 识符境   30~44 → 运指境   45~59 → 缀文境   60~74 → 顺章境
---   75~89 → 凝心境   90~104 → 御字境  105~119 → 通章境  120~134 → 合契境
---   135~149 → 化文境  ≥150  → 道成境
---   峰速不足 15（含峰速未出数 "--"）→ 未入道
---   例：峰速 47 → 缀文境；峰速 140 → 化文境
--- 评价文字由用户指定，一字不改（第 7 境原稿「整篇文化」已按用户更正为「整篇文稿」）
--- ⚠️ 只改这里的阈值即可调整档距；10 个境界名与顺序保持不变。
-local REALMS = {
-    { 15,  "识符境", "初识字符，辨认字根" },
-    { 30,  "运指境", "熟悉布局，缓慢敲出文字" },
-    { 45,  "缀文境", "连贯打出，单字不卡顿" },
-    { 60,  "顺章境", "整句流畅，指法初养成" },
-    { 75,  "凝心境", "眼到手到，心神专注" },
-    { 90,  "御字境", "节奏稳定，持续输入" },
-    { 105, "通章境", "整篇文稿，一气呵成" },
-    { 120, "合契境", "心神与文字相融" },
-    { 135, "化文境", "念头一动文字即出" },
-    { 150, "道成境", "字道圆满，随心而输，快慢由心" },
-}
--- 未入道：峰速不足最低一境时的占位；面板里带【】显示，和真实境界区分开
-local NO_REALM_NAME = "【未入道】"
-local NO_REALM_COMMENT = "以文字为道｜击字炼心方能入道"
-
+-- [0914] 打字境界：只看「峰速」，峰速每多 15 字/分 进一境（原本是 10，用户改为 15）。
+--   阈值统一在文件顶部 REALM_THRESHOLDS（15/30/…/150），名字与评语**按皮肤给**：
+--   TEXT_SKINS[i].realms[j] = { 第 j 档的境界名, 该档评语 }，两表同长（10 档）。
+--   峰速不足 15（含峰速未出数 "--"）→ 该皮肤的 no_realm / no_realm_comment。
+--   例：a 皮肤峰速 47 → 缀文境；峰速 140 → 化文境。
+-- ⚠️ 阈值只改 REALM_THRESHOLDS；境界名/评语只改 TEXT_SKINS[].realms，两边不要互相串。
 -- 返回：境界名 + 该境界的评语（峰速为 nil / 不足最低一境 → 未入道）
-local function realm_of(peak)
-    if not peak or peak < REALMS[1][1] then
-        return NO_REALM_NAME, NO_REALM_COMMENT
+local function realm_of(peak, skin)
+    local realms = (skin and skin.realms) or TEXT_SKINS[1].realms
+    local no_name = (skin and skin.no_realm) or TEXT_SKINS[1].no_realm
+    local no_comment = (skin and skin.no_realm_comment) or TEXT_SKINS[1].no_realm_comment
+    if not peak or peak < REALM_THRESHOLDS[1] then
+        return no_name, no_comment
     end
-    local top = REALMS[#REALMS]
-    if peak >= top[1] then return top[2], top[3] end
-    for i = #REALMS - 1, 1, -1 do
-        if peak >= REALMS[i][1] then return REALMS[i][2], REALMS[i][3] end
+    for i = #REALM_THRESHOLDS, 1, -1 do
+        if peak >= REALM_THRESHOLDS[i] then
+            local item = realms[i]
+            if item then return item[1], item[2] end
+            return no_name, no_comment
+        end
     end
-    return NO_REALM_NAME, NO_REALM_COMMENT
+    return no_name, no_comment
 end
 
 -- 数值右对齐到 width 个半角宽（"　"=2、" "=1）。
@@ -990,7 +1101,7 @@ end
 local function format_summary(title, subtitle, data, env)
     if not data or data.commits == 0 then return "※ " .. title .. "暂无数据" end
     -- [0913] 旧版这里的「◉ 键数：累计 N 键」行已随面板改版去掉
-    --（新版 9 行版式固定，不显示累计键数；数据仍在库里，只是不上面板）
+    --（新版版式固定，不显示累计键数；数据仍在库里，只是不上面板）
     local average_code = data.characters > 0 and data.keystrokes / data.characters or 0
     -- 击键速度 = 会话键数 ÷ 会话时长（分子分母同一批会话，口径一致）
     -- 旧数据兼容：升级前的库无 speed_average/keystrokes 字段 → 回退旧口径
@@ -1024,32 +1135,37 @@ local function format_summary(title, subtitle, data, env)
     local single_pct = chars_n > 0 and (100 * single_n / chars_n) or 0
     local word_pct = 100 - single_pct
 
-    -- [0913] 境界 + 评语：只看峰速（峰速未出数 / 不足最低一境 → 【未入道】）
-    local realm_name, realm_comment = realm_of(peak_speed)
+    -- [0913] 境界 + 评语：只看峰速（峰速未出数 / 不足最低一境 → 该皮肤的未入道条目）
+    local skin = (env and env.text_skin) or TEXT_SKINS[1]
+    local realm_name, realm_comment = realm_of(peak_speed, skin)
     local zwsp = "\226\128\139"
 
-    -- [0914] 用户指定版式（第 6 版）：**时段前缀改挂到标题上**——标题 = `📖 键盘之道·【<xx>】数据`。
-    --   于是 境界 / 均速 / 峰速 / 上屏 / 字数 / 比例 这 6 处**不再带前缀**（第 3~5 版是带的）。
-    --   境界行 = `境界 → <境界名> ·已修炼 N 字`——「修炼生涯字数」回来了（第 3 版曾去掉），
+    -- [0914] 用户指定版式（第 8 版）：标题带「总修炼」累计字数；时段与境界**合并成一行**
+    --   「【xx】修炼数据 → <境界名>」（第 7 版是「【xx】修炼数据」+「已步入 → <境界名>」两行，
+    --   用户 0914 修订稿把境界并进时段行，物理行 14 → 13）。
     --   N = 累计上屏字数（data.lifetime_characters，不受区间限制的全量累计）。
-    --   例外：subtitle 非空的 =jq / =wx 仍把设备号 / 日期接在境界行尾，否则查了哪天根本看不出来。
+    --   例外：subtitle 非空的 =jq / =wx 仍把设备号 / 日期接在该行行尾，否则查了哪天根本看不出来。
     local xx = title
     local lifetime = math.floor(data.lifetime_characters or 0)
     local day_tail = ""
     if subtitle and subtitle ~= "" then day_tail = " · " .. subtitle end
 
-    -- [0914] 面板版式（第 6 版）：**5 组、9 个内容行 + 4 个空行 = 13 物理行**。
-    --   组1 标题（含【时段】） / 组2 境界 + 评语 / 组3 均速峰速 + 上屏字数 + 心法 + 功法 /
-    --   组4 比例 / 组5 方案名；组间空一行（空行只放零宽空格，防止被候选窗折叠）。
+    -- [0914] 面板版式（第 8 版）：**5 组、9 个内容行 + 4 个空行 = 13 物理行**。
+    --   组1 标题（<皮肤标题> N 字） / 组2 【xx】<皮肤时段词> → 境界 + 评语 /
+    --   组3 均速峰速 + 上屏字数 + <皮肤码长标签> + <皮肤顶功标签> / 组4 比例 / 组5 方案名；
+    --   组间空一行（空行只放零宽空格，防止被候选窗折叠）。
     --   ⚠️ 沿革：第 3 版 6 组 / 5 空行 → 第 4 版全去掉空行（用户反馈"太紧凑了"）
-    --   → 第 5 版 5 组 / 4 空行 → 第 6 版沿用 5 组 / 4 空行，只改标题与境界行的内容。
+    --   → 第 5 版 5 组 / 4 空行 → 第 6 版沿用 5 组 / 4 空行（标题带【时段】、境界行带累计字数）
+    --   → 第 7 版 5 组 / 4 空行：累计字数挪到标题、时段独立成行、境界行改「已步入 →」（14 物理行）
+    --   → 第 8 版：境界并入时段行「【xx】修炼数据 → <境界名>」，14 → 13 物理行。
+    --   → 第 9 版（0914）：文案改由「文字皮肤」给（TEXT_SKINS），行序与空行位置**未动**。
     --   ⚠️ 第 3 版起：评语由「均速/上屏之后」提到「境界之后」（按用户交付稿的行序）。
     local groups = {
         {
-            "📖 键盘之道·【" .. xx .. "】数据",
+            skin.icon .. " " .. skin.title_name .. "·" .. skin.title_metric .. lifetime .. "字",
         },
         {
-            "境界 → " .. realm_name .. " ·已修炼" .. lifetime .. "字" .. day_tail,
+            "【" .. xx .. "】" .. skin.period_word .. " → " .. realm_name .. day_tail,
             -- 用户指定：评语行的分隔符是「｜」（不是 心法/功法 那样的全角空格），
             -- 且不带 📜 图标；未入道的评语本身也含一个 ｜。
             "评语｜" .. realm_comment,
@@ -1062,16 +1178,17 @@ local function format_summary(title, subtitle, data, env)
             "上屏" .. pad_val(tostring(math.floor(data.commits)), 6)
                 .. "　｜　字数"
                 .. pad_val(tostring(math.floor(data.characters)), 6),
-            "心法　码长 " .. string.format("%.2f", average_code)
+            skin.code_label .. "　码长 " .. string.format("%.2f", average_code)
                 .. " · 击键 " .. kps_str .. "/s",
             -- [0913] 「空格 / 顶屏」改口径名「非顶 / 顶功」：
             --   非顶 = 按空格或数字选字上屏（原「空格」），顶功 = 被下一个编码键顶上去
-            string.format("功法　非顶 %d%% · 顶功 %d%%",
+            -- [0914] 标签（心法 / 功法）由皮肤给，口径名不变。
+            string.format(skin.mode_label .. "　非顶 %d%% · 顶功 %d%%",
                 math.floor(space_ratio + 0.5), math.floor(auto_ratio + 0.5)),
         },
         {
             string.format("比例　单 %d %% %s %d %% 词",
-                math.floor(single_pct + 0.5), draw_bar6(single_pct, env),
+                math.floor(single_pct + 0.5), draw_bar6(single_pct),
                 math.floor(word_pct + 0.5)),
         },
         {
@@ -1080,7 +1197,7 @@ local function format_summary(title, subtitle, data, env)
         },
     }
     -- 组间插空行；每行行尾补零宽空格（沿用旧面板习惯，防止候选窗把行长当换行处理）。
-    -- 面板首字符是 "📖"，on_commit 的「机器文本」识别串必须含 📖。
+    -- 面板首字符是皮肤图标（默认 📖）；on_commit 的「机器文本」识别串必须含它。
     local out = {}
     for gi = 1, #groups do
         if gi > 1 then out[#out + 1] = zwsp end     -- 组间空行（只有零宽空格，不显示字符）
@@ -1104,9 +1221,9 @@ end
 -- 4.2 那套 o + 去斜杠 的别名机制在本方案会把 ortj 抢成 O 模式查询，已整体删除）
 local function standard_report(input, env)
     local today = day_id()
-    -- 「卅日」窗口：固定 30 天，**与速度统计窗口无关**。
+    -- 「30天」窗口：固定 30 天，**与速度统计窗口无关**。
     -- 原先这里和下面共用同一个 recent，是个耦合错误：一旦把 speed_history_days 调成 0（不限），
-    -- =yy 的 start_day 也会变成 nil，卅日面板会跟着塌成"全部"。
+    -- =yy 的 start_day 也会变成 nil，30天面板会跟着塌成"全部"。
     local month_start = day_id(os.time() - 29 * 86400)
     -- 速度统计窗口：只作用于「均速 / 峰速 / 击键」的聚合范围。
     -- speed_history_days <= 0 → speed_start = nil → aggregate_statistics 不限下限，从最早一天算起。
@@ -1122,12 +1239,12 @@ local function standard_report(input, env)
         return "今日", "", today, today, nil, today, today
     elseif input == env.triggers.week then
         local start_day = day_id(os.time() - 6 * 86400)
-        return "七日", "", start_day, today, nil, start_day, today
+        return "7天", "", start_day, today, nil, start_day, today
     elseif input == env.triggers.month then
-        return "卅日", "", month_start, today, nil, month_start, today
+        return "30天", "", month_start, today, nil, month_start, today
     elseif input == env.triggers.year then
         local start_day = day_id(os.time() - 364 * 86400)
-        return "本年", "", start_day, today, nil, start_day, today
+        return "365天", "", start_day, today, nil, start_day, today
     elseif input == env.triggers.total then
         return "全部", "", nil, nil, nil, speed_start, today
     end
@@ -1188,7 +1305,7 @@ local function on_commit(context, env)
     local raw_input = context.input or ""
     if not text or text == "" or text:sub(1, 1) == "="
         or raw_input:sub(1, 1) == "="
-        or text:find("^[※◉🏆📊⚡📈📖]") then
+        or is_machine_text(text) then
         -- 指令/面板文本上屏：清空待取击键防残留（take 已取走，这里双保险）
         if ok_key_counter and key_counter.reset then key_counter.reset() end
         return
@@ -1353,7 +1470,6 @@ local function ensure_env(env)
         env.stats_db_error = nil
         env.last_flush_ts = os.time()
         if env.last_observed_input == nil then env.last_observed_input = "" end
-        env.titles = nil
         if not env.average_sample then env.average_sample = {} end
         if not env.peak_sample then env.peak_sample = {} end
         reset_sample(env.average_sample)
@@ -1361,7 +1477,7 @@ local function ensure_env(env)
         env.initialized = true
     end
     -- ── 面板指令：一律 "=" 触发（key_binder / punctuator / recognizer 均已放行 "="）
-    -- =tj 今日   =qb 全部   =yf 七日   =yy 卅日   =yn 本年   =jq 本设备
+    -- =tj 今日   =qb 全部   =yf 7天   =yy 30天   =yn 365天   =jq 本设备
     -- =wx 查某天（=wx20260801 / =wx202608 / =wx2026 / =wx20260101t20260201）
     -- =wk 查看段位与皮肤   =wkd[a~b] 切段位   =wkp[a~h] 切皮肤
     if env.triggers == nil then
@@ -1382,16 +1498,12 @@ local function ensure_env(env)
         env._kc_bound = true
         key_counter.set_commit_handler(function(context) on_commit(context, env) end)
     end
-    -- 段位主题 + 进度条皮肤（状态文件持久化，=wkd / =wkp 切换）
-    if env.title_theme == nil then
-    env.title_theme = config:get_string("input_stats/title_theme")
-    if not env.title_theme or env.title_theme == "" then
-        local saved = read_text_file(user_data_dir() .. TITLE_THEME_FILE)
-        env.title_theme = saved and saved:match("^%s*(%S+)%s*$") or DEFAULT_TITLE_THEME
-    end
-    if not TITLE_THEMES[env.title_theme] then env.title_theme = DEFAULT_TITLE_THEME end
-    local skin = tonumber(read_text_file(user_data_dir() .. SKIN_FILE) or "") or DEFAULT_SKIN
-    env.skin_word = (skin >= 1 and skin <= #skinList) and skin or DEFAULT_SKIN
+    -- 文字皮肤：状态文件 lua/text_skin.txt 存一个字母（=wk+字母 切换，重部署后回默认）。
+    if env.text_skin == nil then
+        local saved = read_text_file(user_data_dir() .. TEXT_SKIN_FILE)
+        local letter = saved and saved:match("^%s*(%a)%s*$") or DEFAULT_TEXT_SKIN
+        env.text_skin = skin_by_letter(letter) or skin_by_letter(DEFAULT_TEXT_SKIN)
+            or TEXT_SKINS[1]
     end
 end
 
@@ -1423,83 +1535,49 @@ local function fini(env)
         env.stat_notifier:disconnect()
         env.stat_notifier = nil
     end
-    env.pending_stats, env.titles = nil, nil
+    env.pending_stats = nil
     env.average_sample, env.peak_sample = nil, nil
     release_db(env)
 end
 
--- ===== 皮肤 / 段位切换指令（全部以 "=" 触发）=====
---   =wk            查看当前段位 + 皮肤，并列出全部可选编号
---   =wkd + 字母    切段位（a = 第 1 档、b = 第 2 档 …，顺序见 TITLE_THEME_ORDER）
---   =wkp + 字母    切皮肤（a = 第 1 款、b = 第 2 款 …，顺序见 skinList）
--- 字母按上面两张表的列表顺序 1:1 对应（a→1、b→2 …）：
---   一是不会与"数字键转大写"打架（4.2 的 /01 /001 直接换成 =01/=001 会命中壹/贰），
---   二是输入中途也不会被 selector 当成选字键吃掉。
-local function idx_to_letter(i)
-    if type(i) ~= "number" or i < 1 or i > 26 then return nil end
-    return string.char(96 + i)
-end
-local function letter_to_idx(c)
-    if not c then return nil end
-    local b = c:byte(1)
-    if not b or b < 97 or b > 122 then return nil end
-    return b - 96
-end
-
-local function skin_theme_command(input, env)
+-- ===== 文字皮肤切换指令（全部以 "=" 触发）=====
+--   =wk            查看当前文字皮肤，并列出全部可选编号
+--   =wk + 字母     切换：a = 第 1 款、b = 第 2 款 …（顺序即 TEXT_SKINS 数组顺序）
+-- 旧的两条指令 =wkd（段位）/ =wkp（进度条皮肤）已删除：
+--   现在 "=wk" 后面跟的字母就是皮肤编号，所以 =wkd 会切到第 4 款（字母 d），不再是段位指令；
+--   =wkp 因 p 超出 a~f 范围 → 回一句"编号只有 =wk a~f"。
+-- 为什么用字母而不是数字：数字会与「数字键转大写」和 selector 选字打架。
+local function text_skin_command(input, env)
     if input == "=wk" then
-        local cur_theme = env.title_theme or DEFAULT_TITLE_THEME
-        local theme_parts = {}
-        for i, key in ipairs(TITLE_THEME_ORDER) do
-            theme_parts[#theme_parts + 1] = string.format("%s %s%s",
-                idx_to_letter(i), THEME_LABELS[key] or key,
-                (cur_theme == key) and "◀" or "")
-        end
-        local skin_parts = {}
-        for i, skin in ipairs(skinList) do
-            skin_parts[#skin_parts + 1] = string.format("%s %s%s%s",
-                idx_to_letter(i), string.rep(skin.field, 5),
-                string.rep(skin.empty, 5), (env.skin_word == i) and "◀" or "")
-        end
         -- 面板统一以 "※" 开头：on_commit 靠它识别"这是机器生成的文本"，
         -- 即使被误上屏也直接丢弃，不会记成一次真实上屏。
-        local lines = {
-            "※ 段位（=wkd+字母）：" .. table.concat(theme_parts, "　"),
-            "   皮肤（=wkp+字母）：",
-        }
-        for i = 1, #skin_parts, 4 do
+        local cur = (env.text_skin and env.text_skin.letter) or DEFAULT_TEXT_SKIN
+        local cur_label = (skin_by_letter(cur) or {}).label or ""
+        local parts = {}
+        for _, s in ipairs(TEXT_SKINS) do
+            parts[#parts + 1] = string.format("%s %s%s",
+                s.letter, s.label, (s.letter == cur) and "◀" or "")
+        end
+        local lines = { "※ 文字皮肤（=wk+字母）：当前 → " .. cur .. " " .. cur_label }
+        for i = 1, #parts, 3 do
             local chunk = {}
-            for j = i, math.min(i + 3, #skin_parts) do
-                chunk[#chunk + 1] = skin_parts[j]
+            for j = i, math.min(i + 2, #parts) do
+                chunk[#chunk + 1] = parts[j]
             end
             lines[#lines + 1] = "   " .. table.concat(chunk, "　")
         end
         return table.concat(lines, "\n")
     end
-    local theme_letter = input:match("^=wkd([a-z])$")
-    if theme_letter then
-        local n = letter_to_idx(theme_letter)
-        local key = n and TITLE_THEME_ORDER[n]
-        if not key then
-            return "※ 段位编号只有 =wkd" .. idx_to_letter(1) .. "~=wkd"
-                .. idx_to_letter(#TITLE_THEME_ORDER)
+    local letter = input:match("^=wk([a-z])$")
+    if letter then
+        local skin = skin_by_letter(letter)
+        if not skin then
+            return "※ 皮肤编号只有 =wk" .. TEXT_SKINS[1].letter .. "~=wk"
+                .. TEXT_SKINS[#TEXT_SKINS].letter
         end
-        env.title_theme = key
-        write_text_file(user_data_dir() .. TITLE_THEME_FILE, key)
-        env.titles = nil
-        ensure_titles(env)
-        return "※ 已切换段位：" .. idx_to_letter(n) .. " " .. (THEME_LABELS[key] or key)
-    end
-    local skin_letter = input:match("^=wkp([a-z])$")
-    if skin_letter then
-        local n = letter_to_idx(skin_letter)
-        if not n or n < 1 or n > #skinList then
-            return "※ 皮肤编号只有 =wkp" .. idx_to_letter(1) .. "~=wkp" .. idx_to_letter(#skinList)
-        end
-        env.skin_word = n
-        write_text_file(user_data_dir() .. SKIN_FILE, tostring(n))
-        return "※ 已切换皮肤：" .. idx_to_letter(n) .. " "
-            .. string.rep(skinList[n].field, 5) .. string.rep(skinList[n].empty, 5)
+        env.text_skin = skin
+        write_text_file(user_data_dir() .. TEXT_SKIN_FILE, skin.letter)
+        return "※ 已切换文字皮肤：" .. skin.letter .. " " .. skin.label
     end
     return nil
 end
@@ -1507,8 +1585,8 @@ end
 local function translator(input, seg, env)
     ensure_env(env)
     observe_input_activity(env, input)
-    -- 皮肤/段位指令优先处理
-    local skin_msg = skin_theme_command(input, env)
+    -- 文字皮肤指令优先处理
+    local skin_msg = text_skin_command(input, env)
     if skin_msg then
         if ok_key_counter and key_counter.reset then key_counter.reset() end
         return yield_msg(seg, skin_msg, "🎨")
@@ -1550,4 +1628,6 @@ local function translator(input, seg, env)
         format_summary(title, subtitle, data, env), "📖"))
 end
 
-return {init=init, func=translator, fini=fini}
+-- text_skins / realm_of 也导出：给冒烟测试逐款核对皮肤表与境界映射用（生产代码不读它们）
+return {init=init, func=translator, fini=fini,
+    text_skins=TEXT_SKINS, realm_of=realm_of, realm_thresholds=REALM_THRESHOLDS}
