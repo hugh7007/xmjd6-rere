@@ -8,7 +8,9 @@
 --  =wx  查某天 20260801（也支持 202608、2026、20260101t20260201）
 --  =wk  查看/切换【文字皮肤】（一款皮肤 = 一整套面板文案）
 --  =wk+字母        切换皮肤：a 键道修仙 / b 末世求生 / c 江湖侠客 /
---                  d 秘境探险 / e 魔法学院 / f 卡牌收集（见文件顶部 TEXT_SKINS）
+--                  d 秘境探险 / e 魔法学院 / f 卡牌收集 /
+--                  h 码人修仙 / i 吃鸡战报 / j 峡谷排位 / k 万妖图录
+--                  （g 空位；完整列表见 =wk 或文件顶部 TEXT_SKINS）
 --  （旧的 =wkd 段位 / =wkp 进度条皮肤已删除：=wkd 现在就是切到 d 款皮肤）
 --
 -- 数据：LevelDB（input_stats/db_name，默认 stats），按「天 × 设备」聚合。
@@ -26,7 +28,7 @@ local DEFAULT_TEXT_SKIN = "a"
 local TEXT_SKIN_FILE = "lua/text_skin.txt"
 
 -- ══════════ 【文字皮肤表】══════════
--- 一款皮肤 = 一整套面板文案：图标 / 标题 / 时段词 / 10 档境界名 + 评语 / 标签 / 进度条字符。
+-- 一款皮肤 = 一整套面板文案：图标 / 标题 / 时段词 / 境界名 + 评语（默认 10 档）/ 标签 / 进度条字符。
 -- 新增一款：在下面数组里追加一块（letter 顺延 g、h…），其余代码不用动。
 --   面板行序（第 8 版版式）：
 --     <icon> <title_name>·<title_metric>N字
@@ -156,8 +158,94 @@ local TEXT_SKINS = {
             { "收藏家", "图鉴圆满，随心而收，快慢由心" },
         },
     },
+    -- ═════ [0915] 合并自旧版的主题皮肤（h~k）：标题 / 评语 / 格式文案 一整套随皮肤切换 ═════
+    -- （g 为原版打字空位；h 码人修仙 / i 吃鸡战报 / j 峡谷排位 三款十档用默认阈值，
+    --   k 万妖图录 十六档自带 realm_thresholds）
+    {   -- h：码人修仙（旧「修仙」主题，按用户要求扩为十档）
+        letter = "h", label = "码人修仙",
+        icon = "☯️", title_name = "码人修仙", title_metric = "总修行",
+        period_word = "修行数据",
+        code_label = "心法", mode_label = "功法",
+        no_realm = "【未入道】", no_realm_comment = "以文字为引｜炼字修心方能入道",
+        realms = {
+            { "炼气期", "🔥 引气入体，指法初成" },
+            { "筑基期", "🌿 经脉渐通，运指渐顺" },
+            { "金丹期", "💧 心境渐平，字由心生" },
+            { "元婴期", "⚡ 气随意动，指落成章" },
+            { "化神期", "🔮 化神之境，人键合一" },
+            { "炼虚期", "🌀 虚实相生，指下有风" },
+            { "合体期", "🛡️ 形神相合，键随心动" },
+            { "大乘期", "🌟 大乘在望，字字生辉" },
+            { "金仙期", "☀️ 罡气护体，键盘生风" },
+            { "天人合一", "☯️ 天人合一，键与道合" },
+        },
+    },
+    {   -- i：吃鸡战报（旧「吃鸡」主题，按用户要求扩为十档）
+        letter = "i", label = "吃鸡战报",
+        icon = "🪂", title_name = "吃鸡战报", title_metric = "总战绩",
+        period_word = "战报数据",
+        code_label = "身法", mode_label = "压枪",
+        no_realm = "【未跳伞】", no_realm_comment = "以文字为枪｜压稳每一键方能跳伞",
+        realms = {
+            { "热血青铜", "🐣 落地成盒，下把再战" },
+            { "人体描边", "🎯 枪法随缘，描边未中" },
+            { "白银段位", "🥈 稳中有进，渐入佳境" },
+            { "黄金段位", "🥇 稳扎稳打，决赛圈见" },
+            { "尊贵铂金", "🏅 压枪渐稳，火力全开" },
+            { "璀璨钻石", "💎 枪枪爆头，键无虚发" },
+            { "荣耀皇冠", "🏆 决赛圈收割机" },
+            { "王牌选手", "🎖️ 定点架枪，弹无虚发" },
+            { "超级王牌", "✈️ 空投落点，皆我猎场" },
+            { "无敌战神", "🍗 大吉大利，今晚吃鸡" },
+        },
+    },
+    {   -- j：峡谷排位（旧「LOL」主题，十档用默认阈值）
+        letter = "j", label = "峡谷排位",
+        icon = "⚔️", title_name = "峡谷排位", title_metric = "总对局",
+        period_word = "排位数据",
+        code_label = "走位", mode_label = "补刀",
+        no_realm = "【未出泉水】", no_realm_comment = "以文字为刃｜补好每一刀方能出战",
+        realms = {
+            { "坚韧黑铁", "🚪 刚出泉水，先熟悉按键" },
+            { "英勇青铜", "🧱 走位生涩，小心塔下送" },
+            { "不屈白银", "🔪 补刀不稳，经济落后" },
+            { "荣耀黄金", "🗡️ 对线稳住，发育为主" },
+            { "华贵铂金", "🛡️ 防线稳固，支援及时" },
+            { "流光翡翠", "⚔️ 团战切入，伤害拉满" },
+            { "璀璨钻石", "🏹 走位风骚，收线拿塔" },
+            { "超凡大师", "🔥 节奏起飞，全场游走" },
+            { "傲世宗师", "👑 超神时刻，carry 全场" },
+            { "最强王者", "🏆 五杀超神，全场最佳" },
+        },
+    },
+    {   -- k：万妖图录（旧「万妖图录传」主题，丹青绘妖十六境，保留十六档）
+        letter = "k", label = "万妖图录",
+        icon = "📜", title_name = "万妖图录", title_metric = "总图录",
+        period_word = "妖录数据",
+        code_label = "笔法", mode_label = "画法",
+        no_realm = "【未开卷】", no_realm_comment = "以文字为墨｜落笔千行方能开卷",
+        realm_thresholds = { 15, 24, 33, 42, 51, 60, 69, 78, 87, 96, 105, 114, 123, 132, 141, 150 },
+        realms = {
+            { "凡境", "🖌️ 墨未磨开，妖还没影" },
+            { "闻弦境", "📜 空卷未落笔，妖气不来" },
+            { "鸣骨境", "🦴 骨鸣清越，妖纹初显" },
+            { "成丹境", "🌕 丹成如月，笔意渐圆" },
+            { "点墨境", "🖊️ 笔锋打颤，妖形未成" },
+            { "种莲境", "🪷 落笔生莲，渐有章法" },
+            { "观山境", "⛰️ 笔下有山河，妖气初聚" },
+            { "燃灯境", "🏮 挑灯画妖，笔走龙蛇" },
+            { "登楼境", "🏯 登楼远眺，万妖在卷" },
+            { "执棋境", "♟️ 执笔如执棋，落子镇妖" },
+            { "成画境", "🎨 丹青点染，万妖入卷" },
+            { "落墨境", "🖋️ 落墨生辉，妖形跃然" },
+            { "流丹境", "🌠 流丹如星，笔下生辉" },
+            { "游虚海", "🌊 墨染沧海，山海为图" },
+            { "万象天", "🌌 万象归卷，天图将成" },
+            { "太上京", "🏛️ 一卷通神，万妖俯首" },
+        },
+    },
 }
--- 十档阈值（所有皮肤共用；改这里会让每款皮肤的第 N 档一起挪）
+-- 默认十档阈值（未自带 realm_thresholds 的皮肤共用；改这里会让它们的第 N 档一起挪）
 local REALM_THRESHOLDS = { 15, 30, 45, 60, 75, 90, 105, 120, 135, 150 }
 -- 比例条字符（所有皮肤共用；旧版那 9 款进度条皮肤已随 =wkp 一并删除）
 local BAR_FIELD, BAR_EMPTY = "▰", "▱"
@@ -1052,21 +1140,23 @@ local function draw_bar6(percent)
 end
 
 -- [0914] 打字境界：只看「峰速」，峰速每多 15 字/分 进一境（原本是 10，用户改为 15）。
---   阈值统一在文件顶部 REALM_THRESHOLDS（15/30/…/150），名字与评语**按皮肤给**：
---   TEXT_SKINS[i].realms[j] = { 第 j 档的境界名, 该档评语 }，两表同长（10 档）。
---   峰速不足 15（含峰速未出数 "--"）→ 该皮肤的 no_realm / no_realm_comment。
+--   阈值默认在文件顶部 REALM_THRESHOLDS（15/30/…/150）；皮肤可用 realm_thresholds 自带
+--   阈值表覆盖（[0915] 合并 h~k 皮肤时新增，两表与自身 realms 同长即可，档数不限）。
+--   名字与评语**按皮肤给**：TEXT_SKINS[i].realms[j] = { 第 j 档的境界名, 该档评语 }。
+--   峰速不足最低一档（含峰速未出数 "--"）→ 该皮肤的 no_realm / no_realm_comment。
 --   例：a 皮肤峰速 47 → 缀文境；峰速 140 → 化文境。
--- ⚠️ 阈值只改 REALM_THRESHOLDS；境界名/评语只改 TEXT_SKINS[].realms，两边不要互相串。
+-- ⚠️ 阈值只改 REALM_THRESHOLDS / skin.realm_thresholds；境界名/评语只改 TEXT_SKINS[].realms。
 -- 返回：境界名 + 该境界的评语（峰速为 nil / 不足最低一境 → 未入道）
 local function realm_of(peak, skin)
     local realms = (skin and skin.realms) or TEXT_SKINS[1].realms
+    local thresholds = (skin and skin.realm_thresholds) or REALM_THRESHOLDS
     local no_name = (skin and skin.no_realm) or TEXT_SKINS[1].no_realm
     local no_comment = (skin and skin.no_realm_comment) or TEXT_SKINS[1].no_realm_comment
-    if not peak or peak < REALM_THRESHOLDS[1] then
+    if not peak or peak < thresholds[1] then
         return no_name, no_comment
     end
-    for i = #REALM_THRESHOLDS, 1, -1 do
-        if peak >= REALM_THRESHOLDS[i] then
+    for i = #thresholds, 1, -1 do
+        if peak >= thresholds[i] then
             local item = realms[i]
             if item then return item[1], item[2] end
             return no_name, no_comment
@@ -1545,7 +1635,7 @@ end
 --   =wk + 字母     切换：a = 第 1 款、b = 第 2 款 …（顺序即 TEXT_SKINS 数组顺序）
 -- 旧的两条指令 =wkd（段位）/ =wkp（进度条皮肤）已删除：
 --   现在 "=wk" 后面跟的字母就是皮肤编号，所以 =wkd 会切到第 4 款（字母 d），不再是段位指令；
---   =wkp 因 p 超出 a~f 范围 → 回一句"编号只有 =wk a~f"。
+--   =wkp 因 p 不在可用皮肤字母内 → 回一句"无此皮肤编号"。
 -- 为什么用字母而不是数字：数字会与「数字键转大写」和 selector 选字打架。
 local function text_skin_command(input, env)
     if input == "=wk" then
@@ -1572,8 +1662,7 @@ local function text_skin_command(input, env)
     if letter then
         local skin = skin_by_letter(letter)
         if not skin then
-            return "※ 皮肤编号只有 =wk" .. TEXT_SKINS[1].letter .. "~=wk"
-                .. TEXT_SKINS[#TEXT_SKINS].letter
+            return "※ 无此皮肤编号，输入 =wk 查看全部可用编号"
         end
         env.text_skin = skin
         write_text_file(user_data_dir() .. TEXT_SKIN_FILE, skin.letter)
