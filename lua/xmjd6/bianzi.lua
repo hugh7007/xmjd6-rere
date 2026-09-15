@@ -2,20 +2,22 @@
 local kAccepted = 1
 local kNoop = 2
 
+-- [0914] 绑定键 "bar" 的两种实际来源都要接住：
+--   ① 桌面键盘 | 是 Shift+\，事件 repr 为 "Shift+bar"（带 Shift 修饰），keycode = 0x7C；
+--   ② iOS Hamster 皮肤 N 键下滑（swipeDownAction）[0914 起输出全角 ｜]，合成事件 keycode = 0xFF5C。
+--   原 key:repr() == "bar" 永远匹配不上 → 辫子模式从未被触发。
+local BIND_KEYCODES = { [0x7C] = true, [0xFF5C] = true } -- "|" 与 "｜"
+
 local function init(env)
     -- 绑定键在部署时读一次，避免每个按键都查询 config
-    env.bind_key = env.engine.schema.config:get_string('key_binder/bian_zi')
-    -- [0914] 键盘上 | 是 Shift+\，实际事件 repr 为 "Shift+bar"（带 Shift 修饰），
-    --   原 key:repr() == "bar" 永远不匹配 → 辫子模式从未被触发。
-    --   改为兼容：repr 相等，或 keycode == 0x7C 且仅带 Shift（屏蔽 Ctrl/Alt/Super）。
-    env.bind_keycode = (env.bind_key == "bar") and 0x7C or nil
+    env.bind_enabled = (env.engine.schema.config:get_string('key_binder/bian_zi') == 'bar')
 end
 
 local function match_bind(key, env)
-    if key:repr() == env.bind_key then
-        return true
+    if not env.bind_enabled then
+        return false
     end
-    if env.bind_keycode and key.keycode == env.bind_keycode
+    if BIND_KEYCODES[key.keycode]
         and not key:ctrl() and not key:alt() and not key:super() then
         return true
     end
@@ -23,7 +25,7 @@ local function match_bind(key, env)
 end
 
 local function bianzi(key, env)
-    if not env.bind_key or key:release() or not match_bind(key, env) then
+    if not env.bind_enabled or key:release() or not match_bind(key, env) then
         return kNoop
     end
 
