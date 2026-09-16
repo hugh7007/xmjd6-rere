@@ -95,10 +95,34 @@ jobs:
       # 此时 opencc/xmjd6 里的文件已经存在，会被包含在下面的 xmjd6.zip 中（因为没有被 -x 排除）
       run: zip -r xmjd6.zip . -x "*.git*" -x "*.github*" -x "yong*" -x "mb*" -x "Rime*"
 
+    - name: Build feiding-xmjd6.zip variant
+      # 与 xmjd6.zip 内容完全一致，唯一区别是 xmjd6.custom.yaml 里
+      # `translator/enable_sentence` 那一行由注释变为生效（开启整句输入 → 顶功自动禁用，故称"非顶版"）。
+      # ⚠️ 故意不去改工作区的 xmjd6.custom.yaml：后面 Prepare Rime directory 步骤还要用原件
+      #    （Rabbit 包会把 Rime/xmjd6.custom.yaml 拷进 Rabbit/Rime/），漏还原会把 Rabbit 包也带成非顶版。
+      # ⚠️ 与 CNB 侧 .cnb.yml 第 3 步逻辑保持一致，改一边记得改另一边。
+      run: |
+        set -e
+        mkdir -p /tmp/feiding
+        sed 's|^  # translator/enable_sentence: true|  translator/enable_sentence: true|' xmjd6.custom.yaml > /tmp/feiding/xmjd6.custom.yaml
+        # 断言：改完后那一行必须是生效状态（否则会静默产出一个和正常包一模一样的"变体"）
+        if ! grep -q '^ *translator/enable_sentence: true' /tmp/feiding/xmjd6.custom.yaml; then
+          echo "feiding 变体生成失败：结果里没有生效的 translator/enable_sentence: true，sed 没匹配上"
+          exit 1
+        fi
+        grep -n '^ *translator/enable_sentence: true' /tmp/feiding/xmjd6.custom.yaml
+        cp xmjd6.zip feiding-xmjd6.zip
+        feiding_abs=$(realpath feiding-xmjd6.zip)
+        ( cd /tmp/feiding && zip -q "$feiding_abs" xmjd6.custom.yaml )
+        rm -rf /tmp/feiding
+        # 断言：两个 zip 的条目集合一致，且唯一差异就是 xmjd6.custom.yaml
+        python3 -c "import zipfile; a=zipfile.ZipFile('xmjd6.zip'); b=zipfile.ZipFile('feiding-xmjd6.zip'); assert set(a.namelist())==set(b.namelist()), 'feiding 与正常包条目集合不一致: '+str(set(a.namelist())^set(b.namelist())); d=[n for n in a.namelist() if a.read(n)!=b.read(n)]; assert d==['xmjd6.custom.yaml'], 'feiding 差异条目不止 custom: '+str(d); print('feiding 变体校验通过：唯一差异 = xmjd6.custom.yaml')"
+        ls -l xmjd6.zip feiding-xmjd6.zip
+
     - name: Prepare Rime directory for Rabbit
       run: |
         mkdir -p Rime/
-        rsync -avm --exclude='.git*' --exclude='*.github*' --exclude='squirrel*' --exclude='weasel*' --exclude='hamster*' --exclude='*.txt' --exclude='xmjd6.zip' --exclude='yong*' --exclude='mb*' --exclude='Rime*' . Rime/
+        rsync -avm --exclude='.git*' --exclude='*.github*' --exclude='squirrel*' --exclude='weasel*' --exclude='hamster*' --exclude='*.txt' --exclude='xmjd6.zip' --exclude='feiding-xmjd6.zip' --exclude='yong*' --exclude='mb*' --exclude='Rime*' . Rime/
         ls -al Rime/
         pwd
 
@@ -341,6 +365,16 @@ jobs:
         asset_name: xmjd6.zip
         asset_content_type: application/zip
         
+    - name: Upload feiding-xmjd6.zip to Release
+      uses: shogo82148/actions-upload-release-asset@v1.10.2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./feiding-xmjd6.zip
+        asset_name: feiding-xmjd6.zip
+        asset_content_type: application/zip
+
     - name: Upload dazhu.txt to Release
       uses: shogo82148/actions-upload-release-asset@v1.10.2
       env:

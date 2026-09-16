@@ -2,7 +2,7 @@
 # CNB 云原生构建流水线（cnb.cool）—— 星猫键道6
 # -----------------------------------------------------------------------------
 # 作用：在 CNB 侧完成与 GitHub Actions 等价的打包，便于国内网络环境下发布。
-#   产物：xmjd6.zip / Rabbit-xmjd6.zip / yong-xmjd6.zip / yong-xmjd6-full.zip / dazhu.txt
+#   产物：xmjd6.zip / feiding-xmjd6.zip / Rabbit-xmjd6.zip / yong-xmjd6.zip / yong-xmjd6-full.zip / dazhu.txt
 #
 # 触发：仓库「代码 → 分支详情页」右上角自定义按钮「📦 打包 xmjd6 资源」
 #       按钮定义在 .cnb/web_trigger.yml，事件名必须与下面的 web_trigger_package 完全一致。
@@ -106,12 +106,39 @@ xmjd6:
             echo "opencc/xmjd6 条目数: $(ls -1 opencc/xmjd6 | wc -l)"
 
         # ---------------------------------------------------------------- 3
-        - name: 打包 xmjd6.zip
+        - name: 打包 xmjd6.zip 与 feiding 变体
           script: |
             set -e
             # 与 GitHub 侧一致：排除 .git* / .github* / yong* / mb* / Rime*
             zip -qr xmjd6.zip . -x "*.git*" -x "*.github*" -x "yong*" -x "mb*" -x "Rime*"
             ls -l xmjd6.zip
+
+            # ---- feiding-xmjd6.zip：内容与 xmjd6.zip 完全一致，唯一区别是
+            #      xmjd6.custom.yaml 里 `translator/enable_sentence` 那一行由注释变为生效。
+            #      （开启整句输入；enable_sentence 一开，顶功会被自动禁用 → 故称 feiding/非顶版。）
+            #
+            # 做法：复制一份 xmjd6.zip，再把改好的 xmjd6.custom.yaml 覆盖进那个副本。
+            # ⚠️ 不要改成「先改工作区的 xmjd6.custom.yaml、再重新 zip 一遍」：
+            #    第 4/5 步还要用原件（Rabbit 包要拷 Rime/xmjd6.custom.yaml），
+            #    一旦漏还原，Rabbit-xmjd6.zip 会跟着变成非顶版。
+            mkdir -p /tmp/feiding
+            sed 's|^  # translator/enable_sentence: true|  translator/enable_sentence: true|' xmjd6.custom.yaml > /tmp/feiding/xmjd6.custom.yaml
+
+            # 断言：改完后那一行必须是生效状态（否则会静默产出一个和正常包一模一样的"变体"）
+            if ! grep -q '^ *translator/enable_sentence: true' /tmp/feiding/xmjd6.custom.yaml; then
+              echo "feiding 变体生成失败：结果里没有生效的 translator/enable_sentence: true，sed 没匹配上"; exit 1
+            fi
+            grep -n '^ *translator/enable_sentence: true' /tmp/feiding/xmjd6.custom.yaml
+
+            cp xmjd6.zip feiding-xmjd6.zip
+            feiding_abs=$(realpath feiding-xmjd6.zip)
+            ( cd /tmp/feiding && zip -q "$feiding_abs" xmjd6.custom.yaml )
+            rm -rf /tmp/feiding
+
+            # 断言：两个 zip 的条目集合一致，且唯一差异就是 xmjd6.custom.yaml
+            python3 -c "import zipfile; a=zipfile.ZipFile('xmjd6.zip'); b=zipfile.ZipFile('feiding-xmjd6.zip'); assert set(a.namelist())==set(b.namelist()), 'feiding 与正常包条目集合不一致: '+str(set(a.namelist())^set(b.namelist())); d=[n for n in a.namelist() if a.read(n)!=b.read(n)]; assert d==['xmjd6.custom.yaml'], 'feiding 差异条目不止 custom: '+str(d); print('feiding 变体校验通过：唯一差异 = xmjd6.custom.yaml')"
+
+            ls -l xmjd6.zip feiding-xmjd6.zip
 
         # ---------------------------------------------------------------- 4
         - name: 准备 Rime 目录
@@ -120,7 +147,7 @@ xmjd6:
             rsync -am \
               --exclude='.git*' --exclude='*.github*' \
               --exclude='squirrel*' --exclude='weasel*' --exclude='hamster*' \
-              --exclude='*.txt' --exclude='xmjd6.zip' \
+              --exclude='*.txt' --exclude='xmjd6.zip' --exclude='feiding-xmjd6.zip' \
               --exclude='yong*' --exclude='mb*' --exclude='Rime*' \
               . Rime/
             echo "Rime/ 条目数: $(ls -1 Rime | wc -l)"
@@ -252,7 +279,7 @@ xmjd6:
           options:
             tag: package-latest
             title: 星猫键道6 打包产物
-            description: 由 CNB 流水线 web_trigger_package 自动生成（含 xmjd6.zip / Rabbit / yong / dazhu.txt）
+            description: 由 CNB 流水线 web_trigger_package 自动生成（含 xmjd6.zip / feiding-xmjd6.zip / Rabbit / yong / dazhu.txt）
             preRelease: true
             overlying: true
           allowFailure: true
@@ -263,6 +290,7 @@ xmjd6:
             tag: package-latest
             attachments:
               - "./xmjd6.zip"
+              - "./feiding-xmjd6.zip"
               - "./Rabbit-xmjd6.zip"
               - "./yong-xmjd6.zip"
               - "./yong-xmjd6-full.zip"
