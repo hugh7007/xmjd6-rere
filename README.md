@@ -152,7 +152,9 @@
 
 ## 如何使用
 
-将 [GitHub Release](https://github.com/hugh7007/xmjd6-rere/releases/) 中的 [xmjd6.zip](https://github.com/hugh7007/xmjd6-rere/releases/latest/download/xmjd6.zip) 导入至 librime ≥ 1.9.0 的 Rime 输入法的用户文件夹中使用。
+将 [GitHub Release](https://github.com/hugh7007/xmjd6-rere/releases/) 中的 [顶功星猫键道6.zip](https://github.com/hugh7007/xmjd6-rere/releases/latest/download/%E9%A1%B6%E5%8A%9F%E6%98%9F%E7%8C%AB%E9%94%AE%E9%81%936.zip) 导入至 librime ≥ 1.9.0 的 Rime 输入法的用户文件夹中使用。
+
+> 另有一个 [非顶星猫键道6.zip](https://github.com/hugh7007/xmjd6-rere/releases/latest/download/%E9%9D%9E%E9%A1%B6%E6%98%9F%E7%8C%AB%E9%94%AE%E9%81%936.zip)：内容与顶功版**完全一致**，唯一区别是开启了整句输入（`translator/enable_sentence: true`），开启后**顶功会自动禁用**。按需选用。
 
 - **Windows：**
   - 小狼毫
