@@ -30,9 +30,48 @@ xmjd6:
         - name: 安装依赖
           script: |
             set -e
+            export DEBIAN_FRONTEND=noninteractive
+
+            # ⚠️ 不要删掉下面这段 tzdata 规避逻辑，也别改回「直接 apt-get install」。
+            #
+            # CNB 构建容器把宿主机的 /etc/localtime 以【只读 bind mount】挂进来，实机探测结果：
+            #   grep localtime /proc/mounts
+            #     /dev/vda1 /etc/localtime ext4 ro,noatime 0 0
+            #   findmnt -T /etc/localtime
+            #     /etc/localtime  /dev/vda1[/usr/share/zoneinfo/Asia/Shanghai]  ext4  ro,noatime
+            # 容器内 uid=0 但 CapEff 里没有 CAP_SYS_ADMIN，所以 umount 也不行：
+            #   umount /etc/localtime -> "must be superuser to unmount"
+            #
+            # 而 tzdata 的 postinst 会执行：
+            #   mv /etc/localtime.dpkg-new /etc/localtime
+            # 对挂载点必然 EBUSY：
+            #   "mv: cannot move '/etc/localtime.dpkg-new' to '/etc/localtime': Device or resource busy"
+            # -> tzdata 配置失败 -> libpython3.12-stdlib / python3.12 / python3 / libpython3-stdlib
+            #    级联「not configured」-> apt 以
+            #    "E: Sub-process /usr/bin/dpkg returned an error code (1)" 中止，整条流水线挂掉。
+            #
+            # 注意：这跟 debconf 交互式配置无关 —— DEBIAN_FRONTEND=noninteractive 早就设了，
+            # 照样会失败（网上关于这个错的"debconf 卡住"分析是错的）。
+            #
+            # 解法：让 tzdata「只解包、不跑 postinst」—— 数据文件照常落盘，把那个必然 EBUSY 的
+            # postinst 置空，再手动 configure。此后 apt 认为 tzdata 已配置完成，不会再动它。
+            # 2026-09-16 已在 CNB 实机验证：tzdata=ii、dpkg --audit 无输出、8 个工具全部可用。
             apt-get update -qq
-            apt-get install -y -qq --no-install-recommends \
-              ca-certificates curl wget unzip zip rsync python3 p7zip-full git
+
+            if ! dpkg -l tzdata 2>/dev/null | grep -q '^ii'; then
+              mkdir -p /tmp/tzdeb
+              ( cd /tmp/tzdeb && apt-get download tzdata )
+              dpkg --unpack /tmp/tzdeb/tzdata_*.deb
+              cp /dev/null /var/lib/dpkg/info/tzdata.postinst
+              chmod 755 /var/lib/dpkg/info/tzdata.postinst
+              dpkg --configure tzdata
+              rm -rf /tmp/tzdeb
+            fi
+
+            apt-get install -y -qq --no-install-recommends ca-certificates curl wget unzip zip rsync python3 p7zip-full git
+
+            rm -rf /var/lib/apt/lists/*
+            echo "依赖安装完成 $(python3 --version)"
 
         # ---------------------------------------------------------------- 2
         - name: 准备目录与 OpenCC
