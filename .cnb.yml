@@ -1,0 +1,215 @@
+# =============================================================================
+# CNB 云原生构建流水线（cnb.cool）—— 星猫键道6
+# -----------------------------------------------------------------------------
+# 作用：在 CNB 侧完成与 GitHub Actions 等价的打包，便于国内网络环境下发布。
+#   产物：xmjd6.zip / Rabbit-xmjd6.zip / yong-xmjd6.zip / yong-xmjd6-full.zip / dazhu.txt
+#
+# 触发：仓库「代码 → 分支详情页」右上角自定义按钮「📦 打包 xmjd6 资源」
+#       按钮定义在 .cnb/web_trigger.yml，事件名必须与下面的 web_trigger_package 完全一致。
+#       注意：main 在本文件里被显式匹配，`$` 兜底规则不会作用于 main，
+#       所以事件必须挂在 main: 下面（这是 CNB 常见踩坑点）。
+#
+# 与 GitHub 的关系：本文件与 .github/workflows/create-release.yml 是**平行**的两套实现。
+#   GitHub 侧保持原样不动；CNB 侧的产物发布到 CNB 自己的 Release（tag: package-latest）。
+#
+# ⚠️ 首次运行需验证：第 2/5/7 步要从 github.com 下载 opencc / rabbit / yong。
+#   若 CNB 构建节点访不到 GitHub，把对应 URL 换成镜像地址即可（见每步内的注释）。
+#
+# 语法参考：https://docs.cnb.cool/zh/build/grammar.html
+# =============================================================================
+
+main:
+  web_trigger_package:
+    - name: 打包 xmjd6 资源
+      docker:
+        image: ubuntu:24.04
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      stages:
+        # ---------------------------------------------------------------- 1
+        - name: 安装依赖
+          script: |
+            set -e
+            apt-get update -qq
+            apt-get install -y -qq --no-install-recommends \
+              ca-certificates curl wget unzip zip rsync python3 p7zip-full git
+
+        # ---------------------------------------------------------------- 2
+        - name: 准备目录与 OpenCC
+          script: |
+            set -e
+            mkdir -p Rime mb/xmjd6
+            # 取 amorphobia/opencc-tonggui 最新 pre-release 里的 .zip 资源
+            # 若 CNB 节点访不到 api.github.com，可改用一个固定的直链。
+            url=$(curl -fsSL -H 'User-Agent: cnb-build' \
+              https://api.github.com/repos/amorphobia/opencc-tonggui/releases \
+              | python3 -c "import sys,json;rs=json.load(sys.stdin);p=[r for r in rs if r.get('prerelease')];a=[x for x in (p[0]['assets'] if p else []) if x['name'].endswith('.zip')];print(a[0]['browser_download_url'] if a else '')")
+            if [ -z "$url" ]; then echo "未找到 opencc-tonggui 预发布 zip，中止"; exit 1; fi
+            echo "OpenCC: $url"
+            wget -q -O opencc_temp.zip "$url"
+            unzip -q opencc_temp.zip -d opencc_extract_temp
+            mkdir -p opencc/xmjd6
+            if [ -d opencc_extract_temp/opencc ]; then
+              cp -r opencc_extract_temp/opencc/* opencc/xmjd6/
+            else
+              cp -r opencc_extract_temp/* opencc/xmjd6/
+            fi
+            rm -rf opencc_temp.zip opencc_extract_temp
+            echo "opencc/xmjd6 条目数: $(ls -1 opencc/xmjd6 | wc -l)"
+
+        # ---------------------------------------------------------------- 3
+        - name: 打包 xmjd6.zip
+          script: |
+            set -e
+            # 与 GitHub 侧一致：排除 .git* / .github* / yong* / mb* / Rime*
+            zip -qr xmjd6.zip . -x "*.git*" -x "*.github*" -x "yong*" -x "mb*" -x "Rime*"
+            ls -l xmjd6.zip
+
+        # ---------------------------------------------------------------- 4
+        - name: 准备 Rime 目录
+          script: |
+            set -e
+            rsync -am \
+              --exclude='.git*' --exclude='*.github*' \
+              --exclude='squirrel*' --exclude='weasel*' --exclude='hamster*' \
+              --exclude='*.txt' --exclude='xmjd6.zip' \
+              --exclude='yong*' --exclude='mb*' --exclude='Rime*' \
+              . Rime/
+            echo "Rime/ 条目数: $(ls -1 Rime | wc -l)"
+
+        # ---------------------------------------------------------------- 5
+        - name: 合并 Rabbit 皮肤包
+          script: |
+            set -e
+            tag=$(curl -fsSL -H 'User-Agent: cnb-build' \
+              https://api.github.com/repos/amorphobia/rabbit/releases/latest \
+              | python3 -c "import sys,json;print(json.load(sys.stdin)['tag_name'])")
+            echo "rabbit tag: $tag"
+            curl -fsSL -o "rabbit-$tag.zip" \
+              "https://github.com/amorphobia/rabbit/releases/download/$tag/rabbit-$tag-x64.zip"
+            mkdir -p Rabbit
+            unzip -q "rabbit-$tag.zip" -d Rabbit
+
+            mkdir -p /tmp/Rabbit_backup
+            cp Rabbit/Data/punctuation.yaml  /tmp/Rabbit_backup/
+            cp Rabbit/Data/key_bindings.yaml /tmp/Rabbit_backup/
+            cp Rabbit/Data/default.yaml      /tmp/Rabbit_backup/
+            cp Rabbit/Data/symbols.yaml      /tmp/Rabbit_backup/
+            cp Rabbit/Data/rabbit.yaml       /tmp/Rabbit_backup/
+            cp Rime/default.custom.yaml      Rabbit/Rime/
+            cp Rime/xmjd6.user.dict.yaml     Rabbit/Rime/
+            cp Rime/xmjd6.custom.yaml        Rabbit/Rime/
+            rm -rf Rabbit/Data/*
+            rm -f Rime/default.custom.yaml Rime/xmjd6.user.dict.yaml Rime/xmjd6.custom.yaml
+            cp /tmp/Rabbit_backup/* Rabbit/Data/
+            rm -rf /tmp/Rabbit_backup
+
+            cp -r Rime/. Rabbit/Data
+            zip -qr Rabbit-xmjd6.zip Rabbit/
+            rm -f "rabbit-$tag.zip"
+            ls -l Rabbit-xmjd6.zip
+
+        # ---------------------------------------------------------------- 6
+        - name: 词库转 txt 并合并
+          script: |
+            set -e
+            for dict_file in xmjd6.wxw.dict.yaml xmjd6.danzi.dict.yaml xmjd6.cizu.dict.yaml xmjd6.fjcy.dict.yaml xkjd6.wanne.dict.yaml
+            do
+              base=$(basename "$dict_file")
+              txt_name="${base%.dict.yaml}.txt"
+              awk -F'\t' '
+              /^#region.*英语/ { skip = 1; next }
+              /^#endregion/    { skip = 0; next }
+              skip { next }
+              /^[^#]/ {
+                if ($0 ~ /^---|name:|version:|sort:|\.\.\.$/) next;
+                if ($1 ~ /^[A-Za-z0-9\s]+$/) {
+                  print $1 " " $2
+                } else {
+                  print $2 " " $1
+                }
+              }' "$dict_file" > "Rime/$txt_name"
+            done
+
+            header='name=星猫键道6\nkey=`abcedfghijklmnopqrstuvwxyz;\\\nlen=12\nwildcard=~\nbihua=viuoa\ncode_e2=p11+p12+p21+p22+p13+p23\ncode_e3=p11+p21+p31+p13+p23+p33\ncode_a4=p11+p21+p31+n11+p13+p23+p33\n[DATA]'
+            echo -e "$header" > Rime/xmjd6.header.txt
+
+            cat Rime/xmjd6.wxw.txt \
+                Rime/xmjd6.danzi.txt \
+                Rime/xmjd6.cizu.txt \
+                Rime/xmjd6.fjcy.txt \
+                Rime/xkjd6.wanne.txt > Rime/xmjd6.body.txt
+
+            cat Rime/xmjd6.header.txt Rime/xmjd6.body.txt > mb/xmjd6/xmjd6.txt
+
+            sort -k1,1 -s Rime/xmjd6.body.txt > /tmp/sorted_body.txt
+            awk '
+            BEGIN { OFS = "\t"; prev_code = ""; buffer = ""; }
+            {
+                code = $1;
+                word = substr($0, length($1) + 2);
+                if (word == "") { next; }
+                if (code != prev_code && prev_code != "") {
+                    print prev_code, buffer;
+                    buffer = "";
+                }
+                if (buffer == "") { buffer = word; } else { buffer = buffer OFS word; }
+                prev_code = code;
+            }
+            END { if (prev_code != "") { print prev_code, buffer; } }
+            ' /tmp/sorted_body.txt > dazhu.txt
+
+            rm -f /tmp/sorted_body.txt Rime/xmjd6.header.txt Rime/xmjd6.body.txt
+
+            python3 -c "p='mb/xmjd6/xmjd6.txt'; d=open(p, encoding='utf-8').read(); open(p, 'w', encoding='gb18030', errors='ignore').write(d)"
+
+            ls -l dazhu.txt mb/xmjd6/xmjd6.txt
+
+        # ---------------------------------------------------------------- 7
+        - name: 打包 yong
+          script: |
+            set -e
+            UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+            mkdir -p .yong
+            wget -q --user-agent="$UA" https://github.com/hugh7007/xmjd6-rere/releases/download/20231115/yong-win.7z
+            wget -q --user-agent="$UA" https://github.com/hugh7007/xmjd6-rere/releases/download/20231115/yong.ini
+            cp yong.ini .yong/
+            cp -r mb .yong/
+            zip -qr yong-xmjd6.zip .yong
+            7z x -y yong-win.7z -oyong_temp > /dev/null
+            cp -r .yong yong_temp/yong
+            ( cd yong_temp && zip -qr ../yong-xmjd6-full.zip yong )
+            rm -rf .yong yong_temp yong-win.7z yong.ini
+            ls -l yong-xmjd6.zip yong-xmjd6-full.zip
+
+        # ---------------------------------------------------------------- 8
+        - name: 打滚动 tag
+          script: |
+            set -e
+            # CNB 的 Release 只能挂在 tag 上，所以先建一个滚动 tag 并推回远端
+            git config user.name  "CNB CI"
+            git config user.email "ci@cnb.cool"
+            git tag -f package-latest
+            git push "https://${CNB_TOKEN_USER_NAME}:${CNB_TOKEN}@${CNB_REPO_URL_HTTPS#https://}" package-latest -f
+
+        - name: 创建 Release
+          type: git:release
+          options:
+            tag: package-latest
+            title: 星猫键道6 打包产物
+            description: 由 CNB 流水线 web_trigger_package 自动生成（含 xmjd6.zip / Rabbit / yong / dazhu.txt）
+            preRelease: true
+            overlying: true
+          allowFailure: true
+
+        - name: 上传产物到 Release
+          image: cnbcool/attachments
+          settings:
+            tag: package-latest
+            attachments:
+              - "./xmjd6.zip"
+              - "./Rabbit-xmjd6.zip"
+              - "./yong-xmjd6.zip"
+              - "./yong-xmjd6-full.zip"
+              - "./dazhu.txt"
+          allowFailure: true

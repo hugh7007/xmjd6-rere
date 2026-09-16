@@ -1,0 +1,26 @@
+# =============================================================================
+# CNB 自定义按钮配置（.cnb/web_trigger.yml）
+# -----------------------------------------------------------------------------
+# 位置：仓库根目录 .cnb/web_trigger.yml
+# 作用：在「代码 → 分支详情页」右上角显示自定义按钮，点击即触发对应流水线。
+#
+# 注意（CNB 的几个硬性规则）：
+#   1. 本文件不支持 include / imports 语法。
+#   2. 按钮的 event 必须在 .cnb.yml 里有对应的 web_trigger_* 流水线，否则点了没反应。
+#   3. 按钮只出现在「分支详情页」，不是仓库首页。
+#   4. event 名只能用 web_trigger 或 web_trigger_* 前缀。
+#   5. 只有拥有仓库写权限、且满足 permissions 的用户才能点击触发。
+#
+# 官方文档：https://docs.cnb.cool/zh/build/web-trigger.html
+# =============================================================================
+
+branch:
+  - buttons:
+      - name: 📦 打包 xmjd6 资源
+        description: "拉取 OpenCC / Rabbit / yong 依赖，生成 xmjd6.zip、Rabbit-xmjd6.zip、yong-xmjd6.zip、yong-xmjd6-full.zip、dazhu.txt，并发布到 CNB Release（tag: package-latest）"
+        event: web_trigger_package
+        permissions:
+          roles:
+            - owner
+            - master
+            - developer
