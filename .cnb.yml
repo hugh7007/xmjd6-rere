@@ -19,7 +19,7 @@
 # =============================================================================
 
 xmjd6:
-  web_trigger_package:
+  web_trigger_package: &package_job
     - name: 打包 xmjd6 资源
       docker:
         image: ubuntu:24.04
@@ -268,3 +268,10 @@ xmjd6:
               - "./yong-xmjd6-full.zip"
               - "./dazhu.txt"
           allowFailure: true
+
+  # ⚠️ 仅用于命令行 E2E 验证（CLI 只能触发 api_trigger* 事件，而 api_trigger
+  #    若走 --config 传 YAML 内联文本会被转义层破坏）。这里用 YAML 锚点复用
+  #    web_trigger_package 那份 job，定义零重复；不带 --config 时 CNB 会读仓库自身的
+  #    .cnb.yml，所以内容与网页按钮点出来的完全一致。
+  #    触发：cnb build start-build --repo xmjd6/xmjd6 --branch xmjd6 --event api_trigger_e2e
+  api_trigger_e2e: *package_job
