@@ -19,7 +19,7 @@ jobs:
         echo "CURRENT_DATE=$(date +'%Y%m%d')" >> $GITHUB_ENV
         echo "RELEASE_TITLE=$(date +'%Y.%m.%d') 词库更新" >> $GITHUB_ENV
 
-    - name: Checkout main branch
+    - name: Checkout xmjd6 branch
       uses: actions/checkout@v4
       
     - name: Create directories
@@ -91,7 +91,7 @@ jobs:
         rm opencc_temp.zip
         rm -rf opencc_extract_temp
       
-    - name: Zip main branch files excluding .git and .github
+    - name: Zip xmjd6 branch files excluding .git and .github
       # 此时 opencc/xmjd6 里的文件已经存在，会被包含在下面的 xmjd6.zip 中（因为没有被 -x 排除）
       run: zip -r xmjd6.zip . -x "*.git*" -x "*.github*" -x "yong*" -x "mb*" -x "Rime*"
 
@@ -128,7 +128,7 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
             base: lastRelease.data.tag_name,
-            head: 'main'
+            head: 'xmjd6'
           });
           let changelog = '';
           compare.data.commits.forEach(commit => {
