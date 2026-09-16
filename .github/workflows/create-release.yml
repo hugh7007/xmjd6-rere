@@ -91,12 +91,16 @@ jobs:
         rm opencc_temp.zip
         rm -rf opencc_extract_temp
       
-    - name: Zip xmjd6 branch files as 顶功星猫键道6.zip excluding .git and .github
+    - name: Zip xmjd6 branch files as 顶功星猫键道6.zip (+ xmjd6.zip) excluding .git and .github
       # 此时 opencc/xmjd6 里的文件已经存在，会被包含在下面的 顶功星猫键道6.zip 中（因为没有被 -x 排除）
-      # 产物文件名用中文（用户要求）；压缩包"内部"条目名与内容完全不变，改名只影响压缩包自身文件名。
-      run: zip -r 顶功星猫键道6.zip . -x "*.git*" -x "*.github*" -x "yong*" -x "mb*" -x "Rime*"
+      # 产物**中文名与旧名都保留**（用户 2026-09-16 决定），两者是字节完全相同的副本，只为兼容旧链接。
+      run: |
+        set -e
+        zip -r 顶功星猫键道6.zip . -x "*.git*" -x "*.github*" -x "yong*" -x "mb*" -x "Rime*"
+        cp 顶功星猫键道6.zip xmjd6.zip
+        ls -l 顶功星猫键道6.zip xmjd6.zip
 
-    - name: Build 非顶星猫键道6.zip variant
+    - name: Build 非顶星猫键道6.zip variant (+ feiding-xmjd6.zip)
       # 与 顶功星猫键道6.zip 内容完全一致，唯一区别是 xmjd6.custom.yaml 里
       # `translator/enable_sentence` 那一行由注释变为生效（开启整句输入 → 顶功自动禁用，故称"非顶版"）。
       # ⚠️ 故意不去改工作区的 xmjd6.custom.yaml：后面 Prepare Rime directory 步骤还要用原件
@@ -116,14 +120,19 @@ jobs:
         feiding_abs=$(realpath 非顶星猫键道6.zip)
         ( cd /tmp/feiding && zip -q "$feiding_abs" xmjd6.custom.yaml )
         rm -rf /tmp/feiding
-        # 断言：两个 zip 的条目集合一致，且唯一差异就是 xmjd6.custom.yaml
-        python3 -c "import zipfile; a=zipfile.ZipFile('顶功星猫键道6.zip'); b=zipfile.ZipFile('非顶星猫键道6.zip'); assert set(a.namelist())==set(b.namelist()), '非顶版与顶功版条目集合不一致: '+str(set(a.namelist())^set(b.namelist())); d=[n for n in a.namelist() if a.read(n)!=b.read(n)]; assert d==['xmjd6.custom.yaml'], '非顶版差异条目不止 custom: '+str(d); print('非顶版校验通过：唯一差异 = xmjd6.custom.yaml')"
-        ls -l 顶功星猫键道6.zip 非顶星猫键道6.zip
+        # 非顶版的旧名兼容副本
+        cp 非顶星猫键道6.zip feiding-xmjd6.zip
+        # 断言 1：中文名与旧名必须是**字节完全相同**的副本
+        cmp -s 顶功星猫键道6.zip xmjd6.zip || { echo "顶功星猫键道6.zip 与 xmjd6.zip 内容不一致"; exit 1; }
+        cmp -s 非顶星猫键道6.zip feiding-xmjd6.zip || { echo "非顶星猫键道6.zip 与 feiding-xmjd6.zip 内容不一致"; exit 1; }
+        # 断言 2：四个包条目集合一致，且顶功版/非顶版的内容差异只有 xmjd6.custom.yaml
+        python3 -c "import zipfile; ns=['顶功星猫键道6.zip','xmjd6.zip','非顶星猫键道6.zip','feiding-xmjd6.zip']; z={n: zipfile.ZipFile(n) for n in ns}; base=z[ns[0]].namelist(); bs=set(base); assert all(set(z[n].namelist())==bs for n in ns), '四个包条目集合不一致'; d=[x for x in base if z[ns[0]].read(x)!=z[ns[2]].read(x)]; assert d==['xmjd6.custom.yaml'], '顶功/非顶差异不止 custom: '+str(d); print('4 包校验通过：条目集合一致，唯一内容差异 = xmjd6.custom.yaml')"
+        ls -l 顶功星猫键道6.zip xmjd6.zip 非顶星猫键道6.zip feiding-xmjd6.zip
 
     - name: Prepare Rime directory for Rabbit
       run: |
         mkdir -p Rime/
-        rsync -avm --exclude='.git*' --exclude='*.github*' --exclude='squirrel*' --exclude='weasel*' --exclude='hamster*' --exclude='*.txt' --exclude='顶功星猫键道6.zip' --exclude='非顶星猫键道6.zip' --exclude='yong*' --exclude='mb*' --exclude='Rime*' . Rime/
+        rsync -avm --exclude='.git*' --exclude='*.github*' --exclude='squirrel*' --exclude='weasel*' --exclude='hamster*' --exclude='*.txt' --exclude='顶功星猫键道6.zip' --exclude='非顶星猫键道6.zip' --exclude='xmjd6.zip' --exclude='feiding-xmjd6.zip' --exclude='yong*' --exclude='mb*' --exclude='Rime*' . Rime/
         ls -al Rime/
         pwd
 
@@ -364,6 +373,28 @@ jobs:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./顶功星猫键道6.zip
         asset_name: 顶功星猫键道6.zip
+        asset_content_type: application/zip
+
+    - name: Upload xmjd6.zip to Release
+      # 旧名兼容副本（与 顶功星猫键道6.zip 字节相同）
+      uses: shogo82148/actions-upload-release-asset@v1.10.2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./xmjd6.zip
+        asset_name: xmjd6.zip
+        asset_content_type: application/zip
+
+    - name: Upload feiding-xmjd6.zip to Release
+      # 旧名兼容副本（与 非顶星猫键道6.zip 字节相同）
+      uses: shogo82148/actions-upload-release-asset@v1.10.2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./feiding-xmjd6.zip
+        asset_name: feiding-xmjd6.zip
         asset_content_type: application/zip
         
     - name: Upload 非顶星猫键道6.zip to Release
