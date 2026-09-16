@@ -17,7 +17,7 @@
 branch:
   - buttons:
       - name: 📦 打包 xmjd6 资源
-        description: "拉取 OpenCC / Rabbit / yong 依赖，生成 xmjd6.zip、feiding-xmjd6.zip（非顶版）、Rabbit-xmjd6.zip、yong-xmjd6.zip、yong-xmjd6-full.zip、dazhu.txt，并发布到 CNB Release（tag: package-latest）"
+        description: "拉取 OpenCC / Rabbit / yong 依赖，生成 顶功星猫键道6.zip、非顶星猫键道6.zip、Rabbit-xmjd6.zip、yong-xmjd6.zip、yong-xmjd6-full.zip、dazhu.txt，并发布到 CNB Release（tag: package-latest）"
         event: web_trigger_package
         permissions:
           roles:
