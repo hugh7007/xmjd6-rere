@@ -1310,6 +1310,9 @@ end
 -- 指令一律以 "=" 触发（键道6 的 "o" 已被 recognizer/patterns/xmjd6gbk 占用为五笔画查询，
 -- 4.2 那套 o + 去斜杠 的别名机制在本方案会把 ortj 抢成 O 模式查询，已整体删除）
 local function standard_report(input, env)
+    -- 所有统计指令均以 = 开头（=tj/=qb/=yf/=yy/=yn/=jq/=wx…）。
+    -- 普通打字直接短路返回，避免每个输入码都白跑 day_id/os.time。
+    if type(input) ~= "string" or input:sub(1, 1) ~= "=" then return nil end
     local today = day_id()
     -- 「30天」窗口：固定 30 天，**与速度统计窗口无关**。
     -- 原先这里和下面共用同一个 recent，是个耦合错误：一旦把 speed_history_days 调成 0（不限），

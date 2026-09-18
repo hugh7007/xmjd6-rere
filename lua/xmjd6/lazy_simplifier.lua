@@ -53,11 +53,19 @@ local phrase_shards = {}      -- module_name → table
 local phrase_usage = {}       -- LRU 顺序
 local phrase_index = nil      -- 首字母→分片号 索引表
 
+local opencc_base_cache  -- false 哨兵表示已探测且失败
 local function get_opencc_base()
+    if opencc_base_cache ~= nil then
+        return opencc_base_cache ~= false and opencc_base_cache or nil
+    end
     local source = debug.getinfo(1).source or ""
     local script_dir = source:match("@?(.*/)")
-    if not script_dir then return nil end
-    return script_dir .. "../../opencc/"
+    if not script_dir then
+        opencc_base_cache = false
+        return nil
+    end
+    opencc_base_cache = script_dir .. "../../opencc/"
+    return opencc_base_cache
 end
 
 local function load_lua_file(base, rel)

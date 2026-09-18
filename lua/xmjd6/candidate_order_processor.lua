@@ -311,7 +311,6 @@ local function processor(key, env)
     local promoted = selected.text
     local displaced = first.text
     local old_code = choose_old_code(promoted, target_code, env)
-    collectgarbage("collect")
 
     local ok = core.append_order({
         promoted = promoted,
@@ -329,4 +328,10 @@ local function processor(key, env)
     return kAccepted
 end
 
-return { func = processor }
+local function fini(env)
+    -- 方案卸载时清掉管理面板的全局暂存状态（pending_delete / manager_notice）
+    _G.__candidate_order_manager_state = nil
+    manager_state = nil
+end
+
+return { func = processor, fini = fini }

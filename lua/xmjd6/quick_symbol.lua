@@ -162,12 +162,29 @@ local function get_context_option(context, name)
     return nil
 end
 
-function M.is_enabled(env)
+-- 静态配置（enabled / option_name / sentence_mode prefix）在方案加载后不变，
+-- 惰性缓存到 env，避免每按键重复读 config。动态开关（option 值）仍每次读。
+local function static_config(env)
+    if env and env.__qs_static then return env.__qs_static end
     local config = get_config(env)
-    if get_bool(config, "quick_symbol/enabled", true) == false then return false end
+    local s = {
+        enabled = get_bool(config, "quick_symbol/enabled", true),
+        option_name = get_string(config, "quick_symbol/option_name", DEFAULT_OPTION_NAME),
+        sentence_prefix = nil,
+    }
+    if config and config.get_string then
+        local ok, value = pcall(function() return config:get_string("sentence_mode/prefix") end)
+        if ok and type(value) == "string" and #value == 1 then s.sentence_prefix = value end
+    end
+    if env then env.__qs_static = s end
+    return s
+end
 
-    local option_name = get_string(config, "quick_symbol/option_name", DEFAULT_OPTION_NAME)
-    local option_value = get_context_option(get_context(env), option_name)
+function M.is_enabled(env)
+    local s = static_config(env)
+    if s.enabled == false then return false end
+
+    local option_value = get_context_option(get_context(env), s.option_name)
     if option_value == false then return false end
 
     return true
@@ -223,11 +240,7 @@ local function key_to_char(key)
 end
 
 local function get_sentence_prefix(env)
-    local config = get_config(env)
-    if not config or not config.get_string then return nil end
-    local ok, value = pcall(function() return config:get_string("sentence_mode/prefix") end)
-    if ok and type(value) == "string" and #value == 1 then return value end
-    return nil
+    return static_config(env).sentence_prefix
 end
 
 local function is_sentence_mode(env)

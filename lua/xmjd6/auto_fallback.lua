@@ -13,12 +13,8 @@ local candidate_order_ok, candidate_order_mod = pcall(require, "xmjd6.candidate_
 local candidate_order_core = candidate_order_ok and candidate_order_mod and candidate_order_mod.core or nil
 
 local function empty_code_topup_enabled(env)
-    local config = env and env.engine and env.engine.schema and env.engine.schema.config
-    if config and config.get_bool then
-        local ok, value = pcall(function() return config:get_bool("direct_ascii/empty_code_topup") end)
-        if ok and type(value) == "boolean" then return value end
-    end
-    return false
+    -- 静态开关，init 时已缓存到 env.empty_code_topup；缺省 false
+    return env and env.empty_code_topup == true
 end
 
 local function string2set(str)
@@ -70,11 +66,11 @@ local function processor(key_event, env)
         return kNoop
     end
     local prev = #input > 0 and input:sub(-1) or ""
-    local is_prev_topup = env.topup_set[prev]
-    local is_topup = env.topup_set[key]
 
     -- empty_code_topup 开关：开启时跳过顶功键集合检查，对所有字母键追加场景生效
     if not empty_code_topup_enabled(env) then
+        local is_prev_topup = env.topup_set[prev]
+        local is_topup = env.topup_set[key]
         -- 顶功处理器已处理的常规场景跳过
         -- 仅在「连续顶功键」且当前输入有候选时，继续走空码回退检查
         -- 这样 dia+o（diao 无候选）会回退上屏 dia，而 ba+o（bao 有候选）正常继续
@@ -132,6 +128,7 @@ local function init(env)
     env.topup_min = math.max(1, config:get_int("topup/min_length") or 4)
     env.topup_min_danzi = math.max(1, config:get_int("topup/min_length_danzi") or env.topup_min)
     env.protected_codes = protected_codes.load()
+    env.empty_code_topup = config:get_bool("direct_ascii/empty_code_topup") == true
 end
 
 return { init = init, func = processor }

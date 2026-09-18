@@ -549,13 +549,27 @@ local function build_data(records, errors)
         by_target = {},
         by_new = {},
         by_old = {},
+        by_new_prefix = {},   -- new_code 的真前缀(1..#code-1) → 记录列表，供 records_for_input O(1) 查
+        code_prefixes = {},   -- 所有码的前缀集合(含完整码) → true，供 has_code_prefix O(1) 查
     }
+    local function add_prefixes(set, code)
+        if not code or code == "" then return end
+        for i = 1, #code do
+            set[code:sub(1, i)] = true
+        end
+    end
     for _, rec in ipairs(records) do
         append_index(data.by_target, rec.target_code, rec)
         append_index(data.by_old, rec.old_code, rec)
         if rec.new_code and rec.new_code ~= "" then
             append_index(data.by_new, rec.new_code, rec)
+            for i = 1, #rec.new_code - 1 do
+                append_index(data.by_new_prefix, rec.new_code:sub(1, i), rec)
+            end
         end
+        add_prefixes(data.code_prefixes, rec.target_code)
+        add_prefixes(data.code_prefixes, rec.old_code)
+        add_prefixes(data.code_prefixes, rec.new_code)
     end
     return data
 end
@@ -630,40 +644,15 @@ function M.load(filename)
     return data
 end
 
-local function records_needing_new_code(data, input)
-    local out = {}
-    if not data or type(input) ~= "string" or input == "" then return out end
-    for _, rec in ipairs(data.records or {}) do
-        if record_needs_new_code(rec) and not rec.new_code
-            and input:sub(1, #rec.target_code) == rec.target_code then
-            out[#out + 1] = rec
-        end
-    end
-    return out
-end
-
-function M.ensure_new_codes_for_input(data, input)
-    local records = records_needing_new_code(data, input)
-    if #records == 0 then return end
-    local base_dir = M.user_data_dir()
-    local char_codes = load_char_codes_uncached(base_dir, collect_displaced_chars(records))
-    local target_codes = prepare_candidate_codes(records, char_codes)
-    if not target_codes then return end
-    local occupied = M.load_occupied_codes_for_candidates(base_dir, target_codes, build_exclude_pairs(data.records or {}))
-    add_order_occupancy(occupied, data.records or {}, target_codes)
-    fill_new_codes(records, char_codes, data, occupied)
-end
-
 function M.records_for_input(input, filename)
     local data = M.load(filename)
     local new_records = {}
     for _, rec in ipairs(data.by_new[input] or {}) do
         new_records[#new_records + 1] = rec
     end
-    for _, rec in ipairs(data.records or {}) do
-        if rec.new_code and #input < #rec.new_code
-            and rec.new_code:sub(1, #input) == input
-            and input ~= rec.target_code then
+    -- new_code 以 input 为真前缀的记录：build_data 已预建索引，无需全表扫描
+    for _, rec in ipairs((data.by_new_prefix or {})[input] or {}) do
+        if input ~= rec.target_code then
             new_records[#new_records + 1] = rec
         end
     end
@@ -680,21 +669,8 @@ function M.has_code_prefix(prefix, filename)
     if not is_code(prefix) then return false end
 
     local data = M.load(filename)
-    for _, rec in ipairs(data.records or {}) do
-        if rec.target_code and #prefix <= #rec.target_code
-            and rec.target_code:sub(1, #prefix) == prefix then
-            return true
-        end
-        if rec.old_code and #prefix <= #rec.old_code
-            and rec.old_code:sub(1, #prefix) == prefix then
-            return true
-        end
-        if rec.new_code and #prefix <= #rec.new_code
-            and rec.new_code:sub(1, #prefix) == prefix then
-            return true
-        end
-    end
-    return false
+    -- target/old/new 三码的所有前缀（含完整码）已在 build_data 预建为集合
+    return (data.code_prefixes or {})[prefix] == true
 end
 
 function M.should_hide_loaded(data, input, text, cand_type)

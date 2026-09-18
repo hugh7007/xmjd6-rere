@@ -43,21 +43,27 @@ local last_was_number = false
 
 local function configured_symbols(env)
     if type(env and env.symbols) == "string" then return env.symbols end
+    if env and env.__da_symbols then return env.__da_symbols end
+    local value = "."
     local config = env and env.engine and env.engine.schema and env.engine.schema.config
     if config and config.get_string then
-        local ok, value = pcall(function() return config:get_string("direct_ascii/symbols") end)
-        if ok and type(value) == "string" then return value end
+        local ok, v = pcall(function() return config:get_string("direct_ascii/symbols") end)
+        if ok and type(v) == "string" then value = v end
     end
-    return "."
+    if env then env.__da_symbols = value end
+    return value
 end
 
 local function digits_enabled(env)
+    if env and env.__da_digits ~= nil then return env.__da_digits end
+    local value = true
     local config = env and env.engine and env.engine.schema and env.engine.schema.config
     if config and config.get_bool then
-        local ok, value = pcall(function() return config:get_bool("direct_ascii/digits") end)
-        if ok and type(value) == "boolean" then return value end
+        local ok, v = pcall(function() return config:get_bool("direct_ascii/digits") end)
+        if ok and type(v) == "boolean" then value = v end
     end
-    return true
+    if env then env.__da_digits = value end
+    return value
 end
 
 local function processor(key_event, env)

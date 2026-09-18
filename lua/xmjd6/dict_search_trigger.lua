@@ -69,13 +69,24 @@ if not _G.__dict_search_state then
     }
 end
 
--- 流式实现本身无常驻缓存；注册清理是为了 sentinel 到达时顺手放掉上次的搜索结果
+-- 模块级查询缓存：同一候选文本重复按 ? 时直接命中，
+-- 避免重复流式扫描 18 个词库（最坏约 650ms）。
+-- 空结果同样缓存——无命中需扫完全部文件，恰是最贵的路径。
+-- 这是本组件内部缓存，不需要跨组件共享：processor/translator 若是两份模块副本，
+-- 各自缓存互不影响（最坏各自多扫一次）。词库文件改动后需重新部署/重载 Lua 才会失效。
+local SEARCH_CACHE_MAX = 30
+local search_cache = {}
+local search_cache_order = {} -- FIFO 淘汰顺序
+
+-- 注册清理：sentinel 到达时放掉上次搜索结果与查询缓存
 mem_cleaner.register(function()
     local state = _G.__dict_search_state
     if state then
         state.candidates = nil
         state.query = nil
     end
+    search_cache = {}
+    search_cache_order = {}
 end)
 
 -- 在一个由完整行组成的文本块内收集命中词条。
@@ -147,6 +158,20 @@ local function search(query)
     return matches
 end
 
+-- 缓存包装：命中直接返回；未命中则搜索并写入缓存（FIFO 淘汰，上限 SEARCH_CACHE_MAX）
+local function cached_search(query)
+    local hit = search_cache[query]
+    if hit then return hit end
+    local matches = search(query)
+    search_cache[query] = matches
+    search_cache_order[#search_cache_order + 1] = query
+    if #search_cache_order > SEARCH_CACHE_MAX then
+        local oldest = table.remove(search_cache_order, 1)
+        search_cache[oldest] = nil
+    end
+    return matches
+end
+
 local function dict_search_trigger(key, env)
     if key:release() then return kNoop end
 
@@ -180,7 +205,7 @@ local function dict_search_trigger(key, env)
     -- utf8.len 对非法 UTF-8 返回 nil，or 0 防止 nil 比较报错
     if (utf8.len(query) or 0) < 1 then return kNoop end
 
-    _G.__dict_search_state.candidates = search(query)
+    _G.__dict_search_state.candidates = cached_search(query)
     _G.__dict_search_state.query = query
 
     context:push_input("?")
