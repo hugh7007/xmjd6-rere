@@ -75,7 +75,7 @@ function M.func(input, env)
   for cand in input:iter() do
     local text = cand.text
     -- 只匹配纯节气名或 "节气名 YYYY-MM-DD" 格式（jq 分支输出）
-    -- 不匹配 "农历日期-节气名" 格式（rq/nl 分支），因为 JQtest 返回当前节气，倒计时语义不一致
+    -- 不匹配 "农历日期-节气名" 格式（rq/nl 分支），因为 getDayJQ 返回当前节气，倒计时语义不一致
     local matched_name = nil
     if JIEQI_MAP[text] then
       matched_name = text

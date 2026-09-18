@@ -535,20 +535,28 @@ local jqB = { -- 节气表
     "秋分", "寒露", "霜降", "立冬", "小雪", "大雪", "冬至", "小寒", "大寒", "立春", "雨水", "惊蛰"
 }
 
-function JQtest(y) -- 节气使计算范例,y是年分,这是个测试函数
+-- 返回 yyyymmdd 当天对应的节气名（"-春分"形式）；非节气日返回空串。
+-- 生产函数：rq/nl 分支用它给农历日期追加节气后缀。
+-- 结果按日缓存，避免每次翻译都重算 24 次截弦求根。
+local cur_jq_day_cache = {}
+function getDayJQ(y)
+    local hit = cur_jq_day_cache[y]
+    if hit then return hit end
     local i, q, s1, s2; y = tostring(y)
+    local result = ""
     local jd = 365.2422 * (tonumber(y.sub(y, 1, 4)) - 2000)
     for i = 0, 23 do
         q = jiaoCal(jd + i * 15.2, i * 15, 0) + J2000 + 8 / 24 -- 计算第i个节气(i=0是春分),结果转为北京时
         JDate:setFromJD(q, 1); s1 = JDate:toStr() -- 将儒略日转成世界时
         JDate:setFromJD(q, 0); s2 = JDate:toStr() -- 将儒略日转成日期格式(输出日期形式的力学时)
         jqData = s1.sub(s1.gsub(s1, "^( )", ""), 1, 10); jqData = jqData.gsub(jqData, "-", "")
-        if (jqData == y) then return "-" .. jqB[i + 1] end
+        if (jqData == y) then result = "-" .. jqB[i + 1] break end
     end
-    return ""
+    cur_jq_day_cache[y] = result
+    return result
 end
 
-function GetNextJQ(y) -- 节气使计算范例,y是年分,这是个测试函数
+function GetNextJQ(y) -- 返回 y(yyyymmdd) 之后（含当日）的节气时间表，生产函数（农历节气注释用）
     local i, obj, q, s1, s2; y = tostring(y)
     local jd = 365.2422 * (tonumber(y.sub(y, 1, 4)) - 2000)
     obj = {}
@@ -576,26 +584,23 @@ function getJQ(y) -- 返回一年中各个节气的时间表，从春分开始
     return jq
 end
 
+-- 节气时刻表按年缓存：getJQ 每年要做 24 次截弦求根，
+-- 同年重复查询（农历逐日换算、节气倒计时）只算一次。
+local jq_year_cache = {}
+
+local function get_jq_times(y)
+    if not jq_year_cache[y] then jq_year_cache[y] = getJQ(y) end
+    return jq_year_cache[y]
+end
+
 -- 返回一年的二十四个节气,从立春开始
 function getYearJQ(y)
-    local jq1 = getJQ(y - 1) -- 上一年
-    local jq2 = getJQ(y) -- 当年
+    local jq1 = get_jq_times(y - 1) -- 上一年
+    local jq2 = get_jq_times(y) -- 当年
     local jq = {}
     for i = 1, 3 do jq[i] = jq1[i + 21] end
     for i = 1, 21 do jq[i + 3] = jq2[i] end
     return jq
-end
-
---=================定朔弦望计算========================
-function dingSuo(y, arc) -- 这是个测试函数
-    local i, jd = 365.2422 * (y - 2000), q, s1, s2
-    print("月份:世界时  原子时<br>")
-    for i = 0, 11 do
-        q = jiaoCal(jd + 29.5 * i, arc, 1) + J2000 + 8 / 24 -- 计算第i个节气(i=0是春风),结果转为北京时
-        JDate.setFromJD(q, 1); s1 = JDate:toStr() -- 将儒略日转成世界时
-        JDate.setFromJD(q, 0); s2 = JDate:toStr() -- 将儒略日转成日期格式(输出日期形式的力学时)
-        print((i + 1) .. "月 : " .. s1 .. " " .. s2) -- 显示
-    end
 end
 
 --=================农历计算========================
@@ -1508,18 +1513,11 @@ end
 
 -- 节气倒计时。getJQ(y) 返回"y 年春分起的 24 节气"时刻表，
 -- 表尾的小寒~惊蛰实际落在 y+1 年，所以查"下一次节气 X"要从 y-1 年的表开始找。
--- 节气时刻表按年缓存在沙箱内，impl 卸载时随之释放。
+-- 节气时刻表按年缓存（get_jq_times，定义在 getYearJQ 之前），impl 卸载时随之释放。
 local JQ_NAMES = { -- 与 getJQ 返回顺序一致（从春分开始）
     "春分", "清明", "谷雨", "立夏", "小满", "芒种", "夏至", "小暑", "大暑", "立秋", "处暑", "白露",
     "秋分", "寒露", "霜降", "立冬", "小雪", "大雪", "冬至", "小寒", "大寒", "立春", "雨水", "惊蛰"
 }
-
-local jq_year_cache = {}
-
-local function get_jq_times(y)
-    if not jq_year_cache[y] then jq_year_cache[y] = getJQ(y) end
-    return jq_year_cache[y]
-end
 
 -- 返回距下一次该节气的天数和它的公历日期(MM-DD)；非节气名返回 nil
 local function next_jieqi_days(name)
@@ -1592,7 +1590,7 @@ local function translator(input, seg)
         yield(candidate)
 
         -- 6) 农历（含节气）
-        date = Date2LunarDate(os.date("%Y%m%d")) .. JQtest(os.date("%Y%m%d"))
+        date = Date2LunarDate(os.date("%Y%m%d")) .. getDayJQ(os.date("%Y%m%d"))
         candidate = Candidate("date", seg.start, seg._end, date, "")
         yield(candidate)
 
@@ -1656,7 +1654,7 @@ local function translator(input, seg)
 
         -- 农历
     elseif (input == "nl" or input == "nylk") then
-        date = Date2LunarDate(os.date("%Y%m%d")) .. JQtest(os.date("%Y%m%d"))
+        date = Date2LunarDate(os.date("%Y%m%d")) .. getDayJQ(os.date("%Y%m%d"))
         candidate = Candidate("date", seg.start, seg._end, date, "")
         yield(candidate)
 
