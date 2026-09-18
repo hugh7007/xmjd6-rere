@@ -1,4 +1,4 @@
-﻿# Rime schema settingsjffh
+# Rime schema settings
 # encoding: utf-8
 # 方案维护者：Proud丶Cat、热热佬、仰望星空、一生浮生
 # 方案溯源：星空键道6.2 →  🐈星猫键道6.3
@@ -298,7 +298,6 @@ eng_quick_mode:
 
 #↓O 模式五笔画查字（参考 Attiv/jd6 f9e9cab：O 键改五笔画直接查字）
 #  仅保留常用层 xmjd6.o（约 2 万字，由 xmjd6.ostroke_common 提供）。
-#  已移除：xmjd6.stroke.schema.yaml、dependencies 里的 xmjd6.stroke、xmjd6.oemoji（ow 表情）。
 xmjd6gbk:
   tag: xmjd6gbk
   dictionary: xmjd6.o
@@ -313,7 +312,7 @@ o_number_select:
   tag: xmjd6gbk      # 只在该 tag 的分段里生效
   page_size: 0       # 0 = 自动读 menu/page_size（当前 5）
   max_index: 9       # 第一页时 1~9 都能直接选（不必翻页）
-  debug: true        # 诊断用：写 %TEMP%\o_number_select.log；稳定后改 false
+  debug: false        # 诊断用：写 %TEMP%\o_number_select.log；稳定后改 false
 
 pinyin_simp_lookup:
   tags: [pinyin_simp]
