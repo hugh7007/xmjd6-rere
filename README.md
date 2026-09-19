@@ -1,6 +1,8 @@
-**仓库说明：** 本仓库 `xmjd6-rere` 是星猫键道6 的唯一仓库。
+**重要时间节点：** 
+历经几年功能迭代的纯打字纯净版 xmjd6 在今天正式划上句号。
+纯打字版本已更新到无可再更，发布后即为最后一版，后续作为独立分支，大概率不再更新，留给纯喜欢打字的人使用。
 
-作者喜好更偏娱乐性质，后续会持续放新更新，内容偏杂偏多，包括但不限于：整句回归与自造词优化、i 键英文联想、等号工具集加强、花体回归、辫子 `/` 文本加工等。
+作者喜好更偏娱乐性质，后续主版本会放新更新，内容偏杂偏多，包括但不限于：整句回归与自造词优化、i 键英文联想、等号工具集加强、花体回归、辫子 `/` 文本加工等。
 详细内容可从内置教程查看。
 
 ---
@@ -152,12 +154,7 @@
 
 ## 如何使用
 
-将 [GitHub Release](https://github.com/hugh7007/xmjd6-rere/releases/) 中的 [xmjd6.zip](https://github.com/hugh7007/xmjd6-rere/releases/latest/download/xmjd6.zip)（顶功星猫键道6）导入至 librime ≥ 1.9.0 的 Rime 输入法的用户文件夹中使用。
-
-> 另有一个 [feiding-xmjd6.zip](https://github.com/hugh7007/xmjd6-rere/releases/latest/download/feiding-xmjd6.zip)（非顶星猫键道6）：内容与顶功版**完全一致**，唯一区别是开启了整句输入（`translator/enable_sentence: true`），开启后**顶功会自动禁用**。按需选用。
->
-> ⚠️ GitHub Release 的附件名**不支持非 ASCII 字符**（服务端会清洗，中文名会退化成 `6.zip`），
-> 所以这里只有英文名。想下载中文名版本请到 [CNB 镜像 Release](https://cnb.cool/xmjd6/xmjd6/-/releases/package-latest)（`顶功星猫键道6.zip` / `非顶星猫键道6.zip`）。
+将 [GitHub Release](https://github.com/hugh7007/xmjd6-rere/releases/) 中的 [xmjd6.zip](https://github.com/hugh7007/xmjd6-rere/releases/latest/download/xmjd6.zip) 导入至 librime ≥ 1.9.0 的 Rime 输入法的用户文件夹中使用。
 
 - **Windows：**
   - 小狼毫
