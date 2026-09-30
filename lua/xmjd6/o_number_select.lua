@@ -21,7 +21,7 @@
 -- 配置：
 --   o_number_select:
 --     prefix: "o"     tag: xmjd6gbk    page_size: 0(自动)    max_index: 9
---     debug: true     # 诊断：写 C:\Users\yao\AppData\Local\Temp\o_number_select.log
+--     debug: false    # 诊断开关，默认 false；true 时才写 %TEMP%\o_number_select.log
 
 local kAccepted = 1
 local kNoop = 2
@@ -160,15 +160,17 @@ local function init(env)
     local okd, dbg = pcall(function() return config:get_bool("o_number_select/debug") end)
     DEBUG = (okd and dbg == true)
 
-    -- 无条件打 INIT（判断模块是否真的被加载），带版本标记
-    local okf, f = pcall(io.open, DEBUG_PATH, "a")
-    if okf and f then
-        f:write(os.date("%H:%M:%S") .. " INIT v4 debug=" .. tostring(DEBUG)
-            .. " prefix=" .. tostring(env.prefix)
-            .. " tag=" .. tostring(env.tag)
-            .. " page_size=" .. tostring(env.page_size)
-            .. " max_index=" .. tostring(env.max_index) .. "\n")
-        f:close()
+    -- INIT 也只在 debug 开启时才记录（旧版本无条件写 %TEMP%，会无限增长）
+    if DEBUG then
+        local okf, f = pcall(io.open, DEBUG_PATH, "a")
+        if okf and f then
+            f:write(os.date("%H:%M:%S") .. " INIT v4 debug=true"
+                .. " prefix=" .. tostring(env.prefix)
+                .. " tag=" .. tostring(env.tag)
+                .. " page_size=" .. tostring(env.page_size)
+                .. " max_index=" .. tostring(env.max_index) .. "\n")
+            f:close()
+        end
     end
 end
 
