@@ -1,2 +1,0 @@
-# xmjd6 dynamic phrases
-# text<TAB>code; edited by '/'' commands
