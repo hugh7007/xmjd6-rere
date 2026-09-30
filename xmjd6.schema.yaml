@@ -43,9 +43,21 @@ layout:
     special: "^(?:;?[avuio])[a-z]{0,}"
 
 switches:
+  # states 是开关在方案选单（Ctrl+` / F4）里的显示名。
+  # 保持完整中文名，便于辨认；折叠行的长短由 switcher/fold_options 控制（见 default.custom.yaml）。
+  #
+  # ⚠️ 本列表的顺序 = 平铺模式下菜单里开关的显示顺序（fold_options: false 时逐条渲染）。
+  #    因此 single_char_first 放在第 2 位（ascii_mode 之后），菜单里就会显示为第 4 项
+  #    （前两项是 schema_list 的方案名，第 3 项是 ascii_mode「中文→西文」）。
+  #
+  # ❗ 动过这里的顺序，就必须同步更新 xmjd6.custom.yaml 里的 switches/@N/reset —— 
+  #    那里的 N 是 0 起始下标，顺序一变全部错位！
   - name: ascii_mode
     states: [ 中文, 西文 ]
     reset: 0
+  - name: single_char_first       # 下标 @1：同码单字优先（放在此处以便在菜单中靠前显示）
+    states: [ 单字优先关, 单字优先开 ]
+    reset: 1                      # 兜底默认；实际默认以 xmjd6.custom.yaml 的 switches/@1/reset 为准（当前=0，即默认关）
   - name: full_shape
     states: [ 半角, 全角 ]
   - name: jffh
@@ -54,11 +66,14 @@ switches:
     states: [ 地球文, 火星文 ]
     reset: 0
   - name: tofu
-    states: [ 不替换空字, 替换显示 ]
+    # 故意不给 states：[显示用开关] 「不替换空字/替换显示」太长且不常用，
+    # 不写 states 后该项就不会出现在 Ctrl+` 折叠行里（librime 跳过无 states 的开关）。
+    # 功能不受影响：tofu 选项仍由 option_name: tofu 的 simplifier 正常读取，
+    # 仍可用「手机 & 键」以外的既有方式切换，只是不在折叠行显示状态文字。
   - name: ascii_punct
     states: [ 。，, ．， ]
   - name: emoji_cn   #Emoji开关
-    states: [ 关闭emj,开启emj  ]
+    states: [ 关闭emj, 开启emj ]
     reset: 1
   - name: wxw_hint # 逐码是否显示630
     states: [ "关₆₃₀", "开₆₃₀" ]
@@ -73,12 +88,16 @@ switches:
     states: [ 快符关, 快符开 ]
     reset: 1
   - name: embeded_cands
-    states: [内嵌正常, 输入框显示候选]
+    states: [ 内嵌正常, 输入框显示候选 ]
+    reset: 0
   - name: eng_space
     states: [ 英文不加空格, 英文自动加空格 ]
     reset: 1
   - name: sentence_mode_enabled
-    states: [ 连打关, 连打开 ]
+    # 故意不给 states：[显示用开关] 「连打关/连打开」不常看，
+    # 不写 states 后该项就不会出现在 Ctrl+` 折叠行里。
+    # 功能不受影响：该选项仍由 sentence_buffer.lua / quick_symbol.lua
+    # 通过 context:get_option("sentence_mode_enabled") 正常读取。
     reset: 1
   - name: punct_direct_enabled   # 符号直接上屏开关
     states: [ 符号直接上屏, 符号编辑模式 ]
@@ -97,25 +116,22 @@ engine:
     - lua_processor@*xmjd6/key_counter  # 打字统计计键（内存版）：始终放行，须在一切可能吞键的 processor 之前
     - lua_processor@*xmjd6/help_panel   # =? 帮助面板：空格执行高亮功能、数字 1~9 直选当页功能（仅 input 恰为 =? 时接管）
     - lua_processor@*xmjd6/xmjd6_select_character  # 以词定字
-    - lua_processor@*xmjd6/dict_search_trigger    # ? 触发：词库模糊查询（尽量靠前避免被截胡）
+    - lua_processor@*xmjd6/dict_search    # ? 触发：词库模糊查询（尽量靠前避免被截胡；与 translator 合并在同一文件）
     - lua_processor@*xmjd6/text_transform        # Ctrl+G：捕获当前候选并打开 =wrap 加工面板
     - lua_processor@*xmjd6/app_launcher            # =o 应用启动器：=oc计算器/=ol日历/=os设置
-    - lua_processor@*xmjd6/dynamic_phrase_processor  # '/'' 动态自造词
+    - lua_processor@*xmjd6/dynamic_phrase  # '/'' 动态自造词（与 translator 合并在同一文件）
     - lua_processor@*xmjd6/candidate_order_processor  # 0：调频；默认提第二候选，已高亮则提当前高亮候选
     - lua_processor@*xmjd6/quick_symbol        # ;q/~ ;a/! ;w/? 等唯一符号码自动上屏
     - lua_processor@*xmjd6/direct_ascii        # 空码数字和英文句点直接上屏：2. 不再等待空格
     - ascii_composer
     - lua_processor@*xmjd6/o_number_select       # o 模式：数字 1~9 选中当页候选并上屏（须早于 recognizer/topup）
-    - lua_processor@*xmjd6/sentence_mode_toggle # Switcher 关闭连打时，空码 ' 输出普通撇号
     - lua_processor@*xmjd6/sentence_buffer # 空格/'/顶功暂存；双空格整句上屏；回车上屏原编码
-    - lua_processor@*xmjd6/eng_quick_processor # i 前缀英文：空格分词、双空格/回车上屏
+    - lua_processor@*xmjd6/eng_quick # i 前缀英文：空格分词、双空格/回车上屏（与 translator 合并在同一文件）
     - recognizer
     - key_binder    
-    - lua_processor@*xmjd6/xmjd6_smart_2    # ; 和 ' 均放行给 speller；保留占位以稳定配置索引
     - lua_processor@*xmjd6/xmjd6_topup_processor   #这个注释后不会顶功，使用流式请注释这两行
     - lua_processor@*xmjd6/auto_fallback   #空码自动上屏前面首选
-    - lua_processor@*xmjd6/add_ge
-    - lua_processor@*xmjd6/bianzi
+    - lua_processor@*xmjd6/phrase_decorate  # 加"个"模式 / 辫子模式（两键互不重叠，同一文件分派）
     - lua_processor@*xmjd6/backtick_handler  # ` 单独+空格→全角｀，+回车→半角`
     - speller
     - punctuator
@@ -135,19 +151,19 @@ engine:
     - punct_segmentor
     - fallback_segmentor
   translators:
-    - lua_translator@*xmjd6/app_launcher_translator   # =o 应用启动器候选提示
+    - lua_translator@*xmjd6/app_launcher   # =o 应用启动器候选提示
     - lua_translator@*xmjd6/dynamic_phrase   # '词'编码、''词 动态自造词
     - lua_translator@*xmjd6/candidate_order  # candidate_order.txt 调频/挪码，改文件后无需重新部署
-    - lua_translator@*xmjd6/quick_symbol_translator # 快捷符号唯一候选提示
-    - lua_translator@*xmjd6/text_transform_translator # =wrap / =join/N 文本加工
+    - lua_translator@*xmjd6/quick_symbol # 快捷符号唯一候选提示
+    - lua_translator@*xmjd6/text_transform # =wrap / =join/N 文本加工
     - lua_translator@*xmjd6/xmjd6_tools      # = 工具集：=uuid / =pw密码 / =mem内存 / =时间戳
     - lua_translator@*xmjd6/input_statistics  # 打字统计面板：=tj今日/=qb全部/=yf7天/=yy30天/=yn365天/=jq本设备/=wx查某天/=wk文字皮肤
     - lua_translator@*xmjd6/number_tools     # 金额、进制、单位转换
     - lua_translator@*xmjd6/xmjd6_jisuanqi
     - lua_translator@*xmjd6/xmjd6_shijian
-    - lua_translator@*xmjd6/zimu
-    - lua_translator@*xmjd6/xmjd6_shuzi
-    - lua_translator@*xmjd6/unicode
+    - lua_translator@*xmjd6/text_utils@zimu    # \abc 字母数字转数学粗体字形
+    - lua_translator@*xmjd6/text_utils@shuzi   # =数字 转大小写汉字
+    - lua_translator@*xmjd6/text_utils@unicode # U62fc 转对应 Unicode 字符
     - lua_translator@*xmjd6/dict_search    # ? 触发：词库模糊查询结果
     - table_translator@sentence_mode       # ' 前缀当前分段候选
     - punct_translator
@@ -155,7 +171,7 @@ engine:
     - reverse_lookup_translator
 
     - table_translator@xmjd6_user
-    - lua_translator@*xmjd6/eng_quick  # i 前缀快捷英文候选
+    - lua_translator@*xmjd6/eng_quick  # i 前缀快捷英文候选（与 processor 合并在同一文件）
     - lua_translator@*xmjd6/repeat_history
     - history_translator@repeat_history2
     - script_translator@quanpinerfen
@@ -166,19 +182,20 @@ engine:
     - reverse_lookup_filter@pinyin_simp_lookup
     - reverse_lookup_filter@quanpinerfen_lookup
     - lua_filter@*xmjd6/cx_pinyin_hint # 反查/单字候选追加拼音提示，拼音只从源注释读取，不进入 prism
-    - lua_filter@*xmjd6/candidate_order_filter # 隐藏 candidate_order.txt 中被挪走的原候选；尽早执行避免 bq/te 海量候选卡顿
+    - lua_filter@*xmjd6/candidate_order # 隐藏 candidate_order.txt 中被挪走的原候选；尽早执行避免 bq/te 海量候选卡顿
     - lua_filter@*xmjd6/lazy_simplifier@emoji_cn #按需加载的 emoji,降低常驻内存
     - lua_filter@*xmjd6/for_hint
+    - lua_filter@*xmjd6/single_char_first # 同码单字优先：单字浮到词前面；纯内存稳定分区，不扫码表不查反查
     - simplifier@jffh
     - simplifier@ascii_punct
     - lua_filter@*xmjd6/lazy_simplifier@mars #按需加载的火星文
     - lua_filter@*xmjd6/lazy_simplifier@tofu # 雪松佬替换手机上显示不出来的字
     
     - lua_filter@*xmjd6/xmjd6_embeded_cands@embeded_cands #嵌入候选
-    - lua_filter@*xmjd6/split
-    - lua_filter@*xmjd6/add_space # | 替换成空格
+    - lua_filter@*xmjd6/text_cleanup@split # 含空格候选按 ` 拆分正文与注释
+    - lua_filter@*xmjd6/text_cleanup@add_space # | 替换成空格
     - lua_filter@*xmjd6/add_en_space # 英文上屏自动加空格
-    - lua_filter@*xmjd6/text_transform_preedit # 隐藏 / 加工面板内部使用的 =wrap 编码
+    - lua_filter@*xmjd6/text_transform # 隐藏 / 加工面板内部使用的 =wrap 编码（与 processor/translator 合并在同一文件）
     - lua_filter@*xmjd6/jieqi_countdown # 节气候选追加倒计时
     - uniquifier
 
@@ -217,6 +234,12 @@ candidate_order:
   enabled: true  # 总开关；false 时 0 不再调频，也不读取/显示/隐藏 candidate_order 记录
   store_file: candidate_order.txt
   hotkey: "0"
+  # 空码自动顺延：某个码没有精确候选、只剩补全候选时，按非字母键（空格/数字/回车/←→…）
+  # 就把该码第一位的补全候选就地落成真候选，等价于对它按一次 0。
+  # ★ 值写 "enable" 开启、"disable" 关闭；键不存在或写成别的值一律当**开**。
+  #   别写 true/false：部署器会规范化标量，librime 的 get_bool 对「未配置」
+  #   也返回 false，无法区分「关了」和「忘配」。也尽量别用 on/off（YAML 里可能是布尔）。
+  auto_cascade: "enable"
 
 quick_symbol:
   enabled: true
@@ -394,6 +417,17 @@ embeded_cands:
 for_hint:
   max_hint_candidates: 50        # 0 表示不限
   max_completion_candidates: 30  # completion 候选数量上限
+
+# 同码单字优先：把候选框里的「单字」排到「多字词」前面。
+# 实现见 lua/xmjd6/single_char_first.lua（单文件，纯内存稳定分区，无性能负担）。
+# 运行时开关是 switches 里的 single_char_first（下标 @1）；下面的 enabled 只是兜底默认值。
+# 日常调整请改 xmjd6.custom.yaml，改本文件需重新部署。
+single_char_first:
+  enabled: true            # 兜底默认值；运行时以 switches 选项为准
+  option_name: single_char_first  # Switcher 运行时开关名（见上方 switches）
+  min_candidates: 4        # 候选数达到该值才重排；候选很少时原样透传
+  keep_phrases: 1          # 置顶保留前 N 个不动（1 = 首选永远保留原位）
+  max_scan: 0              # 最多处理多少候选；0 = 不限
 
 # punctuator:
 #   import_preset: default

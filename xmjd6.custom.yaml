@@ -15,6 +15,7 @@ patch:
   embeded_cands/max_candidates: 50    # 输入框内嵌候选上限；0 表示不限
 
   # ===== 功能总开关 =====
+  single_char_first/enabled: true           # 同码单字优先（兜底默认值，见下方 switches/@1）；运行时以开关为准
   candidate_order/enabled: true             # 动态调频；false 时按 0 不调频
   quick_symbol/enabled: true                # 快捷符号
   direct_ascii/symbols: ".,:!?"             # 空码直接上屏；避免加入 ; ' / = \
@@ -24,19 +25,35 @@ patch:
   text_transform/sentence_prefix: "a"       # 整句模式前缀（与 sentence_mode/prefix 同步）
   direct_ascii/empty_code_topup: true       # 顶功模式是否追顶
 
+  # ===== 同码单字优先微调 =====
+  # 效果：候选框里单字浮到多字词前面，如 ds → 大 妲 打 瘩 答 达 …
+  # 原理：稳定分区（只调次序、不改权重），不影响调频、完整度与性能。
+  single_char_first/min_candidates: 4       # 候选数达到该值才重排；候选少时原样输出
+  single_char_first/keep_phrases: 1         # 置顶保留前 N 个不动；1=首选永远留在原位
+  single_char_first/max_scan: 0             # 最多处理多少候选；0 表示不限
+
   # ===== 各状态开关的默认值 =====
-  # switches 序号来自 xmjd6.schema.yaml；1=默认开启，0=默认关闭。
-  # 以下 3 个在 schema.yaml 中已固定 reset: 1，无需在 custom 中覆盖：
-  switches/@6/reset: 1                # Emoji
-  switches/@7/reset: 1                # 630 简码提示
-  switches/@8/reset: 1                # 逐码候选
-  switches/@10/reset: 1               # 快符开关,    1=开（候选模式），0=关（直接上屏）
-  switches/@14/reset: 1               # 符号\$*/这些会直接上屏；1=开（候选模式），0=关（直接上屏）；& 已独立，不受此开关控制
-  switches/@15/reset: 1               # 等号直接上屏；1=开（候选模式），0=关（直接上屏）
-  # switches/@11/reset: 0             # 输入框内嵌候选；需要默认关闭时取消注释
-  # switches/@9/reset: 1            # 动态调频
-  # switches/@12/reset: 1           # 英文自动加空格
-  # switches/@13/reset: 1           # 连打模式
+  # 注意：switches/@N 的 N 是 0 起始下标，即 @0 对应 xmjd6.schema.yaml 中 switches 列表的第一个开关。
+  # ❗ 该映射与 schema 里 switches 的【声明顺序】严格对应，顺序一变必须同步改这里，否则默认值全部错位！
+  # 当前对应关系（2026-09-20 调整：single_char_first 前移到第 2 位，以便在 Ctrl+` 菜单里靠前显示）：
+  #   @0 ascii_mode   @1 single_char_first
+  #   @2 full_shape   @3 jffh         @4 mars      @5 tofu
+  #   @6 ascii_punct  @7 emoji_cn     @8 wxw_hint  @9 completion
+  #   @10 candidate_order_enabled     @11 quick_symbol_enabled
+  #   @12 embeded_cands               @13 eng_space  @14 sentence_mode_enabled
+  #   @15 punct_direct_enabled        @16 equal_direct_enabled
+  # 1=默认开启，0=默认关闭。
+  switches/@1/reset: 0                # 单字优先；1=开，0=关
+  switches/@7/reset: 1                # Emoji
+  switches/@8/reset: 1                # 630 简码提示
+  switches/@9/reset: 1                # 逐码候选
+  switches/@11/reset: 1               # 快符开关，  1=开（候选模式），0=关（直接上屏）
+  switches/@12/reset: 0               # 输入框内嵌候选；0=关，1=开
+  switches/@15/reset: 1               # 符号\$*/这些会直接上屏；1=开（候选模式），0=关（直接上屏）；& 已独立，不受此开关控制
+  switches/@16/reset: 1               # 等号直接上屏；1=开（候选模式），0=关（直接上屏）
+  # switches/@10/reset: 1           # 动态调频
+  # switches/@13/reset: 1           # 英文自动加空格
+  # switches/@14/reset: 1           # 连打模式
 
   # ===== 重复上屏记忆数量 =====
   repeat_history/size: 5              # 输入 i 时显示最近多少条
