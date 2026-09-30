@@ -144,21 +144,53 @@ jobs:
       uses: actions/github-script@v8
       with:
         script: |
+          const owner = context.repo.owner;
+          const repo = context.repo.repo;
           const lastRelease = await github.rest.repos.getLatestRelease({
-            owner: context.repo.owner,
-            repo: context.repo.repo
+            owner: owner,
+            repo: repo
           });
-          const compare = await github.rest.repos.compareCommits({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            base: lastRelease.data.tag_name,
-            head: 'xmjd6'
-          });
-          let changelog = '';
-          compare.data.commits.forEach(commit => {
+          const baseTag = lastRelease.data.tag_name;
+          const formatCommit = (commit) => {
             const message = commit.commit.message.split('\n').join(' ');
-            const commitLink = `[${commit.sha.substring(0, 7)}](https://github.com/${context.repo.owner}/${context.repo.repo}/commit/${commit.sha})`;
-            changelog += `- ${commitLink} ${message} \n`;
+            const commitLink = `[${commit.sha.substring(0, 7)}](https://github.com/${owner}/${repo}/commit/${commit.sha})`;
+            return `- ${commitLink} ${message} \n`;
+          };
+          let commits = [];
+          try {
+            const compare = await github.rest.repos.compareCommits({
+              owner: owner,
+              repo: repo,
+              base: baseTag,
+              head: 'xmjd6'
+            });
+            commits = compare.data.commits;
+          } catch (error) {
+            // 2026-09-30：两个 tag 之间含「整文件级重写」时（本例 xmjd6.fjcy.dict.yaml
+            // 101 万行按码重排，numstat +613880/-614272），GitHub 会拒绝生成 diff：
+            //   422 {"resource":"Comparison","field":"diff","code":"not_available"}
+            //   Server Error: Sorry, this diff is taking too long to generate.
+            // 该 step 之后的 Create Release 与全部上传步骤都会被 skip → 本次发布零产物。
+            // 降级方案：只要提交列表，不要 diff（listCommits 不生成 diff，且
+            // compare.data.commits 与 listCommits 返回的 commit 结构一致，可共用 formatCommit）。
+            core.warning(`compareCommits(${baseTag}...xmjd6) 失败：${error.message}；改用 listCommits 兜底生成 changelog`);
+            const tagRef = await github.rest.git.getRef({ owner: owner, repo: repo, ref: `tags/${baseTag}` });
+            let baseSha = tagRef.data.object.sha;
+            if (tagRef.data.object.type === 'tag') {
+              const tagObj = await github.rest.git.getTag({ owner: owner, repo: repo, tag_sha: baseSha });
+              baseSha = tagObj.data.object.sha;
+            }
+            const listed = await github.rest.repos.listCommits({ owner: owner, repo: repo, sha: 'xmjd6', per_page: 100 });
+            commits = [];
+            for (const commit of listed.data) {
+              if (commit.sha === baseSha) break;
+              commits.push(commit);
+            }
+            core.warning(`兜底取到 ${commits.length} 个提交（上限 100）`);
+          }
+          let changelog = '';
+          commits.forEach(commit => {
+            changelog += formatCommit(commit);
           });
           core.setOutput('changelog', changelog);
 
