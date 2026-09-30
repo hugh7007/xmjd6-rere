@@ -1,7 +1,7 @@
 -- mem_cleaner.lua
 -- 可释放缓存的全局注册表。
 -- 各脚本把"清空自己缓存"的回调注册进来；iOS 端键盘收起时发送
--- CLEAR_CACHE_KEYCODE（由 dict_search_trigger 接收），统一调用 release_all()
+-- CLEAR_CACHE_KEYCODE（由 dict_search.lua 的 processor 接收），统一调用 release_all()
 -- 一次性释放所有 Lua 缓存并触发 GC。
 --
 -- 用法：

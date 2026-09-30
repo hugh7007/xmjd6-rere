@@ -1,6 +1,6 @@
 -- repeat_history.lua
 -- Cross-context repeat-history candidates backed by the global commit history
--- maintained by dynamic_phrase_processor.lua.
+-- maintained by dynamic_phrase.lua.
 
 local M = {}
 

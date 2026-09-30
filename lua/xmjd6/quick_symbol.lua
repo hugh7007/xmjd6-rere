@@ -366,8 +366,18 @@ function M.translator(input, seg, env)
     end
 end
 
-function M.func(key, env)
-    return M.processor(key, env)
+-- ════════════════════════════════════════════════════════════════
+-- 导出：librime-lua 的 raw_init 一律硬取 .func，schema 里的 @ 后缀
+-- 只落进 env.name_space，不参与选函数。本模块同时被 processor 与
+-- translator 挂载，故 .func 按第 1 参类型分流：
+--   processor 第 1 参是 KeyEvent（表，带 :repr()）
+--   translator 第 1 参是 string（input）
+-- ════════════════════════════════════════════════════════════════
+function M.func(first, second, third)
+    if type(first) == "string" then
+        return M.translator(first, second, third)
+    end
+    return M.processor(first, second)
 end
 
 return M

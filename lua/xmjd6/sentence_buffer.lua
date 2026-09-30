@@ -52,7 +52,8 @@ function M.init(env)
   env.topup_min=math.max(1,c:get_int('topup/min_length') or 4)
   env.topup_max=math.max(env.topup_min,c:get_int('topup/max_length') or 6)
   env.topup_command=c:get_bool('topup/topup_command')
-  local ok,p=pcall(require,'xmjd6.protected_codes'); env.protected_codes=ok and p.load() or {}
+  -- protected_codes 已并入 xmjd6_topup_processor.lua（不再单独成文件）
+  local ok,p=pcall(require,'xmjd6.xmjd6_topup_processor'); env.protected_codes=(ok and p.protected_codes) and p.protected_codes.load() or {}
 end
 function M.func(a,b) return M.processor(a,b) end
 return M

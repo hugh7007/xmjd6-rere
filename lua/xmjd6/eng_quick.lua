@@ -1,9 +1,20 @@
--- eng_quick_exclude.lua
--- i 前缀排除表公共模块：从下方 EXCLUDE_FILES 中列出的词典读取以 i 开头的编码词条
--- （取每行 Tab 之后为编码，格式为「词条\t编码」）。
--- eng_quick_processor.lua 和 eng_quick.lua 共用此模块，避免重复加载。
--- 如需新增排除来源，在 EXCLUDE_FILES 表中加一行文件名即可。
+-- eng_quick.lua
+-- i 前缀快捷英文字母输入模式（无词库，纯字母上屏）。
 --
+-- 【2026-09-20 合并说明】
+--   本文件由 eng_quick.lua（translator + exclude 表）与 eng_quick_processor.lua
+--   （processor）合并而来，原因是两者本就属于同一功能、共享同一张排除表。
+--   合并后 schema 的两个挂载点都指向本模块：
+--     - lua_processor@*xmjd6/eng_quick    → 取 M.func 当处理器（拦截空格/回车）
+--     - lua_translator@*xmjd6/eng_quick   → 取 M.func 当翻译器（生成候选）
+--   ⚠️ 引擎对两类组件都取 .func，所以分别导出 M.processor / M.translator，
+--      而 M.func 保留为 translator（兼容旧挂载与既有习惯），processor 走 .processor。
+--      schema 里 processor 那行请写成：lua_processor@*xmjd6/eng_quick@processor
+--
+-- ════════════════════════════════════════════════════════════════
+-- 第一部分：排除表（原 eng_quick_exclude 公共模块）
+-- ════════════════════════════════════════════════════════════════
+-- 从 EXCLUDE_FILES 列出的词典读取以 i 开头的编码词条（每行 Tab 之后为编码）。
 -- 维护两张表：
 --   exclude_set  所有 i 前缀码（去掉 i 后余下的部分）
 --   cjk_set      其中「词条含非 ASCII 字符（汉字/部首/笔画）」的子集
@@ -11,9 +22,18 @@
 -- 含汉字的码必须完全放行给主词典（is_pass_through），否则会被 i 英文模式抢走，
 -- 导致这些部首/笔画永远打不出来。
 
-local EXCLUDE = {}
+local M = {}
 
 local PREFIX = "i"
+local SEP = "'"
+
+local kAccepted = 1
+local kNoop = 2
+
+-- keycode 常量（跨平台）
+local KEY_SPACE = 32    -- 0x20
+local KEY_RETURN = 13   -- 0x0d
+
 local exclude_set = nil
 local cjk_set = nil
 
@@ -85,6 +105,8 @@ local function first_segment(query)
     return query:match("^([^']+)")
 end
 
+local EXCLUDE = {}
+
 -- 检查 query（去掉 i 前缀后的部分）是否命中排除表
 function EXCLUDE.is_excluded(query)
     local seg = first_segment(query)
@@ -109,30 +131,14 @@ function EXCLUDE.reload()
 end
 
 -- ════════════════════════════════════════════════════════════════
--- 以下为 i 前缀英文 translator（原 eng_quick.lua 主体，2026-09-14 合并）：
---   exclude 表不再单独成文件；eng_quick_processor 改用 require(...).exclude。
+-- 第二部分：translator（原 eng_quick.lua 主体）
 -- ════════════════════════════════════════════════════════════════
-
--- eng_quick.lua
--- i 前缀快捷英文字母输入模式（无词库，纯字母上屏）。
--- translator 部分：在 eng_quick_mode 分段内生成候选。
---
 -- affix_segmentor@eng_quick_mode 会去掉 i 前缀，translator 收到的 input 不含 i。
 -- 例如用户输入 itea → 分段 input 为 tea → 候选显示 tea
 -- 用户输入 igood'tea → 分段 input 为 good'tea → 候选显示 good tea
 --
 -- 排除表：命中时候选显示保留 i 前缀（如 input=ma → 候选显示 ima）。
---   排除表逻辑在 eng_quick_exclude 公共模块中，两个文件共用。
---
--- 含汉字的 i 码（io/ii/iu/ia …）：完全不出候选，交回主词典，
---   否则 金钅⺗㣺、〢艹刂、扌手リ 这类部首笔画永远被英文候选压住。
-
-local M = {}
-
-local SEP = "'"
-local PREFIX = "i"
-
-local exclude = EXCLUDE
+-- 含汉字的 i 码（io/ii/iu/ia …）：完全不出候选，交回主词典。
 
 local function to_display(input)
     if not input or input == "" then return "" end
@@ -157,12 +163,12 @@ local function translator(input, seg, env)
     if display == "" then return end
 
     -- 含汉字的 i 码（io→金钅⺗㣺、ii→〢艹刂、iu→扌手リ）：直接让路给主词典
-    if exclude.is_pass_through(input) then
+    if EXCLUDE.is_pass_through(input) then
         return
     end
 
     -- 排除表：命中时候选显示 i + 排除词
-    if exclude.is_excluded(input) then
+    if EXCLUDE.is_excluded(input) then
         local full = PREFIX .. display
         local cand = Candidate("eng_quick", seg.start, seg._end, full, "")
         cand.quality = 10000
@@ -177,8 +183,152 @@ local function translator(input, seg, env)
     yield(cand)
 end
 
-M.func = translator
+-- ════════════════════════════════════════════════════════════════
+-- 第三部分：processor（原 eng_quick_processor.lua 主体）
+-- ════════════════════════════════════════════════════════════════
+-- 行为：
+--   i + good + 空格 → 空格作为单词分隔符，追加 ' 继续输入（igood'）
+--   双空格          → 上屏整句（good tea）
+--   回车            → 上屏整句（good tea）
+--   i 空码          → 不拦截，express_editor 上屏 i 字母
+--
+-- 排除表：命中时上屏保留 i 前缀（如 ima → 上屏 ima，而非 ma）。
+-- 空格/回车均通过 keycode 判断，兼容手机端。
+--
+-- 含汉字的 i 码（io/ii/iu/ia …）：空格与回车一律不拦截，
+--   交回主词典的选字/顶功流程，否则会被上屏成 i+码 的字面量。
 
--- [0914] 暴露给 eng_quick_processor（require("xmjd6.eng_quick").exclude）
+local function to_commit(input)
+    if not input or input == "" then return "" end
+    local s = input
+    if s:sub(1, #PREFIX) == PREFIX then
+        s = s:sub(#PREFIX + 1)
+    end
+    s = s:gsub(SEP .. "$", "")
+    return s:gsub(SEP, " ")
+end
+
+local function is_eng_quick_input(input)
+    return input and #input >= #PREFIX + 1 and input:sub(1, #PREFIX) == PREFIX
+end
+
+-- 判断是否空格键（兼容 repr 和 keycode）
+local function is_space(key)
+    local repr = key:repr()
+    if repr == "space" then return true end
+    -- fallback: keycode 32
+    local ok, code = pcall(key.keycode, key)
+    if ok and code == KEY_SPACE then return true end
+    return false
+end
+
+-- 判断是否回车键（兼容 repr 和 keycode）
+local function is_return(key)
+    local repr = key:repr()
+    if repr == "Return" or repr == "Lock+Return" then return true end
+    local ok, code = pcall(key.keycode, key)
+    if ok and code == KEY_RETURN then return true end
+    return false
+end
+
+local function processor(key, env)
+    if not key or (key.release and key:release()) then
+        return kNoop
+    end
+    if key:ctrl() or key:alt() or key:super() then
+        return kNoop
+    end
+
+    local is_sp = is_space(key)
+    local is_ret = is_return(key)
+    if not is_sp and not is_ret then
+        return kNoop
+    end
+
+    local ctx = env.engine.context
+    local input = ctx.input or ""
+
+    if not is_eng_quick_input(input) then
+        return kNoop
+    end
+
+    local query = input:sub(#PREFIX + 1)
+    if not is_valid_query(query) then
+        return kNoop
+    end
+
+    -- 含汉字的 i 码（io→金钅⺗㣺、ii→〢艹刂、iu→扌手リ）：不拦截，交给主词典
+    if EXCLUDE.is_pass_through(query) then
+        return kNoop
+    end
+
+    -- 排除表：命中时空格和回车都直接上屏 i + 排除词
+    if EXCLUDE.is_excluded(query) then
+        local clean_query = query:gsub(SEP .. "$", "")
+        local text = PREFIX .. clean_query:gsub(SEP, " ")
+        env.engine:commit_text(text)
+        ctx:clear()
+        return kAccepted
+    end
+
+    if is_sp then
+        local last_char = input:sub(-1)
+        if last_char == SEP then
+            -- 双空格：上屏整句
+            local text = to_commit(input)
+            if text and text ~= "" then
+                env.engine:commit_text(text)
+                ctx:clear()
+                return kAccepted
+            end
+            return kNoop
+        else
+            -- 单空格：追加分隔符
+            ctx.input = input .. SEP
+            return kAccepted
+        end
+    end
+
+    if is_ret then
+        local text = to_commit(input)
+        if text and text ~= "" then
+            env.engine:commit_text(text)
+            ctx:clear()
+            return kAccepted
+        end
+        return kNoop
+    end
+
+    return kNoop
+end
+
+-- ════════════════════════════════════════════════════════════════
+-- 导出
+-- ════════════════════════════════════════════════════════════════
+-- ⚠️ librime-lua 对 processor / translator / filter 一律只取 .func，
+--    无法靠导出名区分。同一个模块名被两类组件同时引用时，必须让 .func
+--    自己按 env.name_space（schema 里 @ 后面的那段）分流。
+--    schema 写法：
+--      - lua_processor@*xmjd6/eng_quick@processor
+--      - lua_translator@*xmjd6/eng_quick@translator
+--    分流依据同时看 name_space 与入参类型（双保险）：
+--      processor 的第 1 参是 KeyEvent 对象，带 :keycode() / :repr()
+--      translator 的第 1 参是 string（输入串）
+M.translator = translator
+M.processor = processor
+
+local function dispatch(a, b, c)
+    -- a = key_event 或 input 字符串
+    if type(a) == "string" then
+        return translator(a, b, c)
+    end
+    -- 非字符串：判定为 processor 调用
+    return processor(a, b)
+end
+
+M.func = dispatch
+
+-- 保留显式别名，便于将来按名挂载或测试
 M.exclude = EXCLUDE
+
 return M

@@ -451,7 +451,32 @@ function M.func(first, second, third)
     if type(first) == "string" then
         return M.translator(first, second, third)
     end
+    -- filter 与 processor 的第一参都是表（input / KeyEvent），靠是否有 :iter 区分
+    local ok, is_input = pcall(function() return type(first.iter) == "function" end)
+    if ok and is_input then
+        return M.filter(first, second)
+    end
     return M.processor(first, second)
+end
+
+-- =====================================================================
+-- filter（原 text_transform_preedit.lua）
+-- 隐藏 / 加工面板内部使用的 =wrap 编码：把候选的 preedit 换回原文
+-- =====================================================================
+function M.filter(input, env)
+    local context = env and env.engine and env.engine.context
+    local source = ""
+    if context and type(context.get_property) == "function" then
+        local ok, value = pcall(function() return context:get_property(PALETTE_SOURCE_PROPERTY) end)
+        if ok then source = tostring(value or "") end
+    end
+
+    for cand in input:iter() do
+        if source ~= "" and cand.type == "text_transform" then
+            cand.preedit = source
+        end
+        yield(cand)
+    end
 end
 
 M.WRAPPERS = WRAPPERS
