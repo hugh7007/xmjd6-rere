@@ -18,15 +18,23 @@ patch:
     # - Alt+grave
     - Control+Shift+grave
   
-  "switcher/save_options/+":
-    - full_shape
-    - jffh
-    - tofu
-    - embeded_cands
-    - emoji_cn
-    - ascii_punct
-    - wxw_hint
-    - completion
-    # fold_options: false            # 呼出时是否折叠，多方案时建议折叠 true ，一个方案建议展开 false
-    # abbreviate_options: true      # 折叠时是否缩写选项
-    # option_list_separator: ' / '  # 折叠时的选项分隔符
+  # ===== 方案选单里显示的开关 =====
+  # 用整体覆盖（不加 "/+"）而不是追加，才能完整替换默认列表。
+  # 若写成 "switcher/save_options/+"，会追加到 default.yaml 列表末尾。
+  #
+  # ❗ save_options 不决定菜单排列顺序，它决定「哪些开关的状态要持久化保存」
+  #    （写进 user.yaml，重启后还原）。
+  switcher/save_options:
+    - single_char_first     # 单字优先
+    - full_shape            # 半角/全角
+    - jffh                  # 简体/繁體
+    - mars                  # 地球文/火星文
+    - emoji_cn              # Emoji
+  # ===== 方案选单显示方式 =====
+  # fold_options: true  → 全部开关压成一行纯文本（折叠），显示在方案名之后
+  # fold_options: false → 开关逐条平铺
+  #
+  # 注意：折叠这一行里的内容与顺序由引擎按内部顺序拼接，YAML 无法控制顺序。
+  switcher/fold_options: true
+  switcher/abbreviate_options: false      # 是否缩写开关名（false = 显示完整中文名）
+  switcher/option_list_separator: " · "   # 折叠行里开关之间的分隔符

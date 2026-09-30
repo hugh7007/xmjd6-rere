@@ -18,7 +18,6 @@ switcher:
     - full_shape
     - jffh
     - tofu
-    - embeded_cands
     - emoji_cn
     - ascii_punct
     - wxw_hint
