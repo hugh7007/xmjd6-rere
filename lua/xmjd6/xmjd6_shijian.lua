@@ -1,7 +1,7 @@
 -- xmjd6_shijian.lua
 -- 时间/日期/农历/节气 translator 的懒加载入口。
 -- 真正的实现（91KB 天文历法计算 + 数据表）在 shijian_impl.lua，
--- 只有输入命中触发码时才 require；iOS 清内存 sentinel（见 dict_search_trigger.lua）
+-- 只有输入命中触发码时才 require；iOS 清内存 sentinel（见 dict_search.lua 的 processor）
 -- 会把它从 package.loaded 卸载，下次触发时重新加载。
 
 local mem_cleaner = require("xmjd6.mem_cleaner")
