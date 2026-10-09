@@ -39,7 +39,11 @@ local TEXT_SKIN_FILE = "lua/text_skin.txt"
 --     <code_label>　码长 x · 击键 y/s
 --     <mode_label>　非顶 x% · 顶功 y%
 --     比例　单 x % ▰▰▱▱▱▱ y % 词
---     —  <方案名> —
+--     8 空格 — <方案名> ·  <前端设备> — 7 空格
+--       （中隔符 = U+00B7「·」，**左侧 1 个空格、右侧 2 个空格**，不对称是用户要的；
+--        全行 20 个空格全是半角 U+0020，没有全角空格。
+--        方案名   = custom 的 schema/name；前端设备 = installation.yaml 的 distribution_name，
+--                  如 小狼毫 / 元书 / 仓，**不带版本号**）
 -- realms 十档的**阈值与顺序固定**（15/30/…/150），只换名字与评语：
 --   ①15~29 ②30~44 ③45~59 ④60~74 ⑤75~89 ⑥90~104 ⑦105~119 ⑧120~134 ⑨135~149 ⑩≥150
 --   （阈值写在下方 REALM_THRESHOLDS，改它会影响所有皮肤，慎动。）
@@ -592,6 +596,49 @@ local function get_device_id(config)
     end
     file:close()
     return "00000000"
+end
+
+-- [1009] 「不带版本号」兜底：个别前端把版本写进了 distribution_name 本身
+--   （如 "元书 3.2.1"）。**只在「空格 + 可带 v 前缀的纯数字点」时才剥**，
+--   这样 "仓2" / "小鹤" / "小狼毫" 这类名字不会被误伤；剥完为空则保留原值。
+local function strip_version_suffix(value)
+    if not value or value == "" then return value end
+    local stripped = value:gsub("%s+[vV]?%d[%d%.]*%s*$", "")
+    if stripped == "" then return value end
+    return stripped
+end
+
+-- [1009] 前端设备名（面板末行用）：取 installation.yaml 的 distribution_name，
+--   **只取软件名，不带版本号**（distribution_version 一律忽略）。
+--   例：小狼毫 / 元书 / 仓 …；取不到 distribution_name 时退回 distribution_code_name
+--   （Weasel / Squirrel / Hamster …），再兜底 "Rime"。
+--   ⚠️ 本函数**只在首次调用时**读一次文件（结果缓存在 env.frontend_name）——
+--   ensure_env 每键都会跑，绝不能每键读盘。故返回值**永不为 nil**。
+--   可用 input_stats/frontend_name 显式覆盖（与 input_stats/device_id 同一套路）。
+local function get_frontend_name(config)
+    local override = config:get_string("input_stats/frontend_name")
+    if override ~= nil and override ~= "" then return override end
+    local user_dir = rime_api.get_user_data_dir()
+    if not user_dir or user_dir == "" then return "Rime" end
+    local file = io.open(user_dir:gsub("[/\\]+$", "") .. "/installation.yaml", "r")
+    if not file then return "Rime" end
+    local name, code_name
+    for line in file:lines() do
+        local key, value = line:match("^%s*([%w_]+)%s*:%s*(.-)%s*$")
+        if key then
+            -- 去掉行尾注释与成对引号（installation.yaml 的值多为带引号字符串）
+            value = value:gsub("%s+#.*$", ""):gsub('^"(.*)"$', "%1")
+                :gsub("^'(.*)'$", "%1")
+            if key == "distribution_name" and name == nil and value ~= "" then
+                name = value
+            elseif key == "distribution_code_name" and code_name == nil and value ~= "" then
+                code_name = value
+            end
+        end
+        if name then break end
+    end
+    file:close()
+    return strip_version_suffix(name) or strip_version_suffix(code_name) or "Rime"
 end
 
 local function acquire_db(env)
@@ -1250,6 +1297,24 @@ local function format_summary(title, subtitle, data, env)
     --   → 第 8 版：境界并入时段行「【xx】修炼数据 → <境界名>」，14 → 13 物理行。
     --   → 第 9 版（0914）：文案改由「文字皮肤」给（TEXT_SKINS），行序与空行位置**未动**。
     --   ⚠️ 第 3 版起：评语由「均速/上屏之后」提到「境界之后」（按用户交付稿的行序）。
+    -- [1009] 末行版式（用户 10-09 第四轮定稿，**逐码位照抄用户给的那一行**）：
+    --   用户原样（去掉外层【】）："        — 🌟🐈 ·  小狼毫 —       "（28 码位）
+    --   结构：8 空格 + "— " + <方案名> + " ·  " + <前端设备> + " —" + 7 空格
+    --   全行 20 个空格**全是半角 U+0020，一个全角空格都没有**（用户口述「全角」，实测是半角）。
+    --   方案名   = custom 的 schema/name（env.schema_name，如 🌟🐈）
+    --   前端设备 = installation.yaml 的 distribution_name（小狼毫 / 元书 / 仓 …），**不带版本号**
+    --   中隔符   = U+00B7 "·"，**左 1 空格、右 2 空格**。
+    --             这个左右不对称是用户明确给的（"减少了两个，中间的符号换一下"），
+    --             不是笔误 —— 别"顺手"对称化。
+    --   沿革：[0920] 只留方案名 → [1009① ②] 加回前端名 → [1009③] 中隔符 U+148Eᒎ+U+1453ᑓ
+    --         → [1009④ 本轮] 中隔符换回 U+00B7「·」，首尾留白 8 / 7 不变。
+    --   ⚠️ 首尾留白 8 / 7 与中隔符两侧 1 / 2 全部照抄用户，下次改版前先问。
+    local footer_lead = "        "        -- 8 个半角空格
+    local footer_mid = " ·  "             -- 中隔符：SP + U+00B7 + SP + SP
+    local footer_tail = "       "         -- 7 个半角空格
+    local footer = footer_lead
+        .. "— " .. env.schema_name .. footer_mid .. env.frontend_name .. " —"
+        .. footer_tail
     local groups = {
         {
             skin.icon .. " " .. skin.title_name .. "·" .. skin.title_metric .. lifetime .. "字",
@@ -1282,8 +1347,9 @@ local function format_summary(title, subtitle, data, env)
                 math.floor(word_pct + 0.5)),
         },
         {
-            -- [0913] 用户要求去掉设备/前端，末行只留方案名
-            "—  " .. env.schema_name .. " —",
+            -- [1009] 末行：方案名 + 前端设备（前端只取软件名，无版本号）。
+            --   沿革：[0913] 曾要求去掉设备/前端只留方案名 → [1009] 用户要求加回前端名。
+            footer,
         },
     }
     -- 组间插空行；每行行尾补零宽空格（沿用旧面板习惯，防止候选窗把行长当换行处理）。
@@ -1511,6 +1577,8 @@ local function ensure_env(env)
         if env.stats_db_name == "" then env.stats_db_name = "stats" end
     end
     if env.device_id == nil then env.device_id = get_device_id(config) end
+    -- [1009] 前端设备名（面板末行）：只在这里取一次，之后走缓存 —— ensure_env 每键都跑。
+    if env.frontend_name == nil then env.frontend_name = get_frontend_name(config) end
     if env.continuous_gap_ms == nil then
         env.continuous_gap_ms = bounded_int(config, "input_stats/continuous_gap_ms",
             CONTINUOUS_GAP_MS, 200, 5000)
