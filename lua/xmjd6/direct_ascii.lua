@@ -6,6 +6,8 @@
 --   . 句号：固定直接上屏（不受开关控制）
 --   = 等号：独立开关控制（equal_direct_enabled）
 --   ; 分号：复用快符开关（quick_symbol_enabled）
+--            开 = 放行给 quick_symbol（快符候选模式，行为不变）
+--            关 = 空码直接上屏「；」；有输入时作「次选」键，上屏第 2 个候选 [1011]
 --   & 符号：固定直接上屏（空码时），有候选时放行给 key_binder 切换 emoji_cn
 --   / \ * $ ' 等符号：受符号开关控制（punct_direct_enabled）
 --
@@ -64,6 +66,19 @@ local function digits_enabled(env)
     end
     if env then env.__da_digits = value end
     return value
+end
+
+-- [1011] 选中「菜单内绝对下标 = index」的候选并正常上屏（走调频 / commit_notifier）。
+--   先例：seg.selected_index **可写**（lua/eng/english.lua:116）；
+--         seg.selected_index 与 seg:get_candidate_at(i) 同为菜单内绝对下标
+--         （lua/xmjd6/help_panel.lua:48）。取不到该下标 → 返回 false，由调用方兜底。
+local function commit_candidate_at(engine, context, index)
+    local ok, seg = pcall(function() return context.composition:back() end)
+    if not ok or not seg then return false end
+    local okc, cand = pcall(function() return seg:get_candidate_at(index) end)
+    if not okc or not cand or type(cand.text) ~= "string" then return false end
+    if not pcall(function() seg.selected_index = index end) then return false end
+    return pcall(function() context:commit() end) and true or false
 end
 
 local function processor(key_event, env)
@@ -142,6 +157,26 @@ local function processor(key_event, env)
             -- 编辑模式：放行给后续 processor
             last_was_number = false
             return kNoop
+        end
+    end
+
+    -- [1011] 分号在「快符关」（quick_symbol_enabled == false）下的次选语义：
+    --   有候选且 ≥2 个 → 上屏第 2 个候选（次选），不再输出「；」；
+    --   只有 1 个候选   → 退为上屏首选（避免按了没反应）；无候选则落回下面原逻辑。
+    --   空码（input == ""）不走这里 → 仍直接上屏「；」，行为不变；
+    --   快符开（开关 true）在上面就已 return kNoop，快符行为完全不受影响；
+    --   英文模式保持原样（要能打出半角 ;）。
+    if punct_info[1] == "semicolon" and input ~= "" then
+        local is_ascii = context.get_option and context:get_option("ascii_mode")
+        if not is_ascii then
+            if commit_candidate_at(engine, context, 1) then
+                last_was_number = false
+                return kAccepted
+            end
+            if commit_candidate_at(engine, context, 0) then
+                last_was_number = false
+                return kAccepted
+            end
         end
     end
 
