@@ -550,6 +550,20 @@ topup:
   auto_clear: true
   min_length_danzi: 2
   topup_command: true
+  # ── 追顶总开关：topup/enabled ────────────────────────────────────
+  # ★ 这里【故意不写 enabled 的默认值】！
+  #   默认值只能由 xmjd6.custom.yaml 提供。若在此处写死 enabled: true，
+  #   则 custom 里把该行注释掉后会回落到这里的默认值 → 「注释关不掉追顶」。
+  # 语义（由 lua/xmjd6/xmjd6_topup_processor.lua 与 lua/xmjd6/auto_fallback.lua 读取）：
+  #   显式 true     → 开启追顶：经典顶功 + 空码回退 全部生效
+  #   显式 false    → 关闭
+  #   注释掉 / 缺省 → 关闭（config:get_bool 拿不到 true）
+  # 其它仍然会强制关闭追顶的设置：
+  #   translator/enable_sentence: true（流式输入）——两个处理器都停。
+  # 追顶【强度】（仅在总开关为开时有效）：direct_ascii/empty_code_topup
+  #   true  = 任意字母键追加后无候选也回退上屏（如 lks+m 顶出「劳科所」）
+  #   false = 只顶「顶功键连续」场景（如 dia+o 顶出「当中」）
+  # 
 # menu:     #如果想要修改候选直接反注释这四行内容
 #   page_size: 6 #候选项数
 style:

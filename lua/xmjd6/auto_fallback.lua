@@ -1,7 +1,16 @@
 -- 空码自动回退上屏处理器
 -- 当输入新字符后无候选时,上屏之前的首选,然后输入新字符
 --
--- 开关 empty_code_topup（direct_ascii/empty_code_topup 配置）：
+-- ★ 追顶总开关 topup/enabled（由 xmjd6.custom.yaml 提供；本键的默认值
+--   **故意不写进 xmjd6.schema.yaml**，否则 custom 里注释掉会回落到默认值而关不掉）：
+--     写 true        → 开启追顶（本处理器生效）
+--     写 false       → 关闭
+--     注释掉 / 缺省  → 关闭（config:get_bool 拿不到 true）
+-- 另有两个强制关闭条件：
+--   · translator/enable_sentence == true（流式输入）—— 与顶功处理器口径一致
+--   · 追顶开启时再看下面的 empty_code_topup（只决定「作用范围/强度」）
+--
+-- 开关 empty_code_topup（direct_ascii/empty_code_topup 配置）—— 只影响**范围**，不是总开关：
 --   开启时，对任意字母键追加后无候选的情况都做回退上屏（不限顶功键场景）。
 --   例如 lks+m 无候选时，上屏 lks 的首选"劳科所"，m 作为新输入起始。
 --   关闭时，仅处理顶功键连续场景（原行为）。
@@ -29,6 +38,15 @@ local function string2set(str)
 end
 
 local function processor(key_event, env)
+    -- 追顶总开关：topup/enabled 未显式写 true（含被注释掉）→ 整体空转
+    if not env.topup_master then
+        return kNoop
+    end
+    -- 流式输入（enable_sentence）下无顶功，本处理器一并停用
+    if env.enable_sentence then
+        return kNoop
+    end
+
     if key_event:release() or key_event:ctrl() or key_event:alt() then
         return kNoop
     end
@@ -118,6 +136,9 @@ end
 
 local function init(env)
     local config = env.engine.schema.config
+    -- 追顶总开关：只有显式写 true 才开启；注释掉/缺省 → 拿不到 true → 关闭。
+    env.topup_master = config:get_bool("topup/enabled") == true
+    env.enable_sentence = config:get_bool("translator/enable_sentence") or false
     local alphabet_str = config:get_string("speller/alphabet") or "abcdefghijklmnopqrstuvwxyz"
     env.alphabet = {}
     for i = 1, #alphabet_str do

@@ -23,7 +23,23 @@ patch:
   text_transform/hotkey: "Control+g"        # 当前候选进入文本加工面板
   text_transform/sentence_hotkey: "slash"   # 有候选时按 / 加工当前内容
   text_transform/sentence_prefix: "a"       # 整句模式前缀（与 sentence_mode/prefix 同步）
-  direct_ascii/empty_code_topup: true       # 顶功模式是否追顶
+
+  # ===== 追顶（顶功）总开关 =====
+  # ★【关掉追顶】= 把下面这一行整行注释掉（行首加 #）。
+  # ★【开启追顶】= 保留下面这一行（值为 true）。
+  # 关闭后的效果 = 完整没有追顶功能：
+  #   · 经典顶功停（如 dia+o 不再顶出「当中」）
+  #   · 空码回退停（如 lks+m 不再顶出「劳科所」）
+  #   · ; ' 只作为普通分隔符，走流式输入
+  # ⚠ 本键的默认值【故意不写进 xmjd6.schema.yaml】，只在这里给。
+  #   原因：schema 一旦写了默认值，注释掉这行就会回落到默认值 → 「注释关不掉」。
+  # ⚠ 另外，启用流式输入（本文件末尾 translator/enable_sentence: true）也会强制关闭追顶。
+  topup/enabled: true
+
+  # ===== 追顶强度（仅在追顶总开关为开时有意义）=====
+  # true  = 任意字母键追加后无候选也回退上屏（更激进：lks+m 会顶出「劳科所」）
+  # false = 只顶「顶功键连续」场景（当前效果：dia+o 顶出「当中」，lks+m 不顶）
+  # direct_ascii/empty_code_topup: false
 
   # ===== 同码单字优先微调 =====
   # 效果：候选框里单字浮到多字词前面，如 ds → 大 妲 打 瘩 答 达 …
@@ -53,7 +69,7 @@ patch:
   switches/@16/reset: 1               # 等号直接上屏；1=开（候选模式），0=关（直接上屏）
   # switches/@10/reset: 1           # 动态调频
   # switches/@13/reset: 1           # 英文自动加空格
-  # switches/@14/reset: 1           # 连打模式
+  # switches/@14/reset: 1           # 连打模式（a 前缀）；连打内部的自动分段由它单独控制，与「追顶总开关」无关
 
   # ===== 重复上屏记忆数量 =====
   repeat_history/size: 5              # 输入 i 时显示最近多少条
@@ -72,6 +88,7 @@ patch:
 
   # ===== 流式输入配置（默认关闭） =====
   # 如需启用流式输入，请取消下面两行注释。
-  # 启用 enable_sentence 后，顶功会自动禁用，; ' 号只作为分隔符使用。
-  # translator/enable_sentence: true   # 启用整句输入（同时自动禁用顶功）
+  # 启用 enable_sentence 后，追顶会自动禁用（经典顶功 + 空码回退一起停），; ' 号只作为分隔符使用。
+  # 与上方「追顶总开关 topup/enabled」是「或」的关系：任一为关即无追顶。
+  # translator/enable_sentence: true   # 启用整句输入（同时自动禁用追顶）
   # translator/enable_user_dict: true  # 启用用户词典（流式输入需要）

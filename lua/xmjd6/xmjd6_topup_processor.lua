@@ -1,3 +1,15 @@
+-- xmjd6_topup_processor.lua
+-- 经典顶功处理器：输入码后按下一个键，若新输入无候选则把前面的首选上屏（顶出）。
+--
+-- ★ 追顶总开关 topup/enabled（由 xmjd6.custom.yaml 提供；本键的默认值
+--   **故意不写进 xmjd6.schema.yaml**，否则 custom 里注释掉会回落到默认值而关不掉）：
+--     写 true        → 开启追顶（本处理器生效）
+--     写 false       → 关闭
+--     注释掉 / 缺省  → 关闭（config:get_bool 拿不到 true）
+--   关闭后本处理器整体空转（一律 kNoop，不吞任何按键）。
+--   另一个强制关闭条件：translator/enable_sentence == true（流式输入）。
+--
+-- 本文件同时导出 protected_codes 给 auto_fallback / sentence_buffer 使用。
 local M = {}
 
 -- 模块级共享缓存：auto_fallback 与 topup_processor 都会 load()，
@@ -78,6 +90,11 @@ end
 local kNoop = 2
 
 local function processor(key_event, env)
+    -- 追顶总开关：topup/enabled 未显式写 true（含被注释掉）→ 整体空转
+    if not env.topup_master then
+        return kNoop
+    end
+
     if env.enable_sentence then
         return kNoop
     end
@@ -145,6 +162,8 @@ end
 
 local function init(env)
     local config = env.engine.schema.config
+    -- 追顶总开关：只有显式写 true 才开启；注释掉/缺省 → 拿不到 true → 关闭。
+    env.topup_master = config:get_bool("topup/enabled") == true
     env.enable_sentence = config:get_bool("translator/enable_sentence") or false
     env.topup_set = string2set(config:get_string("topup/topup_with") or "")
     env.alphabet = string2set(config:get_string("speller/alphabet") or "abcdefghijklmnopqrstuvwxyz")
@@ -157,6 +176,7 @@ local function init(env)
 end
 
 local function fini(env)
+    env.topup_master = nil
     env.enable_sentence = nil
     env.topup_set = nil
     env.alphabet = nil
