@@ -608,10 +608,32 @@ local function strip_version_suffix(value)
     return stripped
 end
 
+-- [1010] 前端代号 → 中文名。
+--   **手机端（iOS / Android）的 installation.yaml 里写的是英文代号，不是中文名**，
+--   所以光读 distribution_name 会渲染出 "hamster3" 这种东西：
+--     · 仓输入法（iOS，dev.fuxiao.app.hamsterapp）  → `hamster`
+--     · 元书输入法（iOS，com.ihsiao.apps.Hamster3）→ `hamster3`
+--       （元书与仓是 Hamster 同源应用，bundle id 里就带 Hamster3，所以它写的也是 hamster3）
+--   桌面端不受影响：小狼毫直接写 `"小狼毫"`、鼠须管写 `"鼠鬚管"`，压根走不到这张表。
+--   表按「值转小写」查；查不到就原样返回，所以加新前端只要往这里补一行。
+local FRONTEND_ALIAS = {
+    hamster   = "仓",
+    hamster3  = "元书",
+    weasel    = "小狼毫",
+    squirrel  = "鼠须管",
+    trime     = "同文",
+}
+
+local function apply_frontend_alias(value)
+    if value == nil or value == "" then return nil end
+    return FRONTEND_ALIAS[value:lower()] or value
+end
+
 -- [1009] 前端设备名（面板末行用）：取 installation.yaml 的 distribution_name，
 --   **只取软件名，不带版本号**（distribution_version 一律忽略）。
 --   例：小狼毫 / 元书 / 仓 …；取不到 distribution_name 时退回 distribution_code_name
 --   （Weasel / Squirrel / Hamster …），再兜底 "Rime"。
+--   [1010] 两者都会过一遍 FRONTEND_ALIAS —— 手机端写的是 hamster / hamster3 这类代号。
 --   ⚠️ 本函数**只在首次调用时**读一次文件（结果缓存在 env.frontend_name）——
 --   ensure_env 每键都会跑，绝不能每键读盘。故返回值**永不为 nil**。
 --   可用 input_stats/frontend_name 显式覆盖（与 input_stats/device_id 同一套路）。
@@ -638,7 +660,10 @@ local function get_frontend_name(config)
         if name then break end
     end
     file:close()
-    return strip_version_suffix(name) or strip_version_suffix(code_name) or "Rime"
+    -- [1010] 先剥版本尾巴，再过代号表；两边都查不到才兜底 "Rime"。
+    return apply_frontend_alias(strip_version_suffix(name))
+        or apply_frontend_alias(strip_version_suffix(code_name))
+        or "Rime"
 end
 
 local function acquire_db(env)

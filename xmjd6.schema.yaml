@@ -510,6 +510,8 @@ input_stats:
   #   方案名   = custom 的 schema/name（如 🌟🐈），不需要在这里配。
   #   前端设备 = 自动读 installation.yaml 的 distribution_name（小狼毫 / 元书 / 仓 …），
   #              **只取软件名、不带 distribution_version**。
+  #              ⚠️ 手机端写的是英文代号（hamster / hamster3 / Trime …），会过
+  #              input_statistics.lua 里的 FRONTEND_ALIAS 映射表；未知代号原样显示。
   #              只有想写死成别的名字时，才取消下面这行的注释。
   # frontend_name: "小狼毫"
   triggers:
