@@ -63,7 +63,7 @@ patch:
   switches/@7/reset: 1                # Emoji
   switches/@8/reset: 1                # 630 简码提示
   switches/@9/reset: 1                # 逐码候选
-  switches/@11/reset: 1               # 快符开关，  1=开（候选模式），0=关（直接上屏）
+  switches/@11/reset: 1               # 快符开关；1=开（候选模式），0=关（空码时直接上屏有输入时作次选键上屏第2个候选）
   switches/@12/reset: 0               # 输入框内嵌候选；0=关，1=开
   switches/@15/reset: 1               # 符号\$*/这些会直接上屏；1=开（候选模式），0=关（直接上屏）；& 已独立，不受此开关控制
   switches/@16/reset: 1               # 等号直接上屏；1=开（候选模式），0=关（直接上屏）
