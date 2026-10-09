@@ -37,6 +37,12 @@ local function string2set(str)
     return t
 end
 
+-- [1010] 快符键：按这些键的语义 = 「顶出当前候选 + 该键成为新输入起点」，与码长无关。
+--   快符词库 xmjd6.fuhao.dict.yaml 的 `#region <快符>` 全部以 ; 开头
+--   （;q=~  ;a=!  ;w=?  ;d=、  ;k=（  …），所以这里就是分号。
+--   想再加键（如 '）往这张表里补一行即可。
+local QUICK_SYMBOL_KEYS = { [";"] = true }
+
 local function processor(key_event, env)
     -- 追顶总开关：topup/enabled 未显式写 true（含被注释掉）→ 整体空转
     if not env.topup_master then
@@ -105,7 +111,10 @@ local function processor(key_event, env)
         local min_len = context:get_option('danzi_mode')
             and (env.topup_min_danzi or 2)
             or (env.topup_min or 4)
-        if #input < min_len - 1 then
+        -- [1010] 快符键豁免长度门：按 ; 的语义是「把当前候选顶出去、让 ; 成为新输入起点」，
+        --   与前面码有多长无关 —— 630 简码多为 1~2 码（如 eu = 什么），也必须能被顶。
+        --   普通字母键仍受门槛约束（lks+m 不顶）。
+        if #input < min_len - 1 and not QUICK_SYMBOL_KEYS[key] then
             return kNoop
         end
     end
