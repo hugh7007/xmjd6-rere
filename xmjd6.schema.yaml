@@ -588,7 +588,7 @@ menu:
   # alternative_select_labels: ["⓵","⓶","⓷","⓸","⓹","⓺","⓻","⓼","⓽"]
   # alternative_select_labels: ["١","٢","٣","٤","٥","٦","٧","٨","٩"]
   # alternative_select_labels: ["१","२","३","४","५","६","७","८","९"]
-  # alternative_select_labels: [ "〡 ", "〢 ", "〣 ", "〤 ", "〥 ", "〦", "〧", "〨", "〩" ]
+  alternative_select_labels: [ "〡 ", "〢 ", "〣 ", "〤 ", "〥 ", "〦", "〧", "〨", "〩" ]
   # alternative_select_labels: ["¥", "€", "$", "£", "¢", "₽", "₩"]
   # alternative_select_labels: ["♩", "♪", "♫", "♬", "♭", "♯"]
   # alternative_select_labels: ["♂", "♀", "⚣", "⚢", "⚤", "⚥", "☿️"]
