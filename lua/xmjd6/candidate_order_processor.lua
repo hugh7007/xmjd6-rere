@@ -143,20 +143,24 @@ local function handle_manager_zero(context, env)
             core.store_path(get_store_file(env))
         )
         state().pending_delete = nil
-        local message
-        if not ok then
-            message = "撤销失败：无法写入 candidate_order.txt"
-        elseif removed == 0 then
-            message = "未找到该调频，文件可能已被其他设备更新"
+        -- ★★ 2026-10-15 用户要求：**删除成功不留完成提示**，直接刷成下一条。
+        -- 旧行为把「已撤销调频：…；共清理N条」推成第 0 位候选，而 notice 的类型是
+        -- candidate_order_manager_notice（不是 candidate_order_manager）
+        -- ⇒ selected_manager_record 返回 nil ⇒ 之后**每一次按 0 都被这条 notice 吞掉**，
+        -- 必须先用别的键（或 Esc）把它清掉才选得中记录 —— 也就是「删完一条就卡在提示上」。
+        -- 现在成功就 manager_notice = nil + refresh_context ⇒ 列表按文件重排，
+        -- 刚删掉的那条不再出现、下一条落到第 0 位 ⇒ **0/0 可以一直按下去连续删**。
+        -- 失败 / 未命中仍保留提示（否则会变成「按了没反应」的无反馈状态）。
+        if ok and removed > 0 then
+            state().manager_notice = nil
         else
-            message = "已撤销调频：" .. rec.target_code .. " / " .. rec.promoted
-                .. "；共清理" .. tostring(removed) .. "条"
+            state().manager_notice = {
+                input = input,
+                message = ok and "未找到该调频，文件可能已被其他设备更新"
+                    or "撤销失败：无法写入 candidate_order.txt",
+                ok = false,
+            }
         end
-        state().manager_notice = {
-            input = input,
-            message = message,
-            ok = ok and removed > 0,
-        }
         refresh_context(context)
         return kAccepted
     end
@@ -671,7 +675,22 @@ local function processor(key, env)
         if promoted_code == target_code then
             local ok_c, cdata = pcall(core.load, store_file)
             if ok_c and type(cdata) == "table" and type(cdata.by_target) == "table"
-                and not cdata.by_target[promoted_code] then
+                and not cdata.by_target[promoted_code]
+                -- ★★ 2026-10-15 用户要求（第 12 轮）：腾空的码如果**当场被本次的被挤者
+                --   占为 new_code**，就别再让「下一位」来抢。
+                --   真机（用户 17:00 六步序列第 6 步）：
+                --     在 dslzv 上对「大劳」按 0 → 主规则把 大劳 搬去 dslz，被挤的「大佬」
+                --     正好落回**腾空的 dslzv**（主规则的 new_code == 腾空码）。
+                --     可这里紧接着又发现 dslzv 的第一位原生候选是「大牢」（大牢 的原生码
+                --     就是 dslzv，只是被上一条规则临时推到 dslzvo、提示形如 ~o），于是补写
+                --       大牢 dslzvo 大牢 dslzv
+                --     —— 把 dslzv 又钉给 大牢，跟刚搬进来的 大佬 撞车，还把 dslzvo 弄空。
+                --   判据：by_new[腾空码] 非空 ⇒ 已经有规则把一个词**钉在这个码上**（这码
+                --   不是空码）⇒ 让「下一位」的活交给那条规则，级联不动手。
+                --   ⚠️ 只加这一条：by_target[腾空码] 为空、且腾空码也没被任何规则占为
+                --   new_code 时，级联照旧 —— 用户 16:42 四步序列第 4 步就是靠它把「大牢」
+                --   归位回 dslzv 的，别挡了它。
+                and not cdata.by_new[promoted_code] then
                 local nc, nc_old = next_in_line(comp, promoted_code, promoted, cdata)
                 if nc then
                     core.append_order({
