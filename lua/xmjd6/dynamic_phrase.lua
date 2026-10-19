@@ -853,6 +853,36 @@ local function yield_management_candidates(input, seg, env)
             "dynamic_phrase_manager"
         ))
     end
+
+    -- ★★ 2026-10-15 用户要求（第 2 条）：与 `=tp` 面板保持一致 —— **列表非空时**
+    --   末尾固定追加两条说明行：
+    --     1. 自造词
+    --     2. 无更多自造词 dynamic_phrases.txt
+    --     3. 注意：连续按多次【'】【'】会导致连续删除下一行
+    --
+    --   ⚠️ 两条的类型必须是 `dynamic_phrase_manager_empty`，**不能是
+    --   `dynamic_phrase_manager`**：handle_manager_zero 里 selected_manager_entry()
+    --   只认后者（dynamic_phrase.lua:970），落在这两行上按 `'` ⇒ entry == nil
+    --   ⇒ 只吞键、不写盘（dynamic_phrase.lua:1045-1056），与「暂无自造词」同基线。
+    --   顺带好处：`dynamic_phrase_manager_empty` 已在 is_management_status_candidate()
+    --   白名单里（dynamic_phrase.lua:980-985），这两行不会被记进上屏历史。
+    --
+    --   quality 低于所有词条（词条是 400000 - i，i ≥ 1 ⇒ ≤ 399999）。
+    local tail_quality = 400000 - #entries
+    yield(make_candidate(
+        seg,
+        "无更多自造词",
+        "dynamic_phrases.txt",
+        tail_quality - 1,
+        "dynamic_phrase_manager_empty"
+    ))
+    yield(make_candidate(
+        seg,
+        "连续按多次'会导致连续删除下一行",
+        "",
+        tail_quality - 2,
+        "dynamic_phrase_manager_empty"
+    ))
     return true
 end
 
@@ -1011,19 +1041,33 @@ local function handle_manager_zero(context, env)
 
     local pending = dp_state.pending_delete
     if pending and pending.input == input then
-        local ok, message = core.delete_phrase(
+        local ok, message, removed = core.delete_phrase(
             pending.text,
             pending.code,
             dp_get_store_path(env),
             dp_get_candidate_order_store_path(env)
         )
         dp_state.pending_delete = nil
-        dp_state.manager_notice = {
-            input = input,
-            message = ok and (message or "删除完成")
-                or ("删除失败：" .. (message or "无法写入动态词库")),
-            ok = ok == true,
-        }
+        -- ★★ 2026-10-15 用户要求：与 `=tp` 面板保持一致 —— **删除成功不留完成提示**，
+        -- 直接刷成下一条，这样 `'` 可以一直按下去连续删。
+        -- 旧行为的坑同 candidate_order_processor：notice 被推成第 0 位候选，而它不是
+        -- dynamic_phrase_manager 类型 ⇒ selected_manager_entry 返回 nil ⇒
+        -- 之后每次按 `'` 都被它吞掉，直到按别的键把它清掉（「删完一条就卡在提示上」）。
+        -- 判「真的删掉了」用的是 delete_phrase 的**第 3 个返回值** removed：
+        --   写盘失败 → false；文件里没这一条（removed == 0，只可能顺带清了调频）→ 也要提示，
+        --   否则词条还在列表里、用户按 `'` 却没反应，看起来像坏了。
+        -- ⚠️ 副作用：成功时 message 里可能带「；同步清理调频N条」，静默后不再展示
+        --    （用户明确要求不显示完成操作）。
+        if ok == true and (tonumber(removed) or 0) > 0 then
+            dp_state.manager_notice = nil
+        else
+            dp_state.manager_notice = {
+                input = input,
+                message = ok == true and (message or "未找到该自造词")
+                    or ("删除失败：" .. (message or "无法写入动态词库")),
+                ok = false,
+            }
+        end
         refresh_context(context)
         return kAccepted
     end
