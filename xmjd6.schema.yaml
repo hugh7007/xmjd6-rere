@@ -590,6 +590,6 @@ menu:
   # alternative_select_labels: ["१","२","३","४","५","६","७","८","९"]
   # alternative_select_labels: [ "〡 ", "〢 ", "〣 ", "〤 ", "〥 ", "〦", "〧", "〨", "〩" ]
   # alternative_select_labels: ["¥", "€", "$", "£", "¢", "₽", "₩"]
-  alternative_select_labels: ["♩", "♪", "♫", "♬", "♭", "♯"]
+  # alternative_select_labels: ["♩", "♪", "♫", "♬", "♭", "♯"]
   # alternative_select_labels: ["♂", "♀", "⚣", "⚢", "⚤", "⚥", "☿️"]
   # alternative_select_labels: ["⚣", "⚢", "⚤", "⚥", "☿️", "⚯"]
