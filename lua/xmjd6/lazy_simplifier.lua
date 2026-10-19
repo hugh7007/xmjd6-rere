@@ -303,32 +303,83 @@ function M.func(input, env)
 
     if env.mode == "word" then
         if env.is_emoji then
-            -- emoji 分片按需加载模式
+            -- emoji 分片按需加载模式 + 「三件套」旧版语义（2026-10-14 恢复）。
+            -- 旧实现见 b2c6664 之前的 lua/xmjd6_opencc_filter.lua：439-451 / 700-710 行。
+            --   ① emoji_tail：表情先攒起来，**不**插在命中候选后面；
+            --   ② emoji_limit：只给**前 N 个**非补全候选配表情（N = 每页候选数），
+            --      防止「每个候选都挂整串表情」把候选表撑爆；
+            --   ③ completion 前提前冲刷：补全候选可能上千个，不提前放出去
+            --      表情就被埋在补全后面，第一页永远看不到。
+            -- 冲刷时机：遇到第一个 completion 候选之前 + 主循环结束后（兜底）。
             local base = get_opencc_base()
             local chars = env.dict
+
+            local emoji_tail = {}
+            local emoji_flushed = false
+            local fixed_count = 0
+            local emoji_limit = env.engine.schema.page_size or 5
+            if emoji_limit <= 0 then emoji_limit = 5 end
+
+            local function push_emoji(cand, v, cmt)
+                if v == nil or v == "" or v == cand.text then return end
+                emoji_tail[#emoji_tail + 1] = {
+                    cand_type = cand.type,
+                    start_pos = cand.start,
+                    end_pos   = cand._end,
+                    text      = v,
+                    comment   = cmt,
+                    preedit   = cand.preedit,
+                    quality   = cand.quality,
+                }
+            end
+
+            local function flush_emoji_tail()
+                for _, item in ipairs(emoji_tail) do
+                    local nc = Candidate(item.cand_type, item.start_pos,
+                                         item.end_pos, item.text, item.comment)
+                    if item.preedit then nc.preedit = item.preedit end
+                    if item.quality then nc.quality = item.quality end
+                    yield(nc)
+                end
+                emoji_tail = {}
+            end
+
             for cand in input:iter() do
+                local is_completion = cand.type == "completion"
+
+                -- ③ 补全候选之前先把已攒的表情放出去
+                if is_completion and not emoji_flushed then
+                    flush_emoji_tail()
+                    emoji_flushed = true
+                end
+
                 yield(cand)
-                local val = emoji_lookup(base, chars, cand.text)
-                if val then
-                    local cmt = force_comment or cand:get_genuine().comment
-                    -- val 可能是 string 或 table
-                    if type(val) == "string" then
-                        -- 浮生格式: 空格分隔的值
-                        for v in val:gmatch("%S+") do
-                            if v ~= cand.text then
-                                yield(Candidate(cand.type, cand.start, cand._end, v, cmt))
-                            end
-                        end
-                    elseif type(val) == "table" then
-                        -- 旧格式: table 列表
-                        for _, v in ipairs(val) do
-                            if v ~= cand.text then
-                                yield(Candidate(cand.type, cand.start, cand._end, v, cmt))
-                            end
+
+                -- ② 只给前 emoji_limit 个非补全候选配表情
+                local allow_emoji = false
+                if not is_completion then
+                    fixed_count = fixed_count + 1
+                    allow_emoji = fixed_count <= emoji_limit
+                end
+
+                if allow_emoji then
+                    local val = emoji_lookup(base, chars, cand.text)
+                    if val then
+                        local cmt = force_comment or cand:get_genuine().comment
+                        -- val 可能是 string 或 table
+                        if type(val) == "string" then
+                            -- 浮生格式: 空格分隔的值
+                            for v in val:gmatch("%S+") do push_emoji(cand, v, cmt) end
+                        elseif type(val) == "table" then
+                            -- 旧格式: table 列表
+                            for _, v in ipairs(val) do push_emoji(cand, v, cmt) end
                         end
                     end
                 end
             end
+
+            -- 兜底冲刷（没有 completion 候选时走这里）
+            flush_emoji_tail()
         else
             -- 普通 word 模式
             for cand in input:iter() do
