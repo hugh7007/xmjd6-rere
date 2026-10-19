@@ -206,7 +206,10 @@ xmjd6:
         - name: 词库转 txt 并合并
           script: |
             set -e
-            for dict_file in xmjd6.wxw.dict.yaml xmjd6.danzi.dict.yaml xmjd6.cizu.dict.yaml xmjd6.fjcy.dict.yaml xkjd6.wanne.dict.yaml
+            # ⚠️ 与 xmjd6.extended.dict.yaml 的 import_tables 保持一致：
+            #    xkjd6.wanne 已停用（extended 里已注释），这里也一并移除，
+            #    否则 yong 包 / dazhu.txt 会带上 Rime 包里根本没有的词条。
+            for dict_file in xmjd6.wxw.dict.yaml xmjd6.danzi.dict.yaml xmjd6.cizu.dict.yaml xmjd6.fjcy.dict.yaml
             do
               # ⚠️ 这里刻意不用 shell 的 ${...} 写法：CNB 会对脚本做 ${VAR} 变量替换，
               #    未定义的 ${base%.dict.yaml} 有被替换成空串的风险，用 basename 第二参数更稳。
@@ -231,8 +234,7 @@ xmjd6:
             cat Rime/xmjd6.wxw.txt \
                 Rime/xmjd6.danzi.txt \
                 Rime/xmjd6.cizu.txt \
-                Rime/xmjd6.fjcy.txt \
-                Rime/xkjd6.wanne.txt > Rime/xmjd6.body.txt
+                Rime/xmjd6.fjcy.txt > Rime/xmjd6.body.txt
 
             cat Rime/xmjd6.header.txt Rime/xmjd6.body.txt > mb/xmjd6/xmjd6.txt
 
