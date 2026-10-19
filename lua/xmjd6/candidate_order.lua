@@ -263,6 +263,77 @@ function M.parse_line(line, line_no)
     return rec
 end
 
+-- ════════════════════════════════════════════════════════════════
+-- 兜底扫描提速（2026-10-14，用户要求「能提速就提速」）
+--
+-- 背景：idx_candidate_order/ 过期时，补码分支会退回**全量扫描**：
+--   load_occupied_from_table 扫 9 个词库（22.8 MB / 146 万行）实测合计 1064 ms，
+--   load_char_codes_uncached 152 ms。而 candidate_order_processor 排在 speller
+--   **之前**、跑在 UI 线程上 ⇒ 按一次 0 冻结 2~3 秒 ⇒ 前端丢键，
+--   症状就是用户报的「按 0 概率成功」（2026-10-14 定位，见技能文档）。
+--   根治办法是重建索引；这里是**兜底路径本身**的提速，让「忘了重建」的代价
+--   从 1.9 s 降到百毫秒级。
+--
+-- 做法：整文件一次 read("*a")（C 级），再用 plain=true 的 string.find 在 blob 里
+--   找 "\t<码>" 的出现位置（memchr/memcmp，C 级），只在命中且**后面紧跟合法
+--   分隔字节**时才回退到行首/行尾切出那一行，仍走**完全相同的正则**解析。
+--   ⇒ 把「146 万次 Lua 循环」换成「#目标码 次 C 扫描 + 少量行解析」。
+--
+-- 等价性（已证，verify 脚本的 [A] 组会实测占用表逐条一致）：
+--   旧实现 = 先用 `line:find("\t"..code)` 粗筛，再用
+--     `line:match("^([^\t]+)\t([^%s〕#]+)")` 取**第一个 tab 之后**的码 c1，
+--     最后 `target_codes[c1]` 精确过滤。
+--   任何会被旧实现采纳的行 ⇒ c1 ∈ target_codes ⇒ 针头 "\t"..c1 必然在该行
+--   **第一个 tab** 处命中，且紧邻字符就是 `[^%s〔#]` 的终止符（或行尾/EOF）
+--   ⇒ 新实现也一定采纳该行。反向：新实现仍要过 target_codes 这一关，
+--   不会多收。⇒ 两条路径产出同一张占用表。
+--   （针头后面不是分隔符的一定是**前缀撞车**，如 code=dslz 撞上 `\tdslzi`；
+--     这种行的 c1 若不是目标码，旧实现同样只是白解析一遍、不会采纳。）
+-- ════════════════════════════════════════════════════════════════
+
+-- 码后面允许紧跟的「分隔字节」：\t \n \r 空格 # 〔（UTF-8 首字节 0xE3）
+-- 与正则 `[^%s〔#]+` 的终止条件一一对应；nil = 命中处在文件末尾。
+local function is_code_boundary(b)
+    return b == nil or b == 9 or b == 10 or b == 13 or b == 32 or b == 35 or b == 0xE3
+end
+
+-- pos 所在行的 [行首, 行尾]，行尾已去掉 \n / \r（与 io.lines 的 *l 一致）。
+local function line_at(blob, pos)
+    local start = pos
+    while start > 1 and blob:byte(start - 1) ~= 10 do
+        start = start - 1
+    end
+    local stop = blob:find("\n", pos, true)
+    stop = (stop or (#blob + 1)) - 1
+    if stop >= start and blob:byte(stop) == 13 then stop = stop - 1 end
+    return start, stop
+end
+
+local function read_blob(path)
+    local f = io.open(path, "rb")
+    if not f then return nil end
+    local blob = f:read("*a")
+    f:close()
+    if type(blob) ~= "string" then return nil end
+    return blob
+end
+
+-- 没有目标码可用时的退路：整篇逐行走一遍（保持旧行为）。
+local function each_blob_line(blob, fn)
+    local from = 1
+    while true do
+        local nl = blob:find("\n", from, true)
+        local last = (nl or (#blob + 1)) - 1
+        if last >= from then
+            local line = blob:sub(from, last)
+            if line:byte(-1) == 13 then line = line:sub(1, -2) end
+            fn(line)
+        end
+        if not nl then break end
+        from = nl + 1
+    end
+end
+
 local function add_char_code(map, ch, code, wanted)
     if not ch or ch == "" or not is_code(code) then return end
     if text_len(ch) ~= 1 then return end
@@ -290,17 +361,31 @@ local function load_char_codes_uncached(base_dir, wanted)
         end
         if not has_wanted then return map end
     end
+    local function take_line(line)
+        if line == "" or line:sub(1, 1) == "#" or not line:find("\t", 1, true) then return end
+        local text, rest = line:match("^([^\t]+)\t([^%s〔#]+)")
+        add_char_code(map, trim(text), trim(rest or ""), wanted)
+    end
     for _, name in ipairs({ "xmjd6.cx.dict.yaml", "xmjd6.danzi.dict.yaml" }) do
-        local path = join_path(base_dir, name)
-        local f = io.open(path, "r")
-        if f then
-            for line in f:lines() do
-                if line ~= "" and line:sub(1, 1) ~= "#" and line:find("\t", 1, true) then
-                    local text, rest = line:match("^([^\t]+)\t([^%s〔#]+)")
-                    add_char_code(map, trim(text), trim(rest or ""), wanted)
+        local blob = read_blob(join_path(base_dir, name))
+        if blob then
+            if wanted then
+                -- 只扫 wanted 里那几个字：针头 = 字 .. "\t"。
+                -- 会被采纳的行，其词条必然是 wanted 里的单字 ⇒ 字后紧跟 tab ⇒ 一定被找到。
+                for ch in pairs(wanted) do
+                    local needle = ch .. "\t"
+                    local from = 1
+                    while true do
+                        local pos = blob:find(needle, from, true)
+                        if not pos then break end
+                        from = pos + 1
+                        local start, stop = line_at(blob, pos)
+                        take_line(blob:sub(start, stop))
+                    end
                 end
+            else
+                each_blob_line(blob, take_line)
             end
-            f:close()
         end
     end
 
@@ -436,30 +521,92 @@ local function normalize_target_codes(candidate_codes)
     return out
 end
 
+-- 一组码的公共前缀。补码分支的目标码都同源（dslz / dslzi / dslzia…），
+-- 拿它当**单个针头**可以把「每个码扫一遍」压成「只扫一遍」（实测 5 码 65 ms → 14 ms）。
+local function common_prefix(codes)
+    local prefix = nil
+    for code in pairs(codes) do
+        if prefix == nil then
+            prefix = code
+        else
+            local n = #prefix < #code and #prefix or #code
+            local i = 0
+            while i < n and prefix:byte(i + 1) == code:byte(i + 1) do i = i + 1 end
+            prefix = prefix:sub(1, i)
+            if prefix == "" then return "" end
+        end
+    end
+    return prefix or ""
+end
+
+-- 单行解析：与旧实现逐字符同构（同一个正则、同一个 trim、同一个精确码过滤）。
+local function add_occupied_line(line, occupied, exclude_pairs, target_codes)
+    if line == "" or line:sub(1, 1) == "#" then return end
+    local text, code = line:match("^([^\t]+)\t([^%s〔#]+)")
+    if not text then return end
+    code = trim(code or "")
+    if target_codes and not target_codes[code] then return end
+    add_occupied(occupied, trim(text or ""), code, exclude_pairs)
+end
+
+-- ★ 2026-10-14：整文件 blob + C 级 find（旧实现是纯 Lua 逐行，1064 ms）。
+--   语义见上方「兜底扫描提速」注释块；等价性由 verify_candidate_order_index.py
+--   的 [A] 组（占用表逐条一致）与 [B] 组（端到端落盘逐字节一致）把关。
 local function load_occupied_from_table(path, occupied, exclude_pairs, target_codes)
-    local f = io.open(path, "r")
-    if not f then return end
-    for line in f:lines() do
-        if line ~= "" and line:sub(1, 1) ~= "#" and line:find("\t", 1, true) then
-            local should_parse = target_codes == nil
-            if target_codes then
-                for code in pairs(target_codes) do
-                    if line:find("\t" .. code, 1, true) then
-                        should_parse = true
-                        break
-                    end
-                end
+    local blob = read_blob(path)
+    if not blob then return end
+
+    if not target_codes then
+        each_blob_line(blob, function(line)
+            add_occupied_line(line, occupied, exclude_pairs, nil)
+        end)
+        return
+    end
+
+    -- ★ 一次 memchr 覆盖全部目标码（prefix ≥ 3 位才值得，太短命中会爆炸）。
+    --   命中处先只做「码是不是目标码」的粗判，只有过了才去切行首行尾。
+    --   最终判定永远由 add_occupied_line 里的 target_codes[第一个 tab 后的码] 做出，
+    --   所以这里的粗判只需要**不漏**（每个目标码都是 prefix 的延长 ⇒ 一定被扫到）。
+    local prefix = common_prefix(target_codes)
+    if #prefix >= 3 then
+        local needle = "\t" .. prefix
+        local from = 1
+        while true do
+            local pos = blob:find(needle, from, true)
+            if not pos then break end
+            from = pos + 1
+            local hit
+            if is_code_boundary(blob:byte(pos + #needle)) then
+                -- 码就是 prefix 本身
+                hit = target_codes[prefix] and true or false
+            else
+                -- 码比 prefix 长：切 24 字节足够覆盖任何合法码（≤ 8 位）
+                local token = blob:sub(pos + 1, pos + 24):match("^([^%s〔#]+)")
+                hit = (token ~= nil and target_codes[token]) and true or false
             end
-            if should_parse then
-                local text, code = line:match("^([^\t]+)\t([^%s〔#]+)")
-                code = trim(code or "")
-                if (not target_codes) or target_codes[code] then
-                    add_occupied(occupied, trim(text or ""), code, exclude_pairs)
-                end
+            if hit then
+                local start, stop = line_at(blob, pos)
+                add_occupied_line(blob:sub(start, stop), occupied, exclude_pairs, target_codes)
+            end
+        end
+        return
+    end
+
+    for code in pairs(target_codes) do
+        local needle = "\t" .. code
+        local from = 1
+        while true do
+            local pos = blob:find(needle, from, true)
+            if not pos then break end
+            from = pos + 1
+            -- 针头后面必须是分隔符；否则是前缀撞车（如 dslz 撞 `\tdslzi`），
+            -- 那一行不可能被采纳，连行首行尾都不用切。
+            if is_code_boundary(blob:byte(pos + #needle)) then
+                local start, stop = line_at(blob, pos)
+                add_occupied_line(blob:sub(start, stop), occupied, exclude_pairs, target_codes)
             end
         end
     end
-    f:close()
 end
 
 local function merge_occupied_map(into, extra)
@@ -1116,9 +1263,11 @@ end
 
 
 -- ══ 「被挤者补码」时把**规则占位者**一起顺延（2026-09-27 第 10 轮） ═══════════
--- 背景：被挤者的键道落点 = 「自己形码前缀里最短的空位」。但那个位置可能不是被
--- **词库**占着（那是重码，键道规则允许、也不该为它写规则），而是被**别的调频规则**
--- 占着。那种占位者本身也是「上一轮被挤上来的」，应该一起顺延一位，把位置让回去。
+-- 背景：被挤者的键道落点 = 「自己形码前缀里最短的空位」。那个位置可能被占着：
+--   ① 被**别的调频规则**占着（占位者本身是上一轮被挤上来的）→ 顺延一位让回去；
+--   ② 被**词库原生的独占词**占着（如 dslzv 上的「大牢」）→ 2026-10-15 起也一起顺延
+--      （整链顺延，用户要求），词库文件一个字不动，让位链全写成规则行。
+--   重码（一个码上多个词）不推 —— 那是键道允许的，不该为它写规则。
 --
 -- 真机现场（用户第 10 轮）：
 --   起始   ceel = 策说     ceeli = 侧说     ceelii = 从上市以来/从山上下来
@@ -1129,14 +1278,19 @@ end
 --   用户要的：侧说 → ceeli，同时 从上市以来 → ceelii（各自顺延一位）。
 --
 -- 与 resolve_chain_new_code 的分工：
---   那个是 same_code 对调场景，会连**词库原生**占位者也顶走（疲劳/pklzo 那例）；
---   这里**只顶规则占位者** —— 词库原生的重码照旧跳过，不写多余规则。
+--   那个是 same_code 对调场景；
+--   这里处理「被挤者补码」。**2026-10-15 起词库原生的占位者也一起让位**（整链顺延，
+--   用户要求）—— 词库文件一个字不动，整条让位链都写成 candidate_order.txt 的规则行。
+--   仍然只有「落点上独占的那一个词」会被推（重码不推，那是键道允许的）。
 --
 -- 产出 chain 行的格式与 resolve_chain_new_code 完全一致：
 --   「moved_text ⇥ moved_from_code ⇥ blocker ⇥ code ⇥ blocker_new_code」
 -- 这一行同时起两个作用：① 把 moved_text 钉到 code（target_code = code）
 -- ② 说明 blocker 被顶去了新码。target_code = code 还顺带触发 append_order 里
 --   「同一 target_code 只留一条生效规则」的去重，把 blocker 原来那条规则删掉。
+-- ⚠️ 2026-10-15 起本函数在 resolve_displaced_chain 里**不再被调用**：「只推规则占位者」
+--   那道门槛已按用户要求去掉（词库原生的独占占位者也一起顺延）。**保留备用** ——
+--   判断「某码上是否有规则钉着某词」在别的分支里可能还需要，删掉就得重写。
 local function find_promoted_record(records, code, text)
     for _, rec in ipairs(records or {}) do
         if rec.target_code == code and rec.promoted == text then
@@ -1175,22 +1329,30 @@ local function resolve_displaced_chain(moved_text, moved_from_code, target_code,
                 end
             end
             if blocker and count == 1 then
-                local rec = find_promoted_record(existing_records, code, blocker)
-                if rec then
-                    local next_allowed = copy_allowed(allowed)
-                    next_allowed[moved_text] = true
-                    local blocker_new, sub_chain = resolve_displaced_chain(
-                        blocker, code, code, char_codes, occupied, base_dir,
-                        exclude_pairs, existing_records, next_allowed, depth - 1)
-                    if blocker_new and blocker_new ~= "" then
-                        local chain = { format_record_line(moved_text, moved_from_code,
-                                                           blocker, code, blocker_new) }
-                        for _, line in ipairs(sub_chain or {}) do
-                            chain[#chain + 1] = line
-                        end
-                        add_occupied(occupied, moved_text, code)
-                        return code, chain
+                -- ★★ 2026-10-15 用户要求（「整链顺延」）：**词库原生的占位者也一起让位**。
+                -- 旧行为在这里还有一道门槛 `find_promoted_record(existing_records, code, blocker)`：
+                -- 只有「blocker 是被一条调频规则钉在这儿的」才推，词库原生词直接跳过。
+                -- 后果（用户 16:42 真机实测）：
+                --   大佬要落 dslzv，但 dslzv 上蹲着**词库原生**的「大牢」⇒ 跳过 ⇒ 被甩到
+                --   更远的 dslzvi；用户要的是「大佬占 dslzv、大牢顺延到 dslzvo」，
+                --   即**各按自己的形码位依次让位**。
+                -- ⚠️ 不动词库：整条让位链都以规则行写进 candidate_order.txt（用户指定做法）。
+                -- 保留 `count == 1` 的限制：落点上是**重码**（多词共用）时不推 ——
+                --   那是键道允许的重码，不该为它写规则。
+                -- depth 仍从 4 递减 ⇒ 链长有上界，递归必然终止。
+                local next_allowed = copy_allowed(allowed)
+                next_allowed[moved_text] = true
+                local blocker_new, sub_chain = resolve_displaced_chain(
+                    blocker, code, code, char_codes, occupied, base_dir,
+                    exclude_pairs, existing_records, next_allowed, depth - 1)
+                if blocker_new and blocker_new ~= "" then
+                    local chain = { format_record_line(moved_text, moved_from_code,
+                                                       blocker, code, blocker_new) }
+                    for _, line in ipairs(sub_chain or {}) do
+                        chain[#chain + 1] = line
                     end
+                    add_occupied(occupied, moved_text, code)
+                    return code, chain
                 end
             end
         end
@@ -1254,6 +1416,10 @@ function M.append_order(rec, path)
     end
 
     local chain_lines = {}
+    -- ★★ 2026-10-15 用户要求（第 12 轮）：「让位交班」行。
+    --   见下面重写循环里 `parsed.promoted == promoted and parsed.target_code ~= target_code`
+    --   那一支的注释。这里先声明，写完 newline + chain_lines 之后再落盘。
+    local carry_lines = {}
     -- rec.no_auto_code = true：调用方已经自己算好了目标码，不需要这里再自动补码。
     -- 不传它的调用方（比如「0 = 编码档位前移一位」）走自动补码：
     --   字码表 + 占用表两次扫描。2026-09-27 起这两次扫描都优先走磁盘索引
@@ -1405,6 +1571,29 @@ function M.append_order(rec, path)
         -- 用户再在 ceeli 按 0 把侧说挪回 ceel 时，不删这条就会两处各钉一次。
         if parsed and parsed.promoted == promoted
             and parsed.target_code ~= target_code and not drop_on_rewrite then
+            -- ★★ 2026-10-15 用户要求（第 12 轮）：「让位交班」。
+            --   旧规则不只是「把 promoted 钉在 target_code」，它同时记着**这一钉把谁挤走了、
+            --   挤到哪儿**（第 5 字段 new_code）。删掉整条 ⇒ 被挤者失去钉位、回落到原生码。
+            --   真机（用户 17:00 六步序列第 6 步）：
+            --     旧：大劳 dslzvi 大牢 dslzv dslzvo   ← 大牢 被推到 dslzvo
+            --     新：大劳 dslzv  大佬 dslz   dslzv   ← 大劳 搬去 dslz，大佬 落回腾空的 dslzv
+            --   删掉旧条后如果没有交班行，大牢 就回落到原生 dslzv，与刚进来的 大佬 撞车、
+            --   而且 dslzvo 变空 —— 用户要的是「大牢 留在 dslzvo」。
+            --   交班行 = 把「被挤者被推到哪儿」单独钉住（自指 4 字段）：
+            --     大牢 dslzv 大牢 dslzvo
+            --   ⚠️ 只在**腾空码当场被本次被挤者占走**（new_code == old_code）时才写：
+            --   否则走的是「没人要 → 原主归位」那条路（第 4 步：大佬 离开 dslzv，
+            --   大牢 应当收回 dslzv），那时写交班行反而会把 大牢 钉死在 dslzvo。
+            if new_code ~= "" and new_code == old_code
+                and parsed.target_code == old_code
+                and parsed.new_code and parsed.new_code ~= ""
+                and parsed.displaced ~= parsed.promoted then
+                local carry = format_record_line(parsed.displaced, parsed.target_code,
+                                                 parsed.displaced, parsed.new_code)
+                if not line_exists(carry_lines, carry) and carry ~= newline then
+                    carry_lines[#carry_lines + 1] = carry
+                end
+            end
             removed_stale_target = true
             drop_on_rewrite = true
         end
@@ -1425,6 +1614,15 @@ function M.append_order(rec, path)
         -- chain 行：same_code 对调（疲劳/pklzo）与第 10 轮的「规则占位者顺延」
         -- 都会产出，所以这里不再限 same_code。
         for _, line in ipairs(chain_lines or {}) do
+            if not line_exists(kept_lines, line) and line ~= newline then
+                wf:write(line, "\n")
+                kept_lines[#kept_lines + 1] = line
+            end
+        end
+        -- 「让位交班」行（第 12 轮）：删掉旧规则时，把「被挤者被推到哪儿」单独钉住，
+        -- 免得它回落到原生码跟别人撞车 + 把旧落点弄空。必须放最后：同 target_code
+        -- 的老规则按文件顺序取胜，交班行得压在它们下面才生效。
+        for _, line in ipairs(carry_lines) do
             if not line_exists(kept_lines, line) and line ~= newline then
                 wf:write(line, "\n")
                 kept_lines[#kept_lines + 1] = line
@@ -1852,6 +2050,38 @@ local function yield_management_candidates(input, seg, env)
             "candidate_order_manager"
         ))
     end
+
+    -- ★★ 2026-10-15 用户要求（第 1 条）：**列表非空时**，末尾固定追加两条说明行。
+    --   目标形态（用户原例）：
+    --     1. 调频词
+    --     2. 调频词
+    --     3. 无更多动态调频 candidate_order.txt
+    --     4. 注意：连续按多次【0】【0】会连续删除下一行
+    --
+    --   ⚠️ 两条的候选类型必须是 `candidate_order_manager_empty`，**不能是
+    --   `candidate_order_manager`**：handle_manager_zero 里 selected_manager_record()
+    --   只认 `candidate_order_manager`（candidate_order_processor.lua:124），
+    --   所以高亮停在这两行上按 0 会走 rec == nil 分支 ⇒ 只吞键、不写盘、不弹「未找到」
+    --   （candidate_order_processor.lua:168-175），与「暂无动态调频」同一安全基线。
+    --   若误用 manager 类型，按 0 会试图按 comment 里的「第N行」去删记录，直接删错东西。
+    --
+    --   quality 必须低于**所有**记录：记录是 500000 - i（i ≥ 1 ⇒ ≤ 499999），
+    --   这里用 500000 - #records 再减 1/2 ⇒ 恒小于最后一条记录，永远落在末尾。
+    local tail_quality = 500000 - #records
+    yield(make_candidate(
+        seg,
+        "无更多动态调频",
+        "candidate_order.txt",
+        tail_quality - 1,
+        "candidate_order_manager_empty"
+    ))
+    yield(make_candidate(
+        seg,
+        "连续按多次0会连续删除下一行",
+        "",
+        tail_quality - 2,
+        "candidate_order_manager_empty"
+    ))
     return true
 end
 
