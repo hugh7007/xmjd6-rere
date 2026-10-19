@@ -36,9 +36,9 @@ import_tables:
   - xmjd6.danzi
 # ---------------------------------------
 # 扩展：词组
+  - xmjd6.wxw
   - xmjd6.cizu
   ## 扩展：525声笔笔词组
-  - xmjd6.wxw
   - xmjd6.same_code_short_first  # 同码候选短词优先（自动整理生成，需在 wxw 后面）
   - xmjd6.candidate_order  # 调频固化词库（由 scripts/apply_candidate_order.py 生成）
 # ---------------------------------------
@@ -75,8 +75,8 @@ import_tables:
   # - xkjd6.qiche
   # - xkjd6.liangzi
   # - xkjd6.lanlao2
-  # 更离谱的诗词
-  - xkjd6.wanne
+  # 游戏词库
+  # - xkjd6.wanne
 ## 自定义词库：自己做的词库，自己维护
   # - jdl_Z
 
