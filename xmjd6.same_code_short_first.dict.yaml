@@ -5,7 +5,7 @@
 # 仅收录「后置库（bridge 之后）同码词里最短的那个不是首位」的码，避免无效条目。
 ---
 name: xmjd6.same_code_short_first
-version: "2026-10-19"
+version: "2026-10-22"
 sort: original
 use_preset_vocabulary: false
 ...
@@ -15,6 +15,8 @@ use_preset_vocabulary: false
 不负韶华	bfehvu
 # code: bffbvu
 百分之百	bffbvu
+# code: bfgdou
+半勾	bfgdou
 # code: bgdwvv
 标杆单位	bgdwvv
 # code: bjegvo
