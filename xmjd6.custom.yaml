@@ -39,7 +39,7 @@ patch:
   # ===== 追顶强度（仅在追顶总开关为开时有意义）=====
   # true  = 任意字母键追加后无候选也回退上屏（更激进：lks+m 会顶出「劳科所」）
   # false = 只顶「顶功键连续」场景（当前效果：dia+o 顶出「当中」，lks+m 不顶）
-  # direct_ascii/empty_code_topup: false
+  # direct_ascii/empty_code_topup: true
 
   # ===== 同码单字优先微调 =====
   # 效果：候选框里单字浮到多字词前面，如 ds → 大 妲 打 瘩 答 达 …
