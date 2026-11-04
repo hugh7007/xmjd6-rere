@@ -5,7 +5,7 @@
 # 仅收录「后置库（bridge 之后）同码词里最短的那个不是首位」的码，避免无效条目。
 ---
 name: xmjd6.same_code_short_first
-version: "2026-10-22"
+version: "2026-11-04"
 sort: original
 use_preset_vocabulary: false
 ...
@@ -69,8 +69,6 @@ use_preset_vocabulary: false
 两眼一黑	lyyhvi
 # code: nbnbav
 能不能别	nbnbav
-# code: pfyfau
-皮肤油脂	pfyfau
 # code: pgjhii
 苹果计划	pgjhii
 # code: pjhdvi
