@@ -1199,6 +1199,18 @@ local function remember_commit_text(committed)
         return
     end
 
+    -- 从 i / ;f 的历史菜单里选中的 emoji 变体：不写两份历史。
+    -- 这类表情是「历史词派生出来的候选」，不是用户新打的词；若记进历史，
+    -- 它会顶到最前面，下一次按 i 就变成 🌞, 太阳, ...，顺序被改掉。
+    -- 登记表由 lazy_simplifier 在每次滤镜重算时重建，这里一次性消费，
+    -- 正常打字选中的同名表情不受影响。
+    local pending = _G.__xmjd6_repeat_history_emoji
+    if type(pending) == "table" and pending[committed] then
+        pending[committed] = nil
+        dp_state.pre_commit = nil
+        return
+    end
+
     -- 空码上屏原码：确认键那一刻有快照、当时没有候选、上屏内容 == 输入串
     local pre = dp_state.pre_commit
     dp_state.pre_commit = nil

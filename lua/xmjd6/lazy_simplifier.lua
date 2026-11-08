@@ -303,9 +303,15 @@ function M.func(input, env)
 
     if env.mode == "word" then
         if env.is_emoji then
+            -- 每次滤镜重算都重建「本次历史菜单派生的表情」登记表。
+            -- 用户从 i / ;f 菜单里选中的表情不应写进上屏历史，否则它会顶到
+            -- 历史最前面、把 i 的顺序改掉（2026-11-06）。登记表随菜单重算
+            -- 重建，避免上一轮菜单的残留误伤后面正常打字上屏的同名表情。
+            _G.__xmjd6_repeat_history_emoji = {}
             -- emoji 分片按需加载模式 + 「三件套」旧版语义（2026-10-14 恢复）。
             -- 旧实现见 b2c6664 之前的 lua/xmjd6_opencc_filter.lua：439-451 / 700-710 行。
-            --   ① emoji_tail：表情先攒起来，**不**插在命中候选后面；
+            --   ① emoji_tail：表情先攒起来，**不**插在命中候选后面
+            --      （例外：i / ;f 的历史候选紧跟，见 push_emoji）；
             --   ② emoji_limit：只给**前 N 个**非补全候选配表情（N = 每页候选数），
             --      防止「每个候选都挂整串表情」把候选表撑爆；
             --   ③ completion 前提前冲刷：补全候选可能上千个，不提前放出去
@@ -320,8 +326,31 @@ function M.func(input, env)
             local emoji_limit = env.engine.schema.page_size or 5
             if emoji_limit <= 0 then emoji_limit = 5 end
 
-            local function push_emoji(cand, v, cmt)
+            -- 历史重复候选（i / ;f）的表情要能被第一页看见：
+            -- 这类候选排在候选流最前面，而 emoji_tail 要等 completion 或流末
+            -- 才冲刷；i 输入时前面有 8+ 个普通候选，表情全被挤到第二页。
+            -- 只对历史候选恢复「紧跟原候选」，普通候选仍攒到尾部
+            -- （2026-10-14 修复的「山 衫 被表情顶开」不能回退）。
+            local function make_emoji_cand(cand, v, cmt)
+                local nc = Candidate(cand.type, cand.start, cand._end, v, cmt)
+                if cand.preedit then nc.preedit = cand.preedit end
+                if cand.quality then nc.quality = cand.quality end
+                return nc
+            end
+
+            local function is_history_cand(cand)
+                return cand.type == "repeat_history" or cand.type == "history"
+            end
+
+            local function push_emoji(cand, v, cmt, nth)
                 if v == nil or v == "" or v == cand.text then return end
+                -- 每条历史最多紧跟 3 个表情，避免整串表情把 i 的历史列表挤没
+                if is_history_cand(cand) and (nth or 1) <= 3 then
+                    local pending = _G.__xmjd6_repeat_history_emoji
+                    if type(pending) == "table" then pending[v] = true end
+                    yield(make_emoji_cand(cand, v, cmt))
+                    return
+                end
                 emoji_tail[#emoji_tail + 1] = {
                     cand_type = cand.type,
                     start_pos = cand.start,
@@ -369,10 +398,14 @@ function M.func(input, env)
                         -- val 可能是 string 或 table
                         if type(val) == "string" then
                             -- 浮生格式: 空格分隔的值
-                            for v in val:gmatch("%S+") do push_emoji(cand, v, cmt) end
+                            local nth = 0
+                            for v in val:gmatch("%S+") do
+                                nth = nth + 1
+                                push_emoji(cand, v, cmt, nth)
+                            end
                         elseif type(val) == "table" then
                             -- 旧格式: table 列表
-                            for _, v in ipairs(val) do push_emoji(cand, v, cmt) end
+                            for i, v in ipairs(val) do push_emoji(cand, v, cmt, i) end
                         end
                     end
                 end
