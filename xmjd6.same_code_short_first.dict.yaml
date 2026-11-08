@@ -5,7 +5,7 @@
 # 仅收录「后置库（bridge 之后）同码词里最短的那个不是首位」的码，避免无效条目。
 ---
 name: xmjd6.same_code_short_first
-version: "2026-11-04"
+version: "2026-11-08"
 sort: original
 use_preset_vocabulary: false
 ...
