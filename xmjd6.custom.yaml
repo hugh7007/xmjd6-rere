@@ -8,7 +8,7 @@ patch:
   hint_text: ''                     # 顶功提示符
 
   # ===== 逐码提示与候选数量 =====
-  translator/enable_completion: true  # 主词库逐码候选；关闭后键道提示 Lua 也会受影响
+  translator/enable_completion: true  # 关闭后会只有一个候选，true开/false关
   menu/page_size: 5                   # 每页候选数量
   for_hint/max_hint_candidates: 50    # 追加简码提示的候选上限；0 表示不限
   for_hint/max_completion_candidates: 30  # 逐码 completion 候选上限
