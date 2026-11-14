@@ -5,7 +5,7 @@
 # 仅收录「后置库（bridge 之后）同码词里最短的那个不是首位」的码，避免无效条目。
 ---
 name: xmjd6.same_code_short_first
-version: "2026-11-08"
+version: "2026-11-14"
 sort: original
 use_preset_vocabulary: false
 ...
@@ -19,6 +19,20 @@ use_preset_vocabulary: false
 半勾	bfgdou
 # code: bgdwvv
 标杆单位	bgdwvv
+# code: bhheui
+白荷	bhheui
+# code: bhjeui
+白花常山	bhjeui
+# code: bhlcui
+白花蓼草	bhlcui
+# code: bhqgui
+饱含情感	bhqgui
+# code: bhxcui
+白花香草	bhxcui
+# code: bhxkui
+白锡	bhxkui
+# code: bhyjui
+白花茵陈	bhyjui
 # code: bjegvo
 不就是个	bjegvo
 # code: bnjfva
@@ -29,89 +43,301 @@ use_preset_vocabulary: false
 不充分的	bwfdvo
 # code: bxydvu
 不爱运动	bxydvu
+# code: cbjhiv
+草本精华	cbjhiv
+# code: dbdsvo
+东部第四	dbdsvo
 # code: dchyoa
 断层滑移	dchyoa
+# code: dexxvi
+东山小学	dexxvi
+# code: dfblvu
+大腹槟榔	dfblvu
+# code: dhelvi
+带货实力	dhelvi
+# code: djgeaa
+导出格式	djgeaa
+# code: djyjuu
+冬季用车	djyjuu
+# code: dsjcvv
+大椒	dsjcvv
+# code: dybhvo
+大叶百合	dybhvo
+# code: dyblvo
+大叶半边莲	dyblvo
+# code: dyflvo
+大叶锥栗	dyflvo
+# code: dyfzvo
+毒瘾发作	dyfzvo
+# code: dyhevo
+动员会上	dyhevo
+# code: dyjcvo
+大羊角菜	dyjcvo
+# code: dylwvo
+大叶狸尾	dylwvo
+# code: dymlvo
+大叶马料	dymlvo
+# code: dyphvo
+大叶蓬蒿	dyphvo
+# code: dyzfvo
+动员组织	dyzfvo
+# code: dzbpvi
+动作编排	dzbpvi
 # code: edglou
 数得过来	edglou
-# code: eftjii
-手指脱臼	eftjii
+# code: edxhav
+水丁香花	edxhav
 # code: ejdfia
 使出大招	ejdfia
+# code: ejqgiv
+手机展柜	ejqgiv
+# code: etcjva
+砂烫醋淬龟甲	etcjva
 # code: ewkbuu
 生物课本	ewkbuu
+# code: eyxxvo
+声音信息	eyxxvo
+# code: fdfjiv
+找到知己	fdfjiv
 # code: fewmoo
 这是我们	fewmoo
+# code: fjgjio
+指间关节	fjgjio
+# code: fjljoa
+福建老家	fjljoa
+# code: gedgoi
+高山低谷	gedgoi
+# code: gejjoi
+高手进阶	gejjoi
+# code: gejxoi
+高山积雪	gejxoi
 # code: glyhva
 过了一会	glyhva
+# code: gyejio
+供应商家	gyejio
+# code: gyemio
+供应商们	gyemio
+# code: gyjjio
+供应厂家	gyjjio
+# code: hhdlvi
+互换电路	hhdlvi
+# code: hhetvi
+互换身体	hhetvi
+# code: hhglai
+海锅	hhglai
+# code: hhjtai
+混合接头	hhjtai
+# code: hhlyva
+黄河流域	hhlyva
+# code: hhmcvi
+黄花蜜菜	hhmcvi
+# code: hhxcvi
+黄花香草	hhxcvi
+# code: hhylvi
+互换原理	hhylvi
+# code: hhyxai
+汉化游戏	hhyxai
+# code: hndlau
+海南杜楝	hndlau
+# code: hsdlau
+红色灯笼	hsdlau
 # code: hswsou
 褐色萎缩	hswsou
 # code: htgnio
 回头给你	htgnio
+# code: htqpvv
+核桃楸皮	htqpvv
 # code: hxbfvo
 核心本质	hxbfvo
+# code: hyhgaa
+海洋化工	hyhgaa
+# code: hyjcao
+汉语教材	hyjcao
+# code: hzjjio
+合资基金	hzjjio
 # code: jdbnaa
 绝对不能	jdbnaa
+# code: jgkbii
+荆葵	jgkbii
 # code: jjzlaa
 经济总量	jjzlaa
+# code: jljxiv
+接连出现	jljxiv
 # code: jmlliv
 见面了聊	jmlliv
+# code: jqfjvo
+基准直径	jqfjvo
+# code: jqyjvo
+车主用车	jqyjvo
+# code: jsxtia
+金丝矮陀	jsxtia
+# code: jxemiv
+畸形审美	jxemiv
 # code: jxfbou
 精选直播	jxfbou
+# code: jxyhuu
+朝鲜一枝蒿	jxyhuu
+# code: jytxio
+锦衣天下	jytxio
+# code: jyxlio
+尖叶薛荔	jyxlio
 # code: kkkkoo
 康康康康	kkkkoo
 # code: kyhlva
 可以合理	kyhlva
 # code: leesui
 脸上神色	leesui
+# code: lhjcvi
+联合检测	lhjcvi
+# code: ljddau
+了解到的	ljddau
+# code: ljfjva
+两架飞机	ljfjva
+# code: ljqxva
+历尽千辛	ljqxva
 # code: lshxiu
 蓝色海岸	lshxiu
+# code: lyjfvo
+连夜出发	lyjfvo
+# code: lyljuo
+利益链接	lyljuo
 # code: lyyhvi
 两眼一黑	lyyhvi
+# code: mgxjui
+毛果矮蕉	mgxjui
+# code: mmjsai
+沔茄	mmjsai
+# code: mywtuo
+贸易冲突	mywtuo
 # code: nbnbav
 能不能别	nbnbav
 # code: pgjhii
 苹果计划	pgjhii
 # code: pjhdvi
 破茧化蝶	pjhdvi
+# code: qjejui
+朱薯	qjejui
+# code: qjwlvv
+整车物流	qjwlvv
+# code: qmhyvv
+正面回应	qmhyvv
+# code: qmyhiv
+全面用火	qmyhiv
+# code: qnleuu
+千年老树	qnleuu
+# code: qqlcvv
+正确理财	qqlcvv
+# code: qrqcui
+真人注册	qrqcui
 # code: qxhxuo
 长安幻想	qxhxuo
+# code: qyjxuo
+竹叶卷心	qyjxuo
 # code: sblwvv
 素不来往	sblwvv
+# code: sjqqiu
+四处征战	sjqqiu
+# code: tjbdvo
+土炒扁豆	tjbdvo
+# code: txyxuv
+条形音箱	txyxuv
+# code: tyblio
+同意办理	tyblio
 # code: tyfmau
 通用照明	tyfmau
+# code: tyxjio
+体育新城	tyxjio
+# code: wbgtvv
+玩不过他	wbgtvv
 # code: wbxxuv
 我不相信	wbxxuv
+# code: wefrvu
+车风	wefrvu
 # code: wjjjvi
 无菌结晶	wjjjvi
 # code: wjqxvv
 坞墙	wjqxvv
+# code: wxxevi
+武侠小说	wxxevi
+# code: wxyhuu
+朝鲜一枝蒿	wxyhuu
 # code: wybwua
 我也不吃	wybwua
+# code: wyeluu
+外用适量	wyeluu
 # code: wyjeoi
 文艺常识	wyjeoi
+# code: wywwii
+茺蔚	wywwii
 # code: xdyyou
 新的一页	xdyyou
 # code: xfwjiu
 修复完成	xfwjiu
+# code: xhepio
+小鹤双拼	xhepio
 # code: xhjevi
 现货出售	xhjevi
+# code: xhteio
+信号提示	xhteio
+# code: xhxqio
+小火熬煮	xhxqio
+# code: xhyqio
+虚晃一招	xhyqio
 # code: xjlji
 小计里程	xjlji
 # code: xlytoa
 吓了一跳	xlytoa
+# code: xydcvv
+需要多次	xydcvv
+# code: xyegao
+细叶石柑	xyegao
+# code: xyffao
+熊蹯	xyffao
+# code: xyjcio
+小叶鸡尾草	xyjcio
+# code: xyjmio
+小羊角木	xyjmio
 # code: xykjov
 心元开眼角	xykjov
 # code: xylwvv
 需要联网	xylwvv
+# code: xymcio
+小益母草	xymcio
+# code: ydemuo
+印度蛇木	ydemuo
+# code: yfhbvu
+盐炙黄柏	yfhbvu
+# code: yfxxvu
+一直相信	yfxxvu
+# code: yfzhvu
+有重组合	yfzhvu
 # code: ygegoo
 应该是个	ygegoo
 # code: yjkmvi
 一键开门	yjkmvi
 # code: yljduo
 舆论监督	yljduo
+# code: ylqtvv
+一楼展厅	ylqtvv
 # code: ymyhva
 有没有喊	ymyhva
+# code: ynhkvu
+云南河口	ynhkvu
+# code: ynjtvu
+云南交通	ynjtvu
+# code: ytsbii
+园荽	ytsbii
 # code: yxqjvo
 有效期间	yxqjvo
+# code: yyehao
+演员生活	yyehao
+# code: yyfjao
+演员之间	yyfjao
+# code: yyhtvu
+一氧化碳	yyhtvu
 # code: yyjwav
 液压机床	yyjwav
+# code: yymdao
+演员名单	yymdao
+# code: yyxbaa
+阴阳向背	yyxbaa
