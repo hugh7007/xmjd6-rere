@@ -5,7 +5,7 @@
 # 仅收录「后置库（bridge 之后）同码词里最短的那个不是首位」的码，避免无效条目。
 ---
 name: xmjd6.same_code_short_first
-version: "2026-11-17"
+version: "2026-11-18"
 sort: original
 use_preset_vocabulary: false
 ...
@@ -277,8 +277,6 @@ use_preset_vocabulary: false
 小鹤双拼	xhepio
 # code: xhjevi
 现货出售	xhjevi
-# code: xhteio
-信号提示	xhteio
 # code: xhxqio
 小火熬煮	xhxqio
 # code: xhyqio
