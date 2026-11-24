@@ -1,1 +1,7 @@
 * text eol=lf
+
+# 🔴 二进制文件禁止任何文本 / 换行转换（2026-11-24 修复）
+# OpenCC 的 .ocd2 是二进制词典；被 eol=lf 转换后内部偏移整体错位，
+# opencc 加载失败 → simplifier@jffh（简繁）以及 mars / tofu / emoji 全部静默失效。
+*.ocd2 binary
+*.ico binary
